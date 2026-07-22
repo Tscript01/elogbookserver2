@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  api1:
+    image: elogbookserver:latest
+    ports:
+      - "5001:5000"
+    environment:
+      INSTANCE_NAME: API-1
+
+  api2:
+    image: elogbookserver:latest
+    ports:
+      - "5002:5000"
+    environment:
+      INSTANCE_NAME: API-2
+
+  api3:
+    image: elogbookserver:latest
+    ports:
+      - "5003:5000"
+    environment:
+      INSTANCE_NAME: API-3

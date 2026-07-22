@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STUDENT
+  IND_SUPERVISOR
+  INST_COORDINATOR
+  ITF_OFFICIAL
+  ADMIN
+}
+
+enum Status {
+  PENDING
+  SUBMITTED
+  APPROVED
+  REJECTED
+}
+
+enum ClearanceStatus {
+  PENDING
+  CLEARED
+  FLAGGED
+}
+
+model User {
+  id            String   @id @default(uuid()) @db.Uuid
+  email         String   @unique
+  password_hash String
+  name          String 
+  role          Role
+  created_at    DateTime @default(now())
+
+  studentPlacements         Placement[]       @relation("StudentPlacements")
+  indSupervisorPlacements   Placement[]       @relation("IndSupervisorPlacements")
+  instCoordinatorPlacements Placement[]       @relation("InstCoordinatorPlacements")
+  approvals                 LogBookApproval[]
+  clearances                FinalClearance[]
+
+  refreshTokens RefreshToken[]
+  password_reset_tokens PasswordResetToken[]
+  @@map("users")
+}
+model PasswordResetToken {
+  id         String   @id @default(uuid()) @db.Uuid
+  user_id    String   @map("user_id") @db.Uuid
+  token      String   @unique
+  expires_at DateTime
+  created_at DateTime @default(now())
+  jon        String  
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("password_reset_tokens")
+}
+model RefreshToken {
+  id         String   @id @default(uuid()) @db.Uuid
+  user_id    String   @map("user_id") @db.Uuid
+  token      String   @unique
+  expires_at DateTime
+  created_at DateTime @default(now())
+
+  user  User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
+
+model Placement {
+  id                  String   @id @default(uuid()) @db.Uuid
+  student_id          String   @db.Uuid
+  company_name        String
+  ind_supervisor_id   String   @db.Uuid
+  inst_coordinator_id String?   @db.Uuid
+  company_address     String?
+  company_contact     String?
+  company_email       String?
+  start_date          DateTime
+  end_date            DateTime
+
+  student          User               @relation("StudentPlacements", fields: [student_id], references: [id], onDelete: Cascade)
+  ind_supervisor   User               @relation("IndSupervisorPlacements", fields: [ind_supervisor_id], references: [id], onDelete: Cascade)
+  inst_coordinator User?               @relation("InstCoordinatorPlacements", fields: [inst_coordinator_id], references: [id], onDelete: Cascade)
+  daily_logs       DailyLog[]
+  weekly_submissions WeeklySubmission[]
+  clearance        FinalClearance?
+
+  @@map("placements")
+}
+
+model DailyLog {
+  id                  String   @id @default(uuid()) @db.Uuid
+  placement_id        String   @db.Uuid
+  weekly_submission_id String  @db.Uuid
+  week_no             Int
+  log_date            DateTime @db.Date
+  description         String
+  image_url           String?
+  created_timestamp   DateTime @default(now())
+
+  placement         Placement        @relation(fields: [placement_id], references: [id], onDelete: Cascade)
+  weekly_submission WeeklySubmission @relation(fields: [weekly_submission_id], references: [id], onDelete: Cascade)
+
+  @@unique([placement_id, log_date])
+  @@map("daily_logs")
+}
+
+model WeeklySubmission {
+  id           String   @id @default(uuid()) @db.Uuid
+  placement_id String   @db.Uuid
+  week_no      Int
+  status       Status   @default(PENDING)
+
+  placement  Placement       @relation(fields: [placement_id], references: [id], onDelete: Cascade)
+  daily_logs DailyLog[]
+  approvals  LogBookApproval[]
+
+  @@unique([placement_id, week_no])
+  @@map("weekly_submissions")
+}
+
+model LogBookApproval {
+  id                           String   @id @default(uuid()) @db.Uuid
+  weekly_submission_id         String   @db.Uuid
+  supervisor_id                String   @db.Uuid
+  approval_timestamp           DateTime @default(now())
+  cryptographic_signature_hash String
+
+  weekly_submission WeeklySubmission @relation(fields: [weekly_submission_id], references: [id], onDelete: Cascade)
+  supervisor        User             @relation(fields: [supervisor_id], references: [id], onDelete: Cascade)
+
+  @@map("logbook_approvals")
+}
+
+model FinalClearance {
+  id                       String          @id @default(uuid()) @db.Uuid
+  placement_id             String          @unique @db.Uuid
+  coordinator_status       ClearanceStatus @default(PENDING)
+  coordinator_cleared_at   DateTime?
+  itf_official_id          String?         @db.Uuid
+  itf_status               ClearanceStatus @default(PENDING)
+  itf_cleared_at           DateTime?
+  final_pdf_hash           String?
+  itf_stamp_hash           String?
+  clearance_timestamp      DateTime?
+
+  placement    Placement @relation(fields: [placement_id], references: [id], onDelete: Cascade)
+  itf_official User?     @relation(fields: [itf_official_id], references: [id])
+
+  @@map("final_clearances")
+}
