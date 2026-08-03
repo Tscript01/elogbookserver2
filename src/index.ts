@@ -12,7 +12,7 @@ const PORT = process.env.PORT ?? 5000;
 
 app.use(
   cors({
-    origin: (origin, callback) => callback(null, true),
+    origin: true, // Allow all origins for development; adjust in production
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Accept"]
