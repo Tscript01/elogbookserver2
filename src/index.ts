@@ -10,20 +10,9 @@ const app: Express = express();
 
 const PORT = process.env.PORT ?? 5000;
 
-const allowedOrigins = [
-  "http://localhost:3000",
-  process.env.FRONTEND_URL as string
-].filter(Boolean);
-
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: (origin, callback) => callback(null, true),
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Accept"]
