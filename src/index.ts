@@ -1,4 +1,5 @@
 import express, { Express, Request, Response } from "express";
+import cors from "cors";
 import { prisma } from "./config/prisma";
 import authRoutes from "./routes/auth.routes";
 import placementRoutes from "./routes/placement.route";
@@ -9,12 +10,32 @@ const app: Express = express();
 
 const PORT = process.env.PORT ?? 5000;
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  process.env.FRONTEND_URL as string
+].filter(Boolean);
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Accept"]
+  })
+);
 
 app.use(express.json());
 
-app.use("/api/auth",authRoutes );
+app.use("/api/auth", authRoutes);
 app.use("/api/logs", logRoutes);
-app.use('/api/placements',placementRoutes); 
+app.use('/api/placements', placementRoutes); 
+
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: `Server is running ${process.env.INSTANCE_NAME}` });
 });
@@ -34,4 +55,5 @@ const startServer = async () => {
     process.exit(1);
   }
 };
+
 startServer();
