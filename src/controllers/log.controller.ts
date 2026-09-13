@@ -1,6 +1,6 @@
 import type { Response, NextFunction } from 'express';
 import { prisma } from '../config/prisma';
-import type { AuthenticatedRequest } from '../middlewares/auth.js';
+import type { AuthenticatedRequest } from '../middlewares/auth';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../utils/errors';
 
 export async function createDailyLog(

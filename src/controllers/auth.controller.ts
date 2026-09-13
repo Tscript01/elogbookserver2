@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import {prisma} from "../config/prisma";
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from "../utils/token";

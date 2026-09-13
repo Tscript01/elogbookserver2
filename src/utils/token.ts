@@ -10,13 +10,13 @@ export interface TokenPayload {
 
 export const signAccessToken = async (payload: TokenPayload): Promise<string> => {
   return jwt.sign(payload, env.JWT_ACCESS_SECRET as jwt.Secret, {
-    expiresIn: process.env.JWT_ACCESS_EXPIRES_IN as jwt.SignOptions["expiresIn"],
+    expiresIn: (env.JWT_ACCESS_EXPIRES_IN || "15m") as jwt.SignOptions["expiresIn"],
   });
 };
 
 export const signRefreshToken = async (payload: TokenPayload): Promise<string> => {
   return jwt.sign(payload, env.JWT_REFRESH_SECRET as jwt.Secret, {
-    expiresIn: process.env.JWT_REFRESH_EXPIRES_IN as jwt.SignOptions["expiresIn"],
+    expiresIn: (env.JWT_REFRESH_EXPIRES_IN || "7d") as jwt.SignOptions["expiresIn"],
   });
 };
 
