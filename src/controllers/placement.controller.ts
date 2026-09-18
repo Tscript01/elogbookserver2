@@ -60,3 +60,44 @@ console.log("ind_supervisor_id =", ind_supervisor_id);
     next(error);
   }
 };
+
+export const getCurrentPlacement = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<Response | void> => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized: No user ID found in token' });
+    }
+
+    const placement = await prisma.placement.findFirst({
+      where: { student_id: userId }
+    });
+
+    if (!placement) {
+      return res.status(404).json({ error: 'No active placement found for this student' });
+    }
+
+    return res.status(200).json(placement);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+export const getPlacementById = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<Response | void> => {
+  try {
+    const { id } = req.params;
+
+    const placement = await prisma.placement.findUnique({
+      where: { id }
+    });
+
+    if (!placement) {
+      return res.status(404).json({ error: 'Placement not found' });
+    }
+
+    return res.status(200).json(placement);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};

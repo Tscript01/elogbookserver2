@@ -8,7 +8,7 @@ import logRoutes from "./routes/log.routes";
 
 const app: Express = express();
 
-const PORT = 3000;
+const PORT = 5000;
 
 app.use(
   cors({
