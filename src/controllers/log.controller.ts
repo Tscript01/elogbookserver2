@@ -144,3 +144,79 @@ export async function getPlacementLogs(
     next(error);
   }
 }
+
+
+export const getStudentLogs = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+): Promise<Response | void> => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized: No user ID found in token' });
+    }
+
+    const placement = await prisma.placement.findFirst({
+      where: { student_id: userId }
+    });
+
+    if (!placement) {
+      return res.status(404).json({ error: 'No active placement found for this student' });
+    }
+
+    const { week, month, year, page = '1', limit = '10' } = req.query;
+
+    const whereClause: any = {
+      placement_id: placement.id
+    };
+
+    if (week) {
+      whereClause.week_no = Number(week);
+    }
+
+    if (month) {
+      const selectedYear = year ? Number(year) : new Date().getFullYear();
+      const selectedMonth = Number(month) - 1; // 0-indexed for JS Date
+
+      const startOfMonth = new Date(Date.UTC(selectedYear, selectedMonth, 1));
+      const endOfMonth = new Date(Date.UTC(selectedYear, selectedMonth + 1, 0, 23, 59, 59, 999));
+
+      whereClause.log_date = {
+        gte: startOfMonth,
+        lte: endOfMonth
+      };
+    }
+
+    const pageNum = Math.max(Number(page), 1);
+    const take = Math.max(Number(limit), 1);
+    const skip = (pageNum - 1) * take;
+
+    const [total, logs] = await Promise.all([
+      prisma.dailyLog.count({ where: whereClause }),
+      prisma.dailyLog.findMany({
+        where: whereClause,
+        skip,
+        take,
+        orderBy: { log_date: 'desc' }
+      })
+    ]);
+
+    const totalPages = Math.ceil(total / take);
+
+    return res.status(200).json({
+      pagination: {
+        total,
+        page: pageNum,
+        limit: take,
+        totalPages,
+        hasNextPage: pageNum < totalPages,
+        hasPrevPage: pageNum > 1
+      },
+      data: logs
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
