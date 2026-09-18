@@ -22,18 +22,19 @@ console.log('Authenticated user ID:', userId);
       return res.status(401).json({ error: 'Unauthorized: No user ID found in token' });
     }
     
-
+console.log("ind_supervisor_id =", ind_supervisor_id);
    
     const existingPlacement = await prisma.placement.findFirst({
       where: { student_id: userId }
     });
-
-    if (existingPlacement) {
+  console.log(existingPlacement,'ssds');
+    if (existingPlacement !== null ) {
       return res.status(409).json({ 
         error: 'This student already has an assigned placement. Please update or remove the existing one first.' 
       });
     }
-
+  
+    
     const placement = await prisma.placement.create({
       data: {
         student_id: userId,
@@ -41,7 +42,7 @@ console.log('Authenticated user ID:', userId);
         company_address: company_address,
         company_contact: company_contact,
         company_email: company_email,
-        ind_supervisor_id,
+        ind_supervisor_id: ind_supervisor_id || null,
         inst_coordinator_id: inst_coordinator_id || null,
         start_date: new Date(start_date),
         end_date: new Date(end_date),

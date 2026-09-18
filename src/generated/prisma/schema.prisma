@@ -77,7 +77,7 @@ model Placement {
   id                  String   @id @default(uuid()) @db.Uuid
   student_id          String   @db.Uuid
   company_name        String
-  ind_supervisor_id   String   @db.Uuid
+  ind_supervisor_id   String?  @db.Uuid
   inst_coordinator_id String?  @db.Uuid
   company_address     String?
   company_contact     String?
@@ -86,7 +86,7 @@ model Placement {
   end_date            DateTime
 
   student            User               @relation("StudentPlacements", fields: [student_id], references: [id], onDelete: Cascade)
-  ind_supervisor     User               @relation("IndSupervisorPlacements", fields: [ind_supervisor_id], references: [id], onDelete: Cascade)
+  ind_supervisor     User?              @relation("IndSupervisorPlacements", fields: [ind_supervisor_id], references: [id], onDelete: Cascade)
   inst_coordinator   User?              @relation("InstCoordinatorPlacements", fields: [inst_coordinator_id], references: [id], onDelete: Cascade)
   daily_logs         DailyLog[]
   weekly_submissions WeeklySubmission[]

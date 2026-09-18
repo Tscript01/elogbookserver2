@@ -5276,7 +5276,7 @@ export namespace Prisma {
     id: string
     student_id: string
     company_name: string
-    ind_supervisor_id: string
+    ind_supervisor_id: string | null
     inst_coordinator_id: string | null
     company_address: string | null
     company_contact: string | null
@@ -5314,7 +5314,7 @@ export namespace Prisma {
     start_date?: boolean
     end_date?: boolean
     student?: boolean | UserDefaultArgs<ExtArgs>
-    ind_supervisor?: boolean | UserDefaultArgs<ExtArgs>
+    ind_supervisor?: boolean | Placement$ind_supervisorArgs<ExtArgs>
     inst_coordinator?: boolean | Placement$inst_coordinatorArgs<ExtArgs>
     daily_logs?: boolean | Placement$daily_logsArgs<ExtArgs>
     weekly_submissions?: boolean | Placement$weekly_submissionsArgs<ExtArgs>
@@ -5334,7 +5334,7 @@ export namespace Prisma {
     start_date?: boolean
     end_date?: boolean
     student?: boolean | UserDefaultArgs<ExtArgs>
-    ind_supervisor?: boolean | UserDefaultArgs<ExtArgs>
+    ind_supervisor?: boolean | Placement$ind_supervisorArgs<ExtArgs>
     inst_coordinator?: boolean | Placement$inst_coordinatorArgs<ExtArgs>
   }, ExtArgs["result"]["placement"]>
 
@@ -5350,7 +5350,7 @@ export namespace Prisma {
     start_date?: boolean
     end_date?: boolean
     student?: boolean | UserDefaultArgs<ExtArgs>
-    ind_supervisor?: boolean | UserDefaultArgs<ExtArgs>
+    ind_supervisor?: boolean | Placement$ind_supervisorArgs<ExtArgs>
     inst_coordinator?: boolean | Placement$inst_coordinatorArgs<ExtArgs>
   }, ExtArgs["result"]["placement"]>
 
@@ -5370,7 +5370,7 @@ export namespace Prisma {
   export type PlacementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "student_id" | "company_name" | "ind_supervisor_id" | "inst_coordinator_id" | "company_address" | "company_contact" | "company_email" | "start_date" | "end_date", ExtArgs["result"]["placement"]>
   export type PlacementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | UserDefaultArgs<ExtArgs>
-    ind_supervisor?: boolean | UserDefaultArgs<ExtArgs>
+    ind_supervisor?: boolean | Placement$ind_supervisorArgs<ExtArgs>
     inst_coordinator?: boolean | Placement$inst_coordinatorArgs<ExtArgs>
     daily_logs?: boolean | Placement$daily_logsArgs<ExtArgs>
     weekly_submissions?: boolean | Placement$weekly_submissionsArgs<ExtArgs>
@@ -5379,12 +5379,12 @@ export namespace Prisma {
   }
   export type PlacementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | UserDefaultArgs<ExtArgs>
-    ind_supervisor?: boolean | UserDefaultArgs<ExtArgs>
+    ind_supervisor?: boolean | Placement$ind_supervisorArgs<ExtArgs>
     inst_coordinator?: boolean | Placement$inst_coordinatorArgs<ExtArgs>
   }
   export type PlacementIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | UserDefaultArgs<ExtArgs>
-    ind_supervisor?: boolean | UserDefaultArgs<ExtArgs>
+    ind_supervisor?: boolean | Placement$ind_supervisorArgs<ExtArgs>
     inst_coordinator?: boolean | Placement$inst_coordinatorArgs<ExtArgs>
   }
 
@@ -5392,7 +5392,7 @@ export namespace Prisma {
     name: "Placement"
     objects: {
       student: Prisma.$UserPayload<ExtArgs>
-      ind_supervisor: Prisma.$UserPayload<ExtArgs>
+      ind_supervisor: Prisma.$UserPayload<ExtArgs> | null
       inst_coordinator: Prisma.$UserPayload<ExtArgs> | null
       daily_logs: Prisma.$DailyLogPayload<ExtArgs>[]
       weekly_submissions: Prisma.$WeeklySubmissionPayload<ExtArgs>[]
@@ -5402,7 +5402,7 @@ export namespace Prisma {
       id: string
       student_id: string
       company_name: string
-      ind_supervisor_id: string
+      ind_supervisor_id: string | null
       inst_coordinator_id: string | null
       company_address: string | null
       company_contact: string | null
@@ -5804,7 +5804,7 @@ export namespace Prisma {
   export interface Prisma__PlacementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     student<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    ind_supervisor<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    ind_supervisor<T extends Placement$ind_supervisorArgs<ExtArgs> = {}>(args?: Subset<T, Placement$ind_supervisorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     inst_coordinator<T extends Placement$inst_coordinatorArgs<ExtArgs> = {}>(args?: Subset<T, Placement$inst_coordinatorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     daily_logs<T extends Placement$daily_logsArgs<ExtArgs> = {}>(args?: Subset<T, Placement$daily_logsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     weekly_submissions<T extends Placement$weekly_submissionsArgs<ExtArgs> = {}>(args?: Subset<T, Placement$weekly_submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WeeklySubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -6246,6 +6246,25 @@ export namespace Prisma {
      * Limit how many Placements to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Placement.ind_supervisor
+   */
+  export type Placement$ind_supervisorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -11311,7 +11330,7 @@ export namespace Prisma {
     id?: UuidFilter<"Placement"> | string
     student_id?: UuidFilter<"Placement"> | string
     company_name?: StringFilter<"Placement"> | string
-    ind_supervisor_id?: UuidFilter<"Placement"> | string
+    ind_supervisor_id?: UuidNullableFilter<"Placement"> | string | null
     inst_coordinator_id?: UuidNullableFilter<"Placement"> | string | null
     company_address?: StringNullableFilter<"Placement"> | string | null
     company_contact?: StringNullableFilter<"Placement"> | string | null
@@ -11319,7 +11338,7 @@ export namespace Prisma {
     start_date?: DateTimeFilter<"Placement"> | Date | string
     end_date?: DateTimeFilter<"Placement"> | Date | string
     student?: XOR<UserScalarRelationFilter, UserWhereInput>
-    ind_supervisor?: XOR<UserScalarRelationFilter, UserWhereInput>
+    ind_supervisor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     inst_coordinator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     daily_logs?: DailyLogListRelationFilter
     weekly_submissions?: WeeklySubmissionListRelationFilter
@@ -11330,7 +11349,7 @@ export namespace Prisma {
     id?: SortOrder
     student_id?: SortOrder
     company_name?: SortOrder
-    ind_supervisor_id?: SortOrder
+    ind_supervisor_id?: SortOrderInput | SortOrder
     inst_coordinator_id?: SortOrderInput | SortOrder
     company_address?: SortOrderInput | SortOrder
     company_contact?: SortOrderInput | SortOrder
@@ -11352,7 +11371,7 @@ export namespace Prisma {
     NOT?: PlacementWhereInput | PlacementWhereInput[]
     student_id?: UuidFilter<"Placement"> | string
     company_name?: StringFilter<"Placement"> | string
-    ind_supervisor_id?: UuidFilter<"Placement"> | string
+    ind_supervisor_id?: UuidNullableFilter<"Placement"> | string | null
     inst_coordinator_id?: UuidNullableFilter<"Placement"> | string | null
     company_address?: StringNullableFilter<"Placement"> | string | null
     company_contact?: StringNullableFilter<"Placement"> | string | null
@@ -11360,7 +11379,7 @@ export namespace Prisma {
     start_date?: DateTimeFilter<"Placement"> | Date | string
     end_date?: DateTimeFilter<"Placement"> | Date | string
     student?: XOR<UserScalarRelationFilter, UserWhereInput>
-    ind_supervisor?: XOR<UserScalarRelationFilter, UserWhereInput>
+    ind_supervisor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     inst_coordinator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     daily_logs?: DailyLogListRelationFilter
     weekly_submissions?: WeeklySubmissionListRelationFilter
@@ -11371,7 +11390,7 @@ export namespace Prisma {
     id?: SortOrder
     student_id?: SortOrder
     company_name?: SortOrder
-    ind_supervisor_id?: SortOrder
+    ind_supervisor_id?: SortOrderInput | SortOrder
     inst_coordinator_id?: SortOrderInput | SortOrder
     company_address?: SortOrderInput | SortOrder
     company_contact?: SortOrderInput | SortOrder
@@ -11390,7 +11409,7 @@ export namespace Prisma {
     id?: UuidWithAggregatesFilter<"Placement"> | string
     student_id?: UuidWithAggregatesFilter<"Placement"> | string
     company_name?: StringWithAggregatesFilter<"Placement"> | string
-    ind_supervisor_id?: UuidWithAggregatesFilter<"Placement"> | string
+    ind_supervisor_id?: UuidNullableWithAggregatesFilter<"Placement"> | string | null
     inst_coordinator_id?: UuidNullableWithAggregatesFilter<"Placement"> | string | null
     company_address?: StringNullableWithAggregatesFilter<"Placement"> | string | null
     company_contact?: StringNullableWithAggregatesFilter<"Placement"> | string | null
@@ -11892,7 +11911,7 @@ export namespace Prisma {
     start_date: Date | string
     end_date: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
-    ind_supervisor: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
+    ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
     inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
@@ -11903,7 +11922,7 @@ export namespace Prisma {
     id?: string
     student_id: string
     company_name: string
-    ind_supervisor_id: string
+    ind_supervisor_id?: string | null
     inst_coordinator_id?: string | null
     company_address?: string | null
     company_contact?: string | null
@@ -11924,7 +11943,7 @@ export namespace Prisma {
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
-    ind_supervisor?: UserUpdateOneRequiredWithoutIndSupervisorPlacementsNestedInput
+    ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
     inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
@@ -11935,7 +11954,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     student_id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
-    ind_supervisor_id?: StringFieldUpdateOperationsInput | string
+    ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11951,7 +11970,7 @@ export namespace Prisma {
     id?: string
     student_id: string
     company_name: string
-    ind_supervisor_id: string
+    ind_supervisor_id?: string | null
     inst_coordinator_id?: string | null
     company_address?: string | null
     company_contact?: string | null
@@ -11974,7 +11993,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     student_id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
-    ind_supervisor_id?: StringFieldUpdateOperationsInput | string
+    ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -13269,10 +13288,12 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStudentPlacementsInput, UserUpdateWithoutStudentPlacementsInput>, UserUncheckedUpdateWithoutStudentPlacementsInput>
   }
 
-  export type UserUpdateOneRequiredWithoutIndSupervisorPlacementsNestedInput = {
+  export type UserUpdateOneWithoutIndSupervisorPlacementsNestedInput = {
     create?: XOR<UserCreateWithoutIndSupervisorPlacementsInput, UserUncheckedCreateWithoutIndSupervisorPlacementsInput>
     connectOrCreate?: UserCreateOrConnectWithoutIndSupervisorPlacementsInput
     upsert?: UserUpsertWithoutIndSupervisorPlacementsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutIndSupervisorPlacementsInput, UserUpdateWithoutIndSupervisorPlacementsInput>, UserUncheckedUpdateWithoutIndSupervisorPlacementsInput>
   }
@@ -13837,7 +13858,7 @@ export namespace Prisma {
     company_email?: string | null
     start_date: Date | string
     end_date: Date | string
-    ind_supervisor: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
+    ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
     inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
@@ -13847,7 +13868,7 @@ export namespace Prisma {
   export type PlacementUncheckedCreateWithoutStudentInput = {
     id?: string
     company_name: string
-    ind_supervisor_id: string
+    ind_supervisor_id?: string | null
     inst_coordinator_id?: string | null
     company_address?: string | null
     company_contact?: string | null
@@ -13918,7 +13939,7 @@ export namespace Prisma {
     start_date: Date | string
     end_date: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
-    ind_supervisor: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
+    ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
@@ -13928,7 +13949,7 @@ export namespace Prisma {
     id?: string
     student_id: string
     company_name: string
-    ind_supervisor_id: string
+    ind_supervisor_id?: string | null
     company_address?: string | null
     company_contact?: string | null
     company_email?: string | null
@@ -14080,7 +14101,7 @@ export namespace Prisma {
     id?: UuidFilter<"Placement"> | string
     student_id?: UuidFilter<"Placement"> | string
     company_name?: StringFilter<"Placement"> | string
-    ind_supervisor_id?: UuidFilter<"Placement"> | string
+    ind_supervisor_id?: UuidNullableFilter<"Placement"> | string | null
     inst_coordinator_id?: UuidNullableFilter<"Placement"> | string | null
     company_address?: StringNullableFilter<"Placement"> | string | null
     company_contact?: StringNullableFilter<"Placement"> | string | null
@@ -14800,7 +14821,7 @@ export namespace Prisma {
     start_date: Date | string
     end_date: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
-    ind_supervisor: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
+    ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
     inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
@@ -14810,7 +14831,7 @@ export namespace Prisma {
     id?: string
     student_id: string
     company_name: string
-    ind_supervisor_id: string
+    ind_supervisor_id?: string | null
     inst_coordinator_id?: string | null
     company_address?: string | null
     company_contact?: string | null
@@ -14867,7 +14888,7 @@ export namespace Prisma {
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
-    ind_supervisor?: UserUpdateOneRequiredWithoutIndSupervisorPlacementsNestedInput
+    ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
     inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
@@ -14877,7 +14898,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     student_id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
-    ind_supervisor_id?: StringFieldUpdateOperationsInput | string
+    ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14924,7 +14945,7 @@ export namespace Prisma {
     start_date: Date | string
     end_date: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
-    ind_supervisor: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
+    ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
     inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
@@ -14934,7 +14955,7 @@ export namespace Prisma {
     id?: string
     student_id: string
     company_name: string
-    ind_supervisor_id: string
+    ind_supervisor_id?: string | null
     inst_coordinator_id?: string | null
     company_address?: string | null
     company_contact?: string | null
@@ -15024,7 +15045,7 @@ export namespace Prisma {
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
-    ind_supervisor?: UserUpdateOneRequiredWithoutIndSupervisorPlacementsNestedInput
+    ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
     inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
@@ -15034,7 +15055,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     student_id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
-    ind_supervisor_id?: StringFieldUpdateOperationsInput | string
+    ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15210,7 +15231,7 @@ export namespace Prisma {
     start_date: Date | string
     end_date: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
-    ind_supervisor: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
+    ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
     inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
@@ -15220,7 +15241,7 @@ export namespace Prisma {
     id?: string
     student_id: string
     company_name: string
-    ind_supervisor_id: string
+    ind_supervisor_id?: string | null
     inst_coordinator_id?: string | null
     company_address?: string | null
     company_contact?: string | null
@@ -15291,7 +15312,7 @@ export namespace Prisma {
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
-    ind_supervisor?: UserUpdateOneRequiredWithoutIndSupervisorPlacementsNestedInput
+    ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
     inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
@@ -15301,7 +15322,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     student_id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
-    ind_supervisor_id?: StringFieldUpdateOperationsInput | string
+    ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15356,7 +15377,7 @@ export namespace Prisma {
   export type PlacementCreateManyStudentInput = {
     id?: string
     company_name: string
-    ind_supervisor_id: string
+    ind_supervisor_id?: string | null
     inst_coordinator_id?: string | null
     company_address?: string | null
     company_contact?: string | null
@@ -15381,7 +15402,7 @@ export namespace Prisma {
     id?: string
     student_id: string
     company_name: string
-    ind_supervisor_id: string
+    ind_supervisor_id?: string | null
     company_address?: string | null
     company_contact?: string | null
     company_email?: string | null
@@ -15431,7 +15452,7 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
-    ind_supervisor?: UserUpdateOneRequiredWithoutIndSupervisorPlacementsNestedInput
+    ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
     inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
@@ -15441,7 +15462,7 @@ export namespace Prisma {
   export type PlacementUncheckedUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
-    ind_supervisor_id?: StringFieldUpdateOperationsInput | string
+    ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15456,7 +15477,7 @@ export namespace Prisma {
   export type PlacementUncheckedUpdateManyWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
-    ind_supervisor_id?: StringFieldUpdateOperationsInput | string
+    ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15516,7 +15537,7 @@ export namespace Prisma {
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
-    ind_supervisor?: UserUpdateOneRequiredWithoutIndSupervisorPlacementsNestedInput
+    ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
@@ -15526,7 +15547,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     student_id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
-    ind_supervisor_id?: StringFieldUpdateOperationsInput | string
+    ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15541,7 +15562,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     student_id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
-    ind_supervisor_id?: StringFieldUpdateOperationsInput | string
+    ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null

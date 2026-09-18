@@ -58,7 +58,7 @@ export async function createDailyLog(
           data: {
             placement_id: placement.id,
             week_no,
-            status: 'PENDING',
+            status: 'PENDING',  
           },
         });
       } else if (currentSubmission.status === 'REJECTED') {

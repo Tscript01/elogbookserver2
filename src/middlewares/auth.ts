@@ -1,6 +1,6 @@
 import type { Response, NextFunction } from 'express';
 import {TokenPayload, verifyAccessToken, verifyRefreshToken} from "../utils/token";
-import { Role } from "../generated/prisma";
+import { Role } from "../../src/generated/prisma/client";
 import { UnauthorizedError, ForbiddenError } from '../utils/errors';
 import type { Request } from 'express';
 
