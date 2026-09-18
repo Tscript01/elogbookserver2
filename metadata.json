@@ -1,0 +1,6 @@
+{
+  "name": "E-Logbook Server",
+  "description": "Backend API server for student placement logs, e-logbook tracking, and authentication.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
