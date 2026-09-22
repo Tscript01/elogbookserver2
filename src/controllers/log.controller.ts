@@ -3,6 +3,9 @@ import { prisma } from '../config/prisma';
 import type { AuthenticatedRequest } from '../middlewares/auth';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../utils/errors';
 
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+const ONE_WEEK_MS = 7 * ONE_DAY_MS;
+
 export async function createDailyLog(
   req: AuthenticatedRequest,
   res: Response,
@@ -27,7 +30,6 @@ export async function createDailyLog(
       throw new BadRequestError('Invalid date format provided for log_date');
     }
 
-    // Disallow future date submissions
     if (logDate.getTime() > now.getTime() + 5 * 60 * 1000) {
       throw new BadRequestError('Cannot submit daily logs for future dates');
     }
@@ -42,39 +44,51 @@ export async function createDailyLog(
           throw new NotFoundError('No placement found for the authenticated student');
         }
 
-        // Align placement commencement date to its starting Monday (00:00:00.000 UTC)
         const placementStart = new Date(placement.start_date);
-        const startDay = placementStart.getUTCDay();
-        const startOffset = startDay === 0 ? -6 : 1 - startDay;
-        const baseMonday = new Date(placementStart.getTime());
-        baseMonday.setUTCDate(baseMonday.getUTCDate() + startOffset);
-        baseMonday.setUTCHours(0, 0, 0, 0);
+        placementStart.setUTCHours(0, 0, 0, 0);
 
-        const diffMs = now.getTime() - baseMonday.getTime();
-        if (diffMs < 0) {
-          throw new BadRequestError('Your placement has not started yet');
+        const placementEnd = new Date(placement.end_date);
+        placementEnd.setUTCHours(23, 59, 59, 999);
+
+        // Verification 1: Placement period boundaries
+        if (now.getTime() < placementStart.getTime()) {
+          throw new BadRequestError(
+            `Your placement commences on ${placementStart.toISOString().slice(0, 10)}. You cannot log activities before this date.`
+          );
         }
 
-        // Determine current rotational active week
-        const currentActiveWeek = Math.floor(diffMs / (7 * 24 * 60 * 60 * 1000)) + 1;
+        if (now.getTime() > placementEnd.getTime()) {
+          throw new ForbiddenError(
+            `Your placement period ended on ${placementEnd.toISOString().slice(0, 10)}. Log submissions are closed.`
+          );
+        }
 
-        // Disallow submissions targeting past weeks or non-current weeks
+        // Verification 2: Active week derived strictly from placement start date
+        const elapsedPlacementMs = now.getTime() - placementStart.getTime();
+        const currentActiveWeek = Math.floor(elapsedPlacementMs / ONE_WEEK_MS) + 1;
+
         if (Number(week_no) !== currentActiveWeek) {
           throw new ForbiddenError(
             `Logging window closed for week ${week_no}. You can only log activities for the current active week (Week ${currentActiveWeek}).`
           );
         }
 
-        // Calculate Monday 00:00:00 UTC through Sunday 23:59:59.999 UTC for the current week
-        const activeWeekStart = new Date(baseMonday.getTime() + (currentActiveWeek - 1) * 7 * 24 * 60 * 60 * 1000);
-        const activeWeekEnd = new Date(activeWeekStart.getTime() + 7 * 24 * 60 * 60 * 1000 - 1);
+        // Verification 3: Current week boundaries check
+        const activeWeekStart = new Date(placementStart.getTime() + (currentActiveWeek - 1) * ONE_WEEK_MS);
+        let activeWeekEnd = new Date(activeWeekStart.getTime() + ONE_WEEK_MS - 1);
+
+        // Cap to placement termination date if final week is partial
+        if (activeWeekEnd.getTime() > placementEnd.getTime()) {
+          activeWeekEnd = placementEnd;
+        }
 
         if (logDate.getTime() < activeWeekStart.getTime() || logDate.getTime() > activeWeekEnd.getTime()) {
           throw new BadRequestError(
-            `The log date (${logDate.toISOString().slice(0, 10)}) does not fall within the current week cycle (Week ${currentActiveWeek}: ${activeWeekStart.toISOString().slice(0, 10)} to ${activeWeekEnd.toISOString().slice(0, 10)}).`
+            `The selected log date (${logDate.toISOString().slice(0, 10)}) does not fall within the current week cycle (Week ${currentActiveWeek}: ${activeWeekStart.toISOString().slice(0, 10)} to ${activeWeekEnd.toISOString().slice(0, 10)}).`
           );
         }
 
+        // Verification 4: Weekly submission lock check
         let currentSubmission = await tx.weeklySubmission.findUnique({
           where: {
             placement_id_week_no: {
@@ -105,7 +119,7 @@ export async function createDailyLog(
           });
         }
 
-        // Prevent duplicate daily log for the same calendar date under this placement
+        // Verification 5: Prevent duplicate entries on the same day
         const dayStart = new Date(logDate.getTime());
         dayStart.setUTCHours(0, 0, 0, 0);
         const dayEnd = new Date(logDate.getTime());
@@ -178,7 +192,6 @@ export async function getPlacementLogs(
       throw new NotFoundError('Placement not found');
     }
 
-    // Role-based access control verification
     const isAuthorized =
       userRole === 'ADMIN' ||
       (userRole === 'STUDENT' && placement.student_id === userId) ||
