@@ -30,10 +30,6 @@ export async function createDailyLog(
       throw new BadRequestError('Invalid date format provided for log_date');
     }
 
-    if (logDate.getTime() > now.getTime() + 5 * 60 * 1000) {
-      throw new BadRequestError('Cannot submit daily logs for future dates');
-    }
-
     const result = await prisma.$transaction(
       async (tx: any) => {
         const placement = await tx.placement.findFirst({
@@ -45,12 +41,23 @@ export async function createDailyLog(
         }
 
         const placementStart = new Date(placement.start_date);
-        placementStart.setUTCHours(0, 0, 0, 0);
-
         const placementEnd = new Date(placement.end_date);
         placementEnd.setUTCHours(23, 59, 59, 999);
 
-        // Verification 1: Placement period boundaries
+        // Normalize placement commencement to its Monday 00:00:00.000 UTC
+        const startDay = placementStart.getUTCDay();
+        const startOffset = startDay === 0 ? -6 : 1 - startDay;
+        const baseMonday = new Date(placementStart.getTime());
+        baseMonday.setUTCDate(baseMonday.getUTCDate() + startOffset);
+        baseMonday.setUTCHours(0, 0, 0, 0);
+
+        // Normalize current system time to current week's Monday 00:00:00.000 UTC
+        const nowDay = now.getUTCDay();
+        const nowOffset = nowDay === 0 ? -6 : 1 - nowDay;
+        const currentWeekMonday = new Date(now.getTime());
+        currentWeekMonday.setUTCDate(currentWeekMonday.getUTCDate() + nowOffset);
+        currentWeekMonday.setUTCHours(0, 0, 0, 0);
+
         if (now.getTime() < placementStart.getTime()) {
           throw new BadRequestError(
             `Your placement commences on ${placementStart.toISOString().slice(0, 10)}. You cannot log activities before this date.`
@@ -63,32 +70,40 @@ export async function createDailyLog(
           );
         }
 
-        // Verification 2: Active week derived strictly from placement start date
-        const elapsedPlacementMs = now.getTime() - placementStart.getTime();
-        const currentActiveWeek = Math.floor(elapsedPlacementMs / ONE_WEEK_MS) + 1;
+        // Active week number calculation based on current calendar week Monday
+        const elapsedWeeksMs = currentWeekMonday.getTime() - baseMonday.getTime();
+        const currentActiveWeek = Math.floor(elapsedWeeksMs / ONE_WEEK_MS) + 1;
 
         if (Number(week_no) !== currentActiveWeek) {
           throw new ForbiddenError(
-            `Logging window closed for week ${week_no}. You can only log activities for the current active week (Week ${currentActiveWeek}).`
+            `Logging window closed for week ${week_no}. You can only log activities for the current active week (Week ${currentActiveWeek}). Past weeks cannot be filled.`
           );
         }
 
-        // Verification 3: Current week boundaries check
-        const activeWeekStart = new Date(placementStart.getTime() + (currentActiveWeek - 1) * ONE_WEEK_MS);
-        let activeWeekEnd = new Date(activeWeekStart.getTime() + ONE_WEEK_MS - 1);
+        // Active week boundaries: Monday 00:00:00.000 to Saturday 23:59:59.999 UTC
+        const activeWeekStart = new Date(currentWeekMonday.getTime());
+        const activeWeekSaturdayEnd = new Date(currentWeekMonday.getTime() + 6 * ONE_DAY_MS - 1);
 
-        // Cap to placement termination date if final week is partial
-        if (activeWeekEnd.getTime() > placementEnd.getTime()) {
-          activeWeekEnd = placementEnd;
+        // Restrict Sunday submissions (SIWES activities operate Mon - Sat)
+        if (logDate.getUTCDay() === 0) {
+          throw new BadRequestError('SIWES daily logs cannot be recorded for Sunday.');
         }
 
-        if (logDate.getTime() < activeWeekStart.getTime() || logDate.getTime() > activeWeekEnd.getTime()) {
+        // Check that selected date falls between Monday and Saturday of current active week
+        if (
+          logDate.getTime() < activeWeekStart.getTime() ||
+          logDate.getTime() > activeWeekSaturdayEnd.getTime()
+        ) {
           throw new BadRequestError(
-            `The selected log date (${logDate.toISOString().slice(0, 10)}) does not fall within the current week cycle (Week ${currentActiveWeek}: ${activeWeekStart.toISOString().slice(0, 10)} to ${activeWeekEnd.toISOString().slice(0, 10)}).`
+            `The log date (${logDate.toISOString().slice(0, 10)}) does not fall within the current active week (Week ${currentActiveWeek}: ${activeWeekStart.toISOString().slice(0, 10)} to ${activeWeekSaturdayEnd.toISOString().slice(0, 10)}).`
           );
         }
 
-        // Verification 4: Weekly submission lock check
+        if (logDate.getTime() > placementEnd.getTime()) {
+          throw new BadRequestError('The selected log date exceeds your placement conclusion date.');
+        }
+
+        // Handle weekly submission container status
         let currentSubmission = await tx.weeklySubmission.findUnique({
           where: {
             placement_id_week_no: {
@@ -100,7 +115,7 @@ export async function createDailyLog(
 
         if (currentSubmission && currentSubmission.status === 'APPROVED') {
           throw new ForbiddenError(
-            `Cannot add logs for week ${week_no} because it has already been approved and locked`
+            `Cannot add logs for week ${week_no} because it has already been approved and locked.`
           );
         }
 
@@ -119,7 +134,7 @@ export async function createDailyLog(
           });
         }
 
-        // Verification 5: Prevent duplicate entries on the same day
+        // Prevent duplicate entries for the exact calendar work day
         const dayStart = new Date(logDate.getTime());
         dayStart.setUTCHours(0, 0, 0, 0);
         const dayEnd = new Date(logDate.getTime());
