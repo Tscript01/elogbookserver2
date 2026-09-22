@@ -258,3 +258,97 @@ export const getPlacementById = async (
     next(error);
   }
 };
+
+
+export const updatePlacementById = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+): Promise<Response | void> => {
+  try {
+    const userId = req.user?.id;
+    const userRole = req.user?.role;
+    const { id } = req.params;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized: No user ID found in token' });
+    }
+
+    const existing = await prisma.placement.findUnique({
+      where: { id },
+    });
+
+    if (!existing) {
+      return res.status(404).json({ error: 'Placement not found' });
+    }
+
+    if (userRole !== 'ADMIN' && existing.student_id !== userId) {
+      return res.status(403).json({ error: 'Forbidden: You can only update your own placement' });
+    }
+
+    const {
+      company_name,
+      company_address,
+      company_contact,
+      company_email,
+      supervisor_email,
+      ind_supervisor_id,
+      inst_coordinator_id,
+      start_date,
+      end_date,
+    } = req.body;
+
+    const startDate = start_date ? new Date(start_date) : existing.start_date;
+    const endDate = end_date ? new Date(end_date) : existing.end_date;
+
+    if (endDate.getTime() - startDate.getTime() < MINIMUM_DURATION_MS) {
+      return res.status(400).json({
+        error: 'SIWES industrial training duration must be at least 1 month (30 days)',
+      });
+    }
+
+    let resolvedSupervisorId = existing.ind_supervisor_id;
+    if (ind_supervisor_id !== undefined) {
+      resolvedSupervisorId = ind_supervisor_id;
+    } else if (supervisor_email) {
+      const supervisor = await prisma.user.findFirst({
+        where: {
+          email: supervisor_email.trim().toLowerCase(),
+          role: 'IND_SUPERVISOR',
+        },
+        select: { id: true },
+      });
+      resolvedSupervisorId = supervisor ? supervisor.id : null;
+    }
+
+    const updated = await prisma.placement.update({
+      where: { id },
+      data: {
+        company_name: company_name !== undefined ? company_name.trim() : existing.company_name,
+        company_address: company_address !== undefined ? company_address : existing.company_address,
+        company_contact: company_contact !== undefined ? company_contact : existing.company_contact,
+        company_email: company_email !== undefined ? company_email : existing.company_email,
+        ind_supervisor_id: resolvedSupervisorId,
+        inst_coordinator_id: inst_coordinator_id !== undefined ? inst_coordinator_id : existing.inst_coordinator_id,
+        start_date: startDate,
+        end_date: endDate,
+      },
+      include: {
+        ind_supervisor: {
+          select: { id: true, name: true, email: true },
+        },
+        inst_coordinator: {
+          select: { id: true, name: true, email: true },
+        },
+      },
+    });
+
+    return res.status(200).json({
+      message: 'Placement updated successfully',
+      placement: updated,
+    });
+  } catch (error) {
+    console.error('Error updating placement:', error);
+    next(error);
+  }
+};

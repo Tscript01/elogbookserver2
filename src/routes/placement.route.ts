@@ -2,9 +2,13 @@ import { Router } from 'express';
 import {
   createPlacement,
   getCurrentPlacement,
-  getPlacementById
+  getPlacementById,
+  updatePlacementById,
 } from '../controllers/placement.controller';
-import { createPlacementSchema } from '../schemas/placement.schema';
+import {
+  createPlacementSchema,
+  updatePlacementSchema,
+} from '../schemas/placement.schema';
 import { validate } from '../middlewares/validate';
 import { authenticate, requireRole } from '../middlewares/auth';
 
@@ -30,6 +34,14 @@ router.get(
   authenticate,
   requireRole('ADMIN', 'INST_COORDINATOR', 'IND_SUPERVISOR', 'STUDENT'),
   getPlacementById
+);
+
+router.put(
+  '/:id',
+  authenticate,
+  requireRole('ADMIN', 'STUDENT'),
+  validate(updatePlacementSchema),
+  updatePlacementById
 );
 
 export default router;
