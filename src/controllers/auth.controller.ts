@@ -5,7 +5,7 @@ import {prisma} from "../config/prisma";
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from "../utils/token";
 import { AuthenticatedRequest} from "../middlewares/auth";
 import { sendEmail } from "../utils/resend";
-
+import approvedMatricList from '../data/approved_matrics.json';
 const SALT_ROUNDS = 12;
 
 const hashToken = (token: string): string =>
@@ -23,42 +23,90 @@ const resetTokenExpiry = (): Date => {
   return date;
 };
 
-export const register = async (req: Request, res: Response) => {
+const approvedMatricsSet = new Set<string>(approvedMatricList.map((m: string) => m.trim()));
+
+export const register = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<Response | void> => {
   try {
-    const { email, password, role, name } = req.body
-    // return res.status(503).json({ error: "Service is temporarily unavailable. Please try again later." });
+    const { name, email, matric_no, password, role } = req.body;
 
-    const existing = await prisma.user.findUnique({ where: { email } ,select: {
-    id: true,
-    email: true,
-    name: true,
-    role: true,
-  },});
+    if (!name || !email || !password) {
+      return res.status(400).json({ error: "Name, email, and password are required" });
+    }
 
-    if (existing) {
-      return res.status(409).json({ error: "Email already in use" });
+    const assignedRole = role || 'STUDENT';
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanMatricNo = assignedRole === 'STUDENT' && matric_no ? matric_no.toString().trim() : null;
+
+    if (assignedRole === 'STUDENT') {
+      if (!cleanMatricNo) {
+        return res.status(400).json({ error: "Matriculation number is required for student registration" });
+      }
+
+      if (!approvedMatricsSet.has(cleanMatricNo)) {
+        return res.status(403).json({
+          error: `Matriculation number '${cleanMatricNo}' is not found in the approved SIWES roster`
+        });
+      }
+    }
+
+    const duplicateConditions: any[] = [{ email: cleanEmail }];
+    if (cleanMatricNo) {
+      duplicateConditions.push({ matric_no: cleanMatricNo });
+    }
+
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        OR: duplicateConditions
+      },
+      select: {
+        email: true,
+        matric_no: true
+      }
+    });
+
+    if (existingUser) {
+      const conflictField = existingUser.email === cleanEmail ? 'Email' : 'Matriculation number';
+      return res.status(409).json({ error: `${conflictField} is already registered` });
     }
 
     const password_hash = await bcrypt.hash(password, SALT_ROUNDS);
 
     const user = await prisma.user.create({
-      data: { email, password_hash, role, name },
+      data: {
+        name: name.trim(),
+        email: cleanEmail,
+        matric_no: cleanMatricNo,
+        password_hash,
+        role: assignedRole,
+      },
       select: {
         id: true,
-        email: true,
         name: true,
+        email: true,
+        matric_no: true,
         role: true,
+        created_at: true,
       },
     });
-    
+
     await prisma.refreshToken.deleteMany({
       where: {
         user_id: user.id
       }
     });
 
-    const access_token = await signAccessToken({ userId: user.id.toString(), role: user.role });
-    const refresh_token = await signRefreshToken({ userId: user.id.toString(), role: user.role });
+    const access_token = await signAccessToken({
+      userId: user.id.toString(),
+      role: user.role,
+    });
+    const refresh_token = await signRefreshToken({
+      userId: user.id.toString(),
+      role: user.role
+    });
 
     await prisma.refreshToken.create({
       data: {
@@ -72,13 +120,17 @@ export const register = async (req: Request, res: Response) => {
       message: "Account created successfully",
       access_token,
       refresh_token,
-      user: { id: user.id, email: user.email, role: user.role },
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        matric_no: user.matric_no,
+        role: user.role
+      },
     });
   } catch (error: any) {
-    console.log(error)
-
-    
-    return res.status(500).json({ error: "Internal server errorsssss" , error_details: error});
+    console.error("Registration error:", error);
+    next(error);
   }
 };
 

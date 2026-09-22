@@ -15,7 +15,7 @@ enum Role {
   ADMIN
 }
 
-enum Status {
+enum SubmissionStatus {
   PENDING
   SUBMITTED
   APPROVED
@@ -29,22 +29,35 @@ enum ClearanceStatus {
 }
 
 model User {
-  id            String   @id @default(uuid()) @db.Uuid
+id            String   @id @default(uuid()) @db.Uuid
   email         String   @unique
+  matric_no     String?  @unique
   password_hash String
-  name          String 
-  role          Role
+  name          String
+  role          Role     @default(STUDENT)
   created_at    DateTime @default(now())
 
-  studentPlacements         Placement[]       @relation("StudentPlacements")
-  indSupervisorPlacements   Placement[]       @relation("IndSupervisorPlacements")
-  instCoordinatorPlacements Placement[]       @relation("InstCoordinatorPlacements")
+  studentPlacements         Placement[]         @relation("StudentPlacements")
+  indSupervisorPlacements   Placement[]         @relation("IndSupervisorPlacements")
+  instCoordinatorPlacements Placement[]         @relation("InstCoordinatorPlacements")
   approvals                 LogBookApproval[]
   clearances                FinalClearance[]
 
-  refreshTokens RefreshToken[]
-  password_reset_tokens PasswordResetToken[]
+  refreshTokens          RefreshToken[]
+  password_reset_tokens  PasswordResetToken[]
+
   @@map("users")
+}
+
+model EligibleStudent {
+  id           String    @id @default(uuid()) @db.Uuid
+  matric_no    String    @unique
+  full_name    String
+  department   String
+  is_activated Boolean   @default(false)
+  activated_at DateTime?
+
+  @@map("eligible_students")
 }
 model PasswordResetToken {
   id         String   @id @default(uuid()) @db.Uuid
@@ -52,12 +65,13 @@ model PasswordResetToken {
   token      String   @unique
   expires_at DateTime
   created_at DateTime @default(now())
-  jon        String  
+  jon        String
 
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("password_reset_tokens")
 }
+
 model RefreshToken {
   id         String   @id @default(uuid()) @db.Uuid
   user_id    String   @map("user_id") @db.Uuid
@@ -65,14 +79,14 @@ model RefreshToken {
   expires_at DateTime
   created_at DateTime @default(now())
 
-  user  User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("refresh_tokens")
 }
 
 model Placement {
-  id                  String   @id @default(uuid()) @db.Uuid
-  student_id          String   @db.Uuid
+  id                  String    @id @default(uuid()) @db.Uuid
+  student_id          String    @db.Uuid
   company_name        String
   ind_supervisor_id   String?   @db.Uuid
   inst_coordinator_id String?   @db.Uuid
@@ -82,25 +96,25 @@ model Placement {
   start_date          DateTime
   end_date            DateTime
 
-  student          User               @relation("StudentPlacements", fields: [student_id], references: [id], onDelete: Cascade)
-  ind_supervisor   User?               @relation("IndSupervisorPlacements", fields: [ind_supervisor_id], references: [id], onDelete: Cascade)
-  inst_coordinator User?               @relation("InstCoordinatorPlacements", fields: [inst_coordinator_id], references: [id], onDelete: Cascade)
-  daily_logs       DailyLog[]
+  student            User               @relation("StudentPlacements", fields: [student_id], references: [id], onDelete: Cascade)
+  ind_supervisor     User?              @relation("IndSupervisorPlacements", fields: [ind_supervisor_id], references: [id], onDelete: Cascade)
+  inst_coordinator   User?              @relation("InstCoordinatorPlacements", fields: [inst_coordinator_id], references: [id], onDelete: Cascade)
+  daily_logs         DailyLog[]
   weekly_submissions WeeklySubmission[]
-  clearance        FinalClearance?
+  clearance          FinalClearance?
 
   @@map("placements")
 }
 
 model DailyLog {
-  id                  String   @id @default(uuid()) @db.Uuid
-  placement_id        String   @db.Uuid
-  weekly_submission_id String  @db.Uuid
-  week_no             Int
-  log_date            DateTime @db.Date
-  description         String
-  image_url           String?
-  created_timestamp   DateTime @default(now())
+  id                   String   @id @default(uuid()) @db.Uuid
+  placement_id         String   @db.Uuid
+  weekly_submission_id String   @db.Uuid
+  week_no              Int
+  log_date             DateTime @db.Date
+  description          String
+  image_url            String?
+  created_timestamp    DateTime @default(now())
 
   placement         Placement        @relation(fields: [placement_id], references: [id], onDelete: Cascade)
   weekly_submission WeeklySubmission @relation(fields: [weekly_submission_id], references: [id], onDelete: Cascade)
@@ -110,14 +124,19 @@ model DailyLog {
 }
 
 model WeeklySubmission {
-  id           String   @id @default(uuid()) @db.Uuid
-  placement_id String   @db.Uuid
-  week_no      Int
-  status       Status   @default(PENDING)
+  id                 String           @id @default(uuid()) @db.Uuid
+  placement_id       String           @db.Uuid
+  week_no            Int
+  status             SubmissionStatus @default(PENDING)
+  supervisor_remarks String?          @db.Text
+  submitted_at       DateTime?
+  reviewed_at        DateTime?
+  created_at         DateTime         @default(now())
+  updated_at         DateTime         @default(now()) @updatedAt
 
-  placement  Placement       @relation(fields: [placement_id], references: [id], onDelete: Cascade)
-  daily_logs DailyLog[]
-  approvals  LogBookApproval[]
+  placement         Placement         @relation(fields: [placement_id], references: [id], onDelete: Cascade)
+  daily_logs        DailyLog[]
+  logbook_approvals LogBookApproval[]
 
   @@unique([placement_id, week_no])
   @@map("weekly_submissions")
@@ -137,16 +156,16 @@ model LogBookApproval {
 }
 
 model FinalClearance {
-  id                       String          @id @default(uuid()) @db.Uuid
-  placement_id             String          @unique @db.Uuid
-  coordinator_status       ClearanceStatus @default(PENDING)
-  coordinator_cleared_at   DateTime?
-  itf_official_id          String?         @db.Uuid
-  itf_status               ClearanceStatus @default(PENDING)
-  itf_cleared_at           DateTime?
-  final_pdf_hash           String?
-  itf_stamp_hash           String?
-  clearance_timestamp      DateTime?
+  id                     String          @id @default(uuid()) @db.Uuid
+  placement_id           String          @unique @db.Uuid
+  coordinator_status     ClearanceStatus @default(PENDING)
+  coordinator_cleared_at DateTime?
+  itf_official_id        String?         @db.Uuid
+  itf_status             ClearanceStatus @default(PENDING)
+  itf_cleared_at         DateTime?
+  final_pdf_hash         String?
+  itf_stamp_hash         String?
+  clearance_timestamp    DateTime?
 
   placement    Placement @relation(fields: [placement_id], references: [id], onDelete: Cascade)
   itf_official User?     @relation(fields: [itf_official_id], references: [id])

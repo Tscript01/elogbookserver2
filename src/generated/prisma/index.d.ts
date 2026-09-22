@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model EligibleStudent
+ * 
+ */
+export type EligibleStudent = $Result.DefaultSelection<Prisma.$EligibleStudentPayload>
+/**
  * Model PasswordResetToken
  * 
  */
@@ -69,14 +74,14 @@ export namespace $Enums {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
-export const Status: {
+export const SubmissionStatus: {
   PENDING: 'PENDING',
   SUBMITTED: 'SUBMITTED',
   APPROVED: 'APPROVED',
   REJECTED: 'REJECTED'
 };
 
-export type Status = (typeof Status)[keyof typeof Status]
+export type SubmissionStatus = (typeof SubmissionStatus)[keyof typeof SubmissionStatus]
 
 
 export const ClearanceStatus: {
@@ -93,9 +98,9 @@ export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
 
-export type Status = $Enums.Status
+export type SubmissionStatus = $Enums.SubmissionStatus
 
-export const Status: typeof $Enums.Status
+export const SubmissionStatus: typeof $Enums.SubmissionStatus
 
 export type ClearanceStatus = $Enums.ClearanceStatus
 
@@ -231,6 +236,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.eligibleStudent`: Exposes CRUD operations for the **EligibleStudent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EligibleStudents
+    * const eligibleStudents = await prisma.eligibleStudent.findMany()
+    * ```
+    */
+  get eligibleStudent(): Prisma.EligibleStudentDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.passwordResetToken`: Exposes CRUD operations for the **PasswordResetToken** model.
@@ -736,6 +751,7 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    EligibleStudent: 'EligibleStudent',
     PasswordResetToken: 'PasswordResetToken',
     RefreshToken: 'RefreshToken',
     Placement: 'Placement',
@@ -758,7 +774,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "passwordResetToken" | "refreshToken" | "placement" | "dailyLog" | "weeklySubmission" | "logBookApproval" | "finalClearance"
+      modelProps: "user" | "eligibleStudent" | "passwordResetToken" | "refreshToken" | "placement" | "dailyLog" | "weeklySubmission" | "logBookApproval" | "finalClearance"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -833,6 +849,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      EligibleStudent: {
+        payload: Prisma.$EligibleStudentPayload<ExtArgs>
+        fields: Prisma.EligibleStudentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EligibleStudentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EligibleStudentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EligibleStudentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EligibleStudentPayload>
+          }
+          findFirst: {
+            args: Prisma.EligibleStudentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EligibleStudentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EligibleStudentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EligibleStudentPayload>
+          }
+          findMany: {
+            args: Prisma.EligibleStudentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EligibleStudentPayload>[]
+          }
+          create: {
+            args: Prisma.EligibleStudentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EligibleStudentPayload>
+          }
+          createMany: {
+            args: Prisma.EligibleStudentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EligibleStudentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EligibleStudentPayload>[]
+          }
+          delete: {
+            args: Prisma.EligibleStudentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EligibleStudentPayload>
+          }
+          update: {
+            args: Prisma.EligibleStudentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EligibleStudentPayload>
+          }
+          deleteMany: {
+            args: Prisma.EligibleStudentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EligibleStudentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EligibleStudentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EligibleStudentPayload>[]
+          }
+          upsert: {
+            args: Prisma.EligibleStudentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EligibleStudentPayload>
+          }
+          aggregate: {
+            args: Prisma.EligibleStudentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEligibleStudent>
+          }
+          groupBy: {
+            args: Prisma.EligibleStudentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EligibleStudentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EligibleStudentCountArgs<ExtArgs>
+            result: $Utils.Optional<EligibleStudentCountAggregateOutputType> | number
           }
         }
       }
@@ -1463,6 +1553,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    eligibleStudent?: EligibleStudentOmit
     passwordResetToken?: PasswordResetTokenOmit
     refreshToken?: RefreshTokenOmit
     placement?: PlacementOmit
@@ -1676,12 +1767,12 @@ export namespace Prisma {
 
   export type WeeklySubmissionCountOutputType = {
     daily_logs: number
-    approvals: number
+    logbook_approvals: number
   }
 
   export type WeeklySubmissionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     daily_logs?: boolean | WeeklySubmissionCountOutputTypeCountDaily_logsArgs
-    approvals?: boolean | WeeklySubmissionCountOutputTypeCountApprovalsArgs
+    logbook_approvals?: boolean | WeeklySubmissionCountOutputTypeCountLogbook_approvalsArgs
   }
 
   // Custom InputTypes
@@ -1705,7 +1796,7 @@ export namespace Prisma {
   /**
    * WeeklySubmissionCountOutputType without action
    */
-  export type WeeklySubmissionCountOutputTypeCountApprovalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type WeeklySubmissionCountOutputTypeCountLogbook_approvalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LogBookApprovalWhereInput
   }
 
@@ -1727,6 +1818,7 @@ export namespace Prisma {
   export type UserMinAggregateOutputType = {
     id: string | null
     email: string | null
+    matric_no: string | null
     password_hash: string | null
     name: string | null
     role: $Enums.Role | null
@@ -1736,6 +1828,7 @@ export namespace Prisma {
   export type UserMaxAggregateOutputType = {
     id: string | null
     email: string | null
+    matric_no: string | null
     password_hash: string | null
     name: string | null
     role: $Enums.Role | null
@@ -1745,6 +1838,7 @@ export namespace Prisma {
   export type UserCountAggregateOutputType = {
     id: number
     email: number
+    matric_no: number
     password_hash: number
     name: number
     role: number
@@ -1756,6 +1850,7 @@ export namespace Prisma {
   export type UserMinAggregateInputType = {
     id?: true
     email?: true
+    matric_no?: true
     password_hash?: true
     name?: true
     role?: true
@@ -1765,6 +1860,7 @@ export namespace Prisma {
   export type UserMaxAggregateInputType = {
     id?: true
     email?: true
+    matric_no?: true
     password_hash?: true
     name?: true
     role?: true
@@ -1774,6 +1870,7 @@ export namespace Prisma {
   export type UserCountAggregateInputType = {
     id?: true
     email?: true
+    matric_no?: true
     password_hash?: true
     name?: true
     role?: true
@@ -1856,6 +1953,7 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: string
     email: string
+    matric_no: string | null
     password_hash: string
     name: string
     role: $Enums.Role
@@ -1882,6 +1980,7 @@ export namespace Prisma {
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     email?: boolean
+    matric_no?: boolean
     password_hash?: boolean
     name?: boolean
     role?: boolean
@@ -1899,6 +1998,7 @@ export namespace Prisma {
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     email?: boolean
+    matric_no?: boolean
     password_hash?: boolean
     name?: boolean
     role?: boolean
@@ -1908,6 +2008,7 @@ export namespace Prisma {
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     email?: boolean
+    matric_no?: boolean
     password_hash?: boolean
     name?: boolean
     role?: boolean
@@ -1917,13 +2018,14 @@ export namespace Prisma {
   export type UserSelectScalar = {
     id?: boolean
     email?: boolean
+    matric_no?: boolean
     password_hash?: boolean
     name?: boolean
     role?: boolean
     created_at?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password_hash" | "name" | "role" | "created_at", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "matric_no" | "password_hash" | "name" | "role" | "created_at", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     studentPlacements?: boolean | User$studentPlacementsArgs<ExtArgs>
     indSupervisorPlacements?: boolean | User$indSupervisorPlacementsArgs<ExtArgs>
@@ -1951,6 +2053,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       email: string
+      matric_no: string | null
       password_hash: string
       name: string
       role: $Enums.Role
@@ -2387,6 +2490,7 @@ export namespace Prisma {
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
+    readonly matric_no: FieldRef<"User", 'String'>
     readonly password_hash: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
@@ -2967,6 +3071,1019 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model EligibleStudent
+   */
+
+  export type AggregateEligibleStudent = {
+    _count: EligibleStudentCountAggregateOutputType | null
+    _min: EligibleStudentMinAggregateOutputType | null
+    _max: EligibleStudentMaxAggregateOutputType | null
+  }
+
+  export type EligibleStudentMinAggregateOutputType = {
+    id: string | null
+    matric_no: string | null
+    full_name: string | null
+    department: string | null
+    is_activated: boolean | null
+    activated_at: Date | null
+  }
+
+  export type EligibleStudentMaxAggregateOutputType = {
+    id: string | null
+    matric_no: string | null
+    full_name: string | null
+    department: string | null
+    is_activated: boolean | null
+    activated_at: Date | null
+  }
+
+  export type EligibleStudentCountAggregateOutputType = {
+    id: number
+    matric_no: number
+    full_name: number
+    department: number
+    is_activated: number
+    activated_at: number
+    _all: number
+  }
+
+
+  export type EligibleStudentMinAggregateInputType = {
+    id?: true
+    matric_no?: true
+    full_name?: true
+    department?: true
+    is_activated?: true
+    activated_at?: true
+  }
+
+  export type EligibleStudentMaxAggregateInputType = {
+    id?: true
+    matric_no?: true
+    full_name?: true
+    department?: true
+    is_activated?: true
+    activated_at?: true
+  }
+
+  export type EligibleStudentCountAggregateInputType = {
+    id?: true
+    matric_no?: true
+    full_name?: true
+    department?: true
+    is_activated?: true
+    activated_at?: true
+    _all?: true
+  }
+
+  export type EligibleStudentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EligibleStudent to aggregate.
+     */
+    where?: EligibleStudentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EligibleStudents to fetch.
+     */
+    orderBy?: EligibleStudentOrderByWithRelationInput | EligibleStudentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EligibleStudentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EligibleStudents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EligibleStudents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EligibleStudents
+    **/
+    _count?: true | EligibleStudentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EligibleStudentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EligibleStudentMaxAggregateInputType
+  }
+
+  export type GetEligibleStudentAggregateType<T extends EligibleStudentAggregateArgs> = {
+        [P in keyof T & keyof AggregateEligibleStudent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEligibleStudent[P]>
+      : GetScalarType<T[P], AggregateEligibleStudent[P]>
+  }
+
+
+
+
+  export type EligibleStudentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EligibleStudentWhereInput
+    orderBy?: EligibleStudentOrderByWithAggregationInput | EligibleStudentOrderByWithAggregationInput[]
+    by: EligibleStudentScalarFieldEnum[] | EligibleStudentScalarFieldEnum
+    having?: EligibleStudentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EligibleStudentCountAggregateInputType | true
+    _min?: EligibleStudentMinAggregateInputType
+    _max?: EligibleStudentMaxAggregateInputType
+  }
+
+  export type EligibleStudentGroupByOutputType = {
+    id: string
+    matric_no: string
+    full_name: string
+    department: string
+    is_activated: boolean
+    activated_at: Date | null
+    _count: EligibleStudentCountAggregateOutputType | null
+    _min: EligibleStudentMinAggregateOutputType | null
+    _max: EligibleStudentMaxAggregateOutputType | null
+  }
+
+  type GetEligibleStudentGroupByPayload<T extends EligibleStudentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EligibleStudentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EligibleStudentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EligibleStudentGroupByOutputType[P]>
+            : GetScalarType<T[P], EligibleStudentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EligibleStudentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    matric_no?: boolean
+    full_name?: boolean
+    department?: boolean
+    is_activated?: boolean
+    activated_at?: boolean
+  }, ExtArgs["result"]["eligibleStudent"]>
+
+  export type EligibleStudentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    matric_no?: boolean
+    full_name?: boolean
+    department?: boolean
+    is_activated?: boolean
+    activated_at?: boolean
+  }, ExtArgs["result"]["eligibleStudent"]>
+
+  export type EligibleStudentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    matric_no?: boolean
+    full_name?: boolean
+    department?: boolean
+    is_activated?: boolean
+    activated_at?: boolean
+  }, ExtArgs["result"]["eligibleStudent"]>
+
+  export type EligibleStudentSelectScalar = {
+    id?: boolean
+    matric_no?: boolean
+    full_name?: boolean
+    department?: boolean
+    is_activated?: boolean
+    activated_at?: boolean
+  }
+
+  export type EligibleStudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "matric_no" | "full_name" | "department" | "is_activated" | "activated_at", ExtArgs["result"]["eligibleStudent"]>
+
+  export type $EligibleStudentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EligibleStudent"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      matric_no: string
+      full_name: string
+      department: string
+      is_activated: boolean
+      activated_at: Date | null
+    }, ExtArgs["result"]["eligibleStudent"]>
+    composites: {}
+  }
+
+  type EligibleStudentGetPayload<S extends boolean | null | undefined | EligibleStudentDefaultArgs> = $Result.GetResult<Prisma.$EligibleStudentPayload, S>
+
+  type EligibleStudentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EligibleStudentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EligibleStudentCountAggregateInputType | true
+    }
+
+  export interface EligibleStudentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EligibleStudent'], meta: { name: 'EligibleStudent' } }
+    /**
+     * Find zero or one EligibleStudent that matches the filter.
+     * @param {EligibleStudentFindUniqueArgs} args - Arguments to find a EligibleStudent
+     * @example
+     * // Get one EligibleStudent
+     * const eligibleStudent = await prisma.eligibleStudent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EligibleStudentFindUniqueArgs>(args: SelectSubset<T, EligibleStudentFindUniqueArgs<ExtArgs>>): Prisma__EligibleStudentClient<$Result.GetResult<Prisma.$EligibleStudentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EligibleStudent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EligibleStudentFindUniqueOrThrowArgs} args - Arguments to find a EligibleStudent
+     * @example
+     * // Get one EligibleStudent
+     * const eligibleStudent = await prisma.eligibleStudent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EligibleStudentFindUniqueOrThrowArgs>(args: SelectSubset<T, EligibleStudentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EligibleStudentClient<$Result.GetResult<Prisma.$EligibleStudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EligibleStudent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EligibleStudentFindFirstArgs} args - Arguments to find a EligibleStudent
+     * @example
+     * // Get one EligibleStudent
+     * const eligibleStudent = await prisma.eligibleStudent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EligibleStudentFindFirstArgs>(args?: SelectSubset<T, EligibleStudentFindFirstArgs<ExtArgs>>): Prisma__EligibleStudentClient<$Result.GetResult<Prisma.$EligibleStudentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EligibleStudent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EligibleStudentFindFirstOrThrowArgs} args - Arguments to find a EligibleStudent
+     * @example
+     * // Get one EligibleStudent
+     * const eligibleStudent = await prisma.eligibleStudent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EligibleStudentFindFirstOrThrowArgs>(args?: SelectSubset<T, EligibleStudentFindFirstOrThrowArgs<ExtArgs>>): Prisma__EligibleStudentClient<$Result.GetResult<Prisma.$EligibleStudentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EligibleStudents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EligibleStudentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EligibleStudents
+     * const eligibleStudents = await prisma.eligibleStudent.findMany()
+     * 
+     * // Get first 10 EligibleStudents
+     * const eligibleStudents = await prisma.eligibleStudent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const eligibleStudentWithIdOnly = await prisma.eligibleStudent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EligibleStudentFindManyArgs>(args?: SelectSubset<T, EligibleStudentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EligibleStudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EligibleStudent.
+     * @param {EligibleStudentCreateArgs} args - Arguments to create a EligibleStudent.
+     * @example
+     * // Create one EligibleStudent
+     * const EligibleStudent = await prisma.eligibleStudent.create({
+     *   data: {
+     *     // ... data to create a EligibleStudent
+     *   }
+     * })
+     * 
+     */
+    create<T extends EligibleStudentCreateArgs>(args: SelectSubset<T, EligibleStudentCreateArgs<ExtArgs>>): Prisma__EligibleStudentClient<$Result.GetResult<Prisma.$EligibleStudentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EligibleStudents.
+     * @param {EligibleStudentCreateManyArgs} args - Arguments to create many EligibleStudents.
+     * @example
+     * // Create many EligibleStudents
+     * const eligibleStudent = await prisma.eligibleStudent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EligibleStudentCreateManyArgs>(args?: SelectSubset<T, EligibleStudentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EligibleStudents and returns the data saved in the database.
+     * @param {EligibleStudentCreateManyAndReturnArgs} args - Arguments to create many EligibleStudents.
+     * @example
+     * // Create many EligibleStudents
+     * const eligibleStudent = await prisma.eligibleStudent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EligibleStudents and only return the `id`
+     * const eligibleStudentWithIdOnly = await prisma.eligibleStudent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EligibleStudentCreateManyAndReturnArgs>(args?: SelectSubset<T, EligibleStudentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EligibleStudentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EligibleStudent.
+     * @param {EligibleStudentDeleteArgs} args - Arguments to delete one EligibleStudent.
+     * @example
+     * // Delete one EligibleStudent
+     * const EligibleStudent = await prisma.eligibleStudent.delete({
+     *   where: {
+     *     // ... filter to delete one EligibleStudent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EligibleStudentDeleteArgs>(args: SelectSubset<T, EligibleStudentDeleteArgs<ExtArgs>>): Prisma__EligibleStudentClient<$Result.GetResult<Prisma.$EligibleStudentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EligibleStudent.
+     * @param {EligibleStudentUpdateArgs} args - Arguments to update one EligibleStudent.
+     * @example
+     * // Update one EligibleStudent
+     * const eligibleStudent = await prisma.eligibleStudent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EligibleStudentUpdateArgs>(args: SelectSubset<T, EligibleStudentUpdateArgs<ExtArgs>>): Prisma__EligibleStudentClient<$Result.GetResult<Prisma.$EligibleStudentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EligibleStudents.
+     * @param {EligibleStudentDeleteManyArgs} args - Arguments to filter EligibleStudents to delete.
+     * @example
+     * // Delete a few EligibleStudents
+     * const { count } = await prisma.eligibleStudent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EligibleStudentDeleteManyArgs>(args?: SelectSubset<T, EligibleStudentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EligibleStudents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EligibleStudentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EligibleStudents
+     * const eligibleStudent = await prisma.eligibleStudent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EligibleStudentUpdateManyArgs>(args: SelectSubset<T, EligibleStudentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EligibleStudents and returns the data updated in the database.
+     * @param {EligibleStudentUpdateManyAndReturnArgs} args - Arguments to update many EligibleStudents.
+     * @example
+     * // Update many EligibleStudents
+     * const eligibleStudent = await prisma.eligibleStudent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EligibleStudents and only return the `id`
+     * const eligibleStudentWithIdOnly = await prisma.eligibleStudent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EligibleStudentUpdateManyAndReturnArgs>(args: SelectSubset<T, EligibleStudentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EligibleStudentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EligibleStudent.
+     * @param {EligibleStudentUpsertArgs} args - Arguments to update or create a EligibleStudent.
+     * @example
+     * // Update or create a EligibleStudent
+     * const eligibleStudent = await prisma.eligibleStudent.upsert({
+     *   create: {
+     *     // ... data to create a EligibleStudent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EligibleStudent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EligibleStudentUpsertArgs>(args: SelectSubset<T, EligibleStudentUpsertArgs<ExtArgs>>): Prisma__EligibleStudentClient<$Result.GetResult<Prisma.$EligibleStudentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EligibleStudents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EligibleStudentCountArgs} args - Arguments to filter EligibleStudents to count.
+     * @example
+     * // Count the number of EligibleStudents
+     * const count = await prisma.eligibleStudent.count({
+     *   where: {
+     *     // ... the filter for the EligibleStudents we want to count
+     *   }
+     * })
+    **/
+    count<T extends EligibleStudentCountArgs>(
+      args?: Subset<T, EligibleStudentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EligibleStudentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EligibleStudent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EligibleStudentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EligibleStudentAggregateArgs>(args: Subset<T, EligibleStudentAggregateArgs>): Prisma.PrismaPromise<GetEligibleStudentAggregateType<T>>
+
+    /**
+     * Group by EligibleStudent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EligibleStudentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EligibleStudentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EligibleStudentGroupByArgs['orderBy'] }
+        : { orderBy?: EligibleStudentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EligibleStudentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEligibleStudentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EligibleStudent model
+   */
+  readonly fields: EligibleStudentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EligibleStudent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EligibleStudentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EligibleStudent model
+   */
+  interface EligibleStudentFieldRefs {
+    readonly id: FieldRef<"EligibleStudent", 'String'>
+    readonly matric_no: FieldRef<"EligibleStudent", 'String'>
+    readonly full_name: FieldRef<"EligibleStudent", 'String'>
+    readonly department: FieldRef<"EligibleStudent", 'String'>
+    readonly is_activated: FieldRef<"EligibleStudent", 'Boolean'>
+    readonly activated_at: FieldRef<"EligibleStudent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EligibleStudent findUnique
+   */
+  export type EligibleStudentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EligibleStudent
+     */
+    select?: EligibleStudentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EligibleStudent
+     */
+    omit?: EligibleStudentOmit<ExtArgs> | null
+    /**
+     * Filter, which EligibleStudent to fetch.
+     */
+    where: EligibleStudentWhereUniqueInput
+  }
+
+  /**
+   * EligibleStudent findUniqueOrThrow
+   */
+  export type EligibleStudentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EligibleStudent
+     */
+    select?: EligibleStudentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EligibleStudent
+     */
+    omit?: EligibleStudentOmit<ExtArgs> | null
+    /**
+     * Filter, which EligibleStudent to fetch.
+     */
+    where: EligibleStudentWhereUniqueInput
+  }
+
+  /**
+   * EligibleStudent findFirst
+   */
+  export type EligibleStudentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EligibleStudent
+     */
+    select?: EligibleStudentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EligibleStudent
+     */
+    omit?: EligibleStudentOmit<ExtArgs> | null
+    /**
+     * Filter, which EligibleStudent to fetch.
+     */
+    where?: EligibleStudentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EligibleStudents to fetch.
+     */
+    orderBy?: EligibleStudentOrderByWithRelationInput | EligibleStudentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EligibleStudents.
+     */
+    cursor?: EligibleStudentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EligibleStudents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EligibleStudents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EligibleStudents.
+     */
+    distinct?: EligibleStudentScalarFieldEnum | EligibleStudentScalarFieldEnum[]
+  }
+
+  /**
+   * EligibleStudent findFirstOrThrow
+   */
+  export type EligibleStudentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EligibleStudent
+     */
+    select?: EligibleStudentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EligibleStudent
+     */
+    omit?: EligibleStudentOmit<ExtArgs> | null
+    /**
+     * Filter, which EligibleStudent to fetch.
+     */
+    where?: EligibleStudentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EligibleStudents to fetch.
+     */
+    orderBy?: EligibleStudentOrderByWithRelationInput | EligibleStudentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EligibleStudents.
+     */
+    cursor?: EligibleStudentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EligibleStudents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EligibleStudents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EligibleStudents.
+     */
+    distinct?: EligibleStudentScalarFieldEnum | EligibleStudentScalarFieldEnum[]
+  }
+
+  /**
+   * EligibleStudent findMany
+   */
+  export type EligibleStudentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EligibleStudent
+     */
+    select?: EligibleStudentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EligibleStudent
+     */
+    omit?: EligibleStudentOmit<ExtArgs> | null
+    /**
+     * Filter, which EligibleStudents to fetch.
+     */
+    where?: EligibleStudentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EligibleStudents to fetch.
+     */
+    orderBy?: EligibleStudentOrderByWithRelationInput | EligibleStudentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EligibleStudents.
+     */
+    cursor?: EligibleStudentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EligibleStudents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EligibleStudents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EligibleStudents.
+     */
+    distinct?: EligibleStudentScalarFieldEnum | EligibleStudentScalarFieldEnum[]
+  }
+
+  /**
+   * EligibleStudent create
+   */
+  export type EligibleStudentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EligibleStudent
+     */
+    select?: EligibleStudentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EligibleStudent
+     */
+    omit?: EligibleStudentOmit<ExtArgs> | null
+    /**
+     * The data needed to create a EligibleStudent.
+     */
+    data: XOR<EligibleStudentCreateInput, EligibleStudentUncheckedCreateInput>
+  }
+
+  /**
+   * EligibleStudent createMany
+   */
+  export type EligibleStudentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EligibleStudents.
+     */
+    data: EligibleStudentCreateManyInput | EligibleStudentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EligibleStudent createManyAndReturn
+   */
+  export type EligibleStudentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EligibleStudent
+     */
+    select?: EligibleStudentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EligibleStudent
+     */
+    omit?: EligibleStudentOmit<ExtArgs> | null
+    /**
+     * The data used to create many EligibleStudents.
+     */
+    data: EligibleStudentCreateManyInput | EligibleStudentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EligibleStudent update
+   */
+  export type EligibleStudentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EligibleStudent
+     */
+    select?: EligibleStudentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EligibleStudent
+     */
+    omit?: EligibleStudentOmit<ExtArgs> | null
+    /**
+     * The data needed to update a EligibleStudent.
+     */
+    data: XOR<EligibleStudentUpdateInput, EligibleStudentUncheckedUpdateInput>
+    /**
+     * Choose, which EligibleStudent to update.
+     */
+    where: EligibleStudentWhereUniqueInput
+  }
+
+  /**
+   * EligibleStudent updateMany
+   */
+  export type EligibleStudentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EligibleStudents.
+     */
+    data: XOR<EligibleStudentUpdateManyMutationInput, EligibleStudentUncheckedUpdateManyInput>
+    /**
+     * Filter which EligibleStudents to update
+     */
+    where?: EligibleStudentWhereInput
+    /**
+     * Limit how many EligibleStudents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EligibleStudent updateManyAndReturn
+   */
+  export type EligibleStudentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EligibleStudent
+     */
+    select?: EligibleStudentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EligibleStudent
+     */
+    omit?: EligibleStudentOmit<ExtArgs> | null
+    /**
+     * The data used to update EligibleStudents.
+     */
+    data: XOR<EligibleStudentUpdateManyMutationInput, EligibleStudentUncheckedUpdateManyInput>
+    /**
+     * Filter which EligibleStudents to update
+     */
+    where?: EligibleStudentWhereInput
+    /**
+     * Limit how many EligibleStudents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EligibleStudent upsert
+   */
+  export type EligibleStudentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EligibleStudent
+     */
+    select?: EligibleStudentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EligibleStudent
+     */
+    omit?: EligibleStudentOmit<ExtArgs> | null
+    /**
+     * The filter to search for the EligibleStudent to update in case it exists.
+     */
+    where: EligibleStudentWhereUniqueInput
+    /**
+     * In case the EligibleStudent found by the `where` argument doesn't exist, create a new EligibleStudent with this data.
+     */
+    create: XOR<EligibleStudentCreateInput, EligibleStudentUncheckedCreateInput>
+    /**
+     * In case the EligibleStudent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EligibleStudentUpdateInput, EligibleStudentUncheckedUpdateInput>
+  }
+
+  /**
+   * EligibleStudent delete
+   */
+  export type EligibleStudentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EligibleStudent
+     */
+    select?: EligibleStudentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EligibleStudent
+     */
+    omit?: EligibleStudentOmit<ExtArgs> | null
+    /**
+     * Filter which EligibleStudent to delete.
+     */
+    where: EligibleStudentWhereUniqueInput
+  }
+
+  /**
+   * EligibleStudent deleteMany
+   */
+  export type EligibleStudentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EligibleStudents to delete
+     */
+    where?: EligibleStudentWhereInput
+    /**
+     * Limit how many EligibleStudents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EligibleStudent without action
+   */
+  export type EligibleStudentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EligibleStudent
+     */
+    select?: EligibleStudentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EligibleStudent
+     */
+    omit?: EligibleStudentOmit<ExtArgs> | null
   }
 
 
@@ -7540,14 +8657,24 @@ export namespace Prisma {
     id: string | null
     placement_id: string | null
     week_no: number | null
-    status: $Enums.Status | null
+    status: $Enums.SubmissionStatus | null
+    supervisor_remarks: string | null
+    submitted_at: Date | null
+    reviewed_at: Date | null
+    created_at: Date | null
+    updated_at: Date | null
   }
 
   export type WeeklySubmissionMaxAggregateOutputType = {
     id: string | null
     placement_id: string | null
     week_no: number | null
-    status: $Enums.Status | null
+    status: $Enums.SubmissionStatus | null
+    supervisor_remarks: string | null
+    submitted_at: Date | null
+    reviewed_at: Date | null
+    created_at: Date | null
+    updated_at: Date | null
   }
 
   export type WeeklySubmissionCountAggregateOutputType = {
@@ -7555,6 +8682,11 @@ export namespace Prisma {
     placement_id: number
     week_no: number
     status: number
+    supervisor_remarks: number
+    submitted_at: number
+    reviewed_at: number
+    created_at: number
+    updated_at: number
     _all: number
   }
 
@@ -7572,6 +8704,11 @@ export namespace Prisma {
     placement_id?: true
     week_no?: true
     status?: true
+    supervisor_remarks?: true
+    submitted_at?: true
+    reviewed_at?: true
+    created_at?: true
+    updated_at?: true
   }
 
   export type WeeklySubmissionMaxAggregateInputType = {
@@ -7579,6 +8716,11 @@ export namespace Prisma {
     placement_id?: true
     week_no?: true
     status?: true
+    supervisor_remarks?: true
+    submitted_at?: true
+    reviewed_at?: true
+    created_at?: true
+    updated_at?: true
   }
 
   export type WeeklySubmissionCountAggregateInputType = {
@@ -7586,6 +8728,11 @@ export namespace Prisma {
     placement_id?: true
     week_no?: true
     status?: true
+    supervisor_remarks?: true
+    submitted_at?: true
+    reviewed_at?: true
+    created_at?: true
+    updated_at?: true
     _all?: true
   }
 
@@ -7679,7 +8826,12 @@ export namespace Prisma {
     id: string
     placement_id: string
     week_no: number
-    status: $Enums.Status
+    status: $Enums.SubmissionStatus
+    supervisor_remarks: string | null
+    submitted_at: Date | null
+    reviewed_at: Date | null
+    created_at: Date
+    updated_at: Date
     _count: WeeklySubmissionCountAggregateOutputType | null
     _avg: WeeklySubmissionAvgAggregateOutputType | null
     _sum: WeeklySubmissionSumAggregateOutputType | null
@@ -7706,9 +8858,14 @@ export namespace Prisma {
     placement_id?: boolean
     week_no?: boolean
     status?: boolean
+    supervisor_remarks?: boolean
+    submitted_at?: boolean
+    reviewed_at?: boolean
+    created_at?: boolean
+    updated_at?: boolean
     placement?: boolean | PlacementDefaultArgs<ExtArgs>
     daily_logs?: boolean | WeeklySubmission$daily_logsArgs<ExtArgs>
-    approvals?: boolean | WeeklySubmission$approvalsArgs<ExtArgs>
+    logbook_approvals?: boolean | WeeklySubmission$logbook_approvalsArgs<ExtArgs>
     _count?: boolean | WeeklySubmissionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["weeklySubmission"]>
 
@@ -7717,6 +8874,11 @@ export namespace Prisma {
     placement_id?: boolean
     week_no?: boolean
     status?: boolean
+    supervisor_remarks?: boolean
+    submitted_at?: boolean
+    reviewed_at?: boolean
+    created_at?: boolean
+    updated_at?: boolean
     placement?: boolean | PlacementDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["weeklySubmission"]>
 
@@ -7725,6 +8887,11 @@ export namespace Prisma {
     placement_id?: boolean
     week_no?: boolean
     status?: boolean
+    supervisor_remarks?: boolean
+    submitted_at?: boolean
+    reviewed_at?: boolean
+    created_at?: boolean
+    updated_at?: boolean
     placement?: boolean | PlacementDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["weeklySubmission"]>
 
@@ -7733,13 +8900,18 @@ export namespace Prisma {
     placement_id?: boolean
     week_no?: boolean
     status?: boolean
+    supervisor_remarks?: boolean
+    submitted_at?: boolean
+    reviewed_at?: boolean
+    created_at?: boolean
+    updated_at?: boolean
   }
 
-  export type WeeklySubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "placement_id" | "week_no" | "status", ExtArgs["result"]["weeklySubmission"]>
+  export type WeeklySubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "placement_id" | "week_no" | "status" | "supervisor_remarks" | "submitted_at" | "reviewed_at" | "created_at" | "updated_at", ExtArgs["result"]["weeklySubmission"]>
   export type WeeklySubmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     placement?: boolean | PlacementDefaultArgs<ExtArgs>
     daily_logs?: boolean | WeeklySubmission$daily_logsArgs<ExtArgs>
-    approvals?: boolean | WeeklySubmission$approvalsArgs<ExtArgs>
+    logbook_approvals?: boolean | WeeklySubmission$logbook_approvalsArgs<ExtArgs>
     _count?: boolean | WeeklySubmissionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WeeklySubmissionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7754,13 +8926,18 @@ export namespace Prisma {
     objects: {
       placement: Prisma.$PlacementPayload<ExtArgs>
       daily_logs: Prisma.$DailyLogPayload<ExtArgs>[]
-      approvals: Prisma.$LogBookApprovalPayload<ExtArgs>[]
+      logbook_approvals: Prisma.$LogBookApprovalPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       placement_id: string
       week_no: number
-      status: $Enums.Status
+      status: $Enums.SubmissionStatus
+      supervisor_remarks: string | null
+      submitted_at: Date | null
+      reviewed_at: Date | null
+      created_at: Date
+      updated_at: Date
     }, ExtArgs["result"]["weeklySubmission"]>
     composites: {}
   }
@@ -8157,7 +9334,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     placement<T extends PlacementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlacementDefaultArgs<ExtArgs>>): Prisma__PlacementClient<$Result.GetResult<Prisma.$PlacementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     daily_logs<T extends WeeklySubmission$daily_logsArgs<ExtArgs> = {}>(args?: Subset<T, WeeklySubmission$daily_logsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    approvals<T extends WeeklySubmission$approvalsArgs<ExtArgs> = {}>(args?: Subset<T, WeeklySubmission$approvalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LogBookApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    logbook_approvals<T extends WeeklySubmission$logbook_approvalsArgs<ExtArgs> = {}>(args?: Subset<T, WeeklySubmission$logbook_approvalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LogBookApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8190,7 +9367,12 @@ export namespace Prisma {
     readonly id: FieldRef<"WeeklySubmission", 'String'>
     readonly placement_id: FieldRef<"WeeklySubmission", 'String'>
     readonly week_no: FieldRef<"WeeklySubmission", 'Int'>
-    readonly status: FieldRef<"WeeklySubmission", 'Status'>
+    readonly status: FieldRef<"WeeklySubmission", 'SubmissionStatus'>
+    readonly supervisor_remarks: FieldRef<"WeeklySubmission", 'String'>
+    readonly submitted_at: FieldRef<"WeeklySubmission", 'DateTime'>
+    readonly reviewed_at: FieldRef<"WeeklySubmission", 'DateTime'>
+    readonly created_at: FieldRef<"WeeklySubmission", 'DateTime'>
+    readonly updated_at: FieldRef<"WeeklySubmission", 'DateTime'>
   }
     
 
@@ -8616,9 +9798,9 @@ export namespace Prisma {
   }
 
   /**
-   * WeeklySubmission.approvals
+   * WeeklySubmission.logbook_approvals
    */
-  export type WeeklySubmission$approvalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type WeeklySubmission$logbook_approvalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the LogBookApproval
      */
@@ -10901,6 +12083,7 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     email: 'email',
+    matric_no: 'matric_no',
     password_hash: 'password_hash',
     name: 'name',
     role: 'role',
@@ -10908,6 +12091,18 @@ export namespace Prisma {
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const EligibleStudentScalarFieldEnum: {
+    id: 'id',
+    matric_no: 'matric_no',
+    full_name: 'full_name',
+    department: 'department',
+    is_activated: 'is_activated',
+    activated_at: 'activated_at'
+  };
+
+  export type EligibleStudentScalarFieldEnum = (typeof EligibleStudentScalarFieldEnum)[keyof typeof EligibleStudentScalarFieldEnum]
 
 
   export const PasswordResetTokenScalarFieldEnum: {
@@ -10967,7 +12162,12 @@ export namespace Prisma {
     id: 'id',
     placement_id: 'placement_id',
     week_no: 'week_no',
-    status: 'status'
+    status: 'status',
+    supervisor_remarks: 'supervisor_remarks',
+    submitted_at: 'submitted_at',
+    reviewed_at: 'reviewed_at',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
   };
 
   export type WeeklySubmissionScalarFieldEnum = (typeof WeeklySubmissionScalarFieldEnum)[keyof typeof WeeklySubmissionScalarFieldEnum]
@@ -11072,6 +12272,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -11086,16 +12293,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Status'
+   * Reference to a field of type 'SubmissionStatus'
    */
-  export type EnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status'>
+  export type EnumSubmissionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubmissionStatus'>
     
 
 
   /**
-   * Reference to a field of type 'Status[]'
+   * Reference to a field of type 'SubmissionStatus[]'
    */
-  export type ListEnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status[]'>
+  export type ListEnumSubmissionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubmissionStatus[]'>
     
 
 
@@ -11136,6 +12343,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     id?: UuidFilter<"User"> | string
     email?: StringFilter<"User"> | string
+    matric_no?: StringNullableFilter<"User"> | string | null
     password_hash?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
@@ -11152,6 +12360,7 @@ export namespace Prisma {
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     email?: SortOrder
+    matric_no?: SortOrderInput | SortOrder
     password_hash?: SortOrder
     name?: SortOrder
     role?: SortOrder
@@ -11168,6 +12377,7 @@ export namespace Prisma {
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     email?: string
+    matric_no?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
@@ -11182,11 +12392,12 @@ export namespace Prisma {
     clearances?: FinalClearanceListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
     password_reset_tokens?: PasswordResetTokenListRelationFilter
-  }, "id" | "email">
+  }, "id" | "email" | "matric_no">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     email?: SortOrder
+    matric_no?: SortOrderInput | SortOrder
     password_hash?: SortOrder
     name?: SortOrder
     role?: SortOrder
@@ -11202,10 +12413,68 @@ export namespace Prisma {
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
+    matric_no?: StringNullableWithAggregatesFilter<"User"> | string | null
     password_hash?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     created_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
+  }
+
+  export type EligibleStudentWhereInput = {
+    AND?: EligibleStudentWhereInput | EligibleStudentWhereInput[]
+    OR?: EligibleStudentWhereInput[]
+    NOT?: EligibleStudentWhereInput | EligibleStudentWhereInput[]
+    id?: UuidFilter<"EligibleStudent"> | string
+    matric_no?: StringFilter<"EligibleStudent"> | string
+    full_name?: StringFilter<"EligibleStudent"> | string
+    department?: StringFilter<"EligibleStudent"> | string
+    is_activated?: BoolFilter<"EligibleStudent"> | boolean
+    activated_at?: DateTimeNullableFilter<"EligibleStudent"> | Date | string | null
+  }
+
+  export type EligibleStudentOrderByWithRelationInput = {
+    id?: SortOrder
+    matric_no?: SortOrder
+    full_name?: SortOrder
+    department?: SortOrder
+    is_activated?: SortOrder
+    activated_at?: SortOrderInput | SortOrder
+  }
+
+  export type EligibleStudentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    matric_no?: string
+    AND?: EligibleStudentWhereInput | EligibleStudentWhereInput[]
+    OR?: EligibleStudentWhereInput[]
+    NOT?: EligibleStudentWhereInput | EligibleStudentWhereInput[]
+    full_name?: StringFilter<"EligibleStudent"> | string
+    department?: StringFilter<"EligibleStudent"> | string
+    is_activated?: BoolFilter<"EligibleStudent"> | boolean
+    activated_at?: DateTimeNullableFilter<"EligibleStudent"> | Date | string | null
+  }, "id" | "matric_no">
+
+  export type EligibleStudentOrderByWithAggregationInput = {
+    id?: SortOrder
+    matric_no?: SortOrder
+    full_name?: SortOrder
+    department?: SortOrder
+    is_activated?: SortOrder
+    activated_at?: SortOrderInput | SortOrder
+    _count?: EligibleStudentCountOrderByAggregateInput
+    _max?: EligibleStudentMaxOrderByAggregateInput
+    _min?: EligibleStudentMinOrderByAggregateInput
+  }
+
+  export type EligibleStudentScalarWhereWithAggregatesInput = {
+    AND?: EligibleStudentScalarWhereWithAggregatesInput | EligibleStudentScalarWhereWithAggregatesInput[]
+    OR?: EligibleStudentScalarWhereWithAggregatesInput[]
+    NOT?: EligibleStudentScalarWhereWithAggregatesInput | EligibleStudentScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"EligibleStudent"> | string
+    matric_no?: StringWithAggregatesFilter<"EligibleStudent"> | string
+    full_name?: StringWithAggregatesFilter<"EligibleStudent"> | string
+    department?: StringWithAggregatesFilter<"EligibleStudent"> | string
+    is_activated?: BoolWithAggregatesFilter<"EligibleStudent"> | boolean
+    activated_at?: DateTimeNullableWithAggregatesFilter<"EligibleStudent"> | Date | string | null
   }
 
   export type PasswordResetTokenWhereInput = {
@@ -11501,10 +12770,15 @@ export namespace Prisma {
     id?: UuidFilter<"WeeklySubmission"> | string
     placement_id?: UuidFilter<"WeeklySubmission"> | string
     week_no?: IntFilter<"WeeklySubmission"> | number
-    status?: EnumStatusFilter<"WeeklySubmission"> | $Enums.Status
+    status?: EnumSubmissionStatusFilter<"WeeklySubmission"> | $Enums.SubmissionStatus
+    supervisor_remarks?: StringNullableFilter<"WeeklySubmission"> | string | null
+    submitted_at?: DateTimeNullableFilter<"WeeklySubmission"> | Date | string | null
+    reviewed_at?: DateTimeNullableFilter<"WeeklySubmission"> | Date | string | null
+    created_at?: DateTimeFilter<"WeeklySubmission"> | Date | string
+    updated_at?: DateTimeFilter<"WeeklySubmission"> | Date | string
     placement?: XOR<PlacementScalarRelationFilter, PlacementWhereInput>
     daily_logs?: DailyLogListRelationFilter
-    approvals?: LogBookApprovalListRelationFilter
+    logbook_approvals?: LogBookApprovalListRelationFilter
   }
 
   export type WeeklySubmissionOrderByWithRelationInput = {
@@ -11512,9 +12786,14 @@ export namespace Prisma {
     placement_id?: SortOrder
     week_no?: SortOrder
     status?: SortOrder
+    supervisor_remarks?: SortOrderInput | SortOrder
+    submitted_at?: SortOrderInput | SortOrder
+    reviewed_at?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     placement?: PlacementOrderByWithRelationInput
     daily_logs?: DailyLogOrderByRelationAggregateInput
-    approvals?: LogBookApprovalOrderByRelationAggregateInput
+    logbook_approvals?: LogBookApprovalOrderByRelationAggregateInput
   }
 
   export type WeeklySubmissionWhereUniqueInput = Prisma.AtLeast<{
@@ -11525,10 +12804,15 @@ export namespace Prisma {
     NOT?: WeeklySubmissionWhereInput | WeeklySubmissionWhereInput[]
     placement_id?: UuidFilter<"WeeklySubmission"> | string
     week_no?: IntFilter<"WeeklySubmission"> | number
-    status?: EnumStatusFilter<"WeeklySubmission"> | $Enums.Status
+    status?: EnumSubmissionStatusFilter<"WeeklySubmission"> | $Enums.SubmissionStatus
+    supervisor_remarks?: StringNullableFilter<"WeeklySubmission"> | string | null
+    submitted_at?: DateTimeNullableFilter<"WeeklySubmission"> | Date | string | null
+    reviewed_at?: DateTimeNullableFilter<"WeeklySubmission"> | Date | string | null
+    created_at?: DateTimeFilter<"WeeklySubmission"> | Date | string
+    updated_at?: DateTimeFilter<"WeeklySubmission"> | Date | string
     placement?: XOR<PlacementScalarRelationFilter, PlacementWhereInput>
     daily_logs?: DailyLogListRelationFilter
-    approvals?: LogBookApprovalListRelationFilter
+    logbook_approvals?: LogBookApprovalListRelationFilter
   }, "id" | "placement_id_week_no">
 
   export type WeeklySubmissionOrderByWithAggregationInput = {
@@ -11536,6 +12820,11 @@ export namespace Prisma {
     placement_id?: SortOrder
     week_no?: SortOrder
     status?: SortOrder
+    supervisor_remarks?: SortOrderInput | SortOrder
+    submitted_at?: SortOrderInput | SortOrder
+    reviewed_at?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     _count?: WeeklySubmissionCountOrderByAggregateInput
     _avg?: WeeklySubmissionAvgOrderByAggregateInput
     _max?: WeeklySubmissionMaxOrderByAggregateInput
@@ -11550,7 +12839,12 @@ export namespace Prisma {
     id?: UuidWithAggregatesFilter<"WeeklySubmission"> | string
     placement_id?: UuidWithAggregatesFilter<"WeeklySubmission"> | string
     week_no?: IntWithAggregatesFilter<"WeeklySubmission"> | number
-    status?: EnumStatusWithAggregatesFilter<"WeeklySubmission"> | $Enums.Status
+    status?: EnumSubmissionStatusWithAggregatesFilter<"WeeklySubmission"> | $Enums.SubmissionStatus
+    supervisor_remarks?: StringNullableWithAggregatesFilter<"WeeklySubmission"> | string | null
+    submitted_at?: DateTimeNullableWithAggregatesFilter<"WeeklySubmission"> | Date | string | null
+    reviewed_at?: DateTimeNullableWithAggregatesFilter<"WeeklySubmission"> | Date | string | null
+    created_at?: DateTimeWithAggregatesFilter<"WeeklySubmission"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"WeeklySubmission"> | Date | string
   }
 
   export type LogBookApprovalWhereInput = {
@@ -11697,9 +12991,10 @@ export namespace Prisma {
   export type UserCreateInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
@@ -11713,9 +13008,10 @@ export namespace Prisma {
   export type UserUncheckedCreateInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
@@ -11729,6 +13025,7 @@ export namespace Prisma {
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -11745,6 +13042,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -11761,15 +13059,17 @@ export namespace Prisma {
   export type UserCreateManyInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
   }
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -11779,10 +13079,74 @@ export namespace Prisma {
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EligibleStudentCreateInput = {
+    id?: string
+    matric_no: string
+    full_name: string
+    department: string
+    is_activated?: boolean
+    activated_at?: Date | string | null
+  }
+
+  export type EligibleStudentUncheckedCreateInput = {
+    id?: string
+    matric_no: string
+    full_name: string
+    department: string
+    is_activated?: boolean
+    activated_at?: Date | string | null
+  }
+
+  export type EligibleStudentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matric_no?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    is_activated?: BoolFieldUpdateOperationsInput | boolean
+    activated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EligibleStudentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matric_no?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    is_activated?: BoolFieldUpdateOperationsInput | boolean
+    activated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EligibleStudentCreateManyInput = {
+    id?: string
+    matric_no: string
+    full_name: string
+    department: string
+    is_activated?: boolean
+    activated_at?: Date | string | null
+  }
+
+  export type EligibleStudentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matric_no?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    is_activated?: BoolFieldUpdateOperationsInput | boolean
+    activated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EligibleStudentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    matric_no?: StringFieldUpdateOperationsInput | string
+    full_name?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    is_activated?: BoolFieldUpdateOperationsInput | boolean
+    activated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type PasswordResetTokenCreateInput = {
@@ -12080,64 +13444,99 @@ export namespace Prisma {
   export type WeeklySubmissionCreateInput = {
     id?: string
     week_no: number
-    status?: $Enums.Status
+    status?: $Enums.SubmissionStatus
+    supervisor_remarks?: string | null
+    submitted_at?: Date | string | null
+    reviewed_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
     placement: PlacementCreateNestedOneWithoutWeekly_submissionsInput
     daily_logs?: DailyLogCreateNestedManyWithoutWeekly_submissionInput
-    approvals?: LogBookApprovalCreateNestedManyWithoutWeekly_submissionInput
+    logbook_approvals?: LogBookApprovalCreateNestedManyWithoutWeekly_submissionInput
   }
 
   export type WeeklySubmissionUncheckedCreateInput = {
     id?: string
     placement_id: string
     week_no: number
-    status?: $Enums.Status
+    status?: $Enums.SubmissionStatus
+    supervisor_remarks?: string | null
+    submitted_at?: Date | string | null
+    reviewed_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutWeekly_submissionInput
-    approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutWeekly_submissionInput
+    logbook_approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutWeekly_submissionInput
   }
 
   export type WeeklySubmissionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     week_no?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
+    supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     placement?: PlacementUpdateOneRequiredWithoutWeekly_submissionsNestedInput
     daily_logs?: DailyLogUpdateManyWithoutWeekly_submissionNestedInput
-    approvals?: LogBookApprovalUpdateManyWithoutWeekly_submissionNestedInput
+    logbook_approvals?: LogBookApprovalUpdateManyWithoutWeekly_submissionNestedInput
   }
 
   export type WeeklySubmissionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     placement_id?: StringFieldUpdateOperationsInput | string
     week_no?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
+    supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     daily_logs?: DailyLogUncheckedUpdateManyWithoutWeekly_submissionNestedInput
-    approvals?: LogBookApprovalUncheckedUpdateManyWithoutWeekly_submissionNestedInput
+    logbook_approvals?: LogBookApprovalUncheckedUpdateManyWithoutWeekly_submissionNestedInput
   }
 
   export type WeeklySubmissionCreateManyInput = {
     id?: string
     placement_id: string
     week_no: number
-    status?: $Enums.Status
+    status?: $Enums.SubmissionStatus
+    supervisor_remarks?: string | null
+    submitted_at?: Date | string | null
+    reviewed_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type WeeklySubmissionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     week_no?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
+    supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WeeklySubmissionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     placement_id?: StringFieldUpdateOperationsInput | string
     week_no?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
+    supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LogBookApprovalCreateInput = {
     id?: string
     approval_timestamp?: Date | string
     cryptographic_signature_hash: string
-    weekly_submission: WeeklySubmissionCreateNestedOneWithoutApprovalsInput
+    weekly_submission: WeeklySubmissionCreateNestedOneWithoutLogbook_approvalsInput
     supervisor: UserCreateNestedOneWithoutApprovalsInput
   }
 
@@ -12153,7 +13552,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     approval_timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
     cryptographic_signature_hash?: StringFieldUpdateOperationsInput | string
-    weekly_submission?: WeeklySubmissionUpdateOneRequiredWithoutApprovalsNestedInput
+    weekly_submission?: WeeklySubmissionUpdateOneRequiredWithoutLogbook_approvalsNestedInput
     supervisor?: UserUpdateOneRequiredWithoutApprovalsNestedInput
   }
 
@@ -12303,6 +13702,21 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type EnumRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -12351,6 +13765,11 @@ export namespace Prisma {
     none?: PasswordResetTokenWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type PlacementOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -12374,6 +13793,7 @@ export namespace Prisma {
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
+    matric_no?: SortOrder
     password_hash?: SortOrder
     name?: SortOrder
     role?: SortOrder
@@ -12383,6 +13803,7 @@ export namespace Prisma {
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
+    matric_no?: SortOrder
     password_hash?: SortOrder
     name?: SortOrder
     role?: SortOrder
@@ -12392,6 +13813,7 @@ export namespace Prisma {
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
+    matric_no?: SortOrder
     password_hash?: SortOrder
     name?: SortOrder
     role?: SortOrder
@@ -12431,6 +13853,24 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -12453,6 +13893,71 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type EligibleStudentCountOrderByAggregateInput = {
+    id?: SortOrder
+    matric_no?: SortOrder
+    full_name?: SortOrder
+    department?: SortOrder
+    is_activated?: SortOrder
+    activated_at?: SortOrder
+  }
+
+  export type EligibleStudentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    matric_no?: SortOrder
+    full_name?: SortOrder
+    department?: SortOrder
+    is_activated?: SortOrder
+    activated_at?: SortOrder
+  }
+
+  export type EligibleStudentMinOrderByAggregateInput = {
+    id?: SortOrder
+    matric_no?: SortOrder
+    full_name?: SortOrder
+    department?: SortOrder
+    is_activated?: SortOrder
+    activated_at?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -12523,21 +14028,6 @@ export namespace Prisma {
     not?: NestedUuidNullableFilter<$PrismaModel> | string | null
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
@@ -12558,11 +14048,6 @@ export namespace Prisma {
   export type FinalClearanceNullableScalarRelationFilter = {
     is?: FinalClearanceWhereInput | null
     isNot?: FinalClearanceWhereInput | null
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type DailyLogOrderByRelationAggregateInput = {
@@ -12622,24 +14107,6 @@ export namespace Prisma {
     gte?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
     not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
@@ -12728,11 +14195,11 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type EnumStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
+  export type EnumSubmissionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubmissionStatus | EnumSubmissionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SubmissionStatus[] | ListEnumSubmissionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SubmissionStatus[] | ListEnumSubmissionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubmissionStatusFilter<$PrismaModel> | $Enums.SubmissionStatus
   }
 
   export type WeeklySubmissionPlacement_idWeek_noCompoundUniqueInput = {
@@ -12745,6 +14212,11 @@ export namespace Prisma {
     placement_id?: SortOrder
     week_no?: SortOrder
     status?: SortOrder
+    supervisor_remarks?: SortOrder
+    submitted_at?: SortOrder
+    reviewed_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type WeeklySubmissionAvgOrderByAggregateInput = {
@@ -12756,6 +14228,11 @@ export namespace Prisma {
     placement_id?: SortOrder
     week_no?: SortOrder
     status?: SortOrder
+    supervisor_remarks?: SortOrder
+    submitted_at?: SortOrder
+    reviewed_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type WeeklySubmissionMinOrderByAggregateInput = {
@@ -12763,20 +14240,25 @@ export namespace Prisma {
     placement_id?: SortOrder
     week_no?: SortOrder
     status?: SortOrder
+    supervisor_remarks?: SortOrder
+    submitted_at?: SortOrder
+    reviewed_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type WeeklySubmissionSumOrderByAggregateInput = {
     week_no?: SortOrder
   }
 
-  export type EnumStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
+  export type EnumSubmissionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubmissionStatus | EnumSubmissionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SubmissionStatus[] | ListEnumSubmissionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SubmissionStatus[] | ListEnumSubmissionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubmissionStatusWithAggregatesFilter<$PrismaModel> | $Enums.SubmissionStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumStatusFilter<$PrismaModel>
-    _max?: NestedEnumStatusFilter<$PrismaModel>
+    _min?: NestedEnumSubmissionStatusFilter<$PrismaModel>
+    _max?: NestedEnumSubmissionStatusFilter<$PrismaModel>
   }
 
   export type LogBookApprovalCountOrderByAggregateInput = {
@@ -12808,17 +14290,6 @@ export namespace Prisma {
     in?: $Enums.ClearanceStatus[] | ListEnumClearanceStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.ClearanceStatus[] | ListEnumClearanceStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumClearanceStatusFilter<$PrismaModel> | $Enums.ClearanceStatus
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type FinalClearanceCountOrderByAggregateInput = {
@@ -12868,20 +14339,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumClearanceStatusFilter<$PrismaModel>
     _max?: NestedEnumClearanceStatusFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type PlacementCreateNestedManyWithoutStudentInput = {
@@ -12984,6 +14441,10 @@ export namespace Prisma {
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type EnumRoleFieldUpdateOperationsInput = {
@@ -13190,6 +14651,14 @@ export namespace Prisma {
     deleteMany?: PasswordResetTokenScalarWhereInput | PasswordResetTokenScalarWhereInput[]
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type UserCreateNestedOneWithoutPassword_reset_tokensInput = {
     create?: XOR<UserCreateWithoutPassword_reset_tokensInput, UserUncheckedCreateWithoutPassword_reset_tokensInput>
     connectOrCreate?: UserCreateOrConnectWithoutPassword_reset_tokensInput
@@ -13274,10 +14743,6 @@ export namespace Prisma {
     create?: XOR<FinalClearanceCreateWithoutPlacementInput, FinalClearanceUncheckedCreateWithoutPlacementInput>
     connectOrCreate?: FinalClearanceCreateOrConnectWithoutPlacementInput
     connect?: FinalClearanceWhereUniqueInput
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type UserUpdateOneRequiredWithoutStudentPlacementsNestedInput = {
@@ -13454,8 +14919,8 @@ export namespace Prisma {
     connect?: LogBookApprovalWhereUniqueInput | LogBookApprovalWhereUniqueInput[]
   }
 
-  export type EnumStatusFieldUpdateOperationsInput = {
-    set?: $Enums.Status
+  export type EnumSubmissionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.SubmissionStatus
   }
 
   export type PlacementUpdateOneRequiredWithoutWeekly_submissionsNestedInput = {
@@ -13522,9 +14987,9 @@ export namespace Prisma {
     deleteMany?: LogBookApprovalScalarWhereInput | LogBookApprovalScalarWhereInput[]
   }
 
-  export type WeeklySubmissionCreateNestedOneWithoutApprovalsInput = {
-    create?: XOR<WeeklySubmissionCreateWithoutApprovalsInput, WeeklySubmissionUncheckedCreateWithoutApprovalsInput>
-    connectOrCreate?: WeeklySubmissionCreateOrConnectWithoutApprovalsInput
+  export type WeeklySubmissionCreateNestedOneWithoutLogbook_approvalsInput = {
+    create?: XOR<WeeklySubmissionCreateWithoutLogbook_approvalsInput, WeeklySubmissionUncheckedCreateWithoutLogbook_approvalsInput>
+    connectOrCreate?: WeeklySubmissionCreateOrConnectWithoutLogbook_approvalsInput
     connect?: WeeklySubmissionWhereUniqueInput
   }
 
@@ -13534,12 +14999,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type WeeklySubmissionUpdateOneRequiredWithoutApprovalsNestedInput = {
-    create?: XOR<WeeklySubmissionCreateWithoutApprovalsInput, WeeklySubmissionUncheckedCreateWithoutApprovalsInput>
-    connectOrCreate?: WeeklySubmissionCreateOrConnectWithoutApprovalsInput
-    upsert?: WeeklySubmissionUpsertWithoutApprovalsInput
+  export type WeeklySubmissionUpdateOneRequiredWithoutLogbook_approvalsNestedInput = {
+    create?: XOR<WeeklySubmissionCreateWithoutLogbook_approvalsInput, WeeklySubmissionUncheckedCreateWithoutLogbook_approvalsInput>
+    connectOrCreate?: WeeklySubmissionCreateOrConnectWithoutLogbook_approvalsInput
+    upsert?: WeeklySubmissionUpsertWithoutLogbook_approvalsInput
     connect?: WeeklySubmissionWhereUniqueInput
-    update?: XOR<XOR<WeeklySubmissionUpdateToOneWithWhereWithoutApprovalsInput, WeeklySubmissionUpdateWithoutApprovalsInput>, WeeklySubmissionUncheckedUpdateWithoutApprovalsInput>
+    update?: XOR<XOR<WeeklySubmissionUpdateToOneWithWhereWithoutLogbook_approvalsInput, WeeklySubmissionUpdateWithoutLogbook_approvalsInput>, WeeklySubmissionUncheckedUpdateWithoutLogbook_approvalsInput>
   }
 
   export type UserUpdateOneRequiredWithoutApprovalsNestedInput = {
@@ -13564,10 +15029,6 @@ export namespace Prisma {
 
   export type EnumClearanceStatusFieldUpdateOperationsInput = {
     set?: $Enums.ClearanceStatus
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type PlacementUpdateOneRequiredWithoutClearanceNestedInput = {
@@ -13611,6 +15072,20 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedEnumRoleFilter<$PrismaModel = never> = {
@@ -13673,6 +15148,34 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.Role | EnumRoleFieldRefInput<$PrismaModel>
     in?: $Enums.Role[] | ListEnumRoleFieldRefInput<$PrismaModel>
@@ -13697,6 +15200,44 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type NestedUuidNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -13708,20 +15249,6 @@ export namespace Prisma {
     not?: NestedUuidNullableFilter<$PrismaModel> | string | null
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -13731,34 +15258,6 @@ export namespace Prisma {
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
@@ -13791,21 +15290,21 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedEnumStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusFilter<$PrismaModel> | $Enums.Status
+  export type NestedEnumSubmissionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubmissionStatus | EnumSubmissionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SubmissionStatus[] | ListEnumSubmissionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SubmissionStatus[] | ListEnumSubmissionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubmissionStatusFilter<$PrismaModel> | $Enums.SubmissionStatus
   }
 
-  export type NestedEnumStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Status | EnumStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.Status[] | ListEnumStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusWithAggregatesFilter<$PrismaModel> | $Enums.Status
+  export type NestedEnumSubmissionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SubmissionStatus | EnumSubmissionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SubmissionStatus[] | ListEnumSubmissionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SubmissionStatus[] | ListEnumSubmissionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSubmissionStatusWithAggregatesFilter<$PrismaModel> | $Enums.SubmissionStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumStatusFilter<$PrismaModel>
-    _max?: NestedEnumStatusFilter<$PrismaModel>
+    _min?: NestedEnumSubmissionStatusFilter<$PrismaModel>
+    _max?: NestedEnumSubmissionStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumClearanceStatusFilter<$PrismaModel = never> = {
@@ -13813,17 +15312,6 @@ export namespace Prisma {
     in?: $Enums.ClearanceStatus[] | ListEnumClearanceStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.ClearanceStatus[] | ListEnumClearanceStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumClearanceStatusFilter<$PrismaModel> | $Enums.ClearanceStatus
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedEnumClearanceStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -13834,20 +15322,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumClearanceStatusFilter<$PrismaModel>
     _max?: NestedEnumClearanceStatusFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type PlacementCreateWithoutStudentInput = {
@@ -13974,7 +15448,7 @@ export namespace Prisma {
     id?: string
     approval_timestamp?: Date | string
     cryptographic_signature_hash: string
-    weekly_submission: WeeklySubmissionCreateNestedOneWithoutApprovalsInput
+    weekly_submission: WeeklySubmissionCreateNestedOneWithoutLogbook_approvalsInput
   }
 
   export type LogBookApprovalUncheckedCreateWithoutSupervisorInput = {
@@ -14259,9 +15733,10 @@ export namespace Prisma {
   export type UserCreateWithoutPassword_reset_tokensInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
@@ -14274,9 +15749,10 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutPassword_reset_tokensInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
@@ -14305,6 +15781,7 @@ export namespace Prisma {
   export type UserUpdateWithoutPassword_reset_tokensInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -14320,6 +15797,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutPassword_reset_tokensInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -14335,9 +15813,10 @@ export namespace Prisma {
   export type UserCreateWithoutRefreshTokensInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
@@ -14350,9 +15829,10 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutRefreshTokensInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
@@ -14381,6 +15861,7 @@ export namespace Prisma {
   export type UserUpdateWithoutRefreshTokensInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -14396,6 +15877,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutRefreshTokensInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -14411,9 +15893,10 @@ export namespace Prisma {
   export type UserCreateWithoutStudentPlacementsInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
@@ -14426,9 +15909,10 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutStudentPlacementsInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
@@ -14446,9 +15930,10 @@ export namespace Prisma {
   export type UserCreateWithoutIndSupervisorPlacementsInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
@@ -14461,9 +15946,10 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutIndSupervisorPlacementsInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
@@ -14481,9 +15967,10 @@ export namespace Prisma {
   export type UserCreateWithoutInstCoordinatorPlacementsInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
@@ -14496,9 +15983,10 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutInstCoordinatorPlacementsInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
@@ -14546,17 +16034,27 @@ export namespace Prisma {
   export type WeeklySubmissionCreateWithoutPlacementInput = {
     id?: string
     week_no: number
-    status?: $Enums.Status
+    status?: $Enums.SubmissionStatus
+    supervisor_remarks?: string | null
+    submitted_at?: Date | string | null
+    reviewed_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
     daily_logs?: DailyLogCreateNestedManyWithoutWeekly_submissionInput
-    approvals?: LogBookApprovalCreateNestedManyWithoutWeekly_submissionInput
+    logbook_approvals?: LogBookApprovalCreateNestedManyWithoutWeekly_submissionInput
   }
 
   export type WeeklySubmissionUncheckedCreateWithoutPlacementInput = {
     id?: string
     week_no: number
-    status?: $Enums.Status
+    status?: $Enums.SubmissionStatus
+    supervisor_remarks?: string | null
+    submitted_at?: Date | string | null
+    reviewed_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutWeekly_submissionInput
-    approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutWeekly_submissionInput
+    logbook_approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutWeekly_submissionInput
   }
 
   export type WeeklySubmissionCreateOrConnectWithoutPlacementInput = {
@@ -14612,6 +16110,7 @@ export namespace Prisma {
   export type UserUpdateWithoutStudentPlacementsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -14627,6 +16126,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutStudentPlacementsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -14653,6 +16153,7 @@ export namespace Prisma {
   export type UserUpdateWithoutIndSupervisorPlacementsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -14668,6 +16169,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutIndSupervisorPlacementsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -14694,6 +16196,7 @@ export namespace Prisma {
   export type UserUpdateWithoutInstCoordinatorPlacementsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -14709,6 +16212,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutInstCoordinatorPlacementsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -14774,7 +16278,12 @@ export namespace Prisma {
     id?: UuidFilter<"WeeklySubmission"> | string
     placement_id?: UuidFilter<"WeeklySubmission"> | string
     week_no?: IntFilter<"WeeklySubmission"> | number
-    status?: EnumStatusFilter<"WeeklySubmission"> | $Enums.Status
+    status?: EnumSubmissionStatusFilter<"WeeklySubmission"> | $Enums.SubmissionStatus
+    supervisor_remarks?: StringNullableFilter<"WeeklySubmission"> | string | null
+    submitted_at?: DateTimeNullableFilter<"WeeklySubmission"> | Date | string | null
+    reviewed_at?: DateTimeNullableFilter<"WeeklySubmission"> | Date | string | null
+    created_at?: DateTimeFilter<"WeeklySubmission"> | Date | string
+    updated_at?: DateTimeFilter<"WeeklySubmission"> | Date | string
   }
 
   export type FinalClearanceUpsertWithoutPlacementInput = {
@@ -14850,17 +16359,27 @@ export namespace Prisma {
   export type WeeklySubmissionCreateWithoutDaily_logsInput = {
     id?: string
     week_no: number
-    status?: $Enums.Status
+    status?: $Enums.SubmissionStatus
+    supervisor_remarks?: string | null
+    submitted_at?: Date | string | null
+    reviewed_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
     placement: PlacementCreateNestedOneWithoutWeekly_submissionsInput
-    approvals?: LogBookApprovalCreateNestedManyWithoutWeekly_submissionInput
+    logbook_approvals?: LogBookApprovalCreateNestedManyWithoutWeekly_submissionInput
   }
 
   export type WeeklySubmissionUncheckedCreateWithoutDaily_logsInput = {
     id?: string
     placement_id: string
     week_no: number
-    status?: $Enums.Status
-    approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutWeekly_submissionInput
+    status?: $Enums.SubmissionStatus
+    supervisor_remarks?: string | null
+    submitted_at?: Date | string | null
+    reviewed_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    logbook_approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutWeekly_submissionInput
   }
 
   export type WeeklySubmissionCreateOrConnectWithoutDaily_logsInput = {
@@ -14923,17 +16442,27 @@ export namespace Prisma {
   export type WeeklySubmissionUpdateWithoutDaily_logsInput = {
     id?: StringFieldUpdateOperationsInput | string
     week_no?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
+    supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     placement?: PlacementUpdateOneRequiredWithoutWeekly_submissionsNestedInput
-    approvals?: LogBookApprovalUpdateManyWithoutWeekly_submissionNestedInput
+    logbook_approvals?: LogBookApprovalUpdateManyWithoutWeekly_submissionNestedInput
   }
 
   export type WeeklySubmissionUncheckedUpdateWithoutDaily_logsInput = {
     id?: StringFieldUpdateOperationsInput | string
     placement_id?: StringFieldUpdateOperationsInput | string
     week_no?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    approvals?: LogBookApprovalUncheckedUpdateManyWithoutWeekly_submissionNestedInput
+    status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
+    supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    logbook_approvals?: LogBookApprovalUncheckedUpdateManyWithoutWeekly_submissionNestedInput
   }
 
   export type PlacementCreateWithoutWeekly_submissionsInput = {
@@ -15098,33 +16627,44 @@ export namespace Prisma {
     data: XOR<LogBookApprovalUpdateManyMutationInput, LogBookApprovalUncheckedUpdateManyWithoutWeekly_submissionInput>
   }
 
-  export type WeeklySubmissionCreateWithoutApprovalsInput = {
+  export type WeeklySubmissionCreateWithoutLogbook_approvalsInput = {
     id?: string
     week_no: number
-    status?: $Enums.Status
+    status?: $Enums.SubmissionStatus
+    supervisor_remarks?: string | null
+    submitted_at?: Date | string | null
+    reviewed_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
     placement: PlacementCreateNestedOneWithoutWeekly_submissionsInput
     daily_logs?: DailyLogCreateNestedManyWithoutWeekly_submissionInput
   }
 
-  export type WeeklySubmissionUncheckedCreateWithoutApprovalsInput = {
+  export type WeeklySubmissionUncheckedCreateWithoutLogbook_approvalsInput = {
     id?: string
     placement_id: string
     week_no: number
-    status?: $Enums.Status
+    status?: $Enums.SubmissionStatus
+    supervisor_remarks?: string | null
+    submitted_at?: Date | string | null
+    reviewed_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutWeekly_submissionInput
   }
 
-  export type WeeklySubmissionCreateOrConnectWithoutApprovalsInput = {
+  export type WeeklySubmissionCreateOrConnectWithoutLogbook_approvalsInput = {
     where: WeeklySubmissionWhereUniqueInput
-    create: XOR<WeeklySubmissionCreateWithoutApprovalsInput, WeeklySubmissionUncheckedCreateWithoutApprovalsInput>
+    create: XOR<WeeklySubmissionCreateWithoutLogbook_approvalsInput, WeeklySubmissionUncheckedCreateWithoutLogbook_approvalsInput>
   }
 
   export type UserCreateWithoutApprovalsInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
@@ -15137,9 +16677,10 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutApprovalsInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
@@ -15154,30 +16695,40 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutApprovalsInput, UserUncheckedCreateWithoutApprovalsInput>
   }
 
-  export type WeeklySubmissionUpsertWithoutApprovalsInput = {
-    update: XOR<WeeklySubmissionUpdateWithoutApprovalsInput, WeeklySubmissionUncheckedUpdateWithoutApprovalsInput>
-    create: XOR<WeeklySubmissionCreateWithoutApprovalsInput, WeeklySubmissionUncheckedCreateWithoutApprovalsInput>
+  export type WeeklySubmissionUpsertWithoutLogbook_approvalsInput = {
+    update: XOR<WeeklySubmissionUpdateWithoutLogbook_approvalsInput, WeeklySubmissionUncheckedUpdateWithoutLogbook_approvalsInput>
+    create: XOR<WeeklySubmissionCreateWithoutLogbook_approvalsInput, WeeklySubmissionUncheckedCreateWithoutLogbook_approvalsInput>
     where?: WeeklySubmissionWhereInput
   }
 
-  export type WeeklySubmissionUpdateToOneWithWhereWithoutApprovalsInput = {
+  export type WeeklySubmissionUpdateToOneWithWhereWithoutLogbook_approvalsInput = {
     where?: WeeklySubmissionWhereInput
-    data: XOR<WeeklySubmissionUpdateWithoutApprovalsInput, WeeklySubmissionUncheckedUpdateWithoutApprovalsInput>
+    data: XOR<WeeklySubmissionUpdateWithoutLogbook_approvalsInput, WeeklySubmissionUncheckedUpdateWithoutLogbook_approvalsInput>
   }
 
-  export type WeeklySubmissionUpdateWithoutApprovalsInput = {
+  export type WeeklySubmissionUpdateWithoutLogbook_approvalsInput = {
     id?: StringFieldUpdateOperationsInput | string
     week_no?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
+    supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     placement?: PlacementUpdateOneRequiredWithoutWeekly_submissionsNestedInput
     daily_logs?: DailyLogUpdateManyWithoutWeekly_submissionNestedInput
   }
 
-  export type WeeklySubmissionUncheckedUpdateWithoutApprovalsInput = {
+  export type WeeklySubmissionUncheckedUpdateWithoutLogbook_approvalsInput = {
     id?: StringFieldUpdateOperationsInput | string
     placement_id?: StringFieldUpdateOperationsInput | string
     week_no?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
+    supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     daily_logs?: DailyLogUncheckedUpdateManyWithoutWeekly_submissionNestedInput
   }
 
@@ -15195,6 +16746,7 @@ export namespace Prisma {
   export type UserUpdateWithoutApprovalsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -15210,6 +16762,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutApprovalsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -15260,9 +16813,10 @@ export namespace Prisma {
   export type UserCreateWithoutClearancesInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
@@ -15275,9 +16829,10 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutClearancesInput = {
     id?: string
     email: string
+    matric_no?: string | null
     password_hash: string
     name: string
-    role: $Enums.Role
+    role?: $Enums.Role
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
@@ -15347,6 +16902,7 @@ export namespace Prisma {
   export type UserUpdateWithoutClearancesInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -15362,6 +16918,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutClearancesInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -15574,7 +17131,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     approval_timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
     cryptographic_signature_hash?: StringFieldUpdateOperationsInput | string
-    weekly_submission?: WeeklySubmissionUpdateOneRequiredWithoutApprovalsNestedInput
+    weekly_submission?: WeeklySubmissionUpdateOneRequiredWithoutLogbook_approvalsNestedInput
   }
 
   export type LogBookApprovalUncheckedUpdateWithoutSupervisorInput = {
@@ -15685,7 +17242,12 @@ export namespace Prisma {
   export type WeeklySubmissionCreateManyPlacementInput = {
     id?: string
     week_no: number
-    status?: $Enums.Status
+    status?: $Enums.SubmissionStatus
+    supervisor_remarks?: string | null
+    submitted_at?: Date | string | null
+    reviewed_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type DailyLogUpdateWithoutPlacementInput = {
@@ -15721,23 +17283,38 @@ export namespace Prisma {
   export type WeeklySubmissionUpdateWithoutPlacementInput = {
     id?: StringFieldUpdateOperationsInput | string
     week_no?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
+    supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     daily_logs?: DailyLogUpdateManyWithoutWeekly_submissionNestedInput
-    approvals?: LogBookApprovalUpdateManyWithoutWeekly_submissionNestedInput
+    logbook_approvals?: LogBookApprovalUpdateManyWithoutWeekly_submissionNestedInput
   }
 
   export type WeeklySubmissionUncheckedUpdateWithoutPlacementInput = {
     id?: StringFieldUpdateOperationsInput | string
     week_no?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
+    supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     daily_logs?: DailyLogUncheckedUpdateManyWithoutWeekly_submissionNestedInput
-    approvals?: LogBookApprovalUncheckedUpdateManyWithoutWeekly_submissionNestedInput
+    logbook_approvals?: LogBookApprovalUncheckedUpdateManyWithoutWeekly_submissionNestedInput
   }
 
   export type WeeklySubmissionUncheckedUpdateManyWithoutPlacementInput = {
     id?: StringFieldUpdateOperationsInput | string
     week_no?: IntFieldUpdateOperationsInput | number
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
+    supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DailyLogCreateManyWeekly_submissionInput = {

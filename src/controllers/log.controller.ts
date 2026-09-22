@@ -38,6 +38,28 @@ export async function createDailyLog(
         throw new NotFoundError('No placement found for the authenticated student');
       }
 
+      // Calculate the current active week based on placement start date
+      const placementStart = new Date(placement.start_date);
+      const startDay = placementStart.getUTCDay();
+      const startOffset = startDay === 0 ? -6 : 1 - startDay;
+      const baseMonday = new Date(placementStart.getTime());
+      baseMonday.setUTCDate(baseMonday.getUTCDate() + startOffset);
+      baseMonday.setUTCHours(0, 0, 0, 0);
+
+      const diffMs = now.getTime() - baseMonday.getTime();
+      if (diffMs < 0) {
+        throw new BadRequestError('Your placement has not started yet.');
+      }
+
+      const currentActiveWeek = Math.floor(diffMs / (7 * 24 * 60 * 60 * 1000)) + 1;
+
+      // Allow logging only for the current active week
+      if (Number(week_no) !== currentActiveWeek) {
+        throw new ForbiddenError(
+          `Logging window expired for week ${week_no}. You can only log activities for the current active week (Week ${currentActiveWeek}).`
+        );
+      }
+
       let currentSubmission = await tx.weeklySubmission.findUnique({
         where: {
           placement_id_week_no: {

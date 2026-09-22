@@ -8,12 +8,18 @@ const SELF_REGISTER_ROLES = [
   "ADMIN"
 ] as const;
 
+
 export const registerSchema = z.object({
-  email: z.email("Invalid email").trim(),
-  password: z.string().min(8, "Password must be at least 8 characters").trim(),
-  name: z.string().min(1, "Name is required").trim(),
+  name: z.string().min(1, 'Name is required').trim(),
+  email: z.string().email('Invalid email').trim().toLowerCase(),
+  matric_no: z
+    .string({ error: 'Matriculation number is required' })
+    .trim()
+    .regex(/^\d{9}$/, 'Matriculation number must be exactly 9 digits'),
+  password: z.string().min(8, 'Password must be at least 8 characters').trim(),
   
-  role: z.enum(SELF_REGISTER_ROLES, "Role must be one of: STUDENT, IND_SUPERVISOR, INST_COORDINATOR")
+  // Enforce ONLY the STUDENT literal value; defaults to STUDENT if omitted
+  role: z.literal('STUDENT').default('STUDENT'),
 });
 
 export const loginSchema = z.object({

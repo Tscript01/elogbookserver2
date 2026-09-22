@@ -123,10 +123,20 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
+  matric_no: 'matric_no',
   password_hash: 'password_hash',
   name: 'name',
   role: 'role',
   created_at: 'created_at'
+};
+
+exports.Prisma.EligibleStudentScalarFieldEnum = {
+  id: 'id',
+  matric_no: 'matric_no',
+  full_name: 'full_name',
+  department: 'department',
+  is_activated: 'is_activated',
+  activated_at: 'activated_at'
 };
 
 exports.Prisma.PasswordResetTokenScalarFieldEnum = {
@@ -174,7 +184,12 @@ exports.Prisma.WeeklySubmissionScalarFieldEnum = {
   id: 'id',
   placement_id: 'placement_id',
   week_no: 'week_no',
-  status: 'status'
+  status: 'status',
+  supervisor_remarks: 'supervisor_remarks',
+  submitted_at: 'submitted_at',
+  reviewed_at: 'reviewed_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.LogBookApprovalScalarFieldEnum = {
@@ -220,7 +235,7 @@ exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN'
 };
 
-exports.Status = exports.$Enums.Status = {
+exports.SubmissionStatus = exports.$Enums.SubmissionStatus = {
   PENDING: 'PENDING',
   SUBMITTED: 'SUBMITTED',
   APPROVED: 'APPROVED',
@@ -235,6 +250,7 @@ exports.ClearanceStatus = exports.$Enums.ClearanceStatus = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  EligibleStudent: 'EligibleStudent',
   PasswordResetToken: 'PasswordResetToken',
   RefreshToken: 'RefreshToken',
   Placement: 'Placement',

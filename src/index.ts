@@ -3,6 +3,8 @@ import cors from "cors";
 import { prisma } from "./config/prisma";
 import authRoutes from "./routes/auth.routes";
 import placementRoutes from "./routes/placement.route";
+import submissionRoutes from './routes/submission.routes';
+
 import { errorHandler } from "./middlewares/errorHandler";
 import logRoutes from "./routes/log.routes";
 
@@ -24,6 +26,8 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/logs", logRoutes);
 app.use("/api/placements", placementRoutes);
+app.use('/api/submissions', submissionRoutes);
+
 
 app.get("/api/health", (_req: Request, res: Response) => {
   res.json({ status: "ok", port: PORT });

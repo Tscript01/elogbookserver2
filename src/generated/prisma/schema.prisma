@@ -15,7 +15,7 @@ enum Role {
   ADMIN
 }
 
-enum Status {
+enum SubmissionStatus {
   PENDING
   SUBMITTED
   APPROVED
@@ -31,9 +31,10 @@ enum ClearanceStatus {
 model User {
   id            String   @id @default(uuid()) @db.Uuid
   email         String   @unique
+  matric_no     String?  @unique
   password_hash String
   name          String
-  role          Role
+  role          Role     @default(STUDENT)
   created_at    DateTime @default(now())
 
   studentPlacements         Placement[]       @relation("StudentPlacements")
@@ -46,6 +47,17 @@ model User {
   password_reset_tokens PasswordResetToken[]
 
   @@map("users")
+}
+
+model EligibleStudent {
+  id           String    @id @default(uuid()) @db.Uuid
+  matric_no    String    @unique
+  full_name    String
+  department   String
+  is_activated Boolean   @default(false)
+  activated_at DateTime?
+
+  @@map("eligible_students")
 }
 
 model PasswordResetToken {
@@ -113,14 +125,19 @@ model DailyLog {
 }
 
 model WeeklySubmission {
-  id           String @id @default(uuid()) @db.Uuid
-  placement_id String @db.Uuid
-  week_no      Int
-  status       Status @default(PENDING)
+  id                 String           @id @default(uuid()) @db.Uuid
+  placement_id       String           @db.Uuid
+  week_no            Int
+  status             SubmissionStatus @default(PENDING)
+  supervisor_remarks String?          @db.Text
+  submitted_at       DateTime?
+  reviewed_at        DateTime?
+  created_at         DateTime         @default(now())
+  updated_at         DateTime         @default(now()) @updatedAt
 
-  placement  Placement         @relation(fields: [placement_id], references: [id], onDelete: Cascade)
-  daily_logs DailyLog[]
-  approvals  LogBookApproval[]
+  placement         Placement         @relation(fields: [placement_id], references: [id], onDelete: Cascade)
+  daily_logs        DailyLog[]
+  logbook_approvals LogBookApproval[]
 
   @@unique([placement_id, week_no])
   @@map("weekly_submissions")
