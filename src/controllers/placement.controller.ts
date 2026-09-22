@@ -291,7 +291,9 @@ export const updatePlacementById = async (
       company_address,
       company_contact,
       company_email,
-      supervisor_email,
+      ind_supervisor_name,
+      ind_supervisor_email,
+      supervisor_email, // fallback alias
       ind_supervisor_id,
       inst_coordinator_id,
       start_date,
@@ -301,19 +303,32 @@ export const updatePlacementById = async (
     const startDate = start_date ? new Date(start_date) : existing.start_date;
     const endDate = end_date ? new Date(end_date) : existing.end_date;
 
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      return res.status(400).json({ error: 'Invalid start or end date format' });
+    }
+
+    if (endDate.getTime() <= startDate.getTime()) {
+      return res.status(400).json({ error: 'Training conclusion date must be later than commencement date' });
+    }
+
     if (endDate.getTime() - startDate.getTime() < MINIMUM_DURATION_MS) {
       return res.status(400).json({
         error: 'SIWES industrial training duration must be at least 1 month (30 days)',
       });
     }
 
+    // Resolve supervisor email (prefer ind_supervisor_email, fallback to supervisor_email)
+    const targetSupervisorEmail = ind_supervisor_email !== undefined
+      ? (ind_supervisor_email ? ind_supervisor_email.trim().toLowerCase() : null)
+      : (supervisor_email !== undefined ? (supervisor_email ? supervisor_email.trim().toLowerCase() : null) : undefined);
+
     let resolvedSupervisorId = existing.ind_supervisor_id;
     if (ind_supervisor_id !== undefined) {
       resolvedSupervisorId = ind_supervisor_id;
-    } else if (supervisor_email) {
+    } else if (targetSupervisorEmail) {
       const supervisor = await prisma.user.findFirst({
         where: {
-          email: supervisor_email.trim().toLowerCase(),
+          email: targetSupervisorEmail,
           role: 'IND_SUPERVISOR',
         },
         select: { id: true },
@@ -327,7 +342,9 @@ export const updatePlacementById = async (
         company_name: company_name !== undefined ? company_name.trim() : existing.company_name,
         company_address: company_address !== undefined ? company_address : existing.company_address,
         company_contact: company_contact !== undefined ? company_contact : existing.company_contact,
-        company_email: company_email !== undefined ? company_email : existing.company_email,
+        company_email: company_email !== undefined ? (company_email ? company_email.trim().toLowerCase() : null) : existing.company_email,
+        ind_supervisor_name: ind_supervisor_name !== undefined ? (ind_supervisor_name ? ind_supervisor_name.trim() : null) : (existing as any).ind_supervisor_name,
+        ind_supervisor_email: targetSupervisorEmail !== undefined ? targetSupervisorEmail : (existing as any).ind_supervisor_email,
         ind_supervisor_id: resolvedSupervisorId,
         inst_coordinator_id: inst_coordinator_id !== undefined ? inst_coordinator_id : existing.inst_coordinator_id,
         start_date: startDate,
