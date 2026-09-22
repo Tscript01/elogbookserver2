@@ -221,13 +221,13 @@ export const getCurrentPlacement = async (
       return res.status(404).json({ error: 'No active placement found for this student' });
     }
 
+    // Returns the complete placement object (including ind_supervisor_name & ind_supervisor_email)
     return res.status(200).json(placement);
   } catch (error) {
     console.error('Error retrieving current placement:', error);
     next(error);
   }
 };
-
 export const getPlacementById = async (
   req: AuthenticatedRequest,
   res: Response,
