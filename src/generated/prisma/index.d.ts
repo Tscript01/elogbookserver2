@@ -6243,6 +6243,8 @@ export namespace Prisma {
     ind_supervisor_id: string | null
     inst_coordinator_id: string | null
     company_address: string | null
+    ind_supervisor_name: string | null
+    ind_supervisor_email: string | null
     company_contact: string | null
     company_email: string | null
     start_date: Date | null
@@ -6256,6 +6258,8 @@ export namespace Prisma {
     ind_supervisor_id: string | null
     inst_coordinator_id: string | null
     company_address: string | null
+    ind_supervisor_name: string | null
+    ind_supervisor_email: string | null
     company_contact: string | null
     company_email: string | null
     start_date: Date | null
@@ -6269,6 +6273,8 @@ export namespace Prisma {
     ind_supervisor_id: number
     inst_coordinator_id: number
     company_address: number
+    ind_supervisor_name: number
+    ind_supervisor_email: number
     company_contact: number
     company_email: number
     start_date: number
@@ -6284,6 +6290,8 @@ export namespace Prisma {
     ind_supervisor_id?: true
     inst_coordinator_id?: true
     company_address?: true
+    ind_supervisor_name?: true
+    ind_supervisor_email?: true
     company_contact?: true
     company_email?: true
     start_date?: true
@@ -6297,6 +6305,8 @@ export namespace Prisma {
     ind_supervisor_id?: true
     inst_coordinator_id?: true
     company_address?: true
+    ind_supervisor_name?: true
+    ind_supervisor_email?: true
     company_contact?: true
     company_email?: true
     start_date?: true
@@ -6310,6 +6320,8 @@ export namespace Prisma {
     ind_supervisor_id?: true
     inst_coordinator_id?: true
     company_address?: true
+    ind_supervisor_name?: true
+    ind_supervisor_email?: true
     company_contact?: true
     company_email?: true
     start_date?: true
@@ -6396,6 +6408,8 @@ export namespace Prisma {
     ind_supervisor_id: string | null
     inst_coordinator_id: string | null
     company_address: string | null
+    ind_supervisor_name: string | null
+    ind_supervisor_email: string | null
     company_contact: string | null
     company_email: string | null
     start_date: Date
@@ -6426,6 +6440,8 @@ export namespace Prisma {
     ind_supervisor_id?: boolean
     inst_coordinator_id?: boolean
     company_address?: boolean
+    ind_supervisor_name?: boolean
+    ind_supervisor_email?: boolean
     company_contact?: boolean
     company_email?: boolean
     start_date?: boolean
@@ -6446,6 +6462,8 @@ export namespace Prisma {
     ind_supervisor_id?: boolean
     inst_coordinator_id?: boolean
     company_address?: boolean
+    ind_supervisor_name?: boolean
+    ind_supervisor_email?: boolean
     company_contact?: boolean
     company_email?: boolean
     start_date?: boolean
@@ -6462,6 +6480,8 @@ export namespace Prisma {
     ind_supervisor_id?: boolean
     inst_coordinator_id?: boolean
     company_address?: boolean
+    ind_supervisor_name?: boolean
+    ind_supervisor_email?: boolean
     company_contact?: boolean
     company_email?: boolean
     start_date?: boolean
@@ -6478,13 +6498,15 @@ export namespace Prisma {
     ind_supervisor_id?: boolean
     inst_coordinator_id?: boolean
     company_address?: boolean
+    ind_supervisor_name?: boolean
+    ind_supervisor_email?: boolean
     company_contact?: boolean
     company_email?: boolean
     start_date?: boolean
     end_date?: boolean
   }
 
-  export type PlacementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "student_id" | "company_name" | "ind_supervisor_id" | "inst_coordinator_id" | "company_address" | "company_contact" | "company_email" | "start_date" | "end_date", ExtArgs["result"]["placement"]>
+  export type PlacementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "student_id" | "company_name" | "ind_supervisor_id" | "inst_coordinator_id" | "company_address" | "ind_supervisor_name" | "ind_supervisor_email" | "company_contact" | "company_email" | "start_date" | "end_date", ExtArgs["result"]["placement"]>
   export type PlacementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | UserDefaultArgs<ExtArgs>
     ind_supervisor?: boolean | Placement$ind_supervisorArgs<ExtArgs>
@@ -6522,6 +6544,8 @@ export namespace Prisma {
       ind_supervisor_id: string | null
       inst_coordinator_id: string | null
       company_address: string | null
+      ind_supervisor_name: string | null
+      ind_supervisor_email: string | null
       company_contact: string | null
       company_email: string | null
       start_date: Date
@@ -6961,6 +6985,8 @@ export namespace Prisma {
     readonly ind_supervisor_id: FieldRef<"Placement", 'String'>
     readonly inst_coordinator_id: FieldRef<"Placement", 'String'>
     readonly company_address: FieldRef<"Placement", 'String'>
+    readonly ind_supervisor_name: FieldRef<"Placement", 'String'>
+    readonly ind_supervisor_email: FieldRef<"Placement", 'String'>
     readonly company_contact: FieldRef<"Placement", 'String'>
     readonly company_email: FieldRef<"Placement", 'String'>
     readonly start_date: FieldRef<"Placement", 'DateTime'>
@@ -12135,6 +12161,8 @@ export namespace Prisma {
     ind_supervisor_id: 'ind_supervisor_id',
     inst_coordinator_id: 'inst_coordinator_id',
     company_address: 'company_address',
+    ind_supervisor_name: 'ind_supervisor_name',
+    ind_supervisor_email: 'ind_supervisor_email',
     company_contact: 'company_contact',
     company_email: 'company_email',
     start_date: 'start_date',
@@ -12602,6 +12630,8 @@ export namespace Prisma {
     ind_supervisor_id?: UuidNullableFilter<"Placement"> | string | null
     inst_coordinator_id?: UuidNullableFilter<"Placement"> | string | null
     company_address?: StringNullableFilter<"Placement"> | string | null
+    ind_supervisor_name?: StringNullableFilter<"Placement"> | string | null
+    ind_supervisor_email?: StringNullableFilter<"Placement"> | string | null
     company_contact?: StringNullableFilter<"Placement"> | string | null
     company_email?: StringNullableFilter<"Placement"> | string | null
     start_date?: DateTimeFilter<"Placement"> | Date | string
@@ -12621,6 +12651,8 @@ export namespace Prisma {
     ind_supervisor_id?: SortOrderInput | SortOrder
     inst_coordinator_id?: SortOrderInput | SortOrder
     company_address?: SortOrderInput | SortOrder
+    ind_supervisor_name?: SortOrderInput | SortOrder
+    ind_supervisor_email?: SortOrderInput | SortOrder
     company_contact?: SortOrderInput | SortOrder
     company_email?: SortOrderInput | SortOrder
     start_date?: SortOrder
@@ -12643,6 +12675,8 @@ export namespace Prisma {
     ind_supervisor_id?: UuidNullableFilter<"Placement"> | string | null
     inst_coordinator_id?: UuidNullableFilter<"Placement"> | string | null
     company_address?: StringNullableFilter<"Placement"> | string | null
+    ind_supervisor_name?: StringNullableFilter<"Placement"> | string | null
+    ind_supervisor_email?: StringNullableFilter<"Placement"> | string | null
     company_contact?: StringNullableFilter<"Placement"> | string | null
     company_email?: StringNullableFilter<"Placement"> | string | null
     start_date?: DateTimeFilter<"Placement"> | Date | string
@@ -12662,6 +12696,8 @@ export namespace Prisma {
     ind_supervisor_id?: SortOrderInput | SortOrder
     inst_coordinator_id?: SortOrderInput | SortOrder
     company_address?: SortOrderInput | SortOrder
+    ind_supervisor_name?: SortOrderInput | SortOrder
+    ind_supervisor_email?: SortOrderInput | SortOrder
     company_contact?: SortOrderInput | SortOrder
     company_email?: SortOrderInput | SortOrder
     start_date?: SortOrder
@@ -12681,6 +12717,8 @@ export namespace Prisma {
     ind_supervisor_id?: UuidNullableWithAggregatesFilter<"Placement"> | string | null
     inst_coordinator_id?: UuidNullableWithAggregatesFilter<"Placement"> | string | null
     company_address?: StringNullableWithAggregatesFilter<"Placement"> | string | null
+    ind_supervisor_name?: StringNullableWithAggregatesFilter<"Placement"> | string | null
+    ind_supervisor_email?: StringNullableWithAggregatesFilter<"Placement"> | string | null
     company_contact?: StringNullableWithAggregatesFilter<"Placement"> | string | null
     company_email?: StringNullableWithAggregatesFilter<"Placement"> | string | null
     start_date?: DateTimeWithAggregatesFilter<"Placement"> | Date | string
@@ -13270,6 +13308,8 @@ export namespace Prisma {
     id?: string
     company_name: string
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -13289,6 +13329,8 @@ export namespace Prisma {
     ind_supervisor_id?: string | null
     inst_coordinator_id?: string | null
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -13302,6 +13344,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13321,6 +13365,8 @@ export namespace Prisma {
     ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13337,6 +13383,8 @@ export namespace Prisma {
     ind_supervisor_id?: string | null
     inst_coordinator_id?: string | null
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -13347,6 +13395,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13360,6 +13410,8 @@ export namespace Prisma {
     ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14065,6 +14117,8 @@ export namespace Prisma {
     ind_supervisor_id?: SortOrder
     inst_coordinator_id?: SortOrder
     company_address?: SortOrder
+    ind_supervisor_name?: SortOrder
+    ind_supervisor_email?: SortOrder
     company_contact?: SortOrder
     company_email?: SortOrder
     start_date?: SortOrder
@@ -14078,6 +14132,8 @@ export namespace Prisma {
     ind_supervisor_id?: SortOrder
     inst_coordinator_id?: SortOrder
     company_address?: SortOrder
+    ind_supervisor_name?: SortOrder
+    ind_supervisor_email?: SortOrder
     company_contact?: SortOrder
     company_email?: SortOrder
     start_date?: SortOrder
@@ -14091,6 +14147,8 @@ export namespace Prisma {
     ind_supervisor_id?: SortOrder
     inst_coordinator_id?: SortOrder
     company_address?: SortOrder
+    ind_supervisor_name?: SortOrder
+    ind_supervisor_email?: SortOrder
     company_contact?: SortOrder
     company_email?: SortOrder
     start_date?: SortOrder
@@ -15328,6 +15386,8 @@ export namespace Prisma {
     id?: string
     company_name: string
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -15345,6 +15405,8 @@ export namespace Prisma {
     ind_supervisor_id?: string | null
     inst_coordinator_id?: string | null
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -15368,6 +15430,8 @@ export namespace Prisma {
     id?: string
     company_name: string
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -15385,6 +15449,8 @@ export namespace Prisma {
     company_name: string
     inst_coordinator_id?: string | null
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -15408,6 +15474,8 @@ export namespace Prisma {
     id?: string
     company_name: string
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -15425,6 +15493,8 @@ export namespace Prisma {
     company_name: string
     ind_supervisor_id?: string | null
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -15578,6 +15648,8 @@ export namespace Prisma {
     ind_supervisor_id?: UuidNullableFilter<"Placement"> | string | null
     inst_coordinator_id?: UuidNullableFilter<"Placement"> | string | null
     company_address?: StringNullableFilter<"Placement"> | string | null
+    ind_supervisor_name?: StringNullableFilter<"Placement"> | string | null
+    ind_supervisor_email?: StringNullableFilter<"Placement"> | string | null
     company_contact?: StringNullableFilter<"Placement"> | string | null
     company_email?: StringNullableFilter<"Placement"> | string | null
     start_date?: DateTimeFilter<"Placement"> | Date | string
@@ -16325,6 +16397,8 @@ export namespace Prisma {
     id?: string
     company_name: string
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -16343,6 +16417,8 @@ export namespace Prisma {
     ind_supervisor_id?: string | null
     inst_coordinator_id?: string | null
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -16402,6 +16478,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16420,6 +16498,8 @@ export namespace Prisma {
     ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16469,6 +16549,8 @@ export namespace Prisma {
     id?: string
     company_name: string
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -16487,6 +16569,8 @@ export namespace Prisma {
     ind_supervisor_id?: string | null
     inst_coordinator_id?: string | null
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -16569,6 +16653,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16587,6 +16673,8 @@ export namespace Prisma {
     ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16779,6 +16867,8 @@ export namespace Prisma {
     id?: string
     company_name: string
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -16797,6 +16887,8 @@ export namespace Prisma {
     ind_supervisor_id?: string | null
     inst_coordinator_id?: string | null
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -16862,6 +16954,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16880,6 +16974,8 @@ export namespace Prisma {
     ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16937,6 +17033,8 @@ export namespace Prisma {
     ind_supervisor_id?: string | null
     inst_coordinator_id?: string | null
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -16949,6 +17047,8 @@ export namespace Prisma {
     company_name: string
     inst_coordinator_id?: string | null
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -16961,6 +17061,8 @@ export namespace Prisma {
     company_name: string
     ind_supervisor_id?: string | null
     company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
     start_date: Date | string
@@ -17005,6 +17107,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17022,6 +17126,8 @@ export namespace Prisma {
     ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17037,6 +17143,8 @@ export namespace Prisma {
     ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17047,6 +17155,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17064,6 +17174,8 @@ export namespace Prisma {
     company_name?: StringFieldUpdateOperationsInput | string
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17079,6 +17191,8 @@ export namespace Prisma {
     company_name?: StringFieldUpdateOperationsInput | string
     inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17089,6 +17203,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     company_name?: StringFieldUpdateOperationsInput | string
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17106,6 +17222,8 @@ export namespace Prisma {
     company_name?: StringFieldUpdateOperationsInput | string
     ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17121,6 +17239,8 @@ export namespace Prisma {
     company_name?: StringFieldUpdateOperationsInput | string
     ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
     company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string

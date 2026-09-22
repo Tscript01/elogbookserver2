@@ -163,6 +163,8 @@ exports.Prisma.PlacementScalarFieldEnum = {
   ind_supervisor_id: 'ind_supervisor_id',
   inst_coordinator_id: 'inst_coordinator_id',
   company_address: 'company_address',
+  ind_supervisor_name: 'ind_supervisor_name',
+  ind_supervisor_email: 'ind_supervisor_email',
   company_contact: 'company_contact',
   company_email: 'company_email',
   start_date: 'start_date',

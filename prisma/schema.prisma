@@ -91,6 +91,8 @@ model Placement {
   ind_supervisor_id   String?   @db.Uuid
   inst_coordinator_id String?   @db.Uuid
   company_address     String?
+  ind_supervisor_name String?
+  ind_supervisor_email String?
   company_contact     String?
   company_email       String?
   start_date          DateTime

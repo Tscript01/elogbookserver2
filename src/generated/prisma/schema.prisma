@@ -86,16 +86,18 @@ model RefreshToken {
 }
 
 model Placement {
-  id                  String   @id @default(uuid()) @db.Uuid
-  student_id          String   @db.Uuid
-  company_name        String
-  ind_supervisor_id   String?  @db.Uuid
-  inst_coordinator_id String?  @db.Uuid
-  company_address     String?
-  company_contact     String?
-  company_email       String?
-  start_date          DateTime
-  end_date            DateTime
+  id                   String   @id @default(uuid()) @db.Uuid
+  student_id           String   @db.Uuid
+  company_name         String
+  ind_supervisor_id    String?  @db.Uuid
+  inst_coordinator_id  String?  @db.Uuid
+  company_address      String?
+  ind_supervisor_name  String?
+  ind_supervisor_email String?
+  company_contact      String?
+  company_email        String?
+  start_date           DateTime
+  end_date             DateTime
 
   student            User               @relation("StudentPlacements", fields: [student_id], references: [id], onDelete: Cascade)
   ind_supervisor     User?              @relation("IndSupervisorPlacements", fields: [ind_supervisor_id], references: [id], onDelete: Cascade)
