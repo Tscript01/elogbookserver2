@@ -17,12 +17,13 @@ export async function getAssignedTrainees(
       throw new ForbiddenError('Supervisor authentication required');
     }
 
-    // Find placements where this user is linked via ind_supervisor_id or ind_supervisor_email
+    const cleanEmail = supervisorEmail ? supervisorEmail.trim().toLowerCase() : '';
+
     const placements = await prisma.placement.findMany({
       where: {
         OR: [
           { ind_supervisor_id: supervisorId },
-          { ind_supervisor_email: supervisorEmail ? supervisorEmail.trim().toLowerCase() : undefined },
+          { ind_supervisor_email: cleanEmail },
         ],
       },
       include: {
@@ -36,7 +37,7 @@ export async function getAssignedTrainees(
     const trainees = placements.map((p: { id: any; student_id: any; student: { name: any; email: any; matric_no: any; department: any; }; ind_supervisor_name: any; company_name: any; start_date: any; end_date: any; }) => ({
       placement_id: p.id,
       student_id: p.student_id,
-      student_name: p.student?.name || p.ind_supervisor_name || 'Trainee',
+      student_name: p.student?.name || p.ind_supervisor_name,
       email: p.student?.email,
       matric_no: p.student?.matric_no,
       department: p.student?.department || 'Computer Science',
@@ -54,7 +55,6 @@ export async function getAssignedTrainees(
     next(error);
   }
 }
-
 // 2. Get all weekly submissions and daily logs for a specific placement
 export async function getTraineeSubmissions(
   req: AuthenticatedRequest,

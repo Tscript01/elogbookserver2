@@ -215,6 +215,23 @@ exports.Prisma.FinalClearanceScalarFieldEnum = {
   clearance_timestamp: 'clearance_timestamp'
 };
 
+exports.Prisma.LateFillingWaiverScalarFieldEnum = {
+  id: 'id',
+  student_id: 'student_id',
+  placement_id: 'placement_id',
+  week_no: 'week_no',
+  reason: 'reason',
+  granted_by_id: 'granted_by_id',
+  status: 'status',
+  payment_status: 'payment_status',
+  payment_ref: 'payment_ref',
+  amount_paid: 'amount_paid',
+  paid_at: 'paid_at',
+  expires_at: 'expires_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -250,6 +267,19 @@ exports.ClearanceStatus = exports.$Enums.ClearanceStatus = {
   FLAGGED: 'FLAGGED'
 };
 
+exports.WaiverStatus = exports.$Enums.WaiverStatus = {
+  ACTIVE: 'ACTIVE',
+  EXPIRED: 'EXPIRED',
+  REVOKED: 'REVOKED'
+};
+
+exports.WaiverPaymentStatus = exports.$Enums.WaiverPaymentStatus = {
+  FREE_OVERRIDE: 'FREE_OVERRIDE',
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
+  PAID: 'PAID',
+  WAIVED: 'WAIVED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   EligibleStudent: 'EligibleStudent',
@@ -259,7 +289,8 @@ exports.Prisma.ModelName = {
   DailyLog: 'DailyLog',
   WeeklySubmission: 'WeeklySubmission',
   LogBookApproval: 'LogBookApproval',
-  FinalClearance: 'FinalClearance'
+  FinalClearance: 'FinalClearance',
+  LateFillingWaiver: 'LateFillingWaiver'
 };
 
 /**

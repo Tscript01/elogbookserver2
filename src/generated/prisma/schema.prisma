@@ -28,6 +28,19 @@ enum ClearanceStatus {
   FLAGGED
 }
 
+enum WaiverStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED
+}
+
+enum WaiverPaymentStatus {
+  FREE_OVERRIDE
+  PENDING_PAYMENT
+  PAID
+  WAIVED
+}
+
 model User {
   id            String   @id @default(uuid()) @db.Uuid
   email         String   @unique
@@ -37,11 +50,13 @@ model User {
   role          Role     @default(STUDENT)
   created_at    DateTime @default(now())
 
-  studentPlacements         Placement[]       @relation("StudentPlacements")
-  indSupervisorPlacements   Placement[]       @relation("IndSupervisorPlacements")
-  instCoordinatorPlacements Placement[]       @relation("InstCoordinatorPlacements")
+  studentPlacements         Placement[]         @relation("StudentPlacements")
+  indSupervisorPlacements   Placement[]         @relation("IndSupervisorPlacements")
+  instCoordinatorPlacements Placement[]         @relation("InstCoordinatorPlacements")
   approvals                 LogBookApproval[]
   clearances                FinalClearance[]
+  student_waivers           LateFillingWaiver[] @relation("StudentWaivers")
+  granted_waivers           LateFillingWaiver[] @relation("AdminGrantedWaivers")
 
   refreshTokens         RefreshToken[]
   password_reset_tokens PasswordResetToken[]
@@ -87,7 +102,7 @@ model RefreshToken {
 
 model Placement {
   id                   String   @id @default(uuid()) @db.Uuid
-  student_id           String   @db.Uuid
+  student_id           String   @unique @db.Uuid
   company_name         String
   ind_supervisor_id    String?  @db.Uuid
   inst_coordinator_id  String?  @db.Uuid
@@ -99,13 +114,15 @@ model Placement {
   start_date           DateTime
   end_date             DateTime
 
-  student            User               @relation("StudentPlacements", fields: [student_id], references: [id], onDelete: Cascade)
-  ind_supervisor     User?              @relation("IndSupervisorPlacements", fields: [ind_supervisor_id], references: [id], onDelete: Cascade)
-  inst_coordinator   User?              @relation("InstCoordinatorPlacements", fields: [inst_coordinator_id], references: [id], onDelete: Cascade)
+  student            User                @relation("StudentPlacements", fields: [student_id], references: [id], onDelete: Cascade)
+  ind_supervisor     User?               @relation("IndSupervisorPlacements", fields: [ind_supervisor_id], references: [id], onDelete: Cascade)
+  inst_coordinator   User?               @relation("InstCoordinatorPlacements", fields: [inst_coordinator_id], references: [id], onDelete: Cascade)
   daily_logs         DailyLog[]
   weekly_submissions WeeklySubmission[]
   clearance          FinalClearance?
+  waivers            LateFillingWaiver[]
 
+  @@index([ind_supervisor_email])
   @@map("placements")
 }
 
@@ -174,4 +191,29 @@ model FinalClearance {
   itf_official User?     @relation(fields: [itf_official_id], references: [id])
 
   @@map("final_clearances")
+}
+
+model LateFillingWaiver {
+  id             String              @id @default(uuid()) @db.Uuid
+  student_id     String              @db.Uuid
+  placement_id   String              @db.Uuid
+  week_no        Int
+  reason         String?
+  granted_by_id  String?             @db.Uuid
+  status         WaiverStatus        @default(ACTIVE)
+  payment_status WaiverPaymentStatus @default(PENDING_PAYMENT)
+  payment_ref    String?             @unique
+  amount_paid    Decimal?            @db.Decimal(10, 2)
+  paid_at        DateTime?
+  expires_at     DateTime
+  created_at     DateTime            @default(now())
+  updated_at     DateTime            @default(now()) @updatedAt
+
+  student    User      @relation("StudentWaivers", fields: [student_id], references: [id], onDelete: Cascade)
+  placement  Placement @relation(fields: [placement_id], references: [id], onDelete: Cascade)
+  granted_by User?     @relation("AdminGrantedWaivers", fields: [granted_by_id], references: [id])
+
+  @@unique([placement_id, week_no, status])
+  @@index([student_id, week_no])
+  @@map("late_filling_waivers")
 }

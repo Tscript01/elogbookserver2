@@ -58,6 +58,11 @@ export type LogBookApproval = $Result.DefaultSelection<Prisma.$LogBookApprovalPa
  * 
  */
 export type FinalClearance = $Result.DefaultSelection<Prisma.$FinalClearancePayload>
+/**
+ * Model LateFillingWaiver
+ * 
+ */
+export type LateFillingWaiver = $Result.DefaultSelection<Prisma.$LateFillingWaiverPayload>
 
 /**
  * Enums
@@ -92,6 +97,25 @@ export const ClearanceStatus: {
 
 export type ClearanceStatus = (typeof ClearanceStatus)[keyof typeof ClearanceStatus]
 
+
+export const WaiverStatus: {
+  ACTIVE: 'ACTIVE',
+  EXPIRED: 'EXPIRED',
+  REVOKED: 'REVOKED'
+};
+
+export type WaiverStatus = (typeof WaiverStatus)[keyof typeof WaiverStatus]
+
+
+export const WaiverPaymentStatus: {
+  FREE_OVERRIDE: 'FREE_OVERRIDE',
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
+  PAID: 'PAID',
+  WAIVED: 'WAIVED'
+};
+
+export type WaiverPaymentStatus = (typeof WaiverPaymentStatus)[keyof typeof WaiverPaymentStatus]
+
 }
 
 export type Role = $Enums.Role
@@ -105,6 +129,14 @@ export const SubmissionStatus: typeof $Enums.SubmissionStatus
 export type ClearanceStatus = $Enums.ClearanceStatus
 
 export const ClearanceStatus: typeof $Enums.ClearanceStatus
+
+export type WaiverStatus = $Enums.WaiverStatus
+
+export const WaiverStatus: typeof $Enums.WaiverStatus
+
+export type WaiverPaymentStatus = $Enums.WaiverPaymentStatus
+
+export const WaiverPaymentStatus: typeof $Enums.WaiverPaymentStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -316,6 +348,16 @@ export class PrismaClient<
     * ```
     */
   get finalClearance(): Prisma.FinalClearanceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.lateFillingWaiver`: Exposes CRUD operations for the **LateFillingWaiver** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LateFillingWaivers
+    * const lateFillingWaivers = await prisma.lateFillingWaiver.findMany()
+    * ```
+    */
+  get lateFillingWaiver(): Prisma.LateFillingWaiverDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -758,7 +800,8 @@ export namespace Prisma {
     DailyLog: 'DailyLog',
     WeeklySubmission: 'WeeklySubmission',
     LogBookApproval: 'LogBookApproval',
-    FinalClearance: 'FinalClearance'
+    FinalClearance: 'FinalClearance',
+    LateFillingWaiver: 'LateFillingWaiver'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -774,7 +817,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "eligibleStudent" | "passwordResetToken" | "refreshToken" | "placement" | "dailyLog" | "weeklySubmission" | "logBookApproval" | "finalClearance"
+      modelProps: "user" | "eligibleStudent" | "passwordResetToken" | "refreshToken" | "placement" | "dailyLog" | "weeklySubmission" | "logBookApproval" | "finalClearance" | "lateFillingWaiver"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1444,6 +1487,80 @@ export namespace Prisma {
           }
         }
       }
+      LateFillingWaiver: {
+        payload: Prisma.$LateFillingWaiverPayload<ExtArgs>
+        fields: Prisma.LateFillingWaiverFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LateFillingWaiverFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LateFillingWaiverPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LateFillingWaiverFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LateFillingWaiverPayload>
+          }
+          findFirst: {
+            args: Prisma.LateFillingWaiverFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LateFillingWaiverPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LateFillingWaiverFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LateFillingWaiverPayload>
+          }
+          findMany: {
+            args: Prisma.LateFillingWaiverFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LateFillingWaiverPayload>[]
+          }
+          create: {
+            args: Prisma.LateFillingWaiverCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LateFillingWaiverPayload>
+          }
+          createMany: {
+            args: Prisma.LateFillingWaiverCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LateFillingWaiverCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LateFillingWaiverPayload>[]
+          }
+          delete: {
+            args: Prisma.LateFillingWaiverDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LateFillingWaiverPayload>
+          }
+          update: {
+            args: Prisma.LateFillingWaiverUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LateFillingWaiverPayload>
+          }
+          deleteMany: {
+            args: Prisma.LateFillingWaiverDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LateFillingWaiverUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LateFillingWaiverUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LateFillingWaiverPayload>[]
+          }
+          upsert: {
+            args: Prisma.LateFillingWaiverUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LateFillingWaiverPayload>
+          }
+          aggregate: {
+            args: Prisma.LateFillingWaiverAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLateFillingWaiver>
+          }
+          groupBy: {
+            args: Prisma.LateFillingWaiverGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LateFillingWaiverGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LateFillingWaiverCountArgs<ExtArgs>
+            result: $Utils.Optional<LateFillingWaiverCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1561,6 +1678,7 @@ export namespace Prisma {
     weeklySubmission?: WeeklySubmissionOmit
     logBookApproval?: LogBookApprovalOmit
     finalClearance?: FinalClearanceOmit
+    lateFillingWaiver?: LateFillingWaiverOmit
   }
 
   /* Types for Logging */
@@ -1646,6 +1764,8 @@ export namespace Prisma {
     instCoordinatorPlacements: number
     approvals: number
     clearances: number
+    student_waivers: number
+    granted_waivers: number
     refreshTokens: number
     password_reset_tokens: number
   }
@@ -1656,6 +1776,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: boolean | UserCountOutputTypeCountInstCoordinatorPlacementsArgs
     approvals?: boolean | UserCountOutputTypeCountApprovalsArgs
     clearances?: boolean | UserCountOutputTypeCountClearancesArgs
+    student_waivers?: boolean | UserCountOutputTypeCountStudent_waiversArgs
+    granted_waivers?: boolean | UserCountOutputTypeCountGranted_waiversArgs
     refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
     password_reset_tokens?: boolean | UserCountOutputTypeCountPassword_reset_tokensArgs
   }
@@ -1709,6 +1831,20 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountStudent_waiversArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LateFillingWaiverWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountGranted_waiversArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LateFillingWaiverWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountRefreshTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RefreshTokenWhereInput
   }
@@ -1728,11 +1864,13 @@ export namespace Prisma {
   export type PlacementCountOutputType = {
     daily_logs: number
     weekly_submissions: number
+    waivers: number
   }
 
   export type PlacementCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     daily_logs?: boolean | PlacementCountOutputTypeCountDaily_logsArgs
     weekly_submissions?: boolean | PlacementCountOutputTypeCountWeekly_submissionsArgs
+    waivers?: boolean | PlacementCountOutputTypeCountWaiversArgs
   }
 
   // Custom InputTypes
@@ -1758,6 +1896,13 @@ export namespace Prisma {
    */
   export type PlacementCountOutputTypeCountWeekly_submissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: WeeklySubmissionWhereInput
+  }
+
+  /**
+   * PlacementCountOutputType without action
+   */
+  export type PlacementCountOutputTypeCountWaiversArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LateFillingWaiverWhereInput
   }
 
 
@@ -1990,6 +2135,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: boolean | User$instCoordinatorPlacementsArgs<ExtArgs>
     approvals?: boolean | User$approvalsArgs<ExtArgs>
     clearances?: boolean | User$clearancesArgs<ExtArgs>
+    student_waivers?: boolean | User$student_waiversArgs<ExtArgs>
+    granted_waivers?: boolean | User$granted_waiversArgs<ExtArgs>
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
     password_reset_tokens?: boolean | User$password_reset_tokensArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2032,6 +2179,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: boolean | User$instCoordinatorPlacementsArgs<ExtArgs>
     approvals?: boolean | User$approvalsArgs<ExtArgs>
     clearances?: boolean | User$clearancesArgs<ExtArgs>
+    student_waivers?: boolean | User$student_waiversArgs<ExtArgs>
+    granted_waivers?: boolean | User$granted_waiversArgs<ExtArgs>
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
     password_reset_tokens?: boolean | User$password_reset_tokensArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -2047,6 +2196,8 @@ export namespace Prisma {
       instCoordinatorPlacements: Prisma.$PlacementPayload<ExtArgs>[]
       approvals: Prisma.$LogBookApprovalPayload<ExtArgs>[]
       clearances: Prisma.$FinalClearancePayload<ExtArgs>[]
+      student_waivers: Prisma.$LateFillingWaiverPayload<ExtArgs>[]
+      granted_waivers: Prisma.$LateFillingWaiverPayload<ExtArgs>[]
       refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
       password_reset_tokens: Prisma.$PasswordResetTokenPayload<ExtArgs>[]
     }
@@ -2457,6 +2608,8 @@ export namespace Prisma {
     instCoordinatorPlacements<T extends User$instCoordinatorPlacementsArgs<ExtArgs> = {}>(args?: Subset<T, User$instCoordinatorPlacementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlacementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     approvals<T extends User$approvalsArgs<ExtArgs> = {}>(args?: Subset<T, User$approvalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LogBookApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     clearances<T extends User$clearancesArgs<ExtArgs> = {}>(args?: Subset<T, User$clearancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinalClearancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    student_waivers<T extends User$student_waiversArgs<ExtArgs> = {}>(args?: Subset<T, User$student_waiversArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    granted_waivers<T extends User$granted_waiversArgs<ExtArgs> = {}>(args?: Subset<T, User$granted_waiversArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     refreshTokens<T extends User$refreshTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     password_reset_tokens<T extends User$password_reset_tokensArgs<ExtArgs> = {}>(args?: Subset<T, User$password_reset_tokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -3005,6 +3158,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FinalClearanceScalarFieldEnum | FinalClearanceScalarFieldEnum[]
+  }
+
+  /**
+   * User.student_waivers
+   */
+  export type User$student_waiversArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LateFillingWaiver
+     */
+    select?: LateFillingWaiverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LateFillingWaiver
+     */
+    omit?: LateFillingWaiverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LateFillingWaiverInclude<ExtArgs> | null
+    where?: LateFillingWaiverWhereInput
+    orderBy?: LateFillingWaiverOrderByWithRelationInput | LateFillingWaiverOrderByWithRelationInput[]
+    cursor?: LateFillingWaiverWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LateFillingWaiverScalarFieldEnum | LateFillingWaiverScalarFieldEnum[]
+  }
+
+  /**
+   * User.granted_waivers
+   */
+  export type User$granted_waiversArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LateFillingWaiver
+     */
+    select?: LateFillingWaiverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LateFillingWaiver
+     */
+    omit?: LateFillingWaiverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LateFillingWaiverInclude<ExtArgs> | null
+    where?: LateFillingWaiverWhereInput
+    orderBy?: LateFillingWaiverOrderByWithRelationInput | LateFillingWaiverOrderByWithRelationInput[]
+    cursor?: LateFillingWaiverWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LateFillingWaiverScalarFieldEnum | LateFillingWaiverScalarFieldEnum[]
   }
 
   /**
@@ -6452,6 +6653,7 @@ export namespace Prisma {
     daily_logs?: boolean | Placement$daily_logsArgs<ExtArgs>
     weekly_submissions?: boolean | Placement$weekly_submissionsArgs<ExtArgs>
     clearance?: boolean | Placement$clearanceArgs<ExtArgs>
+    waivers?: boolean | Placement$waiversArgs<ExtArgs>
     _count?: boolean | PlacementCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["placement"]>
 
@@ -6514,6 +6716,7 @@ export namespace Prisma {
     daily_logs?: boolean | Placement$daily_logsArgs<ExtArgs>
     weekly_submissions?: boolean | Placement$weekly_submissionsArgs<ExtArgs>
     clearance?: boolean | Placement$clearanceArgs<ExtArgs>
+    waivers?: boolean | Placement$waiversArgs<ExtArgs>
     _count?: boolean | PlacementCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PlacementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6536,6 +6739,7 @@ export namespace Prisma {
       daily_logs: Prisma.$DailyLogPayload<ExtArgs>[]
       weekly_submissions: Prisma.$WeeklySubmissionPayload<ExtArgs>[]
       clearance: Prisma.$FinalClearancePayload<ExtArgs> | null
+      waivers: Prisma.$LateFillingWaiverPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6950,6 +7154,7 @@ export namespace Prisma {
     daily_logs<T extends Placement$daily_logsArgs<ExtArgs> = {}>(args?: Subset<T, Placement$daily_logsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     weekly_submissions<T extends Placement$weekly_submissionsArgs<ExtArgs> = {}>(args?: Subset<T, Placement$weekly_submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WeeklySubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     clearance<T extends Placement$clearanceArgs<ExtArgs> = {}>(args?: Subset<T, Placement$clearanceArgs<ExtArgs>>): Prisma__FinalClearanceClient<$Result.GetResult<Prisma.$FinalClearancePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    waivers<T extends Placement$waiversArgs<ExtArgs> = {}>(args?: Subset<T, Placement$waiversArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7494,6 +7699,30 @@ export namespace Prisma {
      */
     include?: FinalClearanceInclude<ExtArgs> | null
     where?: FinalClearanceWhereInput
+  }
+
+  /**
+   * Placement.waivers
+   */
+  export type Placement$waiversArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LateFillingWaiver
+     */
+    select?: LateFillingWaiverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LateFillingWaiver
+     */
+    omit?: LateFillingWaiverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LateFillingWaiverInclude<ExtArgs> | null
+    where?: LateFillingWaiverWhereInput
+    orderBy?: LateFillingWaiverOrderByWithRelationInput | LateFillingWaiverOrderByWithRelationInput[]
+    cursor?: LateFillingWaiverWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LateFillingWaiverScalarFieldEnum | LateFillingWaiverScalarFieldEnum[]
   }
 
   /**
@@ -12093,6 +12322,1259 @@ export namespace Prisma {
 
 
   /**
+   * Model LateFillingWaiver
+   */
+
+  export type AggregateLateFillingWaiver = {
+    _count: LateFillingWaiverCountAggregateOutputType | null
+    _avg: LateFillingWaiverAvgAggregateOutputType | null
+    _sum: LateFillingWaiverSumAggregateOutputType | null
+    _min: LateFillingWaiverMinAggregateOutputType | null
+    _max: LateFillingWaiverMaxAggregateOutputType | null
+  }
+
+  export type LateFillingWaiverAvgAggregateOutputType = {
+    week_no: number | null
+    amount_paid: Decimal | null
+  }
+
+  export type LateFillingWaiverSumAggregateOutputType = {
+    week_no: number | null
+    amount_paid: Decimal | null
+  }
+
+  export type LateFillingWaiverMinAggregateOutputType = {
+    id: string | null
+    student_id: string | null
+    placement_id: string | null
+    week_no: number | null
+    reason: string | null
+    granted_by_id: string | null
+    status: $Enums.WaiverStatus | null
+    payment_status: $Enums.WaiverPaymentStatus | null
+    payment_ref: string | null
+    amount_paid: Decimal | null
+    paid_at: Date | null
+    expires_at: Date | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type LateFillingWaiverMaxAggregateOutputType = {
+    id: string | null
+    student_id: string | null
+    placement_id: string | null
+    week_no: number | null
+    reason: string | null
+    granted_by_id: string | null
+    status: $Enums.WaiverStatus | null
+    payment_status: $Enums.WaiverPaymentStatus | null
+    payment_ref: string | null
+    amount_paid: Decimal | null
+    paid_at: Date | null
+    expires_at: Date | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type LateFillingWaiverCountAggregateOutputType = {
+    id: number
+    student_id: number
+    placement_id: number
+    week_no: number
+    reason: number
+    granted_by_id: number
+    status: number
+    payment_status: number
+    payment_ref: number
+    amount_paid: number
+    paid_at: number
+    expires_at: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type LateFillingWaiverAvgAggregateInputType = {
+    week_no?: true
+    amount_paid?: true
+  }
+
+  export type LateFillingWaiverSumAggregateInputType = {
+    week_no?: true
+    amount_paid?: true
+  }
+
+  export type LateFillingWaiverMinAggregateInputType = {
+    id?: true
+    student_id?: true
+    placement_id?: true
+    week_no?: true
+    reason?: true
+    granted_by_id?: true
+    status?: true
+    payment_status?: true
+    payment_ref?: true
+    amount_paid?: true
+    paid_at?: true
+    expires_at?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type LateFillingWaiverMaxAggregateInputType = {
+    id?: true
+    student_id?: true
+    placement_id?: true
+    week_no?: true
+    reason?: true
+    granted_by_id?: true
+    status?: true
+    payment_status?: true
+    payment_ref?: true
+    amount_paid?: true
+    paid_at?: true
+    expires_at?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type LateFillingWaiverCountAggregateInputType = {
+    id?: true
+    student_id?: true
+    placement_id?: true
+    week_no?: true
+    reason?: true
+    granted_by_id?: true
+    status?: true
+    payment_status?: true
+    payment_ref?: true
+    amount_paid?: true
+    paid_at?: true
+    expires_at?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type LateFillingWaiverAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LateFillingWaiver to aggregate.
+     */
+    where?: LateFillingWaiverWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LateFillingWaivers to fetch.
+     */
+    orderBy?: LateFillingWaiverOrderByWithRelationInput | LateFillingWaiverOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LateFillingWaiverWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LateFillingWaivers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LateFillingWaivers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LateFillingWaivers
+    **/
+    _count?: true | LateFillingWaiverCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LateFillingWaiverAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LateFillingWaiverSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LateFillingWaiverMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LateFillingWaiverMaxAggregateInputType
+  }
+
+  export type GetLateFillingWaiverAggregateType<T extends LateFillingWaiverAggregateArgs> = {
+        [P in keyof T & keyof AggregateLateFillingWaiver]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLateFillingWaiver[P]>
+      : GetScalarType<T[P], AggregateLateFillingWaiver[P]>
+  }
+
+
+
+
+  export type LateFillingWaiverGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LateFillingWaiverWhereInput
+    orderBy?: LateFillingWaiverOrderByWithAggregationInput | LateFillingWaiverOrderByWithAggregationInput[]
+    by: LateFillingWaiverScalarFieldEnum[] | LateFillingWaiverScalarFieldEnum
+    having?: LateFillingWaiverScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LateFillingWaiverCountAggregateInputType | true
+    _avg?: LateFillingWaiverAvgAggregateInputType
+    _sum?: LateFillingWaiverSumAggregateInputType
+    _min?: LateFillingWaiverMinAggregateInputType
+    _max?: LateFillingWaiverMaxAggregateInputType
+  }
+
+  export type LateFillingWaiverGroupByOutputType = {
+    id: string
+    student_id: string
+    placement_id: string
+    week_no: number
+    reason: string | null
+    granted_by_id: string | null
+    status: $Enums.WaiverStatus
+    payment_status: $Enums.WaiverPaymentStatus
+    payment_ref: string | null
+    amount_paid: Decimal | null
+    paid_at: Date | null
+    expires_at: Date
+    created_at: Date
+    updated_at: Date
+    _count: LateFillingWaiverCountAggregateOutputType | null
+    _avg: LateFillingWaiverAvgAggregateOutputType | null
+    _sum: LateFillingWaiverSumAggregateOutputType | null
+    _min: LateFillingWaiverMinAggregateOutputType | null
+    _max: LateFillingWaiverMaxAggregateOutputType | null
+  }
+
+  type GetLateFillingWaiverGroupByPayload<T extends LateFillingWaiverGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LateFillingWaiverGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LateFillingWaiverGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LateFillingWaiverGroupByOutputType[P]>
+            : GetScalarType<T[P], LateFillingWaiverGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LateFillingWaiverSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    student_id?: boolean
+    placement_id?: boolean
+    week_no?: boolean
+    reason?: boolean
+    granted_by_id?: boolean
+    status?: boolean
+    payment_status?: boolean
+    payment_ref?: boolean
+    amount_paid?: boolean
+    paid_at?: boolean
+    expires_at?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    student?: boolean | UserDefaultArgs<ExtArgs>
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+    granted_by?: boolean | LateFillingWaiver$granted_byArgs<ExtArgs>
+  }, ExtArgs["result"]["lateFillingWaiver"]>
+
+  export type LateFillingWaiverSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    student_id?: boolean
+    placement_id?: boolean
+    week_no?: boolean
+    reason?: boolean
+    granted_by_id?: boolean
+    status?: boolean
+    payment_status?: boolean
+    payment_ref?: boolean
+    amount_paid?: boolean
+    paid_at?: boolean
+    expires_at?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    student?: boolean | UserDefaultArgs<ExtArgs>
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+    granted_by?: boolean | LateFillingWaiver$granted_byArgs<ExtArgs>
+  }, ExtArgs["result"]["lateFillingWaiver"]>
+
+  export type LateFillingWaiverSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    student_id?: boolean
+    placement_id?: boolean
+    week_no?: boolean
+    reason?: boolean
+    granted_by_id?: boolean
+    status?: boolean
+    payment_status?: boolean
+    payment_ref?: boolean
+    amount_paid?: boolean
+    paid_at?: boolean
+    expires_at?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    student?: boolean | UserDefaultArgs<ExtArgs>
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+    granted_by?: boolean | LateFillingWaiver$granted_byArgs<ExtArgs>
+  }, ExtArgs["result"]["lateFillingWaiver"]>
+
+  export type LateFillingWaiverSelectScalar = {
+    id?: boolean
+    student_id?: boolean
+    placement_id?: boolean
+    week_no?: boolean
+    reason?: boolean
+    granted_by_id?: boolean
+    status?: boolean
+    payment_status?: boolean
+    payment_ref?: boolean
+    amount_paid?: boolean
+    paid_at?: boolean
+    expires_at?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type LateFillingWaiverOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "student_id" | "placement_id" | "week_no" | "reason" | "granted_by_id" | "status" | "payment_status" | "payment_ref" | "amount_paid" | "paid_at" | "expires_at" | "created_at" | "updated_at", ExtArgs["result"]["lateFillingWaiver"]>
+  export type LateFillingWaiverInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | UserDefaultArgs<ExtArgs>
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+    granted_by?: boolean | LateFillingWaiver$granted_byArgs<ExtArgs>
+  }
+  export type LateFillingWaiverIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | UserDefaultArgs<ExtArgs>
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+    granted_by?: boolean | LateFillingWaiver$granted_byArgs<ExtArgs>
+  }
+  export type LateFillingWaiverIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | UserDefaultArgs<ExtArgs>
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+    granted_by?: boolean | LateFillingWaiver$granted_byArgs<ExtArgs>
+  }
+
+  export type $LateFillingWaiverPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LateFillingWaiver"
+    objects: {
+      student: Prisma.$UserPayload<ExtArgs>
+      placement: Prisma.$PlacementPayload<ExtArgs>
+      granted_by: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      student_id: string
+      placement_id: string
+      week_no: number
+      reason: string | null
+      granted_by_id: string | null
+      status: $Enums.WaiverStatus
+      payment_status: $Enums.WaiverPaymentStatus
+      payment_ref: string | null
+      amount_paid: Prisma.Decimal | null
+      paid_at: Date | null
+      expires_at: Date
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["lateFillingWaiver"]>
+    composites: {}
+  }
+
+  type LateFillingWaiverGetPayload<S extends boolean | null | undefined | LateFillingWaiverDefaultArgs> = $Result.GetResult<Prisma.$LateFillingWaiverPayload, S>
+
+  type LateFillingWaiverCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LateFillingWaiverFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LateFillingWaiverCountAggregateInputType | true
+    }
+
+  export interface LateFillingWaiverDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LateFillingWaiver'], meta: { name: 'LateFillingWaiver' } }
+    /**
+     * Find zero or one LateFillingWaiver that matches the filter.
+     * @param {LateFillingWaiverFindUniqueArgs} args - Arguments to find a LateFillingWaiver
+     * @example
+     * // Get one LateFillingWaiver
+     * const lateFillingWaiver = await prisma.lateFillingWaiver.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LateFillingWaiverFindUniqueArgs>(args: SelectSubset<T, LateFillingWaiverFindUniqueArgs<ExtArgs>>): Prisma__LateFillingWaiverClient<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LateFillingWaiver that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LateFillingWaiverFindUniqueOrThrowArgs} args - Arguments to find a LateFillingWaiver
+     * @example
+     * // Get one LateFillingWaiver
+     * const lateFillingWaiver = await prisma.lateFillingWaiver.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LateFillingWaiverFindUniqueOrThrowArgs>(args: SelectSubset<T, LateFillingWaiverFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LateFillingWaiverClient<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LateFillingWaiver that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LateFillingWaiverFindFirstArgs} args - Arguments to find a LateFillingWaiver
+     * @example
+     * // Get one LateFillingWaiver
+     * const lateFillingWaiver = await prisma.lateFillingWaiver.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LateFillingWaiverFindFirstArgs>(args?: SelectSubset<T, LateFillingWaiverFindFirstArgs<ExtArgs>>): Prisma__LateFillingWaiverClient<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LateFillingWaiver that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LateFillingWaiverFindFirstOrThrowArgs} args - Arguments to find a LateFillingWaiver
+     * @example
+     * // Get one LateFillingWaiver
+     * const lateFillingWaiver = await prisma.lateFillingWaiver.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LateFillingWaiverFindFirstOrThrowArgs>(args?: SelectSubset<T, LateFillingWaiverFindFirstOrThrowArgs<ExtArgs>>): Prisma__LateFillingWaiverClient<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LateFillingWaivers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LateFillingWaiverFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LateFillingWaivers
+     * const lateFillingWaivers = await prisma.lateFillingWaiver.findMany()
+     * 
+     * // Get first 10 LateFillingWaivers
+     * const lateFillingWaivers = await prisma.lateFillingWaiver.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const lateFillingWaiverWithIdOnly = await prisma.lateFillingWaiver.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LateFillingWaiverFindManyArgs>(args?: SelectSubset<T, LateFillingWaiverFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LateFillingWaiver.
+     * @param {LateFillingWaiverCreateArgs} args - Arguments to create a LateFillingWaiver.
+     * @example
+     * // Create one LateFillingWaiver
+     * const LateFillingWaiver = await prisma.lateFillingWaiver.create({
+     *   data: {
+     *     // ... data to create a LateFillingWaiver
+     *   }
+     * })
+     * 
+     */
+    create<T extends LateFillingWaiverCreateArgs>(args: SelectSubset<T, LateFillingWaiverCreateArgs<ExtArgs>>): Prisma__LateFillingWaiverClient<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LateFillingWaivers.
+     * @param {LateFillingWaiverCreateManyArgs} args - Arguments to create many LateFillingWaivers.
+     * @example
+     * // Create many LateFillingWaivers
+     * const lateFillingWaiver = await prisma.lateFillingWaiver.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LateFillingWaiverCreateManyArgs>(args?: SelectSubset<T, LateFillingWaiverCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LateFillingWaivers and returns the data saved in the database.
+     * @param {LateFillingWaiverCreateManyAndReturnArgs} args - Arguments to create many LateFillingWaivers.
+     * @example
+     * // Create many LateFillingWaivers
+     * const lateFillingWaiver = await prisma.lateFillingWaiver.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LateFillingWaivers and only return the `id`
+     * const lateFillingWaiverWithIdOnly = await prisma.lateFillingWaiver.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LateFillingWaiverCreateManyAndReturnArgs>(args?: SelectSubset<T, LateFillingWaiverCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LateFillingWaiver.
+     * @param {LateFillingWaiverDeleteArgs} args - Arguments to delete one LateFillingWaiver.
+     * @example
+     * // Delete one LateFillingWaiver
+     * const LateFillingWaiver = await prisma.lateFillingWaiver.delete({
+     *   where: {
+     *     // ... filter to delete one LateFillingWaiver
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LateFillingWaiverDeleteArgs>(args: SelectSubset<T, LateFillingWaiverDeleteArgs<ExtArgs>>): Prisma__LateFillingWaiverClient<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LateFillingWaiver.
+     * @param {LateFillingWaiverUpdateArgs} args - Arguments to update one LateFillingWaiver.
+     * @example
+     * // Update one LateFillingWaiver
+     * const lateFillingWaiver = await prisma.lateFillingWaiver.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LateFillingWaiverUpdateArgs>(args: SelectSubset<T, LateFillingWaiverUpdateArgs<ExtArgs>>): Prisma__LateFillingWaiverClient<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LateFillingWaivers.
+     * @param {LateFillingWaiverDeleteManyArgs} args - Arguments to filter LateFillingWaivers to delete.
+     * @example
+     * // Delete a few LateFillingWaivers
+     * const { count } = await prisma.lateFillingWaiver.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LateFillingWaiverDeleteManyArgs>(args?: SelectSubset<T, LateFillingWaiverDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LateFillingWaivers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LateFillingWaiverUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LateFillingWaivers
+     * const lateFillingWaiver = await prisma.lateFillingWaiver.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LateFillingWaiverUpdateManyArgs>(args: SelectSubset<T, LateFillingWaiverUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LateFillingWaivers and returns the data updated in the database.
+     * @param {LateFillingWaiverUpdateManyAndReturnArgs} args - Arguments to update many LateFillingWaivers.
+     * @example
+     * // Update many LateFillingWaivers
+     * const lateFillingWaiver = await prisma.lateFillingWaiver.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LateFillingWaivers and only return the `id`
+     * const lateFillingWaiverWithIdOnly = await prisma.lateFillingWaiver.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LateFillingWaiverUpdateManyAndReturnArgs>(args: SelectSubset<T, LateFillingWaiverUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LateFillingWaiver.
+     * @param {LateFillingWaiverUpsertArgs} args - Arguments to update or create a LateFillingWaiver.
+     * @example
+     * // Update or create a LateFillingWaiver
+     * const lateFillingWaiver = await prisma.lateFillingWaiver.upsert({
+     *   create: {
+     *     // ... data to create a LateFillingWaiver
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LateFillingWaiver we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LateFillingWaiverUpsertArgs>(args: SelectSubset<T, LateFillingWaiverUpsertArgs<ExtArgs>>): Prisma__LateFillingWaiverClient<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LateFillingWaivers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LateFillingWaiverCountArgs} args - Arguments to filter LateFillingWaivers to count.
+     * @example
+     * // Count the number of LateFillingWaivers
+     * const count = await prisma.lateFillingWaiver.count({
+     *   where: {
+     *     // ... the filter for the LateFillingWaivers we want to count
+     *   }
+     * })
+    **/
+    count<T extends LateFillingWaiverCountArgs>(
+      args?: Subset<T, LateFillingWaiverCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LateFillingWaiverCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LateFillingWaiver.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LateFillingWaiverAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LateFillingWaiverAggregateArgs>(args: Subset<T, LateFillingWaiverAggregateArgs>): Prisma.PrismaPromise<GetLateFillingWaiverAggregateType<T>>
+
+    /**
+     * Group by LateFillingWaiver.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LateFillingWaiverGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LateFillingWaiverGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LateFillingWaiverGroupByArgs['orderBy'] }
+        : { orderBy?: LateFillingWaiverGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LateFillingWaiverGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLateFillingWaiverGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LateFillingWaiver model
+   */
+  readonly fields: LateFillingWaiverFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LateFillingWaiver.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LateFillingWaiverClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    student<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    placement<T extends PlacementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlacementDefaultArgs<ExtArgs>>): Prisma__PlacementClient<$Result.GetResult<Prisma.$PlacementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    granted_by<T extends LateFillingWaiver$granted_byArgs<ExtArgs> = {}>(args?: Subset<T, LateFillingWaiver$granted_byArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LateFillingWaiver model
+   */
+  interface LateFillingWaiverFieldRefs {
+    readonly id: FieldRef<"LateFillingWaiver", 'String'>
+    readonly student_id: FieldRef<"LateFillingWaiver", 'String'>
+    readonly placement_id: FieldRef<"LateFillingWaiver", 'String'>
+    readonly week_no: FieldRef<"LateFillingWaiver", 'Int'>
+    readonly reason: FieldRef<"LateFillingWaiver", 'String'>
+    readonly granted_by_id: FieldRef<"LateFillingWaiver", 'String'>
+    readonly status: FieldRef<"LateFillingWaiver", 'WaiverStatus'>
+    readonly payment_status: FieldRef<"LateFillingWaiver", 'WaiverPaymentStatus'>
+    readonly payment_ref: FieldRef<"LateFillingWaiver", 'String'>
+    readonly amount_paid: FieldRef<"LateFillingWaiver", 'Decimal'>
+    readonly paid_at: FieldRef<"LateFillingWaiver", 'DateTime'>
+    readonly expires_at: FieldRef<"LateFillingWaiver", 'DateTime'>
+    readonly created_at: FieldRef<"LateFillingWaiver", 'DateTime'>
+    readonly updated_at: FieldRef<"LateFillingWaiver", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LateFillingWaiver findUnique
+   */
+  export type LateFillingWaiverFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LateFillingWaiver
+     */
+    select?: LateFillingWaiverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LateFillingWaiver
+     */
+    omit?: LateFillingWaiverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LateFillingWaiverInclude<ExtArgs> | null
+    /**
+     * Filter, which LateFillingWaiver to fetch.
+     */
+    where: LateFillingWaiverWhereUniqueInput
+  }
+
+  /**
+   * LateFillingWaiver findUniqueOrThrow
+   */
+  export type LateFillingWaiverFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LateFillingWaiver
+     */
+    select?: LateFillingWaiverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LateFillingWaiver
+     */
+    omit?: LateFillingWaiverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LateFillingWaiverInclude<ExtArgs> | null
+    /**
+     * Filter, which LateFillingWaiver to fetch.
+     */
+    where: LateFillingWaiverWhereUniqueInput
+  }
+
+  /**
+   * LateFillingWaiver findFirst
+   */
+  export type LateFillingWaiverFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LateFillingWaiver
+     */
+    select?: LateFillingWaiverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LateFillingWaiver
+     */
+    omit?: LateFillingWaiverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LateFillingWaiverInclude<ExtArgs> | null
+    /**
+     * Filter, which LateFillingWaiver to fetch.
+     */
+    where?: LateFillingWaiverWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LateFillingWaivers to fetch.
+     */
+    orderBy?: LateFillingWaiverOrderByWithRelationInput | LateFillingWaiverOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LateFillingWaivers.
+     */
+    cursor?: LateFillingWaiverWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LateFillingWaivers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LateFillingWaivers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LateFillingWaivers.
+     */
+    distinct?: LateFillingWaiverScalarFieldEnum | LateFillingWaiverScalarFieldEnum[]
+  }
+
+  /**
+   * LateFillingWaiver findFirstOrThrow
+   */
+  export type LateFillingWaiverFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LateFillingWaiver
+     */
+    select?: LateFillingWaiverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LateFillingWaiver
+     */
+    omit?: LateFillingWaiverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LateFillingWaiverInclude<ExtArgs> | null
+    /**
+     * Filter, which LateFillingWaiver to fetch.
+     */
+    where?: LateFillingWaiverWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LateFillingWaivers to fetch.
+     */
+    orderBy?: LateFillingWaiverOrderByWithRelationInput | LateFillingWaiverOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LateFillingWaivers.
+     */
+    cursor?: LateFillingWaiverWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LateFillingWaivers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LateFillingWaivers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LateFillingWaivers.
+     */
+    distinct?: LateFillingWaiverScalarFieldEnum | LateFillingWaiverScalarFieldEnum[]
+  }
+
+  /**
+   * LateFillingWaiver findMany
+   */
+  export type LateFillingWaiverFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LateFillingWaiver
+     */
+    select?: LateFillingWaiverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LateFillingWaiver
+     */
+    omit?: LateFillingWaiverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LateFillingWaiverInclude<ExtArgs> | null
+    /**
+     * Filter, which LateFillingWaivers to fetch.
+     */
+    where?: LateFillingWaiverWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LateFillingWaivers to fetch.
+     */
+    orderBy?: LateFillingWaiverOrderByWithRelationInput | LateFillingWaiverOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LateFillingWaivers.
+     */
+    cursor?: LateFillingWaiverWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LateFillingWaivers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LateFillingWaivers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LateFillingWaivers.
+     */
+    distinct?: LateFillingWaiverScalarFieldEnum | LateFillingWaiverScalarFieldEnum[]
+  }
+
+  /**
+   * LateFillingWaiver create
+   */
+  export type LateFillingWaiverCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LateFillingWaiver
+     */
+    select?: LateFillingWaiverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LateFillingWaiver
+     */
+    omit?: LateFillingWaiverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LateFillingWaiverInclude<ExtArgs> | null
+    /**
+     * The data needed to create a LateFillingWaiver.
+     */
+    data: XOR<LateFillingWaiverCreateInput, LateFillingWaiverUncheckedCreateInput>
+  }
+
+  /**
+   * LateFillingWaiver createMany
+   */
+  export type LateFillingWaiverCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LateFillingWaivers.
+     */
+    data: LateFillingWaiverCreateManyInput | LateFillingWaiverCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LateFillingWaiver createManyAndReturn
+   */
+  export type LateFillingWaiverCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LateFillingWaiver
+     */
+    select?: LateFillingWaiverSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LateFillingWaiver
+     */
+    omit?: LateFillingWaiverOmit<ExtArgs> | null
+    /**
+     * The data used to create many LateFillingWaivers.
+     */
+    data: LateFillingWaiverCreateManyInput | LateFillingWaiverCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LateFillingWaiverIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LateFillingWaiver update
+   */
+  export type LateFillingWaiverUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LateFillingWaiver
+     */
+    select?: LateFillingWaiverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LateFillingWaiver
+     */
+    omit?: LateFillingWaiverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LateFillingWaiverInclude<ExtArgs> | null
+    /**
+     * The data needed to update a LateFillingWaiver.
+     */
+    data: XOR<LateFillingWaiverUpdateInput, LateFillingWaiverUncheckedUpdateInput>
+    /**
+     * Choose, which LateFillingWaiver to update.
+     */
+    where: LateFillingWaiverWhereUniqueInput
+  }
+
+  /**
+   * LateFillingWaiver updateMany
+   */
+  export type LateFillingWaiverUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LateFillingWaivers.
+     */
+    data: XOR<LateFillingWaiverUpdateManyMutationInput, LateFillingWaiverUncheckedUpdateManyInput>
+    /**
+     * Filter which LateFillingWaivers to update
+     */
+    where?: LateFillingWaiverWhereInput
+    /**
+     * Limit how many LateFillingWaivers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LateFillingWaiver updateManyAndReturn
+   */
+  export type LateFillingWaiverUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LateFillingWaiver
+     */
+    select?: LateFillingWaiverSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LateFillingWaiver
+     */
+    omit?: LateFillingWaiverOmit<ExtArgs> | null
+    /**
+     * The data used to update LateFillingWaivers.
+     */
+    data: XOR<LateFillingWaiverUpdateManyMutationInput, LateFillingWaiverUncheckedUpdateManyInput>
+    /**
+     * Filter which LateFillingWaivers to update
+     */
+    where?: LateFillingWaiverWhereInput
+    /**
+     * Limit how many LateFillingWaivers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LateFillingWaiverIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * LateFillingWaiver upsert
+   */
+  export type LateFillingWaiverUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LateFillingWaiver
+     */
+    select?: LateFillingWaiverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LateFillingWaiver
+     */
+    omit?: LateFillingWaiverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LateFillingWaiverInclude<ExtArgs> | null
+    /**
+     * The filter to search for the LateFillingWaiver to update in case it exists.
+     */
+    where: LateFillingWaiverWhereUniqueInput
+    /**
+     * In case the LateFillingWaiver found by the `where` argument doesn't exist, create a new LateFillingWaiver with this data.
+     */
+    create: XOR<LateFillingWaiverCreateInput, LateFillingWaiverUncheckedCreateInput>
+    /**
+     * In case the LateFillingWaiver was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LateFillingWaiverUpdateInput, LateFillingWaiverUncheckedUpdateInput>
+  }
+
+  /**
+   * LateFillingWaiver delete
+   */
+  export type LateFillingWaiverDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LateFillingWaiver
+     */
+    select?: LateFillingWaiverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LateFillingWaiver
+     */
+    omit?: LateFillingWaiverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LateFillingWaiverInclude<ExtArgs> | null
+    /**
+     * Filter which LateFillingWaiver to delete.
+     */
+    where: LateFillingWaiverWhereUniqueInput
+  }
+
+  /**
+   * LateFillingWaiver deleteMany
+   */
+  export type LateFillingWaiverDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LateFillingWaivers to delete
+     */
+    where?: LateFillingWaiverWhereInput
+    /**
+     * Limit how many LateFillingWaivers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LateFillingWaiver.granted_by
+   */
+  export type LateFillingWaiver$granted_byArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * LateFillingWaiver without action
+   */
+  export type LateFillingWaiverDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LateFillingWaiver
+     */
+    select?: LateFillingWaiverSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LateFillingWaiver
+     */
+    omit?: LateFillingWaiverOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LateFillingWaiverInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -12228,6 +13710,26 @@ export namespace Prisma {
   export type FinalClearanceScalarFieldEnum = (typeof FinalClearanceScalarFieldEnum)[keyof typeof FinalClearanceScalarFieldEnum]
 
 
+  export const LateFillingWaiverScalarFieldEnum: {
+    id: 'id',
+    student_id: 'student_id',
+    placement_id: 'placement_id',
+    week_no: 'week_no',
+    reason: 'reason',
+    granted_by_id: 'granted_by_id',
+    status: 'status',
+    payment_status: 'payment_status',
+    payment_ref: 'payment_ref',
+    amount_paid: 'amount_paid',
+    paid_at: 'paid_at',
+    expires_at: 'expires_at',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type LateFillingWaiverScalarFieldEnum = (typeof LateFillingWaiverScalarFieldEnum)[keyof typeof LateFillingWaiverScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -12349,6 +13851,48 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'WaiverStatus'
+   */
+  export type EnumWaiverStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WaiverStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'WaiverStatus[]'
+   */
+  export type ListEnumWaiverStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WaiverStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'WaiverPaymentStatus'
+   */
+  export type EnumWaiverPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WaiverPaymentStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'WaiverPaymentStatus[]'
+   */
+  export type ListEnumWaiverPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WaiverPaymentStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal'
+   */
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal[]'
+   */
+  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -12381,6 +13925,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementListRelationFilter
     approvals?: LogBookApprovalListRelationFilter
     clearances?: FinalClearanceListRelationFilter
+    student_waivers?: LateFillingWaiverListRelationFilter
+    granted_waivers?: LateFillingWaiverListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
     password_reset_tokens?: PasswordResetTokenListRelationFilter
   }
@@ -12398,6 +13944,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementOrderByRelationAggregateInput
     approvals?: LogBookApprovalOrderByRelationAggregateInput
     clearances?: FinalClearanceOrderByRelationAggregateInput
+    student_waivers?: LateFillingWaiverOrderByRelationAggregateInput
+    granted_waivers?: LateFillingWaiverOrderByRelationAggregateInput
     refreshTokens?: RefreshTokenOrderByRelationAggregateInput
     password_reset_tokens?: PasswordResetTokenOrderByRelationAggregateInput
   }
@@ -12418,6 +13966,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementListRelationFilter
     approvals?: LogBookApprovalListRelationFilter
     clearances?: FinalClearanceListRelationFilter
+    student_waivers?: LateFillingWaiverListRelationFilter
+    granted_waivers?: LateFillingWaiverListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
     password_reset_tokens?: PasswordResetTokenListRelationFilter
   }, "id" | "email" | "matric_no">
@@ -12642,6 +14192,7 @@ export namespace Prisma {
     daily_logs?: DailyLogListRelationFilter
     weekly_submissions?: WeeklySubmissionListRelationFilter
     clearance?: XOR<FinalClearanceNullableScalarRelationFilter, FinalClearanceWhereInput> | null
+    waivers?: LateFillingWaiverListRelationFilter
   }
 
   export type PlacementOrderByWithRelationInput = {
@@ -12663,14 +14214,15 @@ export namespace Prisma {
     daily_logs?: DailyLogOrderByRelationAggregateInput
     weekly_submissions?: WeeklySubmissionOrderByRelationAggregateInput
     clearance?: FinalClearanceOrderByWithRelationInput
+    waivers?: LateFillingWaiverOrderByRelationAggregateInput
   }
 
   export type PlacementWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    student_id?: string
     AND?: PlacementWhereInput | PlacementWhereInput[]
     OR?: PlacementWhereInput[]
     NOT?: PlacementWhereInput | PlacementWhereInput[]
-    student_id?: UuidFilter<"Placement"> | string
     company_name?: StringFilter<"Placement"> | string
     ind_supervisor_id?: UuidNullableFilter<"Placement"> | string | null
     inst_coordinator_id?: UuidNullableFilter<"Placement"> | string | null
@@ -12687,7 +14239,8 @@ export namespace Prisma {
     daily_logs?: DailyLogListRelationFilter
     weekly_submissions?: WeeklySubmissionListRelationFilter
     clearance?: XOR<FinalClearanceNullableScalarRelationFilter, FinalClearanceWhereInput> | null
-  }, "id">
+    waivers?: LateFillingWaiverListRelationFilter
+  }, "id" | "student_id">
 
   export type PlacementOrderByWithAggregationInput = {
     id?: SortOrder
@@ -13026,6 +14579,115 @@ export namespace Prisma {
     clearance_timestamp?: DateTimeNullableWithAggregatesFilter<"FinalClearance"> | Date | string | null
   }
 
+  export type LateFillingWaiverWhereInput = {
+    AND?: LateFillingWaiverWhereInput | LateFillingWaiverWhereInput[]
+    OR?: LateFillingWaiverWhereInput[]
+    NOT?: LateFillingWaiverWhereInput | LateFillingWaiverWhereInput[]
+    id?: UuidFilter<"LateFillingWaiver"> | string
+    student_id?: UuidFilter<"LateFillingWaiver"> | string
+    placement_id?: UuidFilter<"LateFillingWaiver"> | string
+    week_no?: IntFilter<"LateFillingWaiver"> | number
+    reason?: StringNullableFilter<"LateFillingWaiver"> | string | null
+    granted_by_id?: UuidNullableFilter<"LateFillingWaiver"> | string | null
+    status?: EnumWaiverStatusFilter<"LateFillingWaiver"> | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFilter<"LateFillingWaiver"> | $Enums.WaiverPaymentStatus
+    payment_ref?: StringNullableFilter<"LateFillingWaiver"> | string | null
+    amount_paid?: DecimalNullableFilter<"LateFillingWaiver"> | Decimal | DecimalJsLike | number | string | null
+    paid_at?: DateTimeNullableFilter<"LateFillingWaiver"> | Date | string | null
+    expires_at?: DateTimeFilter<"LateFillingWaiver"> | Date | string
+    created_at?: DateTimeFilter<"LateFillingWaiver"> | Date | string
+    updated_at?: DateTimeFilter<"LateFillingWaiver"> | Date | string
+    student?: XOR<UserScalarRelationFilter, UserWhereInput>
+    placement?: XOR<PlacementScalarRelationFilter, PlacementWhereInput>
+    granted_by?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type LateFillingWaiverOrderByWithRelationInput = {
+    id?: SortOrder
+    student_id?: SortOrder
+    placement_id?: SortOrder
+    week_no?: SortOrder
+    reason?: SortOrderInput | SortOrder
+    granted_by_id?: SortOrderInput | SortOrder
+    status?: SortOrder
+    payment_status?: SortOrder
+    payment_ref?: SortOrderInput | SortOrder
+    amount_paid?: SortOrderInput | SortOrder
+    paid_at?: SortOrderInput | SortOrder
+    expires_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    student?: UserOrderByWithRelationInput
+    placement?: PlacementOrderByWithRelationInput
+    granted_by?: UserOrderByWithRelationInput
+  }
+
+  export type LateFillingWaiverWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    payment_ref?: string
+    placement_id_week_no_status?: LateFillingWaiverPlacement_idWeek_noStatusCompoundUniqueInput
+    AND?: LateFillingWaiverWhereInput | LateFillingWaiverWhereInput[]
+    OR?: LateFillingWaiverWhereInput[]
+    NOT?: LateFillingWaiverWhereInput | LateFillingWaiverWhereInput[]
+    student_id?: UuidFilter<"LateFillingWaiver"> | string
+    placement_id?: UuidFilter<"LateFillingWaiver"> | string
+    week_no?: IntFilter<"LateFillingWaiver"> | number
+    reason?: StringNullableFilter<"LateFillingWaiver"> | string | null
+    granted_by_id?: UuidNullableFilter<"LateFillingWaiver"> | string | null
+    status?: EnumWaiverStatusFilter<"LateFillingWaiver"> | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFilter<"LateFillingWaiver"> | $Enums.WaiverPaymentStatus
+    amount_paid?: DecimalNullableFilter<"LateFillingWaiver"> | Decimal | DecimalJsLike | number | string | null
+    paid_at?: DateTimeNullableFilter<"LateFillingWaiver"> | Date | string | null
+    expires_at?: DateTimeFilter<"LateFillingWaiver"> | Date | string
+    created_at?: DateTimeFilter<"LateFillingWaiver"> | Date | string
+    updated_at?: DateTimeFilter<"LateFillingWaiver"> | Date | string
+    student?: XOR<UserScalarRelationFilter, UserWhereInput>
+    placement?: XOR<PlacementScalarRelationFilter, PlacementWhereInput>
+    granted_by?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id" | "payment_ref" | "placement_id_week_no_status">
+
+  export type LateFillingWaiverOrderByWithAggregationInput = {
+    id?: SortOrder
+    student_id?: SortOrder
+    placement_id?: SortOrder
+    week_no?: SortOrder
+    reason?: SortOrderInput | SortOrder
+    granted_by_id?: SortOrderInput | SortOrder
+    status?: SortOrder
+    payment_status?: SortOrder
+    payment_ref?: SortOrderInput | SortOrder
+    amount_paid?: SortOrderInput | SortOrder
+    paid_at?: SortOrderInput | SortOrder
+    expires_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: LateFillingWaiverCountOrderByAggregateInput
+    _avg?: LateFillingWaiverAvgOrderByAggregateInput
+    _max?: LateFillingWaiverMaxOrderByAggregateInput
+    _min?: LateFillingWaiverMinOrderByAggregateInput
+    _sum?: LateFillingWaiverSumOrderByAggregateInput
+  }
+
+  export type LateFillingWaiverScalarWhereWithAggregatesInput = {
+    AND?: LateFillingWaiverScalarWhereWithAggregatesInput | LateFillingWaiverScalarWhereWithAggregatesInput[]
+    OR?: LateFillingWaiverScalarWhereWithAggregatesInput[]
+    NOT?: LateFillingWaiverScalarWhereWithAggregatesInput | LateFillingWaiverScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"LateFillingWaiver"> | string
+    student_id?: UuidWithAggregatesFilter<"LateFillingWaiver"> | string
+    placement_id?: UuidWithAggregatesFilter<"LateFillingWaiver"> | string
+    week_no?: IntWithAggregatesFilter<"LateFillingWaiver"> | number
+    reason?: StringNullableWithAggregatesFilter<"LateFillingWaiver"> | string | null
+    granted_by_id?: UuidNullableWithAggregatesFilter<"LateFillingWaiver"> | string | null
+    status?: EnumWaiverStatusWithAggregatesFilter<"LateFillingWaiver"> | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusWithAggregatesFilter<"LateFillingWaiver"> | $Enums.WaiverPaymentStatus
+    payment_ref?: StringNullableWithAggregatesFilter<"LateFillingWaiver"> | string | null
+    amount_paid?: DecimalNullableWithAggregatesFilter<"LateFillingWaiver"> | Decimal | DecimalJsLike | number | string | null
+    paid_at?: DateTimeNullableWithAggregatesFilter<"LateFillingWaiver"> | Date | string | null
+    expires_at?: DateTimeWithAggregatesFilter<"LateFillingWaiver"> | Date | string
+    created_at?: DateTimeWithAggregatesFilter<"LateFillingWaiver"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"LateFillingWaiver"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -13039,6 +14701,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
   }
@@ -13056,6 +14720,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   }
@@ -13073,6 +14739,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
   }
@@ -13090,6 +14758,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -13320,6 +14990,7 @@ export namespace Prisma {
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUncheckedCreateInput = {
@@ -13338,6 +15009,7 @@ export namespace Prisma {
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUpdateInput = {
@@ -13356,6 +15028,7 @@ export namespace Prisma {
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateInput = {
@@ -13374,6 +15047,7 @@ export namespace Prisma {
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementCreateManyInput = {
@@ -13727,6 +15401,122 @@ export namespace Prisma {
     clearance_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type LateFillingWaiverCreateInput = {
+    id?: string
+    week_no: number
+    reason?: string | null
+    status?: $Enums.WaiverStatus
+    payment_status?: $Enums.WaiverPaymentStatus
+    payment_ref?: string | null
+    amount_paid?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
+    expires_at: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    student: UserCreateNestedOneWithoutStudent_waiversInput
+    placement: PlacementCreateNestedOneWithoutWaiversInput
+    granted_by?: UserCreateNestedOneWithoutGranted_waiversInput
+  }
+
+  export type LateFillingWaiverUncheckedCreateInput = {
+    id?: string
+    student_id: string
+    placement_id: string
+    week_no: number
+    reason?: string | null
+    granted_by_id?: string | null
+    status?: $Enums.WaiverStatus
+    payment_status?: $Enums.WaiverPaymentStatus
+    payment_ref?: string | null
+    amount_paid?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
+    expires_at: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type LateFillingWaiverUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWaiverStatusFieldUpdateOperationsInput | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFieldUpdateOperationsInput | $Enums.WaiverPaymentStatus
+    payment_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    amount_paid?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: UserUpdateOneRequiredWithoutStudent_waiversNestedInput
+    placement?: PlacementUpdateOneRequiredWithoutWaiversNestedInput
+    granted_by?: UserUpdateOneWithoutGranted_waiversNestedInput
+  }
+
+  export type LateFillingWaiverUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    student_id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    granted_by_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWaiverStatusFieldUpdateOperationsInput | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFieldUpdateOperationsInput | $Enums.WaiverPaymentStatus
+    payment_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    amount_paid?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LateFillingWaiverCreateManyInput = {
+    id?: string
+    student_id: string
+    placement_id: string
+    week_no: number
+    reason?: string | null
+    granted_by_id?: string | null
+    status?: $Enums.WaiverStatus
+    payment_status?: $Enums.WaiverPaymentStatus
+    payment_ref?: string | null
+    amount_paid?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
+    expires_at: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type LateFillingWaiverUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWaiverStatusFieldUpdateOperationsInput | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFieldUpdateOperationsInput | $Enums.WaiverPaymentStatus
+    payment_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    amount_paid?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LateFillingWaiverUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    student_id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    granted_by_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWaiverStatusFieldUpdateOperationsInput | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFieldUpdateOperationsInput | $Enums.WaiverPaymentStatus
+    payment_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    amount_paid?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -13805,6 +15595,12 @@ export namespace Prisma {
     none?: FinalClearanceWhereInput
   }
 
+  export type LateFillingWaiverListRelationFilter = {
+    every?: LateFillingWaiverWhereInput
+    some?: LateFillingWaiverWhereInput
+    none?: LateFillingWaiverWhereInput
+  }
+
   export type RefreshTokenListRelationFilter = {
     every?: RefreshTokenWhereInput
     some?: RefreshTokenWhereInput
@@ -13831,6 +15627,10 @@ export namespace Prisma {
   }
 
   export type FinalClearanceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LateFillingWaiverOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -14399,6 +16199,134 @@ export namespace Prisma {
     _max?: NestedEnumClearanceStatusFilter<$PrismaModel>
   }
 
+  export type EnumWaiverStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WaiverStatus | EnumWaiverStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WaiverStatus[] | ListEnumWaiverStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WaiverStatus[] | ListEnumWaiverStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWaiverStatusFilter<$PrismaModel> | $Enums.WaiverStatus
+  }
+
+  export type EnumWaiverPaymentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WaiverPaymentStatus | EnumWaiverPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WaiverPaymentStatus[] | ListEnumWaiverPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WaiverPaymentStatus[] | ListEnumWaiverPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWaiverPaymentStatusFilter<$PrismaModel> | $Enums.WaiverPaymentStatus
+  }
+
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type LateFillingWaiverPlacement_idWeek_noStatusCompoundUniqueInput = {
+    placement_id: string
+    week_no: number
+    status: $Enums.WaiverStatus
+  }
+
+  export type LateFillingWaiverCountOrderByAggregateInput = {
+    id?: SortOrder
+    student_id?: SortOrder
+    placement_id?: SortOrder
+    week_no?: SortOrder
+    reason?: SortOrder
+    granted_by_id?: SortOrder
+    status?: SortOrder
+    payment_status?: SortOrder
+    payment_ref?: SortOrder
+    amount_paid?: SortOrder
+    paid_at?: SortOrder
+    expires_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type LateFillingWaiverAvgOrderByAggregateInput = {
+    week_no?: SortOrder
+    amount_paid?: SortOrder
+  }
+
+  export type LateFillingWaiverMaxOrderByAggregateInput = {
+    id?: SortOrder
+    student_id?: SortOrder
+    placement_id?: SortOrder
+    week_no?: SortOrder
+    reason?: SortOrder
+    granted_by_id?: SortOrder
+    status?: SortOrder
+    payment_status?: SortOrder
+    payment_ref?: SortOrder
+    amount_paid?: SortOrder
+    paid_at?: SortOrder
+    expires_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type LateFillingWaiverMinOrderByAggregateInput = {
+    id?: SortOrder
+    student_id?: SortOrder
+    placement_id?: SortOrder
+    week_no?: SortOrder
+    reason?: SortOrder
+    granted_by_id?: SortOrder
+    status?: SortOrder
+    payment_status?: SortOrder
+    payment_ref?: SortOrder
+    amount_paid?: SortOrder
+    paid_at?: SortOrder
+    expires_at?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type LateFillingWaiverSumOrderByAggregateInput = {
+    week_no?: SortOrder
+    amount_paid?: SortOrder
+  }
+
+  export type EnumWaiverStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WaiverStatus | EnumWaiverStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WaiverStatus[] | ListEnumWaiverStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WaiverStatus[] | ListEnumWaiverStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWaiverStatusWithAggregatesFilter<$PrismaModel> | $Enums.WaiverStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWaiverStatusFilter<$PrismaModel>
+    _max?: NestedEnumWaiverStatusFilter<$PrismaModel>
+  }
+
+  export type EnumWaiverPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WaiverPaymentStatus | EnumWaiverPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WaiverPaymentStatus[] | ListEnumWaiverPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WaiverPaymentStatus[] | ListEnumWaiverPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWaiverPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.WaiverPaymentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWaiverPaymentStatusFilter<$PrismaModel>
+    _max?: NestedEnumWaiverPaymentStatusFilter<$PrismaModel>
+  }
+
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
   export type PlacementCreateNestedManyWithoutStudentInput = {
     create?: XOR<PlacementCreateWithoutStudentInput, PlacementUncheckedCreateWithoutStudentInput> | PlacementCreateWithoutStudentInput[] | PlacementUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: PlacementCreateOrConnectWithoutStudentInput | PlacementCreateOrConnectWithoutStudentInput[]
@@ -14432,6 +16360,20 @@ export namespace Prisma {
     connectOrCreate?: FinalClearanceCreateOrConnectWithoutItf_officialInput | FinalClearanceCreateOrConnectWithoutItf_officialInput[]
     createMany?: FinalClearanceCreateManyItf_officialInputEnvelope
     connect?: FinalClearanceWhereUniqueInput | FinalClearanceWhereUniqueInput[]
+  }
+
+  export type LateFillingWaiverCreateNestedManyWithoutStudentInput = {
+    create?: XOR<LateFillingWaiverCreateWithoutStudentInput, LateFillingWaiverUncheckedCreateWithoutStudentInput> | LateFillingWaiverCreateWithoutStudentInput[] | LateFillingWaiverUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: LateFillingWaiverCreateOrConnectWithoutStudentInput | LateFillingWaiverCreateOrConnectWithoutStudentInput[]
+    createMany?: LateFillingWaiverCreateManyStudentInputEnvelope
+    connect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+  }
+
+  export type LateFillingWaiverCreateNestedManyWithoutGranted_byInput = {
+    create?: XOR<LateFillingWaiverCreateWithoutGranted_byInput, LateFillingWaiverUncheckedCreateWithoutGranted_byInput> | LateFillingWaiverCreateWithoutGranted_byInput[] | LateFillingWaiverUncheckedCreateWithoutGranted_byInput[]
+    connectOrCreate?: LateFillingWaiverCreateOrConnectWithoutGranted_byInput | LateFillingWaiverCreateOrConnectWithoutGranted_byInput[]
+    createMany?: LateFillingWaiverCreateManyGranted_byInputEnvelope
+    connect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
   }
 
   export type RefreshTokenCreateNestedManyWithoutUserInput = {
@@ -14481,6 +16423,20 @@ export namespace Prisma {
     connectOrCreate?: FinalClearanceCreateOrConnectWithoutItf_officialInput | FinalClearanceCreateOrConnectWithoutItf_officialInput[]
     createMany?: FinalClearanceCreateManyItf_officialInputEnvelope
     connect?: FinalClearanceWhereUniqueInput | FinalClearanceWhereUniqueInput[]
+  }
+
+  export type LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<LateFillingWaiverCreateWithoutStudentInput, LateFillingWaiverUncheckedCreateWithoutStudentInput> | LateFillingWaiverCreateWithoutStudentInput[] | LateFillingWaiverUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: LateFillingWaiverCreateOrConnectWithoutStudentInput | LateFillingWaiverCreateOrConnectWithoutStudentInput[]
+    createMany?: LateFillingWaiverCreateManyStudentInputEnvelope
+    connect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+  }
+
+  export type LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput = {
+    create?: XOR<LateFillingWaiverCreateWithoutGranted_byInput, LateFillingWaiverUncheckedCreateWithoutGranted_byInput> | LateFillingWaiverCreateWithoutGranted_byInput[] | LateFillingWaiverUncheckedCreateWithoutGranted_byInput[]
+    connectOrCreate?: LateFillingWaiverCreateOrConnectWithoutGranted_byInput | LateFillingWaiverCreateOrConnectWithoutGranted_byInput[]
+    createMany?: LateFillingWaiverCreateManyGranted_byInputEnvelope
+    connect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
   }
 
   export type RefreshTokenUncheckedCreateNestedManyWithoutUserInput = {
@@ -14583,6 +16539,34 @@ export namespace Prisma {
     deleteMany?: FinalClearanceScalarWhereInput | FinalClearanceScalarWhereInput[]
   }
 
+  export type LateFillingWaiverUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<LateFillingWaiverCreateWithoutStudentInput, LateFillingWaiverUncheckedCreateWithoutStudentInput> | LateFillingWaiverCreateWithoutStudentInput[] | LateFillingWaiverUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: LateFillingWaiverCreateOrConnectWithoutStudentInput | LateFillingWaiverCreateOrConnectWithoutStudentInput[]
+    upsert?: LateFillingWaiverUpsertWithWhereUniqueWithoutStudentInput | LateFillingWaiverUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: LateFillingWaiverCreateManyStudentInputEnvelope
+    set?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    disconnect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    delete?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    connect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    update?: LateFillingWaiverUpdateWithWhereUniqueWithoutStudentInput | LateFillingWaiverUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: LateFillingWaiverUpdateManyWithWhereWithoutStudentInput | LateFillingWaiverUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: LateFillingWaiverScalarWhereInput | LateFillingWaiverScalarWhereInput[]
+  }
+
+  export type LateFillingWaiverUpdateManyWithoutGranted_byNestedInput = {
+    create?: XOR<LateFillingWaiverCreateWithoutGranted_byInput, LateFillingWaiverUncheckedCreateWithoutGranted_byInput> | LateFillingWaiverCreateWithoutGranted_byInput[] | LateFillingWaiverUncheckedCreateWithoutGranted_byInput[]
+    connectOrCreate?: LateFillingWaiverCreateOrConnectWithoutGranted_byInput | LateFillingWaiverCreateOrConnectWithoutGranted_byInput[]
+    upsert?: LateFillingWaiverUpsertWithWhereUniqueWithoutGranted_byInput | LateFillingWaiverUpsertWithWhereUniqueWithoutGranted_byInput[]
+    createMany?: LateFillingWaiverCreateManyGranted_byInputEnvelope
+    set?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    disconnect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    delete?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    connect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    update?: LateFillingWaiverUpdateWithWhereUniqueWithoutGranted_byInput | LateFillingWaiverUpdateWithWhereUniqueWithoutGranted_byInput[]
+    updateMany?: LateFillingWaiverUpdateManyWithWhereWithoutGranted_byInput | LateFillingWaiverUpdateManyWithWhereWithoutGranted_byInput[]
+    deleteMany?: LateFillingWaiverScalarWhereInput | LateFillingWaiverScalarWhereInput[]
+  }
+
   export type RefreshTokenUpdateManyWithoutUserNestedInput = {
     create?: XOR<RefreshTokenCreateWithoutUserInput, RefreshTokenUncheckedCreateWithoutUserInput> | RefreshTokenCreateWithoutUserInput[] | RefreshTokenUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RefreshTokenCreateOrConnectWithoutUserInput | RefreshTokenCreateOrConnectWithoutUserInput[]
@@ -14679,6 +16663,34 @@ export namespace Prisma {
     update?: FinalClearanceUpdateWithWhereUniqueWithoutItf_officialInput | FinalClearanceUpdateWithWhereUniqueWithoutItf_officialInput[]
     updateMany?: FinalClearanceUpdateManyWithWhereWithoutItf_officialInput | FinalClearanceUpdateManyWithWhereWithoutItf_officialInput[]
     deleteMany?: FinalClearanceScalarWhereInput | FinalClearanceScalarWhereInput[]
+  }
+
+  export type LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<LateFillingWaiverCreateWithoutStudentInput, LateFillingWaiverUncheckedCreateWithoutStudentInput> | LateFillingWaiverCreateWithoutStudentInput[] | LateFillingWaiverUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: LateFillingWaiverCreateOrConnectWithoutStudentInput | LateFillingWaiverCreateOrConnectWithoutStudentInput[]
+    upsert?: LateFillingWaiverUpsertWithWhereUniqueWithoutStudentInput | LateFillingWaiverUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: LateFillingWaiverCreateManyStudentInputEnvelope
+    set?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    disconnect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    delete?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    connect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    update?: LateFillingWaiverUpdateWithWhereUniqueWithoutStudentInput | LateFillingWaiverUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: LateFillingWaiverUpdateManyWithWhereWithoutStudentInput | LateFillingWaiverUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: LateFillingWaiverScalarWhereInput | LateFillingWaiverScalarWhereInput[]
+  }
+
+  export type LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput = {
+    create?: XOR<LateFillingWaiverCreateWithoutGranted_byInput, LateFillingWaiverUncheckedCreateWithoutGranted_byInput> | LateFillingWaiverCreateWithoutGranted_byInput[] | LateFillingWaiverUncheckedCreateWithoutGranted_byInput[]
+    connectOrCreate?: LateFillingWaiverCreateOrConnectWithoutGranted_byInput | LateFillingWaiverCreateOrConnectWithoutGranted_byInput[]
+    upsert?: LateFillingWaiverUpsertWithWhereUniqueWithoutGranted_byInput | LateFillingWaiverUpsertWithWhereUniqueWithoutGranted_byInput[]
+    createMany?: LateFillingWaiverCreateManyGranted_byInputEnvelope
+    set?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    disconnect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    delete?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    connect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    update?: LateFillingWaiverUpdateWithWhereUniqueWithoutGranted_byInput | LateFillingWaiverUpdateWithWhereUniqueWithoutGranted_byInput[]
+    updateMany?: LateFillingWaiverUpdateManyWithWhereWithoutGranted_byInput | LateFillingWaiverUpdateManyWithWhereWithoutGranted_byInput[]
+    deleteMany?: LateFillingWaiverScalarWhereInput | LateFillingWaiverScalarWhereInput[]
   }
 
   export type RefreshTokenUncheckedUpdateManyWithoutUserNestedInput = {
@@ -14783,6 +16795,13 @@ export namespace Prisma {
     connect?: FinalClearanceWhereUniqueInput
   }
 
+  export type LateFillingWaiverCreateNestedManyWithoutPlacementInput = {
+    create?: XOR<LateFillingWaiverCreateWithoutPlacementInput, LateFillingWaiverUncheckedCreateWithoutPlacementInput> | LateFillingWaiverCreateWithoutPlacementInput[] | LateFillingWaiverUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: LateFillingWaiverCreateOrConnectWithoutPlacementInput | LateFillingWaiverCreateOrConnectWithoutPlacementInput[]
+    createMany?: LateFillingWaiverCreateManyPlacementInputEnvelope
+    connect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+  }
+
   export type DailyLogUncheckedCreateNestedManyWithoutPlacementInput = {
     create?: XOR<DailyLogCreateWithoutPlacementInput, DailyLogUncheckedCreateWithoutPlacementInput> | DailyLogCreateWithoutPlacementInput[] | DailyLogUncheckedCreateWithoutPlacementInput[]
     connectOrCreate?: DailyLogCreateOrConnectWithoutPlacementInput | DailyLogCreateOrConnectWithoutPlacementInput[]
@@ -14801,6 +16820,13 @@ export namespace Prisma {
     create?: XOR<FinalClearanceCreateWithoutPlacementInput, FinalClearanceUncheckedCreateWithoutPlacementInput>
     connectOrCreate?: FinalClearanceCreateOrConnectWithoutPlacementInput
     connect?: FinalClearanceWhereUniqueInput
+  }
+
+  export type LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput = {
+    create?: XOR<LateFillingWaiverCreateWithoutPlacementInput, LateFillingWaiverUncheckedCreateWithoutPlacementInput> | LateFillingWaiverCreateWithoutPlacementInput[] | LateFillingWaiverUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: LateFillingWaiverCreateOrConnectWithoutPlacementInput | LateFillingWaiverCreateOrConnectWithoutPlacementInput[]
+    createMany?: LateFillingWaiverCreateManyPlacementInputEnvelope
+    connect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutStudentPlacementsNestedInput = {
@@ -14869,6 +16895,20 @@ export namespace Prisma {
     update?: XOR<XOR<FinalClearanceUpdateToOneWithWhereWithoutPlacementInput, FinalClearanceUpdateWithoutPlacementInput>, FinalClearanceUncheckedUpdateWithoutPlacementInput>
   }
 
+  export type LateFillingWaiverUpdateManyWithoutPlacementNestedInput = {
+    create?: XOR<LateFillingWaiverCreateWithoutPlacementInput, LateFillingWaiverUncheckedCreateWithoutPlacementInput> | LateFillingWaiverCreateWithoutPlacementInput[] | LateFillingWaiverUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: LateFillingWaiverCreateOrConnectWithoutPlacementInput | LateFillingWaiverCreateOrConnectWithoutPlacementInput[]
+    upsert?: LateFillingWaiverUpsertWithWhereUniqueWithoutPlacementInput | LateFillingWaiverUpsertWithWhereUniqueWithoutPlacementInput[]
+    createMany?: LateFillingWaiverCreateManyPlacementInputEnvelope
+    set?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    disconnect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    delete?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    connect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    update?: LateFillingWaiverUpdateWithWhereUniqueWithoutPlacementInput | LateFillingWaiverUpdateWithWhereUniqueWithoutPlacementInput[]
+    updateMany?: LateFillingWaiverUpdateManyWithWhereWithoutPlacementInput | LateFillingWaiverUpdateManyWithWhereWithoutPlacementInput[]
+    deleteMany?: LateFillingWaiverScalarWhereInput | LateFillingWaiverScalarWhereInput[]
+  }
+
   export type DailyLogUncheckedUpdateManyWithoutPlacementNestedInput = {
     create?: XOR<DailyLogCreateWithoutPlacementInput, DailyLogUncheckedCreateWithoutPlacementInput> | DailyLogCreateWithoutPlacementInput[] | DailyLogUncheckedCreateWithoutPlacementInput[]
     connectOrCreate?: DailyLogCreateOrConnectWithoutPlacementInput | DailyLogCreateOrConnectWithoutPlacementInput[]
@@ -14905,6 +16945,20 @@ export namespace Prisma {
     delete?: FinalClearanceWhereInput | boolean
     connect?: FinalClearanceWhereUniqueInput
     update?: XOR<XOR<FinalClearanceUpdateToOneWithWhereWithoutPlacementInput, FinalClearanceUpdateWithoutPlacementInput>, FinalClearanceUncheckedUpdateWithoutPlacementInput>
+  }
+
+  export type LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput = {
+    create?: XOR<LateFillingWaiverCreateWithoutPlacementInput, LateFillingWaiverUncheckedCreateWithoutPlacementInput> | LateFillingWaiverCreateWithoutPlacementInput[] | LateFillingWaiverUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: LateFillingWaiverCreateOrConnectWithoutPlacementInput | LateFillingWaiverCreateOrConnectWithoutPlacementInput[]
+    upsert?: LateFillingWaiverUpsertWithWhereUniqueWithoutPlacementInput | LateFillingWaiverUpsertWithWhereUniqueWithoutPlacementInput[]
+    createMany?: LateFillingWaiverCreateManyPlacementInputEnvelope
+    set?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    disconnect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    delete?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    connect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+    update?: LateFillingWaiverUpdateWithWhereUniqueWithoutPlacementInput | LateFillingWaiverUpdateWithWhereUniqueWithoutPlacementInput[]
+    updateMany?: LateFillingWaiverUpdateManyWithWhereWithoutPlacementInput | LateFillingWaiverUpdateManyWithWhereWithoutPlacementInput[]
+    deleteMany?: LateFillingWaiverScalarWhereInput | LateFillingWaiverScalarWhereInput[]
   }
 
   export type PlacementCreateNestedOneWithoutDaily_logsInput = {
@@ -15105,6 +17159,66 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutClearancesInput, UserUpdateWithoutClearancesInput>, UserUncheckedUpdateWithoutClearancesInput>
+  }
+
+  export type UserCreateNestedOneWithoutStudent_waiversInput = {
+    create?: XOR<UserCreateWithoutStudent_waiversInput, UserUncheckedCreateWithoutStudent_waiversInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStudent_waiversInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PlacementCreateNestedOneWithoutWaiversInput = {
+    create?: XOR<PlacementCreateWithoutWaiversInput, PlacementUncheckedCreateWithoutWaiversInput>
+    connectOrCreate?: PlacementCreateOrConnectWithoutWaiversInput
+    connect?: PlacementWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutGranted_waiversInput = {
+    create?: XOR<UserCreateWithoutGranted_waiversInput, UserUncheckedCreateWithoutGranted_waiversInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGranted_waiversInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumWaiverStatusFieldUpdateOperationsInput = {
+    set?: $Enums.WaiverStatus
+  }
+
+  export type EnumWaiverPaymentStatusFieldUpdateOperationsInput = {
+    set?: $Enums.WaiverPaymentStatus
+  }
+
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type UserUpdateOneRequiredWithoutStudent_waiversNestedInput = {
+    create?: XOR<UserCreateWithoutStudent_waiversInput, UserUncheckedCreateWithoutStudent_waiversInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStudent_waiversInput
+    upsert?: UserUpsertWithoutStudent_waiversInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStudent_waiversInput, UserUpdateWithoutStudent_waiversInput>, UserUncheckedUpdateWithoutStudent_waiversInput>
+  }
+
+  export type PlacementUpdateOneRequiredWithoutWaiversNestedInput = {
+    create?: XOR<PlacementCreateWithoutWaiversInput, PlacementUncheckedCreateWithoutWaiversInput>
+    connectOrCreate?: PlacementCreateOrConnectWithoutWaiversInput
+    upsert?: PlacementUpsertWithoutWaiversInput
+    connect?: PlacementWhereUniqueInput
+    update?: XOR<XOR<PlacementUpdateToOneWithWhereWithoutWaiversInput, PlacementUpdateWithoutWaiversInput>, PlacementUncheckedUpdateWithoutWaiversInput>
+  }
+
+  export type UserUpdateOneWithoutGranted_waiversNestedInput = {
+    create?: XOR<UserCreateWithoutGranted_waiversInput, UserUncheckedCreateWithoutGranted_waiversInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGranted_waiversInput
+    upsert?: UserUpsertWithoutGranted_waiversInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGranted_waiversInput, UserUpdateWithoutGranted_waiversInput>, UserUncheckedUpdateWithoutGranted_waiversInput>
   }
 
   export type NestedUuidFilter<$PrismaModel = never> = {
@@ -15382,6 +17496,67 @@ export namespace Prisma {
     _max?: NestedEnumClearanceStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumWaiverStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WaiverStatus | EnumWaiverStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WaiverStatus[] | ListEnumWaiverStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WaiverStatus[] | ListEnumWaiverStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWaiverStatusFilter<$PrismaModel> | $Enums.WaiverStatus
+  }
+
+  export type NestedEnumWaiverPaymentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.WaiverPaymentStatus | EnumWaiverPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WaiverPaymentStatus[] | ListEnumWaiverPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WaiverPaymentStatus[] | ListEnumWaiverPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWaiverPaymentStatusFilter<$PrismaModel> | $Enums.WaiverPaymentStatus
+  }
+
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NestedEnumWaiverStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WaiverStatus | EnumWaiverStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WaiverStatus[] | ListEnumWaiverStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WaiverStatus[] | ListEnumWaiverStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWaiverStatusWithAggregatesFilter<$PrismaModel> | $Enums.WaiverStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWaiverStatusFilter<$PrismaModel>
+    _max?: NestedEnumWaiverStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumWaiverPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.WaiverPaymentStatus | EnumWaiverPaymentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.WaiverPaymentStatus[] | ListEnumWaiverPaymentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.WaiverPaymentStatus[] | ListEnumWaiverPaymentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumWaiverPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.WaiverPaymentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumWaiverPaymentStatusFilter<$PrismaModel>
+    _max?: NestedEnumWaiverPaymentStatusFilter<$PrismaModel>
+  }
+
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
+  }
+
   export type PlacementCreateWithoutStudentInput = {
     id?: string
     company_name: string
@@ -15397,6 +17572,7 @@ export namespace Prisma {
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUncheckedCreateWithoutStudentInput = {
@@ -15414,6 +17590,7 @@ export namespace Prisma {
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementCreateOrConnectWithoutStudentInput = {
@@ -15441,6 +17618,7 @@ export namespace Prisma {
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUncheckedCreateWithoutInd_supervisorInput = {
@@ -15458,6 +17636,7 @@ export namespace Prisma {
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementCreateOrConnectWithoutInd_supervisorInput = {
@@ -15485,6 +17664,7 @@ export namespace Prisma {
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUncheckedCreateWithoutInst_coordinatorInput = {
@@ -15502,6 +17682,7 @@ export namespace Prisma {
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementCreateOrConnectWithoutInst_coordinatorInput = {
@@ -15569,6 +17750,90 @@ export namespace Prisma {
 
   export type FinalClearanceCreateManyItf_officialInputEnvelope = {
     data: FinalClearanceCreateManyItf_officialInput | FinalClearanceCreateManyItf_officialInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LateFillingWaiverCreateWithoutStudentInput = {
+    id?: string
+    week_no: number
+    reason?: string | null
+    status?: $Enums.WaiverStatus
+    payment_status?: $Enums.WaiverPaymentStatus
+    payment_ref?: string | null
+    amount_paid?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
+    expires_at: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    placement: PlacementCreateNestedOneWithoutWaiversInput
+    granted_by?: UserCreateNestedOneWithoutGranted_waiversInput
+  }
+
+  export type LateFillingWaiverUncheckedCreateWithoutStudentInput = {
+    id?: string
+    placement_id: string
+    week_no: number
+    reason?: string | null
+    granted_by_id?: string | null
+    status?: $Enums.WaiverStatus
+    payment_status?: $Enums.WaiverPaymentStatus
+    payment_ref?: string | null
+    amount_paid?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
+    expires_at: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type LateFillingWaiverCreateOrConnectWithoutStudentInput = {
+    where: LateFillingWaiverWhereUniqueInput
+    create: XOR<LateFillingWaiverCreateWithoutStudentInput, LateFillingWaiverUncheckedCreateWithoutStudentInput>
+  }
+
+  export type LateFillingWaiverCreateManyStudentInputEnvelope = {
+    data: LateFillingWaiverCreateManyStudentInput | LateFillingWaiverCreateManyStudentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LateFillingWaiverCreateWithoutGranted_byInput = {
+    id?: string
+    week_no: number
+    reason?: string | null
+    status?: $Enums.WaiverStatus
+    payment_status?: $Enums.WaiverPaymentStatus
+    payment_ref?: string | null
+    amount_paid?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
+    expires_at: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    student: UserCreateNestedOneWithoutStudent_waiversInput
+    placement: PlacementCreateNestedOneWithoutWaiversInput
+  }
+
+  export type LateFillingWaiverUncheckedCreateWithoutGranted_byInput = {
+    id?: string
+    student_id: string
+    placement_id: string
+    week_no: number
+    reason?: string | null
+    status?: $Enums.WaiverStatus
+    payment_status?: $Enums.WaiverPaymentStatus
+    payment_ref?: string | null
+    amount_paid?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
+    expires_at: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type LateFillingWaiverCreateOrConnectWithoutGranted_byInput = {
+    where: LateFillingWaiverWhereUniqueInput
+    create: XOR<LateFillingWaiverCreateWithoutGranted_byInput, LateFillingWaiverUncheckedCreateWithoutGranted_byInput>
+  }
+
+  export type LateFillingWaiverCreateManyGranted_byInputEnvelope = {
+    data: LateFillingWaiverCreateManyGranted_byInput | LateFillingWaiverCreateManyGranted_byInput[]
     skipDuplicates?: boolean
   }
 
@@ -15747,6 +18012,58 @@ export namespace Prisma {
     clearance_timestamp?: DateTimeNullableFilter<"FinalClearance"> | Date | string | null
   }
 
+  export type LateFillingWaiverUpsertWithWhereUniqueWithoutStudentInput = {
+    where: LateFillingWaiverWhereUniqueInput
+    update: XOR<LateFillingWaiverUpdateWithoutStudentInput, LateFillingWaiverUncheckedUpdateWithoutStudentInput>
+    create: XOR<LateFillingWaiverCreateWithoutStudentInput, LateFillingWaiverUncheckedCreateWithoutStudentInput>
+  }
+
+  export type LateFillingWaiverUpdateWithWhereUniqueWithoutStudentInput = {
+    where: LateFillingWaiverWhereUniqueInput
+    data: XOR<LateFillingWaiverUpdateWithoutStudentInput, LateFillingWaiverUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type LateFillingWaiverUpdateManyWithWhereWithoutStudentInput = {
+    where: LateFillingWaiverScalarWhereInput
+    data: XOR<LateFillingWaiverUpdateManyMutationInput, LateFillingWaiverUncheckedUpdateManyWithoutStudentInput>
+  }
+
+  export type LateFillingWaiverScalarWhereInput = {
+    AND?: LateFillingWaiverScalarWhereInput | LateFillingWaiverScalarWhereInput[]
+    OR?: LateFillingWaiverScalarWhereInput[]
+    NOT?: LateFillingWaiverScalarWhereInput | LateFillingWaiverScalarWhereInput[]
+    id?: UuidFilter<"LateFillingWaiver"> | string
+    student_id?: UuidFilter<"LateFillingWaiver"> | string
+    placement_id?: UuidFilter<"LateFillingWaiver"> | string
+    week_no?: IntFilter<"LateFillingWaiver"> | number
+    reason?: StringNullableFilter<"LateFillingWaiver"> | string | null
+    granted_by_id?: UuidNullableFilter<"LateFillingWaiver"> | string | null
+    status?: EnumWaiverStatusFilter<"LateFillingWaiver"> | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFilter<"LateFillingWaiver"> | $Enums.WaiverPaymentStatus
+    payment_ref?: StringNullableFilter<"LateFillingWaiver"> | string | null
+    amount_paid?: DecimalNullableFilter<"LateFillingWaiver"> | Decimal | DecimalJsLike | number | string | null
+    paid_at?: DateTimeNullableFilter<"LateFillingWaiver"> | Date | string | null
+    expires_at?: DateTimeFilter<"LateFillingWaiver"> | Date | string
+    created_at?: DateTimeFilter<"LateFillingWaiver"> | Date | string
+    updated_at?: DateTimeFilter<"LateFillingWaiver"> | Date | string
+  }
+
+  export type LateFillingWaiverUpsertWithWhereUniqueWithoutGranted_byInput = {
+    where: LateFillingWaiverWhereUniqueInput
+    update: XOR<LateFillingWaiverUpdateWithoutGranted_byInput, LateFillingWaiverUncheckedUpdateWithoutGranted_byInput>
+    create: XOR<LateFillingWaiverCreateWithoutGranted_byInput, LateFillingWaiverUncheckedCreateWithoutGranted_byInput>
+  }
+
+  export type LateFillingWaiverUpdateWithWhereUniqueWithoutGranted_byInput = {
+    where: LateFillingWaiverWhereUniqueInput
+    data: XOR<LateFillingWaiverUpdateWithoutGranted_byInput, LateFillingWaiverUncheckedUpdateWithoutGranted_byInput>
+  }
+
+  export type LateFillingWaiverUpdateManyWithWhereWithoutGranted_byInput = {
+    where: LateFillingWaiverScalarWhereInput
+    data: XOR<LateFillingWaiverUpdateManyMutationInput, LateFillingWaiverUncheckedUpdateManyWithoutGranted_byInput>
+  }
+
   export type RefreshTokenUpsertWithWhereUniqueWithoutUserInput = {
     where: RefreshTokenWhereUniqueInput
     update: XOR<RefreshTokenUpdateWithoutUserInput, RefreshTokenUncheckedUpdateWithoutUserInput>
@@ -15815,6 +18132,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
   }
 
@@ -15831,6 +18150,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -15863,6 +18184,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
   }
 
@@ -15879,6 +18202,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -15895,6 +18220,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     password_reset_tokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
   }
 
@@ -15911,6 +18238,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     password_reset_tokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -15943,6 +18272,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     password_reset_tokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
   }
 
@@ -15959,6 +18290,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     password_reset_tokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -15974,6 +18307,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
   }
@@ -15990,6 +18325,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   }
@@ -16011,6 +18348,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
   }
@@ -16027,6 +18366,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   }
@@ -16048,6 +18389,8 @@ export namespace Prisma {
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
   }
@@ -16064,6 +18407,8 @@ export namespace Prisma {
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   }
@@ -16168,6 +18513,48 @@ export namespace Prisma {
     create: XOR<FinalClearanceCreateWithoutPlacementInput, FinalClearanceUncheckedCreateWithoutPlacementInput>
   }
 
+  export type LateFillingWaiverCreateWithoutPlacementInput = {
+    id?: string
+    week_no: number
+    reason?: string | null
+    status?: $Enums.WaiverStatus
+    payment_status?: $Enums.WaiverPaymentStatus
+    payment_ref?: string | null
+    amount_paid?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
+    expires_at: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    student: UserCreateNestedOneWithoutStudent_waiversInput
+    granted_by?: UserCreateNestedOneWithoutGranted_waiversInput
+  }
+
+  export type LateFillingWaiverUncheckedCreateWithoutPlacementInput = {
+    id?: string
+    student_id: string
+    week_no: number
+    reason?: string | null
+    granted_by_id?: string | null
+    status?: $Enums.WaiverStatus
+    payment_status?: $Enums.WaiverPaymentStatus
+    payment_ref?: string | null
+    amount_paid?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
+    expires_at: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type LateFillingWaiverCreateOrConnectWithoutPlacementInput = {
+    where: LateFillingWaiverWhereUniqueInput
+    create: XOR<LateFillingWaiverCreateWithoutPlacementInput, LateFillingWaiverUncheckedCreateWithoutPlacementInput>
+  }
+
+  export type LateFillingWaiverCreateManyPlacementInputEnvelope = {
+    data: LateFillingWaiverCreateManyPlacementInput | LateFillingWaiverCreateManyPlacementInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutStudentPlacementsInput = {
     update: XOR<UserUpdateWithoutStudentPlacementsInput, UserUncheckedUpdateWithoutStudentPlacementsInput>
     create: XOR<UserCreateWithoutStudentPlacementsInput, UserUncheckedCreateWithoutStudentPlacementsInput>
@@ -16191,6 +18578,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
   }
@@ -16207,6 +18596,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -16234,6 +18625,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
   }
@@ -16250,6 +18643,8 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -16277,6 +18672,8 @@ export namespace Prisma {
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
   }
@@ -16293,6 +18690,8 @@ export namespace Prisma {
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -16393,6 +18792,22 @@ export namespace Prisma {
     clearance_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type LateFillingWaiverUpsertWithWhereUniqueWithoutPlacementInput = {
+    where: LateFillingWaiverWhereUniqueInput
+    update: XOR<LateFillingWaiverUpdateWithoutPlacementInput, LateFillingWaiverUncheckedUpdateWithoutPlacementInput>
+    create: XOR<LateFillingWaiverCreateWithoutPlacementInput, LateFillingWaiverUncheckedCreateWithoutPlacementInput>
+  }
+
+  export type LateFillingWaiverUpdateWithWhereUniqueWithoutPlacementInput = {
+    where: LateFillingWaiverWhereUniqueInput
+    data: XOR<LateFillingWaiverUpdateWithoutPlacementInput, LateFillingWaiverUncheckedUpdateWithoutPlacementInput>
+  }
+
+  export type LateFillingWaiverUpdateManyWithWhereWithoutPlacementInput = {
+    where: LateFillingWaiverScalarWhereInput
+    data: XOR<LateFillingWaiverUpdateManyMutationInput, LateFillingWaiverUncheckedUpdateManyWithoutPlacementInput>
+  }
+
   export type PlacementCreateWithoutDaily_logsInput = {
     id?: string
     company_name: string
@@ -16408,6 +18823,7 @@ export namespace Prisma {
     inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUncheckedCreateWithoutDaily_logsInput = {
@@ -16425,6 +18841,7 @@ export namespace Prisma {
     end_date: Date | string
     weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementCreateOrConnectWithoutDaily_logsInput = {
@@ -16489,6 +18906,7 @@ export namespace Prisma {
     inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateWithoutDaily_logsInput = {
@@ -16506,6 +18924,7 @@ export namespace Prisma {
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type WeeklySubmissionUpsertWithoutDaily_logsInput = {
@@ -16560,6 +18979,7 @@ export namespace Prisma {
     inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUncheckedCreateWithoutWeekly_submissionsInput = {
@@ -16577,6 +18997,7 @@ export namespace Prisma {
     end_date: Date | string
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementCreateOrConnectWithoutWeekly_submissionsInput = {
@@ -16664,6 +19085,7 @@ export namespace Prisma {
     inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateWithoutWeekly_submissionsInput = {
@@ -16681,6 +19103,7 @@ export namespace Prisma {
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type DailyLogUpsertWithWhereUniqueWithoutWeekly_submissionInput = {
@@ -16758,6 +19181,8 @@ export namespace Prisma {
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
   }
@@ -16774,6 +19199,8 @@ export namespace Prisma {
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   }
@@ -16843,6 +19270,8 @@ export namespace Prisma {
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
   }
@@ -16859,6 +19288,8 @@ export namespace Prisma {
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -16878,6 +19309,7 @@ export namespace Prisma {
     inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
+    waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUncheckedCreateWithoutClearanceInput = {
@@ -16895,6 +19327,7 @@ export namespace Prisma {
     end_date: Date | string
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
+    waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementCreateOrConnectWithoutClearanceInput = {
@@ -16914,6 +19347,8 @@ export namespace Prisma {
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
+    student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
   }
@@ -16930,6 +19365,8 @@ export namespace Prisma {
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
+    student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
   }
@@ -16965,6 +19402,7 @@ export namespace Prisma {
     inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateWithoutClearanceInput = {
@@ -16982,6 +19420,7 @@ export namespace Prisma {
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type UserUpsertWithoutClearancesInput = {
@@ -17007,6 +19446,8 @@ export namespace Prisma {
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
+    student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
   }
@@ -17023,6 +19464,272 @@ export namespace Prisma {
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
+    student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    password_reset_tokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutStudent_waiversInput = {
+    id?: string
+    email: string
+    matric_no?: string | null
+    password_hash: string
+    name: string
+    role?: $Enums.Role
+    created_at?: Date | string
+    studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
+    indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
+    instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
+    approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
+    clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    password_reset_tokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutStudent_waiversInput = {
+    id?: string
+    email: string
+    matric_no?: string | null
+    password_hash: string
+    name: string
+    role?: $Enums.Role
+    created_at?: Date | string
+    studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
+    indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
+    instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
+    approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
+    clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    password_reset_tokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutStudent_waiversInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutStudent_waiversInput, UserUncheckedCreateWithoutStudent_waiversInput>
+  }
+
+  export type PlacementCreateWithoutWaiversInput = {
+    id?: string
+    company_name: string
+    company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
+    company_contact?: string | null
+    company_email?: string | null
+    start_date: Date | string
+    end_date: Date | string
+    student: UserCreateNestedOneWithoutStudentPlacementsInput
+    ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
+    inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
+    daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
+    weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
+    clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
+  }
+
+  export type PlacementUncheckedCreateWithoutWaiversInput = {
+    id?: string
+    student_id: string
+    company_name: string
+    ind_supervisor_id?: string | null
+    inst_coordinator_id?: string | null
+    company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
+    company_contact?: string | null
+    company_email?: string | null
+    start_date: Date | string
+    end_date: Date | string
+    daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
+    weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
+    clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
+  }
+
+  export type PlacementCreateOrConnectWithoutWaiversInput = {
+    where: PlacementWhereUniqueInput
+    create: XOR<PlacementCreateWithoutWaiversInput, PlacementUncheckedCreateWithoutWaiversInput>
+  }
+
+  export type UserCreateWithoutGranted_waiversInput = {
+    id?: string
+    email: string
+    matric_no?: string | null
+    password_hash: string
+    name: string
+    role?: $Enums.Role
+    created_at?: Date | string
+    studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
+    indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
+    instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
+    approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
+    clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    password_reset_tokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutGranted_waiversInput = {
+    id?: string
+    email: string
+    matric_no?: string | null
+    password_hash: string
+    name: string
+    role?: $Enums.Role
+    created_at?: Date | string
+    studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
+    indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
+    instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
+    approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
+    clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    password_reset_tokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutGranted_waiversInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutGranted_waiversInput, UserUncheckedCreateWithoutGranted_waiversInput>
+  }
+
+  export type UserUpsertWithoutStudent_waiversInput = {
+    update: XOR<UserUpdateWithoutStudent_waiversInput, UserUncheckedUpdateWithoutStudent_waiversInput>
+    create: XOR<UserCreateWithoutStudent_waiversInput, UserUncheckedCreateWithoutStudent_waiversInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutStudent_waiversInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutStudent_waiversInput, UserUncheckedUpdateWithoutStudent_waiversInput>
+  }
+
+  export type UserUpdateWithoutStudent_waiversInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
+    password_hash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
+    indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
+    instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
+    approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
+    clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    password_reset_tokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutStudent_waiversInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
+    password_hash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
+    indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
+    instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
+    approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
+    clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    password_reset_tokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PlacementUpsertWithoutWaiversInput = {
+    update: XOR<PlacementUpdateWithoutWaiversInput, PlacementUncheckedUpdateWithoutWaiversInput>
+    create: XOR<PlacementCreateWithoutWaiversInput, PlacementUncheckedCreateWithoutWaiversInput>
+    where?: PlacementWhereInput
+  }
+
+  export type PlacementUpdateToOneWithWhereWithoutWaiversInput = {
+    where?: PlacementWhereInput
+    data: XOR<PlacementUpdateWithoutWaiversInput, PlacementUncheckedUpdateWithoutWaiversInput>
+  }
+
+  export type PlacementUpdateWithoutWaiversInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    company_name?: StringFieldUpdateOperationsInput | string
+    company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
+    company_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
+    ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
+    inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
+    daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
+    weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
+    clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
+  }
+
+  export type PlacementUncheckedUpdateWithoutWaiversInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    student_id?: StringFieldUpdateOperationsInput | string
+    company_name?: StringFieldUpdateOperationsInput | string
+    ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
+    inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
+    company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
+    company_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
+    weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
+    clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
+  }
+
+  export type UserUpsertWithoutGranted_waiversInput = {
+    update: XOR<UserUpdateWithoutGranted_waiversInput, UserUncheckedUpdateWithoutGranted_waiversInput>
+    create: XOR<UserCreateWithoutGranted_waiversInput, UserUncheckedCreateWithoutGranted_waiversInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutGranted_waiversInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutGranted_waiversInput, UserUncheckedUpdateWithoutGranted_waiversInput>
+  }
+
+  export type UserUpdateWithoutGranted_waiversInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
+    password_hash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
+    indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
+    instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
+    approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
+    clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    password_reset_tokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutGranted_waiversInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
+    password_hash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
+    indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
+    instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
+    approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
+    clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -17088,6 +19795,38 @@ export namespace Prisma {
     clearance_timestamp?: Date | string | null
   }
 
+  export type LateFillingWaiverCreateManyStudentInput = {
+    id?: string
+    placement_id: string
+    week_no: number
+    reason?: string | null
+    granted_by_id?: string | null
+    status?: $Enums.WaiverStatus
+    payment_status?: $Enums.WaiverPaymentStatus
+    payment_ref?: string | null
+    amount_paid?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
+    expires_at: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type LateFillingWaiverCreateManyGranted_byInput = {
+    id?: string
+    student_id: string
+    placement_id: string
+    week_no: number
+    reason?: string | null
+    status?: $Enums.WaiverStatus
+    payment_status?: $Enums.WaiverPaymentStatus
+    payment_ref?: string | null
+    amount_paid?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
+    expires_at: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
   export type RefreshTokenCreateManyUserInput = {
     id?: string
     token: string
@@ -17118,6 +19857,7 @@ export namespace Prisma {
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateWithoutStudentInput = {
@@ -17135,6 +19875,7 @@ export namespace Prisma {
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateManyWithoutStudentInput = {
@@ -17166,6 +19907,7 @@ export namespace Prisma {
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateWithoutInd_supervisorInput = {
@@ -17183,6 +19925,7 @@ export namespace Prisma {
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateManyWithoutInd_supervisorInput = {
@@ -17214,6 +19957,7 @@ export namespace Prisma {
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateWithoutInst_coordinatorInput = {
@@ -17231,6 +19975,7 @@ export namespace Prisma {
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateManyWithoutInst_coordinatorInput = {
@@ -17304,6 +20049,102 @@ export namespace Prisma {
     clearance_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type LateFillingWaiverUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWaiverStatusFieldUpdateOperationsInput | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFieldUpdateOperationsInput | $Enums.WaiverPaymentStatus
+    payment_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    amount_paid?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    placement?: PlacementUpdateOneRequiredWithoutWaiversNestedInput
+    granted_by?: UserUpdateOneWithoutGranted_waiversNestedInput
+  }
+
+  export type LateFillingWaiverUncheckedUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    granted_by_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWaiverStatusFieldUpdateOperationsInput | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFieldUpdateOperationsInput | $Enums.WaiverPaymentStatus
+    payment_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    amount_paid?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LateFillingWaiverUncheckedUpdateManyWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    granted_by_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWaiverStatusFieldUpdateOperationsInput | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFieldUpdateOperationsInput | $Enums.WaiverPaymentStatus
+    payment_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    amount_paid?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LateFillingWaiverUpdateWithoutGranted_byInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWaiverStatusFieldUpdateOperationsInput | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFieldUpdateOperationsInput | $Enums.WaiverPaymentStatus
+    payment_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    amount_paid?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: UserUpdateOneRequiredWithoutStudent_waiversNestedInput
+    placement?: PlacementUpdateOneRequiredWithoutWaiversNestedInput
+  }
+
+  export type LateFillingWaiverUncheckedUpdateWithoutGranted_byInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    student_id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWaiverStatusFieldUpdateOperationsInput | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFieldUpdateOperationsInput | $Enums.WaiverPaymentStatus
+    payment_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    amount_paid?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LateFillingWaiverUncheckedUpdateManyWithoutGranted_byInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    student_id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWaiverStatusFieldUpdateOperationsInput | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFieldUpdateOperationsInput | $Enums.WaiverPaymentStatus
+    payment_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    amount_paid?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type RefreshTokenUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
@@ -17366,6 +20207,22 @@ export namespace Prisma {
     supervisor_remarks?: string | null
     submitted_at?: Date | string | null
     reviewed_at?: Date | string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type LateFillingWaiverCreateManyPlacementInput = {
+    id?: string
+    student_id: string
+    week_no: number
+    reason?: string | null
+    granted_by_id?: string | null
+    status?: $Enums.WaiverStatus
+    payment_status?: $Enums.WaiverPaymentStatus
+    payment_ref?: string | null
+    amount_paid?: Decimal | DecimalJsLike | number | string | null
+    paid_at?: Date | string | null
+    expires_at: Date | string
     created_at?: Date | string
     updated_at?: Date | string
   }
@@ -17433,6 +20290,54 @@ export namespace Prisma {
     supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
     submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LateFillingWaiverUpdateWithoutPlacementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWaiverStatusFieldUpdateOperationsInput | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFieldUpdateOperationsInput | $Enums.WaiverPaymentStatus
+    payment_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    amount_paid?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: UserUpdateOneRequiredWithoutStudent_waiversNestedInput
+    granted_by?: UserUpdateOneWithoutGranted_waiversNestedInput
+  }
+
+  export type LateFillingWaiverUncheckedUpdateWithoutPlacementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    student_id?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    granted_by_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWaiverStatusFieldUpdateOperationsInput | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFieldUpdateOperationsInput | $Enums.WaiverPaymentStatus
+    payment_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    amount_paid?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LateFillingWaiverUncheckedUpdateManyWithoutPlacementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    student_id?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    reason?: NullableStringFieldUpdateOperationsInput | string | null
+    granted_by_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumWaiverStatusFieldUpdateOperationsInput | $Enums.WaiverStatus
+    payment_status?: EnumWaiverPaymentStatusFieldUpdateOperationsInput | $Enums.WaiverPaymentStatus
+    payment_ref?: NullableStringFieldUpdateOperationsInput | string | null
+    amount_paid?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }

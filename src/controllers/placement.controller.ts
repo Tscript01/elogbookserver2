@@ -1,6 +1,8 @@
 import { Response, NextFunction } from 'express';
+import bcrypt from 'bcryptjs';
 import { prisma } from '../config/prisma';
 import { AuthenticatedRequest } from '../middlewares/auth';
+import { sendEmail } from '../utils/resend';
 
 const MINIMUM_DURATION_MS = 30 * 24 * 60 * 60 * 1000; // 30 days minimum duration
 
@@ -15,7 +17,9 @@ export const createPlacement = async (
       company_address,
       company_contact,
       company_email,
+      ind_supervisor_name,
       supervisor_email,
+      ind_supervisor_email,
       ind_supervisor_id,
       inst_coordinator_id,
       start_date,
@@ -59,18 +63,39 @@ export const createPlacement = async (
       });
     }
 
+    const targetSupervisorEmail = ind_supervisor_email !== undefined
+      ? (ind_supervisor_email ? ind_supervisor_email.trim().toLowerCase() : null)
+      : (supervisor_email !== undefined ? (supervisor_email ? supervisor_email.trim().toLowerCase() : null) : null);
+
+    const supervisorName = ind_supervisor_name ? ind_supervisor_name.trim() : 'Industrial Supervisor';
+
     let resolvedSupervisorId: string | null = ind_supervisor_id || null;
-    if (!resolvedSupervisorId && supervisor_email) {
-      const supervisor = await prisma.user.findFirst({
+
+    // JIT (Just-In-Time) Supervisor Account Provisioning
+    if (!resolvedSupervisorId && targetSupervisorEmail) {
+      let supervisor = await prisma.user.findFirst({
         where: {
-          email: supervisor_email.trim().toLowerCase(),
+          email: targetSupervisorEmail,
           role: 'IND_SUPERVISOR'
         },
         select: { id: true }
       });
-      if (supervisor) {
-        resolvedSupervisorId = supervisor.id;
+
+      if (!supervisor) {
+        const tempPassword = Math.random().toString(36).slice(-10);
+        const passwordHash = await bcrypt.hash(tempPassword, 10);
+
+        supervisor = await prisma.user.create({
+          data: {
+            name: supervisorName,
+            email: targetSupervisorEmail,
+            password_hash: passwordHash,
+            role: 'IND_SUPERVISOR'
+          },
+          select: { id: true }
+        });
       }
+      resolvedSupervisorId = supervisor.id;
     }
 
     const placement = await prisma.placement.create({
@@ -80,6 +105,8 @@ export const createPlacement = async (
         company_address: company_address?.trim() || null,
         company_contact: company_contact?.trim() || null,
         company_email: company_email?.trim().toLowerCase() || null,
+        ind_supervisor_name: supervisorName,
+        ind_supervisor_email: targetSupervisorEmail,
         ind_supervisor_id: resolvedSupervisorId,
         inst_coordinator_id: inst_coordinator_id || null,
         start_date: startDate,
@@ -94,6 +121,31 @@ export const createPlacement = async (
         }
       }
     });
+
+    // Send invitation email asynchronously if email is present
+if (targetSupervisorEmail) {
+      const loginUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+      const supervisorNames = supervisorName || 'Industrial Supervisor';
+      const studentName = req.user?.name || 'A student';
+
+      const subject = 'SIWES Industrial Supervision Assignment';
+      const htmlContent = `
+        <div style="font-family: sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
+          <h2 style="color: #059669;">Hello ${supervisorNames},</h2>
+          <p><strong>${studentName}</strong> has listed you as their Industrial Supervisor at <strong>${company_name.trim()}</strong> on the Elog SIWES platform.</p>
+          <p>An account has been associated with this email address. You can log in to review, inspect, and approve weekly logbook submissions for all your assigned interns.</p>
+          <p style="margin: 30px 0;">
+            <a href="${loginUrl}/login" style="background: #059669; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Access Supervisor Portal</a>
+          </p>
+          <p style="font-size: 12px; color: #64748b;">If you forgot your password, use the password reset option on the login page.</p>
+        </div>
+      `;
+
+      // Call your exact utility function asynchronously without blocking response
+      sendEmail(targetSupervisorEmail, subject, htmlContent).catch((err) =>
+        console.error('Failed to send supervisor invitation email:', err)
+      );
+    }
 
     return res.status(201).json({
       message: 'Placement created successfully',
@@ -129,7 +181,9 @@ export const updatePlacement = async (
       company_address,
       company_contact,
       company_email,
+      ind_supervisor_name,
       supervisor_email,
+      ind_supervisor_email,
       ind_supervisor_id,
       start_date,
       end_date
@@ -152,17 +206,40 @@ export const updatePlacement = async (
       });
     }
 
+    const targetSupervisorEmail = ind_supervisor_email !== undefined
+      ? (ind_supervisor_email ? ind_supervisor_email.trim().toLowerCase() : null)
+      : (supervisor_email !== undefined ? (supervisor_email ? supervisor_email.trim().toLowerCase() : null) : existing.ind_supervisor_email);
+
+    const supervisorName = ind_supervisor_name !== undefined
+      ? (ind_supervisor_name ? ind_supervisor_name.trim() : null)
+      : existing.ind_supervisor_name;
+
     let resolvedSupervisorId = existing.ind_supervisor_id;
     if (ind_supervisor_id !== undefined) {
       resolvedSupervisorId = ind_supervisor_id || null;
-    } else if (supervisor_email) {
-      const supervisor = await prisma.user.findFirst({
+    } else if (targetSupervisorEmail) {
+      let supervisor = await prisma.user.findFirst({
         where: {
-          email: supervisor_email.trim().toLowerCase(),
+          email: targetSupervisorEmail,
           role: 'IND_SUPERVISOR'
         },
         select: { id: true }
       });
+
+      if (!supervisor && targetSupervisorEmail) {
+        const tempPassword = Math.random().toString(36).slice(-10);
+        const passwordHash = await bcrypt.hash(tempPassword, 10);
+
+        supervisor = await prisma.user.create({
+          data: {
+            name: supervisorName || 'Industrial Supervisor',
+            email: targetSupervisorEmail,
+            password_hash: passwordHash,
+            role: 'IND_SUPERVISOR'
+          },
+          select: { id: true }
+        });
+      }
       resolvedSupervisorId = supervisor ? supervisor.id : null;
     }
 
@@ -173,6 +250,8 @@ export const updatePlacement = async (
         company_address: company_address !== undefined ? (company_address?.trim() || null) : existing.company_address,
         company_contact: company_contact !== undefined ? (company_contact?.trim() || null) : existing.company_contact,
         company_email: company_email !== undefined ? (company_email?.trim().toLowerCase() || null) : existing.company_email,
+        ind_supervisor_name: supervisorName,
+        ind_supervisor_email: targetSupervisorEmail,
         ind_supervisor_id: resolvedSupervisorId,
         start_date: startDate,
         end_date: endDate
@@ -221,13 +300,13 @@ export const getCurrentPlacement = async (
       return res.status(404).json({ error: 'No active placement found for this student' });
     }
 
-    // Returns the complete placement object (including ind_supervisor_name & ind_supervisor_email)
     return res.status(200).json(placement);
   } catch (error) {
     console.error('Error retrieving current placement:', error);
     next(error);
   }
 };
+
 export const getPlacementById = async (
   req: AuthenticatedRequest,
   res: Response,
@@ -258,7 +337,6 @@ export const getPlacementById = async (
     next(error);
   }
 };
-
 
 export const updatePlacementById = async (
   req: AuthenticatedRequest,
@@ -293,7 +371,7 @@ export const updatePlacementById = async (
       company_email,
       ind_supervisor_name,
       ind_supervisor_email,
-      supervisor_email, // fallback alias
+      supervisor_email,
       ind_supervisor_id,
       inst_coordinator_id,
       start_date,
@@ -317,22 +395,40 @@ export const updatePlacementById = async (
       });
     }
 
-    // Resolve supervisor email (prefer ind_supervisor_email, fallback to supervisor_email)
     const targetSupervisorEmail = ind_supervisor_email !== undefined
       ? (ind_supervisor_email ? ind_supervisor_email.trim().toLowerCase() : null)
-      : (supervisor_email !== undefined ? (supervisor_email ? supervisor_email.trim().toLowerCase() : null) : undefined);
+      : (supervisor_email !== undefined ? (supervisor_email ? supervisor_email.trim().toLowerCase() : null) : existing.ind_supervisor_email);
+
+    const supervisorName = ind_supervisor_name !== undefined
+      ? (ind_supervisor_name ? ind_supervisor_name.trim() : null)
+      : existing.ind_supervisor_name;
 
     let resolvedSupervisorId = existing.ind_supervisor_id;
     if (ind_supervisor_id !== undefined) {
-      resolvedSupervisorId = ind_supervisor_id;
+      resolvedSupervisorId = ind_supervisor_id || null;
     } else if (targetSupervisorEmail) {
-      const supervisor = await prisma.user.findFirst({
+      let supervisor = await prisma.user.findFirst({
         where: {
           email: targetSupervisorEmail,
           role: 'IND_SUPERVISOR',
         },
         select: { id: true },
       });
+
+      if (!supervisor && targetSupervisorEmail) {
+        const tempPassword = Math.random().toString(36).slice(-10);
+        const passwordHash = await bcrypt.hash(tempPassword, 10);
+
+        supervisor = await prisma.user.create({
+          data: {
+            name: supervisorName || 'Industrial Supervisor',
+            email: targetSupervisorEmail,
+            password_hash: passwordHash,
+            role: 'IND_SUPERVISOR',
+          },
+          select: { id: true },
+        });
+      }
       resolvedSupervisorId = supervisor ? supervisor.id : null;
     }
 
@@ -343,8 +439,8 @@ export const updatePlacementById = async (
         company_address: company_address !== undefined ? company_address : existing.company_address,
         company_contact: company_contact !== undefined ? company_contact : existing.company_contact,
         company_email: company_email !== undefined ? (company_email ? company_email.trim().toLowerCase() : null) : existing.company_email,
-        ind_supervisor_name: ind_supervisor_name !== undefined ? (ind_supervisor_name ? ind_supervisor_name.trim() : null) : (existing as any).ind_supervisor_name,
-        ind_supervisor_email: targetSupervisorEmail !== undefined ? targetSupervisorEmail : (existing as any).ind_supervisor_email,
+        ind_supervisor_name: supervisorName,
+        ind_supervisor_email: targetSupervisorEmail,
         ind_supervisor_id: resolvedSupervisorId,
         inst_coordinator_id: inst_coordinator_id !== undefined ? inst_coordinator_id : existing.inst_coordinator_id,
         start_date: startDate,
