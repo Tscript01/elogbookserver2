@@ -7,6 +7,7 @@ import submissionRoutes from './routes/submission.routes';
 
 import { errorHandler } from "./middlewares/errorHandler";
 import logRoutes from "./routes/log.routes";
+import supervisorRoutes from "./routes/supervisor.routes";
 
 const app: Express = express();
 
@@ -27,6 +28,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/logs", logRoutes);
 app.use("/api/placements", placementRoutes);
 app.use('/api/submissions', submissionRoutes);
+app.use('/api/supervisor', supervisorRoutes)
 
 
 app.get("/api/health", (_req: Request, res: Response) => {
