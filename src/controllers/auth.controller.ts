@@ -280,9 +280,15 @@ export const requestPasswordReset = async (req: Request, res: Response) => {
 
     // TODO: send raw_token to user via email (plug in your email service here)
     // e.g. await sendResetEmail(user.email, raw_token);
-    const send = await sendEmail(user.email, "Password Reset Request", `<p>You requested a password reset. Click <a href="http://localhost:5000/reset-password?token=${raw_token}">here</a> to reset your password. This link will expire in 30 minutes.</p>`).then(() => console.log(`Password reset email sent to ${user.email}`)).then(
+   const frontendUrl = process.env.NODE_ENV === 'production' 
+  ? (process.env.FRONTEND_URL || 'elog-ochre.vercel.app') 
+  : 'http://localhost:3000';
 
-    ).catch((err) => console.error(`Failed to send password reset email to ${user.email}:`, err));
+await sendEmail(
+  user.email,
+  "Password Reset Request",
+  `<p>You requested a password reset. Click <a href="${frontendUrl}/reset-password?token=${raw_token}">here</a> to reset your password. This link will expire in 30 minutes.</p>`
+).catch((err) => console.error(`Failed to send password reset email to ${user.email}:`, err));
     // console.log(`Password reset token for ${email}: ${raw_token}`);
 
     return res.status(200).json({ message: "If that email exists, a reset link has been sent" });
