@@ -279,14 +279,16 @@ export const requestPasswordReset = async (req: Request, res: Response) => {
     });
 
    
-   const frontendUrl = process.env.NODE_ENV === 'production' 
-  ? (process.env.FRONTEND_URL || 'elog-ochre.vercel.app') 
+  const frontendUrl = process.env.NODE_ENV === 'production' 
+  ? (process.env.FRONTEND_URL || 'https://elog.edu.ng') 
   : 'http://localhost:3000';
+
+const resetUrl = `${frontendUrl}/reset-password?token=${raw_token}`;
 
 await sendEmail(
   user.email,
   "Password Reset Request",
-  `<p>You requested a password reset. Click <a href="${frontendUrl}/reset-password?token=${raw_token}">here</a> to reset your password. This link will expire in 30 minutes.</p>`
+  `<p>You requested a password reset. Click <a href="${resetUrl}" target="_blank" style="color: #2563eb; text-decoration: underline;">here</a> to reset your password. This link will expire in 30 minutes.</p>`
 )
   .catch((err) => console.error(`Failed to send password reset email to ${user.email}:`, err));
 
