@@ -173,10 +173,15 @@ export async function reviewWeeklySubmission(
 ): Promise<void> {
   try {
     const { submissionId } = req.params;
+    
+    if (!req.body) {
+      throw new BadRequestError('Request body is missing');
+    }
+
     const { status, remarks } = req.body;
     const supervisorId = req.user?.id;
 
-    if (!submissionId || !['APPROVED', 'REJECTED'].includes(status)) {
+    if (!submissionId || !status || !['APPROVED', 'REJECTED'].includes(status)) {
       throw new BadRequestError('Valid submission ID and review status (APPROVED or REJECTED) are required');
     }
 
