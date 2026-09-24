@@ -284,6 +284,11 @@ export const getStudentLogs = async (
         skip,
         take,
         orderBy: { log_date: 'desc' },
+        include: {
+          weekly_submission: {
+            select: { status: true, supervisor_remarks: true },
+          },
+        },
       }),
     ]);
 
