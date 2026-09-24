@@ -38,7 +38,7 @@ app.get("/api/health", (_req: Request, res: Response) => {
 app.get("/", (req: Request, res: Response) => {
   res.json({
     message: `Server is running ${process.env.INSTANCE_NAME ?? "successfully"}`,
-    status: "ok",
+    status: "ok", 
     docs: {
       auth: "/api/auth",
       logs: "/api/logs",

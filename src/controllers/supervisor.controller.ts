@@ -22,25 +22,25 @@ export async function getAssignedTrainees(
     const placements = await prisma.placement.findMany({
       where: {
         OR: [
-          { ind_supervisor_id: supervisorId },
-          { ind_supervisor_email: cleanEmail },
+          ...(supervisorId ? [{ ind_supervisor_id: supervisorId }] : []),
+          ...(cleanEmail ? [{ ind_supervisor_email: cleanEmail }] : []),
         ],
       },
       include: {
         student: {
-          select: { id: true, name: true, email: true, matric_no: true, department: true },
+          select: { id: true, name: true, email: true, matric_no: true }, // Removed department here
         },
       },
       orderBy: { start_date: 'desc' },
     });
 
-    const trainees = placements.map((p: { id: any; student_id: any; student: { name: any; email: any; matric_no: any; department: any; }; ind_supervisor_name: any; company_name: any; start_date: any; end_date: any; }) => ({
+    const trainees = placements.map((p: { id: any; student_id: any; student: { name: any; email: any; matric_no: any; }; ind_supervisor_name: any; company_name: any; start_date: any; end_date: any; }) => ({
       placement_id: p.id,
       student_id: p.student_id,
       student_name: p.student?.name || p.ind_supervisor_name,
       email: p.student?.email,
       matric_no: p.student?.matric_no,
-      department: p.student?.department || 'Computer Science',
+      department: 'Computer Science', // Fallback value since field isn't in User schema
       institution: 'Ekiti State University',
       company_name: p.company_name,
       start_date: p.start_date,
@@ -55,6 +55,7 @@ export async function getAssignedTrainees(
     next(error);
   }
 }
+
 // 2. Get all weekly submissions and daily logs for a specific placement
 export async function getTraineeSubmissions(
   req: AuthenticatedRequest,
@@ -77,7 +78,6 @@ export async function getTraineeSubmissions(
       throw new NotFoundError('Placement record not found');
     }
 
-    // Verify supervisor authorization
     if (
       placement.ind_supervisor_id !== supervisorId &&
       req.user?.role !== 'ADMIN' &&
@@ -114,12 +114,13 @@ export async function getSupervisorReviewQueue(
   try {
     const supervisorId = req.user?.id;
     const supervisorEmail = req.user?.email;
+    const cleanEmail = supervisorEmail ? supervisorEmail.trim().toLowerCase() : '';
 
     const placements = await prisma.placement.findMany({
       where: {
         OR: [
-          { ind_supervisor_id: supervisorId },
-          { ind_supervisor_email: supervisorEmail ? supervisorEmail.trim().toLowerCase() : undefined },
+          ...(supervisorId ? [{ ind_supervisor_id: supervisorId }] : []),
+          ...(cleanEmail ? [{ ind_supervisor_email: cleanEmail }] : []),
         ],
       },
       select: { id: true },
@@ -146,7 +147,7 @@ export async function getSupervisorReviewQueue(
           orderBy: { log_date: 'asc' },
         },
       },
-      orderBy: { updated_at: 'desc' },
+      orderBy: { week_no: 'desc' },
     });
 
     const formatted = submissions.map((sub: { placement: { student: { name: any; matric_no: any; }; }; }) => ({
@@ -201,6 +202,7 @@ export async function reviewWeeklySubmission(
       data: {
         status,
         supervisor_remarks: remarks ? remarks.trim() : null,
+        reviewed_at: new Date(),
       },
       include: {
         daily_logs: true,
