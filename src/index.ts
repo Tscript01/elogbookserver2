@@ -4,10 +4,12 @@ import { prisma } from "./config/prisma";
 import authRoutes from "./routes/auth.routes";
 import placementRoutes from "./routes/placement.route";
 import submissionRoutes from './routes/submission.routes';
-
+import coordinatorRouter from './routes/coordinator.routes';
 import { errorHandler } from "./middlewares/errorHandler";
 import logRoutes from "./routes/log.routes";
 import supervisorRoutes from "./routes/supervisor.routes";
+import bcrypt from 'bcryptjs';
+
 
 const app: Express = express();
 
@@ -29,6 +31,7 @@ app.use("/api/logs", logRoutes);
 app.use("/api/placements", placementRoutes);
 app.use('/api/submissions', submissionRoutes);
 app.use('/api/supervisor', supervisorRoutes)
+app.use('/api/coordinator', coordinatorRouter);
 
 
 app.get("/api/health", (_req: Request, res: Response) => {
@@ -36,6 +39,25 @@ app.get("/api/health", (_req: Request, res: Response) => {
 });
 
 app.get("/", (req: Request, res: Response) => {
+ 
+// async function createCoordinator() {
+//   const hashedPassword = await bcrypt.hash('CoordinatorSecurePassword123', 10);
+
+//   const coordinator = await prisma.user.upsert({
+//     where: { email: 'coordinator@eksu.edu.ng' },
+//     update: { role: 'INST_COORDINATOR' },
+//     create: {
+//       name: 'Dr. (Mrs.) Department SIWES Desk',
+//       email: 'coordinator@eksu.edu.ng',
+//       password_hash: hashedPassword,
+//       role: 'INST_COORDINATOR', 
+//     },
+//   });
+
+//   console.log('Coordinator account ready:', coordinator.email);
+// }
+
+// createCoordinator();
   res.json({
     message: `Server is running ${process.env.INSTANCE_NAME ?? "successfully"}`,
     status: "ok", 
