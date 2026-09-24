@@ -31,7 +31,7 @@ export async function getAssignedTrainees(
           select: { id: true, name: true, email: true, matric_no: true, department: true },
         },
       },
-      orderBy: { created_at: 'desc' },
+      orderBy: { start_date: 'desc' },
     });
 
     const trainees = placements.map((p: { id: any; student_id: any; student: { name: any; email: any; matric_no: any; department: any; }; ind_supervisor_name: any; company_name: any; start_date: any; end_date: any; }) => ({
