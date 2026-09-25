@@ -5,8 +5,10 @@ import authRoutes from "./routes/auth.routes";
 import placementRoutes from "./routes/placement.route";
 import submissionRoutes from './routes/submission.routes';
 import coordinatorRouter from './routes/coordinator.routes';
+import studentRoutes from './routes/student.routes';
 import { errorHandler } from "./middlewares/errorHandler";
 import logRoutes from "./routes/log.routes";
+
 import supervisorRoutes from "./routes/supervisor.routes";
 import bcrypt from 'bcryptjs';
 
@@ -32,6 +34,7 @@ app.use("/api/placements", placementRoutes);
 app.use('/api/submissions', submissionRoutes);
 app.use('/api/supervisor', supervisorRoutes)
 app.use('/api/coordinator', coordinatorRouter);
+app.use('/api/student', studentRoutes);
 
 
 app.get("/api/health", (_req: Request, res: Response) => {
