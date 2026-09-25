@@ -176,23 +176,29 @@ model LogBookApproval {
 }
 
 model FinalClearance {
-  id                     String          @id @default(uuid()) @db.Uuid
-  placement_id           String          @unique @db.Uuid
-  coordinator_status     ClearanceStatus @default(PENDING)
+  id                     String           @id @default(uuid()) @db.Uuid
+  placement_id           String           @unique @db.Uuid
+
+  // Institutional Coordinator Evaluation Desk
+  coordinator_status     ClearanceStatus  @default(PENDING)
+  coordinator_score      Int?
+  coordinator_remarks    String?          @db.Text
+  coordinator_signature  String?          @db.Text
   coordinator_cleared_at DateTime?
-  itf_official_id        String?         @db.Uuid
-  itf_status             ClearanceStatus @default(PENDING)
+
+  // ITF Zonal Office Clearance & Stamp Desk
+  itf_official_id        String?          @db.Uuid
+  itf_status             ClearanceStatus  @default(PENDING)
   itf_cleared_at         DateTime?
   final_pdf_hash         String?
   itf_stamp_hash         String?
   clearance_timestamp    DateTime?
 
-  placement    Placement @relation(fields: [placement_id], references: [id], onDelete: Cascade)
-  itf_official User?     @relation(fields: [itf_official_id], references: [id])
+  placement              Placement        @relation(fields: [placement_id], references: [id], onDelete: Cascade)
+  itf_official           User?            @relation(fields: [itf_official_id], references: [id])
 
   @@map("final_clearances")
 }
-
 model LateFillingWaiver {
   id             String              @id @default(uuid()) @db.Uuid
   student_id     String              @db.Uuid
