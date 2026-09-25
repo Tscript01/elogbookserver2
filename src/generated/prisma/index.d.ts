@@ -11172,14 +11172,27 @@ export namespace Prisma {
 
   export type AggregateFinalClearance = {
     _count: FinalClearanceCountAggregateOutputType | null
+    _avg: FinalClearanceAvgAggregateOutputType | null
+    _sum: FinalClearanceSumAggregateOutputType | null
     _min: FinalClearanceMinAggregateOutputType | null
     _max: FinalClearanceMaxAggregateOutputType | null
+  }
+
+  export type FinalClearanceAvgAggregateOutputType = {
+    coordinator_score: number | null
+  }
+
+  export type FinalClearanceSumAggregateOutputType = {
+    coordinator_score: number | null
   }
 
   export type FinalClearanceMinAggregateOutputType = {
     id: string | null
     placement_id: string | null
     coordinator_status: $Enums.ClearanceStatus | null
+    coordinator_score: number | null
+    coordinator_remarks: string | null
+    coordinator_signature: string | null
     coordinator_cleared_at: Date | null
     itf_official_id: string | null
     itf_status: $Enums.ClearanceStatus | null
@@ -11193,6 +11206,9 @@ export namespace Prisma {
     id: string | null
     placement_id: string | null
     coordinator_status: $Enums.ClearanceStatus | null
+    coordinator_score: number | null
+    coordinator_remarks: string | null
+    coordinator_signature: string | null
     coordinator_cleared_at: Date | null
     itf_official_id: string | null
     itf_status: $Enums.ClearanceStatus | null
@@ -11206,6 +11222,9 @@ export namespace Prisma {
     id: number
     placement_id: number
     coordinator_status: number
+    coordinator_score: number
+    coordinator_remarks: number
+    coordinator_signature: number
     coordinator_cleared_at: number
     itf_official_id: number
     itf_status: number
@@ -11217,10 +11236,21 @@ export namespace Prisma {
   }
 
 
+  export type FinalClearanceAvgAggregateInputType = {
+    coordinator_score?: true
+  }
+
+  export type FinalClearanceSumAggregateInputType = {
+    coordinator_score?: true
+  }
+
   export type FinalClearanceMinAggregateInputType = {
     id?: true
     placement_id?: true
     coordinator_status?: true
+    coordinator_score?: true
+    coordinator_remarks?: true
+    coordinator_signature?: true
     coordinator_cleared_at?: true
     itf_official_id?: true
     itf_status?: true
@@ -11234,6 +11264,9 @@ export namespace Prisma {
     id?: true
     placement_id?: true
     coordinator_status?: true
+    coordinator_score?: true
+    coordinator_remarks?: true
+    coordinator_signature?: true
     coordinator_cleared_at?: true
     itf_official_id?: true
     itf_status?: true
@@ -11247,6 +11280,9 @@ export namespace Prisma {
     id?: true
     placement_id?: true
     coordinator_status?: true
+    coordinator_score?: true
+    coordinator_remarks?: true
+    coordinator_signature?: true
     coordinator_cleared_at?: true
     itf_official_id?: true
     itf_status?: true
@@ -11295,6 +11331,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: FinalClearanceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FinalClearanceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: FinalClearanceMinAggregateInputType
@@ -11325,6 +11373,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: FinalClearanceCountAggregateInputType | true
+    _avg?: FinalClearanceAvgAggregateInputType
+    _sum?: FinalClearanceSumAggregateInputType
     _min?: FinalClearanceMinAggregateInputType
     _max?: FinalClearanceMaxAggregateInputType
   }
@@ -11333,6 +11383,9 @@ export namespace Prisma {
     id: string
     placement_id: string
     coordinator_status: $Enums.ClearanceStatus
+    coordinator_score: number | null
+    coordinator_remarks: string | null
+    coordinator_signature: string | null
     coordinator_cleared_at: Date | null
     itf_official_id: string | null
     itf_status: $Enums.ClearanceStatus
@@ -11341,6 +11394,8 @@ export namespace Prisma {
     itf_stamp_hash: string | null
     clearance_timestamp: Date | null
     _count: FinalClearanceCountAggregateOutputType | null
+    _avg: FinalClearanceAvgAggregateOutputType | null
+    _sum: FinalClearanceSumAggregateOutputType | null
     _min: FinalClearanceMinAggregateOutputType | null
     _max: FinalClearanceMaxAggregateOutputType | null
   }
@@ -11363,6 +11418,9 @@ export namespace Prisma {
     id?: boolean
     placement_id?: boolean
     coordinator_status?: boolean
+    coordinator_score?: boolean
+    coordinator_remarks?: boolean
+    coordinator_signature?: boolean
     coordinator_cleared_at?: boolean
     itf_official_id?: boolean
     itf_status?: boolean
@@ -11378,6 +11436,9 @@ export namespace Prisma {
     id?: boolean
     placement_id?: boolean
     coordinator_status?: boolean
+    coordinator_score?: boolean
+    coordinator_remarks?: boolean
+    coordinator_signature?: boolean
     coordinator_cleared_at?: boolean
     itf_official_id?: boolean
     itf_status?: boolean
@@ -11393,6 +11454,9 @@ export namespace Prisma {
     id?: boolean
     placement_id?: boolean
     coordinator_status?: boolean
+    coordinator_score?: boolean
+    coordinator_remarks?: boolean
+    coordinator_signature?: boolean
     coordinator_cleared_at?: boolean
     itf_official_id?: boolean
     itf_status?: boolean
@@ -11408,6 +11472,9 @@ export namespace Prisma {
     id?: boolean
     placement_id?: boolean
     coordinator_status?: boolean
+    coordinator_score?: boolean
+    coordinator_remarks?: boolean
+    coordinator_signature?: boolean
     coordinator_cleared_at?: boolean
     itf_official_id?: boolean
     itf_status?: boolean
@@ -11417,7 +11484,7 @@ export namespace Prisma {
     clearance_timestamp?: boolean
   }
 
-  export type FinalClearanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "placement_id" | "coordinator_status" | "coordinator_cleared_at" | "itf_official_id" | "itf_status" | "itf_cleared_at" | "final_pdf_hash" | "itf_stamp_hash" | "clearance_timestamp", ExtArgs["result"]["finalClearance"]>
+  export type FinalClearanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "placement_id" | "coordinator_status" | "coordinator_score" | "coordinator_remarks" | "coordinator_signature" | "coordinator_cleared_at" | "itf_official_id" | "itf_status" | "itf_cleared_at" | "final_pdf_hash" | "itf_stamp_hash" | "clearance_timestamp", ExtArgs["result"]["finalClearance"]>
   export type FinalClearanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     placement?: boolean | PlacementDefaultArgs<ExtArgs>
     itf_official?: boolean | FinalClearance$itf_officialArgs<ExtArgs>
@@ -11441,6 +11508,9 @@ export namespace Prisma {
       id: string
       placement_id: string
       coordinator_status: $Enums.ClearanceStatus
+      coordinator_score: number | null
+      coordinator_remarks: string | null
+      coordinator_signature: string | null
       coordinator_cleared_at: Date | null
       itf_official_id: string | null
       itf_status: $Enums.ClearanceStatus
@@ -11876,6 +11946,9 @@ export namespace Prisma {
     readonly id: FieldRef<"FinalClearance", 'String'>
     readonly placement_id: FieldRef<"FinalClearance", 'String'>
     readonly coordinator_status: FieldRef<"FinalClearance", 'ClearanceStatus'>
+    readonly coordinator_score: FieldRef<"FinalClearance", 'Int'>
+    readonly coordinator_remarks: FieldRef<"FinalClearance", 'String'>
+    readonly coordinator_signature: FieldRef<"FinalClearance", 'String'>
     readonly coordinator_cleared_at: FieldRef<"FinalClearance", 'DateTime'>
     readonly itf_official_id: FieldRef<"FinalClearance", 'String'>
     readonly itf_status: FieldRef<"FinalClearance", 'ClearanceStatus'>
@@ -13698,6 +13771,9 @@ export namespace Prisma {
     id: 'id',
     placement_id: 'placement_id',
     coordinator_status: 'coordinator_status',
+    coordinator_score: 'coordinator_score',
+    coordinator_remarks: 'coordinator_remarks',
+    coordinator_signature: 'coordinator_signature',
     coordinator_cleared_at: 'coordinator_cleared_at',
     itf_official_id: 'itf_official_id',
     itf_status: 'itf_status',
@@ -14503,6 +14579,9 @@ export namespace Prisma {
     id?: UuidFilter<"FinalClearance"> | string
     placement_id?: UuidFilter<"FinalClearance"> | string
     coordinator_status?: EnumClearanceStatusFilter<"FinalClearance"> | $Enums.ClearanceStatus
+    coordinator_score?: IntNullableFilter<"FinalClearance"> | number | null
+    coordinator_remarks?: StringNullableFilter<"FinalClearance"> | string | null
+    coordinator_signature?: StringNullableFilter<"FinalClearance"> | string | null
     coordinator_cleared_at?: DateTimeNullableFilter<"FinalClearance"> | Date | string | null
     itf_official_id?: UuidNullableFilter<"FinalClearance"> | string | null
     itf_status?: EnumClearanceStatusFilter<"FinalClearance"> | $Enums.ClearanceStatus
@@ -14518,6 +14597,9 @@ export namespace Prisma {
     id?: SortOrder
     placement_id?: SortOrder
     coordinator_status?: SortOrder
+    coordinator_score?: SortOrderInput | SortOrder
+    coordinator_remarks?: SortOrderInput | SortOrder
+    coordinator_signature?: SortOrderInput | SortOrder
     coordinator_cleared_at?: SortOrderInput | SortOrder
     itf_official_id?: SortOrderInput | SortOrder
     itf_status?: SortOrder
@@ -14536,6 +14618,9 @@ export namespace Prisma {
     OR?: FinalClearanceWhereInput[]
     NOT?: FinalClearanceWhereInput | FinalClearanceWhereInput[]
     coordinator_status?: EnumClearanceStatusFilter<"FinalClearance"> | $Enums.ClearanceStatus
+    coordinator_score?: IntNullableFilter<"FinalClearance"> | number | null
+    coordinator_remarks?: StringNullableFilter<"FinalClearance"> | string | null
+    coordinator_signature?: StringNullableFilter<"FinalClearance"> | string | null
     coordinator_cleared_at?: DateTimeNullableFilter<"FinalClearance"> | Date | string | null
     itf_official_id?: UuidNullableFilter<"FinalClearance"> | string | null
     itf_status?: EnumClearanceStatusFilter<"FinalClearance"> | $Enums.ClearanceStatus
@@ -14551,6 +14636,9 @@ export namespace Prisma {
     id?: SortOrder
     placement_id?: SortOrder
     coordinator_status?: SortOrder
+    coordinator_score?: SortOrderInput | SortOrder
+    coordinator_remarks?: SortOrderInput | SortOrder
+    coordinator_signature?: SortOrderInput | SortOrder
     coordinator_cleared_at?: SortOrderInput | SortOrder
     itf_official_id?: SortOrderInput | SortOrder
     itf_status?: SortOrder
@@ -14559,8 +14647,10 @@ export namespace Prisma {
     itf_stamp_hash?: SortOrderInput | SortOrder
     clearance_timestamp?: SortOrderInput | SortOrder
     _count?: FinalClearanceCountOrderByAggregateInput
+    _avg?: FinalClearanceAvgOrderByAggregateInput
     _max?: FinalClearanceMaxOrderByAggregateInput
     _min?: FinalClearanceMinOrderByAggregateInput
+    _sum?: FinalClearanceSumOrderByAggregateInput
   }
 
   export type FinalClearanceScalarWhereWithAggregatesInput = {
@@ -14570,6 +14660,9 @@ export namespace Prisma {
     id?: UuidWithAggregatesFilter<"FinalClearance"> | string
     placement_id?: UuidWithAggregatesFilter<"FinalClearance"> | string
     coordinator_status?: EnumClearanceStatusWithAggregatesFilter<"FinalClearance"> | $Enums.ClearanceStatus
+    coordinator_score?: IntNullableWithAggregatesFilter<"FinalClearance"> | number | null
+    coordinator_remarks?: StringNullableWithAggregatesFilter<"FinalClearance"> | string | null
+    coordinator_signature?: StringNullableWithAggregatesFilter<"FinalClearance"> | string | null
     coordinator_cleared_at?: DateTimeNullableWithAggregatesFilter<"FinalClearance"> | Date | string | null
     itf_official_id?: UuidNullableWithAggregatesFilter<"FinalClearance"> | string | null
     itf_status?: EnumClearanceStatusWithAggregatesFilter<"FinalClearance"> | $Enums.ClearanceStatus
@@ -15315,6 +15408,9 @@ export namespace Prisma {
   export type FinalClearanceCreateInput = {
     id?: string
     coordinator_status?: $Enums.ClearanceStatus
+    coordinator_score?: number | null
+    coordinator_remarks?: string | null
+    coordinator_signature?: string | null
     coordinator_cleared_at?: Date | string | null
     itf_status?: $Enums.ClearanceStatus
     itf_cleared_at?: Date | string | null
@@ -15329,6 +15425,9 @@ export namespace Prisma {
     id?: string
     placement_id: string
     coordinator_status?: $Enums.ClearanceStatus
+    coordinator_score?: number | null
+    coordinator_remarks?: string | null
+    coordinator_signature?: string | null
     coordinator_cleared_at?: Date | string | null
     itf_official_id?: string | null
     itf_status?: $Enums.ClearanceStatus
@@ -15341,6 +15440,9 @@ export namespace Prisma {
   export type FinalClearanceUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     coordinator_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
+    coordinator_score?: NullableIntFieldUpdateOperationsInput | number | null
+    coordinator_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    coordinator_signature?: NullableStringFieldUpdateOperationsInput | string | null
     coordinator_cleared_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itf_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
     itf_cleared_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15355,6 +15457,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     placement_id?: StringFieldUpdateOperationsInput | string
     coordinator_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
+    coordinator_score?: NullableIntFieldUpdateOperationsInput | number | null
+    coordinator_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    coordinator_signature?: NullableStringFieldUpdateOperationsInput | string | null
     coordinator_cleared_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itf_official_id?: NullableStringFieldUpdateOperationsInput | string | null
     itf_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
@@ -15368,6 +15473,9 @@ export namespace Prisma {
     id?: string
     placement_id: string
     coordinator_status?: $Enums.ClearanceStatus
+    coordinator_score?: number | null
+    coordinator_remarks?: string | null
+    coordinator_signature?: string | null
     coordinator_cleared_at?: Date | string | null
     itf_official_id?: string | null
     itf_status?: $Enums.ClearanceStatus
@@ -15380,6 +15488,9 @@ export namespace Prisma {
   export type FinalClearanceUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     coordinator_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
+    coordinator_score?: NullableIntFieldUpdateOperationsInput | number | null
+    coordinator_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    coordinator_signature?: NullableStringFieldUpdateOperationsInput | string | null
     coordinator_cleared_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itf_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
     itf_cleared_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -15392,6 +15503,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     placement_id?: StringFieldUpdateOperationsInput | string
     coordinator_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
+    coordinator_score?: NullableIntFieldUpdateOperationsInput | number | null
+    coordinator_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    coordinator_signature?: NullableStringFieldUpdateOperationsInput | string | null
     coordinator_cleared_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itf_official_id?: NullableStringFieldUpdateOperationsInput | string | null
     itf_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
@@ -16150,10 +16264,24 @@ export namespace Prisma {
     not?: NestedEnumClearanceStatusFilter<$PrismaModel> | $Enums.ClearanceStatus
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type FinalClearanceCountOrderByAggregateInput = {
     id?: SortOrder
     placement_id?: SortOrder
     coordinator_status?: SortOrder
+    coordinator_score?: SortOrder
+    coordinator_remarks?: SortOrder
+    coordinator_signature?: SortOrder
     coordinator_cleared_at?: SortOrder
     itf_official_id?: SortOrder
     itf_status?: SortOrder
@@ -16163,10 +16291,17 @@ export namespace Prisma {
     clearance_timestamp?: SortOrder
   }
 
+  export type FinalClearanceAvgOrderByAggregateInput = {
+    coordinator_score?: SortOrder
+  }
+
   export type FinalClearanceMaxOrderByAggregateInput = {
     id?: SortOrder
     placement_id?: SortOrder
     coordinator_status?: SortOrder
+    coordinator_score?: SortOrder
+    coordinator_remarks?: SortOrder
+    coordinator_signature?: SortOrder
     coordinator_cleared_at?: SortOrder
     itf_official_id?: SortOrder
     itf_status?: SortOrder
@@ -16180,6 +16315,9 @@ export namespace Prisma {
     id?: SortOrder
     placement_id?: SortOrder
     coordinator_status?: SortOrder
+    coordinator_score?: SortOrder
+    coordinator_remarks?: SortOrder
+    coordinator_signature?: SortOrder
     coordinator_cleared_at?: SortOrder
     itf_official_id?: SortOrder
     itf_status?: SortOrder
@@ -16187,6 +16325,10 @@ export namespace Prisma {
     final_pdf_hash?: SortOrder
     itf_stamp_hash?: SortOrder
     clearance_timestamp?: SortOrder
+  }
+
+  export type FinalClearanceSumOrderByAggregateInput = {
+    coordinator_score?: SortOrder
   }
 
   export type EnumClearanceStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -16197,6 +16339,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumClearanceStatusFilter<$PrismaModel>
     _max?: NestedEnumClearanceStatusFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type EnumWaiverStatusFilter<$PrismaModel = never> = {
@@ -17143,6 +17301,14 @@ export namespace Prisma {
     set?: $Enums.ClearanceStatus
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type PlacementUpdateOneRequiredWithoutClearanceNestedInput = {
     create?: XOR<PlacementCreateWithoutClearanceInput, PlacementUncheckedCreateWithoutClearanceInput>
     connectOrCreate?: PlacementCreateOrConnectWithoutClearanceInput
@@ -17496,6 +17662,33 @@ export namespace Prisma {
     _max?: NestedEnumClearanceStatusFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumWaiverStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.WaiverStatus | EnumWaiverStatusFieldRefInput<$PrismaModel>
     in?: $Enums.WaiverStatus[] | ListEnumWaiverStatusFieldRefInput<$PrismaModel>
@@ -17722,6 +17915,9 @@ export namespace Prisma {
   export type FinalClearanceCreateWithoutItf_officialInput = {
     id?: string
     coordinator_status?: $Enums.ClearanceStatus
+    coordinator_score?: number | null
+    coordinator_remarks?: string | null
+    coordinator_signature?: string | null
     coordinator_cleared_at?: Date | string | null
     itf_status?: $Enums.ClearanceStatus
     itf_cleared_at?: Date | string | null
@@ -17735,6 +17931,9 @@ export namespace Prisma {
     id?: string
     placement_id: string
     coordinator_status?: $Enums.ClearanceStatus
+    coordinator_score?: number | null
+    coordinator_remarks?: string | null
+    coordinator_signature?: string | null
     coordinator_cleared_at?: Date | string | null
     itf_status?: $Enums.ClearanceStatus
     itf_cleared_at?: Date | string | null
@@ -18003,6 +18202,9 @@ export namespace Prisma {
     id?: UuidFilter<"FinalClearance"> | string
     placement_id?: UuidFilter<"FinalClearance"> | string
     coordinator_status?: EnumClearanceStatusFilter<"FinalClearance"> | $Enums.ClearanceStatus
+    coordinator_score?: IntNullableFilter<"FinalClearance"> | number | null
+    coordinator_remarks?: StringNullableFilter<"FinalClearance"> | string | null
+    coordinator_signature?: StringNullableFilter<"FinalClearance"> | string | null
     coordinator_cleared_at?: DateTimeNullableFilter<"FinalClearance"> | Date | string | null
     itf_official_id?: UuidNullableFilter<"FinalClearance"> | string | null
     itf_status?: EnumClearanceStatusFilter<"FinalClearance"> | $Enums.ClearanceStatus
@@ -18487,6 +18689,9 @@ export namespace Prisma {
   export type FinalClearanceCreateWithoutPlacementInput = {
     id?: string
     coordinator_status?: $Enums.ClearanceStatus
+    coordinator_score?: number | null
+    coordinator_remarks?: string | null
+    coordinator_signature?: string | null
     coordinator_cleared_at?: Date | string | null
     itf_status?: $Enums.ClearanceStatus
     itf_cleared_at?: Date | string | null
@@ -18499,6 +18704,9 @@ export namespace Prisma {
   export type FinalClearanceUncheckedCreateWithoutPlacementInput = {
     id?: string
     coordinator_status?: $Enums.ClearanceStatus
+    coordinator_score?: number | null
+    coordinator_remarks?: string | null
+    coordinator_signature?: string | null
     coordinator_cleared_at?: Date | string | null
     itf_official_id?: string | null
     itf_status?: $Enums.ClearanceStatus
@@ -18771,6 +18979,9 @@ export namespace Prisma {
   export type FinalClearanceUpdateWithoutPlacementInput = {
     id?: StringFieldUpdateOperationsInput | string
     coordinator_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
+    coordinator_score?: NullableIntFieldUpdateOperationsInput | number | null
+    coordinator_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    coordinator_signature?: NullableStringFieldUpdateOperationsInput | string | null
     coordinator_cleared_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itf_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
     itf_cleared_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18783,6 +18994,9 @@ export namespace Prisma {
   export type FinalClearanceUncheckedUpdateWithoutPlacementInput = {
     id?: StringFieldUpdateOperationsInput | string
     coordinator_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
+    coordinator_score?: NullableIntFieldUpdateOperationsInput | number | null
+    coordinator_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    coordinator_signature?: NullableStringFieldUpdateOperationsInput | string | null
     coordinator_cleared_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itf_official_id?: NullableStringFieldUpdateOperationsInput | string | null
     itf_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
@@ -19787,6 +20001,9 @@ export namespace Prisma {
     id?: string
     placement_id: string
     coordinator_status?: $Enums.ClearanceStatus
+    coordinator_score?: number | null
+    coordinator_remarks?: string | null
+    coordinator_signature?: string | null
     coordinator_cleared_at?: Date | string | null
     itf_status?: $Enums.ClearanceStatus
     itf_cleared_at?: Date | string | null
@@ -20016,6 +20233,9 @@ export namespace Prisma {
   export type FinalClearanceUpdateWithoutItf_officialInput = {
     id?: StringFieldUpdateOperationsInput | string
     coordinator_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
+    coordinator_score?: NullableIntFieldUpdateOperationsInput | number | null
+    coordinator_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    coordinator_signature?: NullableStringFieldUpdateOperationsInput | string | null
     coordinator_cleared_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itf_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
     itf_cleared_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20029,6 +20249,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     placement_id?: StringFieldUpdateOperationsInput | string
     coordinator_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
+    coordinator_score?: NullableIntFieldUpdateOperationsInput | number | null
+    coordinator_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    coordinator_signature?: NullableStringFieldUpdateOperationsInput | string | null
     coordinator_cleared_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itf_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
     itf_cleared_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20041,6 +20264,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     placement_id?: StringFieldUpdateOperationsInput | string
     coordinator_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
+    coordinator_score?: NullableIntFieldUpdateOperationsInput | number | null
+    coordinator_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    coordinator_signature?: NullableStringFieldUpdateOperationsInput | string | null
     coordinator_cleared_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     itf_status?: EnumClearanceStatusFieldUpdateOperationsInput | $Enums.ClearanceStatus
     itf_cleared_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
