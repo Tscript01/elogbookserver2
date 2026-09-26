@@ -1,6 +1,7 @@
 import { Response, NextFunction } from 'express';
 import { AuthenticatedRequest } from '../middlewares/auth';
 import {prisma} from '../config/prisma';
+import PDFDocument from 'pdfkit';
 
 export async function getStudentClearanceStatus(
   req: AuthenticatedRequest,
@@ -116,11 +117,28 @@ export async function downloadEndorsedLogbookPdf(
   try {
     const studentId = req.user?.id;
 
+    if (!studentId) {
+      return res.status(401).json({ status: 'error', message: 'Unauthorized' });
+    }
+
     const placement = await prisma.placement.findUnique({
       where: { student_id: studentId },
       include: {
-        student: true,
-        inst_coordinator: true,
+        student: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            matric_no: true,
+          },
+        },
+        inst_coordinator: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
         clearance: true,
         weekly_submissions: {
           include: {
@@ -131,23 +149,83 @@ export async function downloadEndorsedLogbookPdf(
       },
     });
 
-    if (!placement || placement.clearance?.coordinator_status !== 'CLEARED') {
+    if (!placement) {
+      return res.status(404).json({
+        status: 'error',
+        message: 'No placement registered for this student.',
+      });
+    }
+
+    if (placement.clearance?.coordinator_status !== 'CLEARED') {
       return res.status(403).json({
         status: 'error',
         message: 'Logbook download is locked until institutional clearance is completed.',
       });
     }
 
-    // Return dummy text/pdf headers or piped pdf stream
+    // Set PDF response headers
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader(
       'Content-Disposition',
-      `attachment; filename=SIWES_Logbook_${placement.student.matric_no || 'Dossier'}.pdf`
+      `attachment; filename=SIWES_Logbook_${placement.student.matric_no || 'Docket'}.pdf`
     );
 
-    // Dummy placeholder buffer so download doesn't crash if PDF engine isn't configured yet
-    const dummyPdfBuffer = Buffer.from('%PDF-1.4\n1 0 obj\n<<>>\nendobj\ntrailer\n<<>>\n%%EOF');
-    return res.send(dummyPdfBuffer);
+    // Create a valid PDF document
+    const doc = new PDFDocument({ margin: 50, size: 'A4' });
+    doc.pipe(res);
+
+    // Header & Title
+    doc.fontSize(18).font('Helvetica-Bold').text('SIWES LOGBOOK DOSSIER (FORM ITF-08)', { align: 'center' });
+    doc.moveDown(0.5);
+    doc.fontSize(10).font('Helvetica').text('FEDERAL REPUBLIC OF NIGERIA - INDUSTRIAL TRAINING FUND', { align: 'center' });
+    doc.moveDown(1.5);
+
+    // Trainee & Placement Info
+    doc.fontSize(12).font('Helvetica-Bold').text('TRAINEE & PLACEMENT DETAILS');
+    doc.moveDown(0.4);
+    doc.fontSize(10).font('Helvetica');
+    doc.text(`Trainee Name: ${placement.student.name}`);
+    doc.text(`Matriculation No: ${placement.student.matric_no || 'N/A'}`);
+    doc.text(`Host Organization: ${placement.company_name}`);
+    doc.text(`Company Address: ${placement.company_address || 'N/A'}`);
+    doc.text(`Industry Supervisor: ${placement.ind_supervisor_name || 'Assigned Supervisor'} (${placement.ind_supervisor_email || 'N/A'})`);
+    doc.text(`Institutional Coordinator: ${placement.inst_coordinator?.name || 'Departmental Desk'}`);
+    doc.moveDown(1.5);
+
+    // Institutional Clearance & Grade
+    doc.fontSize(12).font('Helvetica-Bold').text('INSTITUTIONAL EVALUATION & CLEARANCE');
+    doc.moveDown(0.4);
+    doc.fontSize(10).font('Helvetica');
+    doc.text(`Clearance Status: ${placement.clearance.coordinator_status}`);
+    doc.text(`Performance Score: ${placement.clearance.coordinator_score ?? 'N/A'} / 100`);
+    doc.text(`Remarks: ${placement.clearance.coordinator_remarks || 'None'}`);
+    doc.text(`Verification Seal Hash: ${placement.clearance.final_pdf_hash || 'N/A'}`);
+    doc.moveDown(1.5);
+
+    // Weekly Logs Summary
+    doc.fontSize(12).font('Helvetica-Bold').text('WEEKLY LOGBOOK SUBMISSIONS');
+    doc.moveDown(0.5);
+
+    if (placement.weekly_submissions.length === 0) {
+      doc.fontSize(10).font('Helvetica-Oblique').text('No weekly entries recorded.');
+    } else {
+      for (const week of placement.weekly_submissions) {
+        doc.fontSize(10).font('Helvetica-Bold').text(`Week ${week.week_no} - Status: ${week.status}`);
+        if (week.supervisor_remarks) {
+          doc.fontSize(9).font('Helvetica-Oblique').text(`Supervisor Remarks: ${week.supervisor_remarks}`);
+        }
+
+        doc.fontSize(9).font('Helvetica');
+        for (const log of week.daily_logs) {
+          const dateStr = new Date(log.log_date).toLocaleDateString('en-GB');
+          doc.text(` • ${log.day_of_week} (${dateStr}): ${log.description}`);
+        }
+        doc.moveDown(0.8);
+      }
+    }
+
+    // End PDF stream
+    doc.end();
   } catch (error) {
     next(error);
   }
