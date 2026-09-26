@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "seed:admin": "ts-node scripts/create-admin.ts",
     "lint": "tsc --noEmit",
     "dev": "tsx watch src/index.ts --host 5000",
     "build": "tsc && shx cp -r src/generated dist/generated",

@@ -237,7 +237,7 @@ export const getAllPlacements = async (
           select: { weekly_submissions: true }
         }
       },
-      orderBy: { created_at: 'desc' }
+   orderBy: { start_date: 'desc' }
     });
 
     return res.status(200).json({
