@@ -1967,6 +1967,7 @@ export namespace Prisma {
     password_hash: string | null
     name: string | null
     role: $Enums.Role | null
+    department: string | null
     created_at: Date | null
   }
 
@@ -1977,6 +1978,7 @@ export namespace Prisma {
     password_hash: string | null
     name: string | null
     role: $Enums.Role | null
+    department: string | null
     created_at: Date | null
   }
 
@@ -1987,6 +1989,7 @@ export namespace Prisma {
     password_hash: number
     name: number
     role: number
+    department: number
     created_at: number
     _all: number
   }
@@ -1999,6 +2002,7 @@ export namespace Prisma {
     password_hash?: true
     name?: true
     role?: true
+    department?: true
     created_at?: true
   }
 
@@ -2009,6 +2013,7 @@ export namespace Prisma {
     password_hash?: true
     name?: true
     role?: true
+    department?: true
     created_at?: true
   }
 
@@ -2019,6 +2024,7 @@ export namespace Prisma {
     password_hash?: true
     name?: true
     role?: true
+    department?: true
     created_at?: true
     _all?: true
   }
@@ -2102,6 +2108,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role: $Enums.Role
+    department: string | null
     created_at: Date
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -2129,6 +2136,7 @@ export namespace Prisma {
     password_hash?: boolean
     name?: boolean
     role?: boolean
+    department?: boolean
     created_at?: boolean
     studentPlacements?: boolean | User$studentPlacementsArgs<ExtArgs>
     indSupervisorPlacements?: boolean | User$indSupervisorPlacementsArgs<ExtArgs>
@@ -2149,6 +2157,7 @@ export namespace Prisma {
     password_hash?: boolean
     name?: boolean
     role?: boolean
+    department?: boolean
     created_at?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -2159,6 +2168,7 @@ export namespace Prisma {
     password_hash?: boolean
     name?: boolean
     role?: boolean
+    department?: boolean
     created_at?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -2169,10 +2179,11 @@ export namespace Prisma {
     password_hash?: boolean
     name?: boolean
     role?: boolean
+    department?: boolean
     created_at?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "matric_no" | "password_hash" | "name" | "role" | "created_at", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "matric_no" | "password_hash" | "name" | "role" | "department" | "created_at", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     studentPlacements?: boolean | User$studentPlacementsArgs<ExtArgs>
     indSupervisorPlacements?: boolean | User$indSupervisorPlacementsArgs<ExtArgs>
@@ -2208,6 +2219,7 @@ export namespace Prisma {
       password_hash: string
       name: string
       role: $Enums.Role
+      department: string | null
       created_at: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -2647,6 +2659,7 @@ export namespace Prisma {
     readonly password_hash: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
+    readonly department: FieldRef<"User", 'String'>
     readonly created_at: FieldRef<"User", 'DateTime'>
   }
     
@@ -13668,6 +13681,7 @@ export namespace Prisma {
     password_hash: 'password_hash',
     name: 'name',
     role: 'role',
+    department: 'department',
     created_at: 'created_at'
   };
 
@@ -13995,6 +14009,7 @@ export namespace Prisma {
     password_hash?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    department?: StringNullableFilter<"User"> | string | null
     created_at?: DateTimeFilter<"User"> | Date | string
     studentPlacements?: PlacementListRelationFilter
     indSupervisorPlacements?: PlacementListRelationFilter
@@ -14014,6 +14029,7 @@ export namespace Prisma {
     password_hash?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    department?: SortOrderInput | SortOrder
     created_at?: SortOrder
     studentPlacements?: PlacementOrderByRelationAggregateInput
     indSupervisorPlacements?: PlacementOrderByRelationAggregateInput
@@ -14036,6 +14052,7 @@ export namespace Prisma {
     password_hash?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    department?: StringNullableFilter<"User"> | string | null
     created_at?: DateTimeFilter<"User"> | Date | string
     studentPlacements?: PlacementListRelationFilter
     indSupervisorPlacements?: PlacementListRelationFilter
@@ -14055,6 +14072,7 @@ export namespace Prisma {
     password_hash?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    department?: SortOrderInput | SortOrder
     created_at?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -14071,6 +14089,7 @@ export namespace Prisma {
     password_hash?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+    department?: StringNullableWithAggregatesFilter<"User"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
@@ -14788,6 +14807,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
@@ -14807,6 +14827,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
@@ -14826,6 +14847,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
@@ -14845,6 +14867,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
@@ -14864,6 +14887,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
   }
 
@@ -14874,6 +14898,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14884,6 +14909,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -15763,6 +15789,7 @@ export namespace Prisma {
     password_hash?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    department?: SortOrder
     created_at?: SortOrder
   }
 
@@ -15773,6 +15800,7 @@ export namespace Prisma {
     password_hash?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    department?: SortOrder
     created_at?: SortOrder
   }
 
@@ -15783,6 +15811,7 @@ export namespace Prisma {
     password_hash?: SortOrder
     name?: SortOrder
     role?: SortOrder
+    department?: SortOrder
     created_at?: SortOrder
   }
 
@@ -18328,6 +18357,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
@@ -18346,6 +18376,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
@@ -18380,6 +18411,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
@@ -18398,6 +18430,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
@@ -18416,6 +18449,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
@@ -18434,6 +18468,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
@@ -18468,6 +18503,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
@@ -18486,6 +18522,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
@@ -18504,6 +18541,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
@@ -18522,6 +18560,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
@@ -18545,6 +18584,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
@@ -18563,6 +18603,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
@@ -18586,6 +18627,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
@@ -18604,6 +18646,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
@@ -18781,6 +18824,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
@@ -18799,6 +18843,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
@@ -18828,6 +18873,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
@@ -18846,6 +18892,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
@@ -18875,6 +18922,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
@@ -18893,6 +18941,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
@@ -19390,6 +19439,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
@@ -19408,6 +19458,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
@@ -19479,6 +19530,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
@@ -19497,6 +19549,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
@@ -19556,6 +19609,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
@@ -19574,6 +19628,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
@@ -19655,6 +19710,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
@@ -19673,6 +19729,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
@@ -19691,6 +19748,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
@@ -19709,6 +19767,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
@@ -19773,6 +19832,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
@@ -19791,6 +19851,7 @@ export namespace Prisma {
     password_hash: string
     name: string
     role?: $Enums.Role
+    department?: string | null
     created_at?: Date | string
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
@@ -19825,6 +19886,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
@@ -19843,6 +19905,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
@@ -19919,6 +19982,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
@@ -19937,6 +20001,7 @@ export namespace Prisma {
     password_hash?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput

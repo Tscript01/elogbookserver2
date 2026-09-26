@@ -48,6 +48,7 @@ model User {
   password_hash String
   name          String
   role          Role     @default(STUDENT)
+  department    String?
   created_at    DateTime @default(now())
 
   studentPlacements         Placement[]         @relation("StudentPlacements")
