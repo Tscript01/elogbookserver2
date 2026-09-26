@@ -11,6 +11,7 @@ import logRoutes from "./routes/log.routes";
 
 import supervisorRoutes from "./routes/supervisor.routes";
 import bcrypt from 'bcryptjs';
+import adminRoutes from "./routes/admin.routes";
 
 
 const app: Express = express();
@@ -35,6 +36,7 @@ app.use('/api/submissions', submissionRoutes);
 app.use('/api/supervisor', supervisorRoutes)
 app.use('/api/coordinator', coordinatorRouter);
 app.use('/api/student', studentRoutes);
+app.use('/api/admin', adminRoutes);
 
 
 app.get("/api/health", (_req: Request, res: Response) => {

@@ -52,6 +52,10 @@ model User {
   department    String?
   created_at    DateTime @default(now())
 
+// Zonal supervision territory for coordinators
+  assigned_state String?
+  assigned_city  String?
+
   studentPlacements         Placement[]          @relation("StudentPlacements")
   indSupervisorPlacements   Placement[]          @relation("IndSupervisorPlacements")
   instCoordinatorPlacements Placement[]          @relation("InstCoordinatorPlacements")
@@ -113,6 +117,9 @@ model Placement {
   ind_supervisor_email String?
   company_contact      String?
   company_email        String?
+  // Geographical Clustering Fields
+  state                 String?    // e.g. "Lagos", "Ogun", "Edo"
+  city                  String?    // e.g. "Ikeja", "Abeokuta", "Benin City"
   start_date           DateTime
   end_date             DateTime
 

@@ -128,7 +128,9 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   role: 'role',
   department: 'department',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  assigned_state: 'assigned_state',
+  assigned_city: 'assigned_city'
 };
 
 exports.Prisma.EligibleStudentScalarFieldEnum = {
@@ -168,6 +170,8 @@ exports.Prisma.PlacementScalarFieldEnum = {
   ind_supervisor_email: 'ind_supervisor_email',
   company_contact: 'company_contact',
   company_email: 'company_email',
+  state: 'state',
+  city: 'city',
   start_date: 'start_date',
   end_date: 'end_date'
 };

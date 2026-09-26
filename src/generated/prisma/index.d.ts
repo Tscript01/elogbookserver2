@@ -1969,6 +1969,8 @@ export namespace Prisma {
     role: $Enums.Role | null
     department: string | null
     created_at: Date | null
+    assigned_state: string | null
+    assigned_city: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1980,6 +1982,8 @@ export namespace Prisma {
     role: $Enums.Role | null
     department: string | null
     created_at: Date | null
+    assigned_state: string | null
+    assigned_city: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1991,6 +1995,8 @@ export namespace Prisma {
     role: number
     department: number
     created_at: number
+    assigned_state: number
+    assigned_city: number
     _all: number
   }
 
@@ -2004,6 +2010,8 @@ export namespace Prisma {
     role?: true
     department?: true
     created_at?: true
+    assigned_state?: true
+    assigned_city?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -2015,6 +2023,8 @@ export namespace Prisma {
     role?: true
     department?: true
     created_at?: true
+    assigned_state?: true
+    assigned_city?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -2026,6 +2036,8 @@ export namespace Prisma {
     role?: true
     department?: true
     created_at?: true
+    assigned_state?: true
+    assigned_city?: true
     _all?: true
   }
 
@@ -2110,6 +2122,8 @@ export namespace Prisma {
     role: $Enums.Role
     department: string | null
     created_at: Date
+    assigned_state: string | null
+    assigned_city: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -2138,6 +2152,8 @@ export namespace Prisma {
     role?: boolean
     department?: boolean
     created_at?: boolean
+    assigned_state?: boolean
+    assigned_city?: boolean
     studentPlacements?: boolean | User$studentPlacementsArgs<ExtArgs>
     indSupervisorPlacements?: boolean | User$indSupervisorPlacementsArgs<ExtArgs>
     instCoordinatorPlacements?: boolean | User$instCoordinatorPlacementsArgs<ExtArgs>
@@ -2159,6 +2175,8 @@ export namespace Prisma {
     role?: boolean
     department?: boolean
     created_at?: boolean
+    assigned_state?: boolean
+    assigned_city?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2170,6 +2188,8 @@ export namespace Prisma {
     role?: boolean
     department?: boolean
     created_at?: boolean
+    assigned_state?: boolean
+    assigned_city?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -2181,9 +2201,11 @@ export namespace Prisma {
     role?: boolean
     department?: boolean
     created_at?: boolean
+    assigned_state?: boolean
+    assigned_city?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "matric_no" | "password_hash" | "name" | "role" | "department" | "created_at", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "matric_no" | "password_hash" | "name" | "role" | "department" | "created_at" | "assigned_state" | "assigned_city", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     studentPlacements?: boolean | User$studentPlacementsArgs<ExtArgs>
     indSupervisorPlacements?: boolean | User$indSupervisorPlacementsArgs<ExtArgs>
@@ -2221,6 +2243,8 @@ export namespace Prisma {
       role: $Enums.Role
       department: string | null
       created_at: Date
+      assigned_state: string | null
+      assigned_city: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2661,6 +2685,8 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'Role'>
     readonly department: FieldRef<"User", 'String'>
     readonly created_at: FieldRef<"User", 'DateTime'>
+    readonly assigned_state: FieldRef<"User", 'String'>
+    readonly assigned_city: FieldRef<"User", 'String'>
   }
     
 
@@ -6461,6 +6487,8 @@ export namespace Prisma {
     ind_supervisor_email: string | null
     company_contact: string | null
     company_email: string | null
+    state: string | null
+    city: string | null
     start_date: Date | null
     end_date: Date | null
   }
@@ -6476,6 +6504,8 @@ export namespace Prisma {
     ind_supervisor_email: string | null
     company_contact: string | null
     company_email: string | null
+    state: string | null
+    city: string | null
     start_date: Date | null
     end_date: Date | null
   }
@@ -6491,6 +6521,8 @@ export namespace Prisma {
     ind_supervisor_email: number
     company_contact: number
     company_email: number
+    state: number
+    city: number
     start_date: number
     end_date: number
     _all: number
@@ -6508,6 +6540,8 @@ export namespace Prisma {
     ind_supervisor_email?: true
     company_contact?: true
     company_email?: true
+    state?: true
+    city?: true
     start_date?: true
     end_date?: true
   }
@@ -6523,6 +6557,8 @@ export namespace Prisma {
     ind_supervisor_email?: true
     company_contact?: true
     company_email?: true
+    state?: true
+    city?: true
     start_date?: true
     end_date?: true
   }
@@ -6538,6 +6574,8 @@ export namespace Prisma {
     ind_supervisor_email?: true
     company_contact?: true
     company_email?: true
+    state?: true
+    city?: true
     start_date?: true
     end_date?: true
     _all?: true
@@ -6626,6 +6664,8 @@ export namespace Prisma {
     ind_supervisor_email: string | null
     company_contact: string | null
     company_email: string | null
+    state: string | null
+    city: string | null
     start_date: Date
     end_date: Date
     _count: PlacementCountAggregateOutputType | null
@@ -6658,6 +6698,8 @@ export namespace Prisma {
     ind_supervisor_email?: boolean
     company_contact?: boolean
     company_email?: boolean
+    state?: boolean
+    city?: boolean
     start_date?: boolean
     end_date?: boolean
     student?: boolean | UserDefaultArgs<ExtArgs>
@@ -6681,6 +6723,8 @@ export namespace Prisma {
     ind_supervisor_email?: boolean
     company_contact?: boolean
     company_email?: boolean
+    state?: boolean
+    city?: boolean
     start_date?: boolean
     end_date?: boolean
     student?: boolean | UserDefaultArgs<ExtArgs>
@@ -6699,6 +6743,8 @@ export namespace Prisma {
     ind_supervisor_email?: boolean
     company_contact?: boolean
     company_email?: boolean
+    state?: boolean
+    city?: boolean
     start_date?: boolean
     end_date?: boolean
     student?: boolean | UserDefaultArgs<ExtArgs>
@@ -6717,11 +6763,13 @@ export namespace Prisma {
     ind_supervisor_email?: boolean
     company_contact?: boolean
     company_email?: boolean
+    state?: boolean
+    city?: boolean
     start_date?: boolean
     end_date?: boolean
   }
 
-  export type PlacementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "student_id" | "company_name" | "ind_supervisor_id" | "inst_coordinator_id" | "company_address" | "ind_supervisor_name" | "ind_supervisor_email" | "company_contact" | "company_email" | "start_date" | "end_date", ExtArgs["result"]["placement"]>
+  export type PlacementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "student_id" | "company_name" | "ind_supervisor_id" | "inst_coordinator_id" | "company_address" | "ind_supervisor_name" | "ind_supervisor_email" | "company_contact" | "company_email" | "state" | "city" | "start_date" | "end_date", ExtArgs["result"]["placement"]>
   export type PlacementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | UserDefaultArgs<ExtArgs>
     ind_supervisor?: boolean | Placement$ind_supervisorArgs<ExtArgs>
@@ -6765,6 +6813,8 @@ export namespace Prisma {
       ind_supervisor_email: string | null
       company_contact: string | null
       company_email: string | null
+      state: string | null
+      city: string | null
       start_date: Date
       end_date: Date
     }, ExtArgs["result"]["placement"]>
@@ -7207,6 +7257,8 @@ export namespace Prisma {
     readonly ind_supervisor_email: FieldRef<"Placement", 'String'>
     readonly company_contact: FieldRef<"Placement", 'String'>
     readonly company_email: FieldRef<"Placement", 'String'>
+    readonly state: FieldRef<"Placement", 'String'>
+    readonly city: FieldRef<"Placement", 'String'>
     readonly start_date: FieldRef<"Placement", 'DateTime'>
     readonly end_date: FieldRef<"Placement", 'DateTime'>
   }
@@ -13682,7 +13734,9 @@ export namespace Prisma {
     name: 'name',
     role: 'role',
     department: 'department',
-    created_at: 'created_at'
+    created_at: 'created_at',
+    assigned_state: 'assigned_state',
+    assigned_city: 'assigned_city'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -13734,6 +13788,8 @@ export namespace Prisma {
     ind_supervisor_email: 'ind_supervisor_email',
     company_contact: 'company_contact',
     company_email: 'company_email',
+    state: 'state',
+    city: 'city',
     start_date: 'start_date',
     end_date: 'end_date'
   };
@@ -14011,6 +14067,8 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     department?: StringNullableFilter<"User"> | string | null
     created_at?: DateTimeFilter<"User"> | Date | string
+    assigned_state?: StringNullableFilter<"User"> | string | null
+    assigned_city?: StringNullableFilter<"User"> | string | null
     studentPlacements?: PlacementListRelationFilter
     indSupervisorPlacements?: PlacementListRelationFilter
     instCoordinatorPlacements?: PlacementListRelationFilter
@@ -14031,6 +14089,8 @@ export namespace Prisma {
     role?: SortOrder
     department?: SortOrderInput | SortOrder
     created_at?: SortOrder
+    assigned_state?: SortOrderInput | SortOrder
+    assigned_city?: SortOrderInput | SortOrder
     studentPlacements?: PlacementOrderByRelationAggregateInput
     indSupervisorPlacements?: PlacementOrderByRelationAggregateInput
     instCoordinatorPlacements?: PlacementOrderByRelationAggregateInput
@@ -14054,6 +14114,8 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     department?: StringNullableFilter<"User"> | string | null
     created_at?: DateTimeFilter<"User"> | Date | string
+    assigned_state?: StringNullableFilter<"User"> | string | null
+    assigned_city?: StringNullableFilter<"User"> | string | null
     studentPlacements?: PlacementListRelationFilter
     indSupervisorPlacements?: PlacementListRelationFilter
     instCoordinatorPlacements?: PlacementListRelationFilter
@@ -14074,6 +14136,8 @@ export namespace Prisma {
     role?: SortOrder
     department?: SortOrderInput | SortOrder
     created_at?: SortOrder
+    assigned_state?: SortOrderInput | SortOrder
+    assigned_city?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -14091,6 +14155,8 @@ export namespace Prisma {
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     department?: StringNullableWithAggregatesFilter<"User"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    assigned_state?: StringNullableWithAggregatesFilter<"User"> | string | null
+    assigned_city?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type EligibleStudentWhereInput = {
@@ -14279,6 +14345,8 @@ export namespace Prisma {
     ind_supervisor_email?: StringNullableFilter<"Placement"> | string | null
     company_contact?: StringNullableFilter<"Placement"> | string | null
     company_email?: StringNullableFilter<"Placement"> | string | null
+    state?: StringNullableFilter<"Placement"> | string | null
+    city?: StringNullableFilter<"Placement"> | string | null
     start_date?: DateTimeFilter<"Placement"> | Date | string
     end_date?: DateTimeFilter<"Placement"> | Date | string
     student?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -14301,6 +14369,8 @@ export namespace Prisma {
     ind_supervisor_email?: SortOrderInput | SortOrder
     company_contact?: SortOrderInput | SortOrder
     company_email?: SortOrderInput | SortOrder
+    state?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
     student?: UserOrderByWithRelationInput
@@ -14326,6 +14396,8 @@ export namespace Prisma {
     ind_supervisor_email?: StringNullableFilter<"Placement"> | string | null
     company_contact?: StringNullableFilter<"Placement"> | string | null
     company_email?: StringNullableFilter<"Placement"> | string | null
+    state?: StringNullableFilter<"Placement"> | string | null
+    city?: StringNullableFilter<"Placement"> | string | null
     start_date?: DateTimeFilter<"Placement"> | Date | string
     end_date?: DateTimeFilter<"Placement"> | Date | string
     student?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -14348,6 +14420,8 @@ export namespace Prisma {
     ind_supervisor_email?: SortOrderInput | SortOrder
     company_contact?: SortOrderInput | SortOrder
     company_email?: SortOrderInput | SortOrder
+    state?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
     _count?: PlacementCountOrderByAggregateInput
@@ -14369,6 +14443,8 @@ export namespace Prisma {
     ind_supervisor_email?: StringNullableWithAggregatesFilter<"Placement"> | string | null
     company_contact?: StringNullableWithAggregatesFilter<"Placement"> | string | null
     company_email?: StringNullableWithAggregatesFilter<"Placement"> | string | null
+    state?: StringNullableWithAggregatesFilter<"Placement"> | string | null
+    city?: StringNullableWithAggregatesFilter<"Placement"> | string | null
     start_date?: DateTimeWithAggregatesFilter<"Placement"> | Date | string
     end_date?: DateTimeWithAggregatesFilter<"Placement"> | Date | string
   }
@@ -14809,6 +14885,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
@@ -14829,6 +14907,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
@@ -14849,6 +14929,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
@@ -14869,6 +14951,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
@@ -14889,6 +14973,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -14900,6 +14986,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -14911,6 +14999,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EligibleStudentCreateInput = {
@@ -15101,6 +15191,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
@@ -15123,6 +15215,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
@@ -15139,6 +15233,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
@@ -15161,6 +15257,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
@@ -15180,6 +15278,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
   }
@@ -15192,6 +15292,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15207,6 +15309,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -15791,6 +15895,8 @@ export namespace Prisma {
     role?: SortOrder
     department?: SortOrder
     created_at?: SortOrder
+    assigned_state?: SortOrder
+    assigned_city?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -15802,6 +15908,8 @@ export namespace Prisma {
     role?: SortOrder
     department?: SortOrder
     created_at?: SortOrder
+    assigned_state?: SortOrder
+    assigned_city?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -15813,6 +15921,8 @@ export namespace Prisma {
     role?: SortOrder
     department?: SortOrder
     created_at?: SortOrder
+    assigned_state?: SortOrder
+    assigned_city?: SortOrder
   }
 
   export type UuidWithAggregatesFilter<$PrismaModel = never> = {
@@ -16064,6 +16174,8 @@ export namespace Prisma {
     ind_supervisor_email?: SortOrder
     company_contact?: SortOrder
     company_email?: SortOrder
+    state?: SortOrder
+    city?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
   }
@@ -16079,6 +16191,8 @@ export namespace Prisma {
     ind_supervisor_email?: SortOrder
     company_contact?: SortOrder
     company_email?: SortOrder
+    state?: SortOrder
+    city?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
   }
@@ -16094,6 +16208,8 @@ export namespace Prisma {
     ind_supervisor_email?: SortOrder
     company_contact?: SortOrder
     company_email?: SortOrder
+    state?: SortOrder
+    city?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
   }
@@ -17787,6 +17903,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
@@ -17807,6 +17925,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
@@ -17833,6 +17953,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
@@ -17853,6 +17975,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
@@ -17879,6 +18003,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
@@ -17899,6 +18025,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
@@ -18145,6 +18273,8 @@ export namespace Prisma {
     ind_supervisor_email?: StringNullableFilter<"Placement"> | string | null
     company_contact?: StringNullableFilter<"Placement"> | string | null
     company_email?: StringNullableFilter<"Placement"> | string | null
+    state?: StringNullableFilter<"Placement"> | string | null
+    city?: StringNullableFilter<"Placement"> | string | null
     start_date?: DateTimeFilter<"Placement"> | Date | string
     end_date?: DateTimeFilter<"Placement"> | Date | string
   }
@@ -18359,6 +18489,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
@@ -18378,6 +18510,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
@@ -18413,6 +18547,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
@@ -18432,6 +18568,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
@@ -18451,6 +18589,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
@@ -18470,6 +18610,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
@@ -18505,6 +18647,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
@@ -18524,6 +18668,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
@@ -18543,6 +18689,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
@@ -18562,6 +18710,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
@@ -18586,6 +18736,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
@@ -18605,6 +18757,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
@@ -18629,6 +18783,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
@@ -18648,6 +18804,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
@@ -18826,6 +18984,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
@@ -18845,6 +19005,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
@@ -18875,6 +19037,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
@@ -18894,6 +19058,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
@@ -18924,6 +19090,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
@@ -18943,6 +19111,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
@@ -19079,6 +19249,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
@@ -19100,6 +19272,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
@@ -19162,6 +19336,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
@@ -19183,6 +19359,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
@@ -19235,6 +19413,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
@@ -19256,6 +19436,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
@@ -19341,6 +19523,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
@@ -19362,6 +19546,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
@@ -19441,6 +19627,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
@@ -19460,6 +19648,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
@@ -19532,6 +19722,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
@@ -19551,6 +19743,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
@@ -19569,6 +19763,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
@@ -19590,6 +19786,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
@@ -19611,6 +19809,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
@@ -19630,6 +19830,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
@@ -19664,6 +19866,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
@@ -19685,6 +19889,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
@@ -19712,6 +19918,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
@@ -19731,6 +19939,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
@@ -19750,6 +19960,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
@@ -19769,6 +19981,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
@@ -19792,6 +20006,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
@@ -19813,6 +20029,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
@@ -19834,6 +20052,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
@@ -19853,6 +20073,8 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
@@ -19888,6 +20110,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
@@ -19907,6 +20131,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
@@ -19936,6 +20162,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
@@ -19957,6 +20185,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
@@ -19984,6 +20214,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
@@ -20003,6 +20235,8 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
@@ -20023,6 +20257,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
   }
@@ -20037,6 +20273,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
   }
@@ -20051,6 +20289,8 @@ export namespace Prisma {
     ind_supervisor_email?: string | null
     company_contact?: string | null
     company_email?: string | null
+    state?: string | null
+    city?: string | null
     start_date: Date | string
     end_date: Date | string
   }
@@ -20132,6 +20372,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
@@ -20152,6 +20394,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
@@ -20170,6 +20414,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20182,6 +20428,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
@@ -20202,6 +20450,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
@@ -20220,6 +20470,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20232,6 +20484,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
@@ -20252,6 +20506,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
@@ -20270,6 +20526,8 @@ export namespace Prisma {
     ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
     company_contact?: NullableStringFieldUpdateOperationsInput | string | null
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
   }

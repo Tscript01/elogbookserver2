@@ -14,6 +14,8 @@ export const createPlacement = async (
   try {
     const {
       company_name,
+      state,
+      city,
       company_address,
       company_contact,
       company_email,
@@ -31,8 +33,10 @@ export const createPlacement = async (
       return res.status(401).json({ error: 'Unauthorized: No user ID found in token' });
     }
 
-    if (!company_name || !start_date || !end_date) {
-      return res.status(400).json({ error: 'Company name, start date, and end date are mandatory' });
+    if (!company_name || !state || !city || !start_date || !end_date) {
+      return res.status(400).json({ 
+        error: 'Company name, state, town/city, start date, and end date are mandatory' 
+      });
     }
 
     const startDate = new Date(start_date);
@@ -102,6 +106,8 @@ export const createPlacement = async (
       data: {
         student_id: userId,
         company_name: company_name.trim(),
+        state: state.trim(),
+        city: city.trim(),
         company_address: company_address?.trim() || null,
         company_contact: company_contact?.trim() || null,
         company_email: company_email?.trim().toLowerCase() || null,
@@ -122,8 +128,7 @@ export const createPlacement = async (
       }
     });
 
-    // Send invitation email asynchronously if email is present
-if (targetSupervisorEmail) {
+    if (targetSupervisorEmail) {
       const loginUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
       const supervisorNames = supervisorName || 'Industrial Supervisor';
       const studentName = req.user?.name || 'A student';
@@ -132,7 +137,7 @@ if (targetSupervisorEmail) {
       const htmlContent = `
         <div style="font-family: sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
           <h2 style="color: #059669;">Hello ${supervisorNames},</h2>
-          <p><strong>${studentName}</strong> has listed you as their Industrial Supervisor at <strong>${company_name.trim()}</strong> on the Elog SIWES platform.</p>
+          <p><strong>${studentName}</strong> has listed you as their Industrial Supervisor at <strong>${company_name.trim()}</strong> (${city.trim()}, ${state.trim()}) on the Elog SIWES platform.</p>
           <p>An account has been associated with this email address. You can log in to review, inspect, and approve weekly logbook submissions for all your assigned interns.</p>
           <p style="margin: 30px 0;">
             <a href="${loginUrl}/login" style="background: #059669; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Access Supervisor Portal</a>
@@ -141,7 +146,6 @@ if (targetSupervisorEmail) {
         </div>
       `;
 
-      // Call your exact utility function asynchronously without blocking response
       sendEmail(targetSupervisorEmail, subject, htmlContent).catch((err) =>
         console.error('Failed to send supervisor invitation email:', err)
       );
@@ -178,6 +182,8 @@ export const updatePlacement = async (
 
     const {
       company_name,
+      state,
+      city,
       company_address,
       company_contact,
       company_email,
@@ -247,6 +253,8 @@ export const updatePlacement = async (
       where: { id: existing.id },
       data: {
         company_name: company_name ? company_name.trim() : existing.company_name,
+        state: state !== undefined ? (state ? state.trim() : existing.state) : existing.state,
+        city: city !== undefined ? (city ? city.trim() : existing.city) : existing.city,
         company_address: company_address !== undefined ? (company_address?.trim() || null) : existing.company_address,
         company_contact: company_contact !== undefined ? (company_contact?.trim() || null) : existing.company_contact,
         company_email: company_email !== undefined ? (company_email?.trim().toLowerCase() || null) : existing.company_email,
@@ -258,6 +266,9 @@ export const updatePlacement = async (
       },
       include: {
         ind_supervisor: {
+          select: { id: true, name: true, email: true }
+        },
+        inst_coordinator: {
           select: { id: true, name: true, email: true }
         }
       }
@@ -366,6 +377,8 @@ export const updatePlacementById = async (
 
     const {
       company_name,
+      state,
+      city,
       company_address,
       company_contact,
       company_email,
@@ -436,6 +449,8 @@ export const updatePlacementById = async (
       where: { id },
       data: {
         company_name: company_name !== undefined ? company_name.trim() : existing.company_name,
+        state: state !== undefined ? (state ? state.trim() : existing.state) : existing.state,
+        city: city !== undefined ? (city ? city.trim() : existing.city) : existing.city,
         company_address: company_address !== undefined ? company_address : existing.company_address,
         company_contact: company_contact !== undefined ? company_contact : existing.company_contact,
         company_email: company_email !== undefined ? (company_email ? company_email.trim().toLowerCase() : null) : existing.company_email,
