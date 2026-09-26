@@ -4,7 +4,7 @@ import { prisma } from '../config/prisma';
 import { AuthenticatedRequest } from '../middlewares/auth';
 import { sendEmail } from '../utils/resend';
 
-const MINIMUM_DURATION_MS = 30 * 24 * 60 * 60 * 1000; // 30 days minimum duration
+const MINIMUM_DURATION_MS = 30 * 24 * 60 * 60 * 1000;
 
 export const createPlacement = async (
   req: AuthenticatedRequest,
@@ -34,8 +34,8 @@ export const createPlacement = async (
     }
 
     if (!company_name || !state || !city || !start_date || !end_date) {
-      return res.status(400).json({ 
-        error: 'Company name, state, town/city, start date, and end date are mandatory' 
+      return res.status(400).json({
+        error: 'Company name, state, town/city, start date, and end date are mandatory'
       });
     }
 
@@ -68,14 +68,13 @@ export const createPlacement = async (
     }
 
     const targetSupervisorEmail = ind_supervisor_email !== undefined
-      ? (ind_supervisor_email ? ind_supervisor_email.trim().toLowerCase() : null)
-      : (supervisor_email !== undefined ? (supervisor_email ? supervisor_email.trim().toLowerCase() : null) : null);
+      ? (ind_supervisor_email ? String(ind_supervisor_email).trim().toLowerCase() : null)
+      : (supervisor_email !== undefined ? (supervisor_email ? String(supervisor_email).trim().toLowerCase() : null) : null);
 
-    const supervisorName = ind_supervisor_name ? ind_supervisor_name.trim() : 'Industrial Supervisor';
+    const supervisorName = ind_supervisor_name ? String(ind_supervisor_name).trim() : 'Industrial Supervisor';
 
     let resolvedSupervisorId: string | null = ind_supervisor_id || null;
 
-    // JIT (Just-In-Time) Supervisor Account Provisioning
     if (!resolvedSupervisorId && targetSupervisorEmail) {
       let supervisor = await prisma.user.findFirst({
         where: {
@@ -105,12 +104,12 @@ export const createPlacement = async (
     const placement = await prisma.placement.create({
       data: {
         student_id: userId,
-        company_name: company_name.trim(),
-        state: state.trim(),
-        city: city.trim(),
-        company_address: company_address?.trim() || null,
-        company_contact: company_contact?.trim() || null,
-        company_email: company_email?.trim().toLowerCase() || null,
+        company_name: String(company_name).trim(),
+        state: String(state).trim(),
+        city: String(city).trim(),
+        company_address: company_address ? String(company_address).trim() : null,
+        company_contact: company_contact ? String(company_contact).trim() : null,
+        company_email: company_email ? String(company_email).trim().toLowerCase() : null,
         ind_supervisor_name: supervisorName,
         ind_supervisor_email: targetSupervisorEmail,
         ind_supervisor_id: resolvedSupervisorId,
@@ -137,7 +136,7 @@ export const createPlacement = async (
       const htmlContent = `
         <div style="font-family: sans-serif; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 12px;">
           <h2 style="color: #059669;">Hello ${supervisorNames},</h2>
-          <p><strong>${studentName}</strong> has listed you as their Industrial Supervisor at <strong>${company_name.trim()}</strong> (${city.trim()}, ${state.trim()}) on the Elog SIWES platform.</p>
+          <p><strong>${studentName}</strong> has listed you as their Industrial Supervisor at <strong>${placement.company_name}</strong> (${placement.city}, ${placement.state}) on the Elog SIWES platform.</p>
           <p>An account has been associated with this email address. You can log in to review, inspect, and approve weekly logbook submissions for all your assigned interns.</p>
           <p style="margin: 30px 0;">
             <a href="${loginUrl}/login" style="background: #059669; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Access Supervisor Portal</a>
@@ -153,7 +152,8 @@ export const createPlacement = async (
 
     return res.status(201).json({
       message: 'Placement created successfully',
-      placement
+      placement,
+      ...placement
     });
   } catch (error) {
     console.error('Error creating placement:', error);
@@ -172,9 +172,15 @@ export const updatePlacement = async (
       return res.status(401).json({ error: 'Unauthorized: No user ID found in token' });
     }
 
-    const existing = await prisma.placement.findFirst({
-      where: { student_id: userId }
-    });
+    const paramId = req.params?.id;
+    let existing = null;
+
+    if (paramId) {
+      existing = await prisma.placement.findUnique({ where: { id: paramId } });
+    }
+    if (!existing) {
+      existing = await prisma.placement.findFirst({ where: { student_id: userId } });
+    }
 
     if (!existing) {
       return res.status(404).json({ error: 'No active placement found to update' });
@@ -191,6 +197,7 @@ export const updatePlacement = async (
       supervisor_email,
       ind_supervisor_email,
       ind_supervisor_id,
+      inst_coordinator_id,
       start_date,
       end_date
     } = req.body;
@@ -213,11 +220,11 @@ export const updatePlacement = async (
     }
 
     const targetSupervisorEmail = ind_supervisor_email !== undefined
-      ? (ind_supervisor_email ? ind_supervisor_email.trim().toLowerCase() : null)
-      : (supervisor_email !== undefined ? (supervisor_email ? supervisor_email.trim().toLowerCase() : null) : existing.ind_supervisor_email);
+      ? (ind_supervisor_email ? String(ind_supervisor_email).trim().toLowerCase() : null)
+      : (supervisor_email !== undefined ? (supervisor_email ? String(supervisor_email).trim().toLowerCase() : null) : existing.ind_supervisor_email);
 
     const supervisorName = ind_supervisor_name !== undefined
-      ? (ind_supervisor_name ? ind_supervisor_name.trim() : null)
+      ? (ind_supervisor_name ? String(ind_supervisor_name).trim() : null)
       : existing.ind_supervisor_name;
 
     let resolvedSupervisorId = existing.ind_supervisor_id;
@@ -232,7 +239,7 @@ export const updatePlacement = async (
         select: { id: true }
       });
 
-      if (!supervisor && targetSupervisorEmail) {
+      if (!supervisor) {
         const tempPassword = Math.random().toString(36).slice(-10);
         const passwordHash = await bcrypt.hash(tempPassword, 10);
 
@@ -249,18 +256,27 @@ export const updatePlacement = async (
       resolvedSupervisorId = supervisor ? supervisor.id : null;
     }
 
+    const resolvedState = state !== undefined && state !== null && String(state).trim() !== ''
+      ? String(state).trim()
+      : existing.state;
+
+    const resolvedCity = city !== undefined && city !== null && String(city).trim() !== ''
+      ? String(city).trim()
+      : existing.city;
+
     const updated = await prisma.placement.update({
       where: { id: existing.id },
       data: {
-        company_name: company_name ? company_name.trim() : existing.company_name,
-        state: state !== undefined ? (state ? state.trim() : existing.state) : existing.state,
-        city: city !== undefined ? (city ? city.trim() : existing.city) : existing.city,
-        company_address: company_address !== undefined ? (company_address?.trim() || null) : existing.company_address,
-        company_contact: company_contact !== undefined ? (company_contact?.trim() || null) : existing.company_contact,
-        company_email: company_email !== undefined ? (company_email?.trim().toLowerCase() || null) : existing.company_email,
+        company_name: company_name ? String(company_name).trim() : existing.company_name,
+        state: resolvedState,
+        city: resolvedCity,
+        company_address: company_address !== undefined ? (company_address ? String(company_address).trim() : null) : existing.company_address,
+        company_contact: company_contact !== undefined ? (company_contact ? String(company_contact).trim() : null) : existing.company_contact,
+        company_email: company_email !== undefined ? (company_email ? String(company_email).trim().toLowerCase() : null) : existing.company_email,
         ind_supervisor_name: supervisorName,
         ind_supervisor_email: targetSupervisorEmail,
         ind_supervisor_id: resolvedSupervisorId,
+        inst_coordinator_id: inst_coordinator_id !== undefined ? inst_coordinator_id : existing.inst_coordinator_id,
         start_date: startDate,
         end_date: endDate
       },
@@ -276,7 +292,8 @@ export const updatePlacement = async (
 
     return res.status(200).json({
       message: 'Placement updated successfully',
-      placement: updated
+      placement: updated,
+      ...updated
     });
   } catch (error) {
     console.error('Error updating placement:', error);
@@ -311,7 +328,10 @@ export const getCurrentPlacement = async (
       return res.status(404).json({ error: 'No active placement found for this student' });
     }
 
-    return res.status(200).json(placement);
+    return res.status(200).json({
+      placement,
+      ...placement
+    });
   } catch (error) {
     console.error('Error retrieving current placement:', error);
     next(error);
@@ -342,7 +362,10 @@ export const getPlacementById = async (
       return res.status(404).json({ error: 'Placement not found' });
     }
 
-    return res.status(200).json(placement);
+    return res.status(200).json({
+      placement,
+      ...placement
+    });
   } catch (error) {
     console.error('Error retrieving placement by id:', error);
     next(error);
@@ -363,9 +386,15 @@ export const updatePlacementById = async (
       return res.status(401).json({ error: 'Unauthorized: No user ID found in token' });
     }
 
-    const existing = await prisma.placement.findUnique({
+    let existing = await prisma.placement.findUnique({
       where: { id },
     });
+
+    if (!existing) {
+      existing = await prisma.placement.findFirst({
+        where: { student_id: userId }
+      });
+    }
 
     if (!existing) {
       return res.status(404).json({ error: 'Placement not found' });
@@ -409,11 +438,11 @@ export const updatePlacementById = async (
     }
 
     const targetSupervisorEmail = ind_supervisor_email !== undefined
-      ? (ind_supervisor_email ? ind_supervisor_email.trim().toLowerCase() : null)
-      : (supervisor_email !== undefined ? (supervisor_email ? supervisor_email.trim().toLowerCase() : null) : existing.ind_supervisor_email);
+      ? (ind_supervisor_email ? String(ind_supervisor_email).trim().toLowerCase() : null)
+      : (supervisor_email !== undefined ? (supervisor_email ? String(supervisor_email).trim().toLowerCase() : null) : existing.ind_supervisor_email);
 
     const supervisorName = ind_supervisor_name !== undefined
-      ? (ind_supervisor_name ? ind_supervisor_name.trim() : null)
+      ? (ind_supervisor_name ? String(ind_supervisor_name).trim() : null)
       : existing.ind_supervisor_name;
 
     let resolvedSupervisorId = existing.ind_supervisor_id;
@@ -428,7 +457,7 @@ export const updatePlacementById = async (
         select: { id: true },
       });
 
-      if (!supervisor && targetSupervisorEmail) {
+      if (!supervisor) {
         const tempPassword = Math.random().toString(36).slice(-10);
         const passwordHash = await bcrypt.hash(tempPassword, 10);
 
@@ -445,15 +474,23 @@ export const updatePlacementById = async (
       resolvedSupervisorId = supervisor ? supervisor.id : null;
     }
 
+    const resolvedState = state !== undefined && state !== null && String(state).trim() !== ''
+      ? String(state).trim()
+      : existing.state;
+
+    const resolvedCity = city !== undefined && city !== null && String(city).trim() !== ''
+      ? String(city).trim()
+      : existing.city;
+
     const updated = await prisma.placement.update({
-      where: { id },
+      where: { id: existing.id },
       data: {
-        company_name: company_name !== undefined ? company_name.trim() : existing.company_name,
-        state: state !== undefined ? (state ? state.trim() : existing.state) : existing.state,
-        city: city !== undefined ? (city ? city.trim() : existing.city) : existing.city,
-        company_address: company_address !== undefined ? company_address : existing.company_address,
-        company_contact: company_contact !== undefined ? company_contact : existing.company_contact,
-        company_email: company_email !== undefined ? (company_email ? company_email.trim().toLowerCase() : null) : existing.company_email,
+        company_name: company_name !== undefined && company_name !== null ? String(company_name).trim() : existing.company_name,
+        state: resolvedState,
+        city: resolvedCity,
+        company_address: company_address !== undefined ? (company_address ? String(company_address).trim() : null) : existing.company_address,
+        company_contact: company_contact !== undefined ? (company_contact ? String(company_contact).trim() : null) : existing.company_contact,
+        company_email: company_email !== undefined ? (company_email ? String(company_email).trim().toLowerCase() : null) : existing.company_email,
         ind_supervisor_name: supervisorName,
         ind_supervisor_email: targetSupervisorEmail,
         ind_supervisor_id: resolvedSupervisorId,
@@ -474,6 +511,7 @@ export const updatePlacementById = async (
     return res.status(200).json({
       message: 'Placement updated successfully',
       placement: updated,
+      ...updated
     });
   } catch (error) {
     console.error('Error updating placement:', error);
