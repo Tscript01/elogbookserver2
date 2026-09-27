@@ -6,6 +6,7 @@ import placementRoutes from "./routes/placement.route";
 import submissionRoutes from './routes/submission.routes';
 import coordinatorRouter from './routes/coordinator.routes';
 import studentRoutes from './routes/student.routes';
+import itfRoutes from './routes/itf.routes';
 import { errorHandler } from "./middlewares/errorHandler";
 import logRoutes from "./routes/log.routes";
 
@@ -37,6 +38,7 @@ app.use('/api/supervisor', supervisorRoutes)
 app.use('/api/coordinator', coordinatorRouter);
 app.use('/api/student', studentRoutes);
 app.use('/api/admin', adminRoutes);
+app.use("/api/itf", itfRoutes);
 
 
 app.get("/api/health", (_req: Request, res: Response) => {
@@ -70,6 +72,7 @@ app.get("/", (req: Request, res: Response) => {
       auth: "/api/auth",
       logs: "/api/logs",
       placements: "/api/placements",
+      itf: "/api/itf",
     },
   });
 });

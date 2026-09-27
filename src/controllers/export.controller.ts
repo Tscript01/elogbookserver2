@@ -19,9 +19,12 @@ const COLORS = {
   lightBg: '#f8fafc',
   weekBg: '#eff6ff',
   white: '#ffffff',
+  stampGreen: '#065f46',
+  stampRed: '#991b1b',
 };
 
 function formatDate(date: Date | string) {
+  if (!date) return 'N/A';
   return new Date(date).toLocaleDateString('en-GB', {
     day: '2-digit',
     month: '2-digit',
@@ -30,8 +33,10 @@ function formatDate(date: Date | string) {
 }
 
 function formatDay(date: Date | string) {
+  if (!date) return '';
   return new Date(date).toLocaleDateString('en-US', {
     weekday: 'long',
+    timeZone: 'UTC',
   });
 }
 
@@ -40,59 +45,37 @@ function addPageHeader(doc: PDFKit.PDFDocument) {
     .font('Helvetica')
     .fontSize(7)
     .fillColor(COLORS.muted)
-    .text(
-      'SIWES ELECTRONIC LOGBOOK',
-      MARGIN,
-      20,
-      {
-        width: CONTENT_WIDTH,
-        align: 'left',
-      }
-    );
+    .text('SIWES ELECTRONIC LOGBOOK', MARGIN, 20, {
+      width: CONTENT_WIDTH,
+      align: 'left',
+    });
 
   doc
     .fontSize(7)
-    .text(
-      'STUDENT INDUSTRIAL WORK EXPERIENCE SCHEME',
-      MARGIN,
-      20,
-      {
-        width: CONTENT_WIDTH,
-        align: 'right',
-      }
-    );
+    .text('STUDENT INDUSTRIAL WORK EXPERIENCE SCHEME', MARGIN, 20, {
+      width: CONTENT_WIDTH,
+      align: 'right',
+    });
 }
 
-function addPageNumber(
-  doc: PDFKit.PDFDocument,
-  pageNumber: number
-) {
+function addPageNumber(doc: PDFKit.PDFDocument, pageNumber: number) {
   doc
     .font('Helvetica')
     .fontSize(8)
     .fillColor(COLORS.muted)
-    .text(
-      `Page ${pageNumber}`,
-      MARGIN,
-      PAGE_HEIGHT - 25,
-      {
-        width: CONTENT_WIDTH,
-        align: 'center',
-      }
-    );
+    .text(`Page ${pageNumber}`, MARGIN, PAGE_HEIGHT - 25, {
+      width: CONTENT_WIDTH,
+      align: 'center',
+    });
 }
 
-function ensureSpace(
-  doc: PDFKit.PDFDocument,
-  requiredHeight: number
-) {
+function ensureSpace(doc: PDFKit.PDFDocument, requiredHeight: number) {
   if (doc.y + requiredHeight > PAGE_HEIGHT - 55) {
     doc.addPage();
     addPageHeader(doc);
     doc.y = 45;
     return true;
   }
-
   return false;
 }
 
@@ -116,10 +99,7 @@ function drawTableRow(
 
     doc
       .rect(currentX, y, width, height)
-      .fillAndStroke(
-        options?.background || COLORS.white,
-        COLORS.border
-      );
+      .fillAndStroke(options?.background || COLORS.white, COLORS.border);
 
     doc
       .font(options?.bold ? 'Helvetica-Bold' : 'Helvetica')
@@ -135,6 +115,52 @@ function drawTableRow(
   });
 }
 
+function drawItfDirectorateStamp(
+  doc: PDFKit.PDFDocument,
+  x: number,
+  y: number,
+  officialName: string,
+  stampHash: string,
+  clearanceDate: string
+) {
+  doc.save();
+  doc.rotate(-5, { origin: [x, y] });
+
+  doc.circle(x, y, 46).lineWidth(2).strokeColor(COLORS.stampGreen).stroke();
+  doc.circle(x, y, 42).lineWidth(0.8).strokeColor(COLORS.stampGreen).stroke();
+  doc
+    .circle(x, y, 36)
+    .lineWidth(0.5)
+    .strokeColor(COLORS.stampGreen)
+    .dash(2, { space: 2 })
+    .stroke();
+  doc.undash();
+
+  doc.fillColor(COLORS.stampGreen);
+  doc.fontSize(5).font('Helvetica-Bold');
+  doc.text('FEDERAL REPUBLIC OF NIGERIA', x - 35, y - 28, {
+    width: 70,
+    align: 'center',
+  });
+  doc.text('INDUSTRIAL TRAINING FUND', x - 35, y - 20, {
+    width: 70,
+    align: 'center',
+  });
+
+  doc.fontSize(8.5);
+  doc.text('LOGBOOK VERIFIED', x - 35, y - 6, { width: 70, align: 'center' });
+
+  doc.fontSize(5).font('Helvetica');
+  doc.text(officialName.slice(0, 18), x - 35, y + 8, {
+    width: 70,
+    align: 'center',
+  });
+  doc.text(`HASH: ${stampHash}`, x - 35, y + 16, { width: 70, align: 'center' });
+  doc.text(clearanceDate, x - 35, y + 24, { width: 70, align: 'center' });
+
+  doc.restore();
+}
+
 export const downloadLogbookPDF = async (
   req: AuthenticatedRequest,
   res: Response,
@@ -143,22 +169,19 @@ export const downloadLogbookPDF = async (
   try {
     const userId = req.user?.id;
     const userRole = req.user?.role;
-
-    const requestedStudentId = (
-      req.params?.studentId ||
+    const targetPlacementId = req.query?.placementId as string | undefined;
+    const requestedStudentId = (req.params?.studentId ||
       req.query?.studentId ||
-      userId
-    ) as string;
+      userId) as string;
 
     if (!userId) {
-      res.status(401).json({
-        error: 'Unauthorized',
-      });
+      res.status(401).json({ error: 'Unauthorized' });
       return;
     }
 
     if (
       userRole === 'STUDENT' &&
+      !targetPlacementId &&
       requestedStudentId !== userId
     ) {
       res.status(403).json({
@@ -167,97 +190,91 @@ export const downloadLogbookPDF = async (
       return;
     }
 
-    // --------------------------------------------------
-    // STUDENT
-    // --------------------------------------------------
+    let placement = null;
 
-    const student = await prisma.user.findUnique({
-      where: {
-        id: requestedStudentId,
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        matric_no: true,
-        department: true,
-      },
-    });
+    if (targetPlacementId) {
+      placement = await prisma.placement.findUnique({
+        where: { id: targetPlacementId },
+        include: {
+          student: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              matric_no: true,
+              department: true,
+            },
+          },
+          ind_supervisor: {
+            select: { name: true, email: true },
+          },
+          inst_coordinator: {
+            select: { name: true, email: true },
+          },
+          clearance: {
+            include: {
+              itf_official: {
+                select: { name: true, email: true },
+              },
+            },
+          },
+        },
+      });
+    } else {
+      placement = await prisma.placement.findFirst({
+        where: { student_id: requestedStudentId },
+        include: {
+          student: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              matric_no: true,
+              department: true,
+            },
+          },
+          ind_supervisor: {
+            select: { name: true, email: true },
+          },
+          inst_coordinator: {
+            select: { name: true, email: true },
+          },
+          clearance: {
+            include: {
+              itf_official: {
+                select: { name: true, email: true },
+              },
+            },
+          },
+        },
+      });
+    }
 
-    if (!student) {
+    if (!placement || !placement.student) {
       res.status(404).json({
-        error: 'Student record not found',
+        error: 'No active placement or student record found',
       });
       return;
     }
 
-    // --------------------------------------------------
-    // PLACEMENT
-    // --------------------------------------------------
-
-    const placement = await prisma.placement.findFirst({
-      where: {
-        student_id: requestedStudentId,
-      },
-      include: {
-        ind_supervisor: {
-          select: {
-            name: true,
-            email: true,
-          },
-        },
-
-        inst_coordinator: {
-          select: {
-            name: true,
-            email: true,
-          },
-        },
-      },
-    });
-
-    if (!placement) {
-      res.status(404).json({
-        error: 'No active placement found for this student',
-      });
-      return;
-    }
-
-    // --------------------------------------------------
-    // DAILY LOGS
-    // --------------------------------------------------
+    const student = placement.student;
+    const isItfCleared = placement.clearance?.itf_status === 'CLEARED';
 
     const dailyLogs = await prisma.dailyLog.findMany({
       where: {
         placement_id: placement.id,
       },
-      orderBy: [
-        {
-          week_no: 'asc',
-        },
-        {
-          log_date: 'asc',
-        },
-      ],
+      orderBy: [{ week_no: 'asc' }, { log_date: 'asc' }],
     });
 
-    // --------------------------------------------------
-    // WEEKLY SUBMISSIONS
-    // --------------------------------------------------
-
-    const weeklySubmissions =
-      await prisma.weeklySubmission.findMany({
-        where: {
-          placement_id: placement.id,
-        },
-        orderBy: {
-          week_no: 'asc',
-        },
-      });
-
-    // --------------------------------------------------
-    // PDF
-    // --------------------------------------------------
+    const weeklySubmissions = await prisma.weeklySubmission.findMany({
+      where: {
+        placement_id: placement.id,
+      },
+      orderBy: {
+        week_no: 'asc',
+      },
+    });
 
     const doc = new PDFDocument({
       size: 'A4',
@@ -270,22 +287,14 @@ export const downloadLogbookPDF = async (
       bufferPages: true,
     });
 
-    const sanitizedMatric = (
-      student.matric_no || 'Trainee'
-    ).replace(/[^a-zA-Z0-9]/g, '_');
-
-    const filename =
-      `SIWES_Logbook_${sanitizedMatric}.pdf`;
-
-    res.setHeader(
-      'Content-Type',
-      'application/pdf'
+    const sanitizedMatric = (student.matric_no || 'Trainee').replace(
+      /[^a-zA-Z0-9]/g,
+      '_'
     );
+    const filename = `SIWES_Logbook_${sanitizedMatric}.pdf`;
 
-    res.setHeader(
-      'Content-Disposition',
-      `attachment; filename="${filename}"`
-    );
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
 
     doc.pipe(res);
 
@@ -299,46 +308,33 @@ export const downloadLogbookPDF = async (
       .font('Helvetica-Bold')
       .fontSize(18)
       .fillColor(COLORS.navy)
-      .text(
-        'INDUSTRIAL TRAINING FUND',
-        {
-          align: 'center',
-        }
-      );
+      .text('INDUSTRIAL TRAINING FUND', {
+        align: 'center',
+      });
 
     doc
       .fontSize(13)
       .fillColor(COLORS.dark)
-      .text(
-        'STUDENTS INDUSTRIAL WORK EXPERIENCE SCHEME',
-        {
-          align: 'center',
-        }
-      );
+      .text('STUDENTS INDUSTRIAL WORK EXPERIENCE SCHEME', {
+        align: 'center',
+      });
 
     doc
       .fontSize(16)
       .fillColor(COLORS.navy)
-      .text(
-        'SIWES FORM 8',
-        {
-          align: 'center',
-        }
-      );
+      .text('SIWES ELECTRONIC LOGBOOK', {
+        align: 'center',
+      });
 
     doc
       .fontSize(10)
       .fillColor(COLORS.muted)
-      .text(
-        'STUDENT INDUSTRIAL TRAINING LOGBOOK',
-        {
-          align: 'center',
-        }
-      );
+      .text('OFFICIAL RECORD OF TECHNICAL TRAINING', {
+        align: 'center',
+      });
 
     doc.moveDown(1.5);
 
-    // Student information heading
     doc
       .font('Helvetica-Bold')
       .fontSize(11)
@@ -348,43 +344,28 @@ export const downloadLogbookPDF = async (
     doc.moveDown(0.5);
 
     const infoRows = [
-      [
-        'Student Name',
-        student.name || 'N/A',
-      ],
-      [
-        'Matric / Reg. Number',
-        student.matric_no || 'N/A',
-      ],
-      [
-        'Department',
-        student.department || 'N/A',
-      ],
-      [
-        'Organization',
-        placement.company_name || 'N/A',
-      ],
-      [
-        'Organization Address',
-        placement.company_address || 'N/A',
-      ],
+      ['Student Name', student.name || 'N/A'],
+      ['Matric / Reg. Number', student.matric_no || 'N/A'],
+      ['Department', student.department || 'N/A'],
+      ['Organization', placement.company_name || 'N/A'],
+      ['Organization Address', placement.company_address || 'N/A'],
       [
         'Industrial Supervisor',
-        placement.ind_supervisor?.name ||
+        placement.ind_supervisor_name ||
+          placement.ind_supervisor?.name ||
           'Not Assigned',
       ],
       [
         'Institution Coordinator',
-        placement.inst_coordinator?.name ||
-          'Not Assigned',
+        placement.inst_coordinator?.name || 'Not Assigned',
       ],
+      ['Commencement Date', formatDate(placement.start_date)],
+      ['Completion Date', formatDate(placement.end_date)],
       [
-        'Commencement Date',
-        formatDate(placement.start_date),
-      ],
-      [
-        'Completion Date',
-        formatDate(placement.end_date),
+        'ITF Zonal Status',
+        isItfCleared
+          ? 'OFFICIALLY VERIFIED & CLEARED'
+          : 'PENDING DIRECTORATE REVIEW',
       ],
     ];
 
@@ -411,58 +392,37 @@ export const downloadLogbookPDF = async (
     // WEEKLY LOGS
     // ==================================================
 
-    const weeks = new Map<
-      number,
-      typeof dailyLogs
-    >();
+    const weeks = new Map<number, typeof dailyLogs>();
 
     for (const log of dailyLogs) {
       if (!weeks.has(log.week_no)) {
         weeks.set(log.week_no, []);
       }
-
       weeks.get(log.week_no)!.push(log);
     }
 
-    const sortedWeeks = [...weeks.keys()].sort(
-      (a, b) => a - b
-    );
+    const sortedWeeks = [...weeks.keys()].sort((a, b) => a - b);
 
     for (const weekNo of sortedWeeks) {
       const logs = weeks.get(weekNo) || [];
 
       ensureSpace(doc, 100);
 
-      // WEEK TITLE
       doc
         .font('Helvetica-Bold')
         .fontSize(13)
         .fillColor(COLORS.navy)
-        .text(
-          `WEEK ${weekNo}`,
-          MARGIN,
-          doc.y,
-          {
-            underline: true,
-          }
-        );
+        .text(`WEEK ${weekNo}`, MARGIN, doc.y, {
+          underline: true,
+        });
 
       doc.moveDown(0.7);
 
-      // TABLE HEADER
       const dateWidth = 75;
       const dayWidth = 80;
-      const activityWidth =
-        CONTENT_WIDTH -
-        dateWidth -
-        dayWidth;
+      const activityWidth = CONTENT_WIDTH - dateWidth - dayWidth;
 
-      const tableWidths = [
-        dateWidth,
-        dayWidth,
-        activityWidth,
-      ];
-
+      const tableWidths = [dateWidth, dayWidth, activityWidth];
       const headerHeight = 28;
 
       drawTableRow(
@@ -471,11 +431,7 @@ export const downloadLogbookPDF = async (
         doc.y,
         tableWidths,
         headerHeight,
-        [
-          'DATE',
-          'DAY',
-          'WORK DONE / ACTIVITIES',
-        ],
+        ['DATE', 'DAY', 'WORK DONE / ACTIVITIES'],
         {
           bold: true,
           background: COLORS.weekBg,
@@ -485,47 +441,29 @@ export const downloadLogbookPDF = async (
 
       doc.y += headerHeight;
 
-      // DAILY LOGS
       for (const log of logs) {
-        const description =
-          log.description || '';
+        const description = log.description || '';
 
-        // Calculate row height based on description
-        const activityHeight =
-          Math.max(
-            45,
-            Math.min(
-              100,
-              20 +
-                Math.ceil(
-                  description.length / 75
-                ) *
-                  10
-            )
-          );
+        const activityHeight = Math.max(
+          45,
+          Math.min(
+            100,
+            20 + Math.ceil(description.length / 75) * 10
+          )
+        );
 
-        if (
-          doc.y + activityHeight >
-          PAGE_HEIGHT - 70
-        ) {
+        if (doc.y + activityHeight > PAGE_HEIGHT - 70) {
           doc.addPage();
-
           addPageHeader(doc);
-
           doc.y = 50;
 
-          // Repeat table header
           drawTableRow(
             doc,
             MARGIN,
             doc.y,
             tableWidths,
             headerHeight,
-            [
-              'DATE',
-              'DAY',
-              'WORK DONE / ACTIVITIES',
-            ],
+            ['DATE', 'DAY', 'WORK DONE / ACTIVITIES'],
             {
               bold: true,
               background: COLORS.weekBg,
@@ -542,11 +480,7 @@ export const downloadLogbookPDF = async (
           doc.y,
           tableWidths,
           activityHeight,
-          [
-            formatDate(log.log_date),
-            formatDay(log.log_date),
-            description,
-          ],
+          [formatDate(log.log_date), formatDay(log.log_date), description],
           {
             fontSize: 8,
           }
@@ -561,11 +495,9 @@ export const downloadLogbookPDF = async (
       // SUPERVISOR REMARKS
       // ==================================================
 
-      const submission =
-        weeklySubmissions.find(
-          (item: { week_no: number; }) =>
-            item.week_no === weekNo
-        );
+      const submission = weeklySubmissions.find(
+        (item: { week_no: number }) => item.week_no === weekNo
+      );
 
       ensureSpace(doc, 140);
 
@@ -573,51 +505,65 @@ export const downloadLogbookPDF = async (
         .font('Helvetica-Bold')
         .fontSize(9)
         .fillColor(COLORS.dark)
-        .text(
-          "SUPERVISOR'S WEEKLY REMARKS"
-        );
+        .text("SUPERVISOR'S WEEKLY REMARKS");
 
       doc.moveDown(0.3);
 
       const remarksY = doc.y;
 
       doc
-        .rect(
-          MARGIN,
-          remarksY,
-          CONTENT_WIDTH,
-          65
-        )
+        .rect(MARGIN, remarksY, CONTENT_WIDTH, 65)
         .stroke(COLORS.border);
 
-      if (
-        submission?.supervisor_comments
-      ) {
+      if (submission?.supervisor_comments) {
         doc
           .font('Helvetica')
           .fontSize(8)
           .fillColor(COLORS.text)
-          .text(
-            submission.supervisor_comments,
-            MARGIN + 8,
-            remarksY + 8,
-            {
-              width:
-                CONTENT_WIDTH - 16,
-              height: 50,
-            }
-          );
+          .text(submission.supervisor_comments, MARGIN + 8, remarksY + 8, {
+            width: CONTENT_WIDTH - 120,
+            height: 50,
+          });
+      }
+
+      const isWeekApproved =
+        submission?.status &&
+        ['APPROVED', 'SIGNED', 'VERIFIED'].includes(
+          String(submission.status).toUpperCase()
+        );
+
+      if (isWeekApproved) {
+        doc.save();
+        doc
+          .rect(MARGIN + CONTENT_WIDTH - 100, remarksY + 12, 90, 40)
+          .fillAndStroke('#ecfdf5', COLORS.stampGreen);
+        doc
+          .font('Helvetica-Bold')
+          .fontSize(8)
+          .fillColor(COLORS.stampGreen)
+          .text('VERIFIED', MARGIN + CONTENT_WIDTH - 95, remarksY + 20, {
+            width: 80,
+            align: 'center',
+          });
+        doc
+          .font('Helvetica')
+          .fontSize(6)
+          .text('WEEK APPROVED', MARGIN + CONTENT_WIDTH - 95, remarksY + 32, {
+            width: 80,
+            align: 'center',
+          });
+        doc.restore();
       }
 
       doc.y = remarksY + 75;
 
-      // SIGNATURE
       doc
         .font('Helvetica')
         .fontSize(8)
         .fillColor(COLORS.dark)
         .text(
           `Supervisor: ${
+            placement.ind_supervisor_name ||
             placement.ind_supervisor?.name ||
             '____________________________'
           }`
@@ -633,21 +579,18 @@ export const downloadLogbookPDF = async (
     }
 
     // ==================================================
-    // FINAL SIGN-OFF
+    // FINAL SIGN-OFF & ITF DIRECTORATE STAMP
     // ==================================================
 
-    ensureSpace(doc, 220);
+    ensureSpace(doc, 240);
 
     doc
       .font('Helvetica-Bold')
       .fontSize(12)
       .fillColor(COLORS.navy)
-      .text(
-        'FINAL SUPERVISORY CERTIFICATION',
-        {
-          align: 'center',
-        }
-      );
+      .text('FINAL SUPERVISORY & ITF CERTIFICATION', {
+        align: 'center',
+      });
 
     doc.moveDown(1);
 
@@ -656,31 +599,27 @@ export const downloadLogbookPDF = async (
       .fontSize(9)
       .fillColor(COLORS.text)
       .text(
-        'This is to certify that the above records represent the activities undertaken by the student during the period of industrial training.'
+        'This is to certify that the above entries represent verified technical activities completed by the student during the approved period of industrial attachment.'
       );
 
     doc.moveDown(2);
 
+    const signoffStartY = doc.y;
+
     doc.text(
       `Industrial Supervisor: ${
+        placement.ind_supervisor_name ||
         placement.ind_supervisor?.name ||
         '________________________________'
       }`
     );
 
-    doc.moveDown(1);
+    doc.moveDown(0.8);
+    doc.text('Signature: _________________________________');
+    doc.moveDown(0.8);
+    doc.text('Date: ______________________________________');
 
-    doc.text(
-      'Signature: _________________________________'
-    );
-
-    doc.moveDown(1);
-
-    doc.text(
-      'Date: ______________________________________'
-    );
-
-    doc.moveDown(2);
+    doc.moveDown(1.5);
 
     doc.text(
       `Institution Coordinator: ${
@@ -689,17 +628,73 @@ export const downloadLogbookPDF = async (
       }`
     );
 
-    doc.moveDown(1);
-
+    doc.moveDown(0.8);
     doc.text(
-      'Signature: _________________________________'
+      `Signature: ${
+        placement.clearance?.coordinator_signature ||
+        '_________________________________'
+      }`
+    );
+    doc.moveDown(0.8);
+    doc.text(
+      `Date: ${
+        placement.clearance?.coordinator_cleared_at
+          ? formatDate(placement.clearance.coordinator_cleared_at)
+          : '______________________________________'
+      }`
     );
 
-    doc.moveDown(1);
+    // Apply Official ITF Seal if Cleared
+    if (isItfCleared) {
+      const itfOfficialName =
+        placement.clearance?.itf_official?.name || 'Zonal ITF Verifier';
+      const itfStampHash =
+        placement.clearance?.itf_stamp_hash || 'VERIFIED';
+      const clearanceDate = placement.clearance?.itf_cleared_at
+        ? formatDate(placement.clearance.itf_cleared_at)
+        : formatDate(new Date());
 
-    doc.text(
-      'Date: ______________________________________'
-    );
+      drawItfDirectorateStamp(
+        doc,
+        MARGIN + CONTENT_WIDTH - 65,
+        signoffStartY + 60,
+        itfOfficialName,
+        itfStampHash,
+        clearanceDate
+      );
+    } else {
+      doc.save();
+      doc
+        .rect(
+          MARGIN + CONTENT_WIDTH - 130,
+          signoffStartY + 20,
+          125,
+          65
+        )
+        .fillAndStroke('#fffbeb', '#f59e0b');
+
+      doc
+        .font('Helvetica-Bold')
+        .fontSize(8)
+        .fillColor('#b45309')
+        .text(
+          'PENDING ITF VERIFICATION',
+          MARGIN + CONTENT_WIDTH - 125,
+          signoffStartY + 35,
+          { width: 115, align: 'center' }
+        );
+
+      doc
+        .font('Helvetica')
+        .fontSize(6.5)
+        .text(
+          'Official seal applied upon Zonal Directorate review.',
+          MARGIN + CONTENT_WIDTH - 125,
+          signoffStartY + 50,
+          { width: 115, align: 'center' }
+        );
+      doc.restore();
+    }
 
     // ==================================================
     // PAGE NUMBERS
