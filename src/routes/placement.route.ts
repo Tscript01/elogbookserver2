@@ -11,6 +11,8 @@ import {
 } from '../schemas/placement.schema';
 import { validate } from '../middlewares/validate';
 import { authenticate, requireRole } from '../middlewares/auth';
+import { downloadLogbookPDF } from '../controllers/export.controller';
+
 
 const router: Router = Router();
 
@@ -43,5 +45,11 @@ router.put(
   validate(updatePlacementSchema),
   updatePlacementById
 );
+
+// Student downloads their own full logbook
+router.get('/export/pdf',authenticate, downloadLogbookPDF);
+
+// Coordinators/Admins can download a specific student's logbook by ID
+router.get('/export/pdf/:studentId', authenticate, downloadLogbookPDF);
 
 export default router;
