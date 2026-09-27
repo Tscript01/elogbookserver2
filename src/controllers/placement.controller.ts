@@ -161,146 +161,6 @@ export const createPlacement = async (
   }
 };
 
-export const updatePlacement = async (
-  req: AuthenticatedRequest,
-  res: Response,
-  next: NextFunction
-): Promise<Response | void> => {
-  try {
-    const userId = req.user?.id;
-    if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized: No user ID found in token' });
-    }
-
-    const paramId = req.params?.id;
-    let existing = null;
-
-    if (paramId) {
-      existing = await prisma.placement.findUnique({ where: { id: paramId } });
-    }
-    if (!existing) {
-      existing = await prisma.placement.findFirst({ where: { student_id: userId } });
-    }
-
-    if (!existing) {
-      return res.status(404).json({ error: 'No active placement found to update' });
-    }
-
-    const {
-      company_name,
-      state,
-      city,
-      company_address,
-      company_contact,
-      company_email,
-      ind_supervisor_name,
-      supervisor_email,
-      ind_supervisor_email,
-      ind_supervisor_id,
-      inst_coordinator_id,
-      start_date,
-      end_date
-    } = req.body;
-
-    const startDate = start_date ? new Date(start_date) : existing.start_date;
-    const endDate = end_date ? new Date(end_date) : existing.end_date;
-
-    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-      return res.status(400).json({ error: 'Invalid start or end date format' });
-    }
-
-    if (endDate.getTime() <= startDate.getTime()) {
-      return res.status(400).json({ error: 'Training conclusion date must be later than commencement date' });
-    }
-
-    if (endDate.getTime() - startDate.getTime() < MINIMUM_DURATION_MS) {
-      return res.status(400).json({
-        error: 'SIWES industrial training duration must be at least 1 month (30 days)'
-      });
-    }
-
-    const targetSupervisorEmail = ind_supervisor_email !== undefined
-      ? (ind_supervisor_email ? String(ind_supervisor_email).trim().toLowerCase() : null)
-      : (supervisor_email !== undefined ? (supervisor_email ? String(supervisor_email).trim().toLowerCase() : null) : existing.ind_supervisor_email);
-
-    const supervisorName = ind_supervisor_name !== undefined
-      ? (ind_supervisor_name ? String(ind_supervisor_name).trim() : null)
-      : existing.ind_supervisor_name;
-
-    let resolvedSupervisorId = existing.ind_supervisor_id;
-    if (ind_supervisor_id !== undefined) {
-      resolvedSupervisorId = ind_supervisor_id || null;
-    } else if (targetSupervisorEmail) {
-      let supervisor = await prisma.user.findFirst({
-        where: {
-          email: targetSupervisorEmail,
-          role: 'IND_SUPERVISOR'
-        },
-        select: { id: true }
-      });
-
-      if (!supervisor) {
-        const tempPassword = Math.random().toString(36).slice(-10);
-        const passwordHash = await bcrypt.hash(tempPassword, 10);
-
-        supervisor = await prisma.user.create({
-          data: {
-            name: supervisorName || 'Industrial Supervisor',
-            email: targetSupervisorEmail,
-            password_hash: passwordHash,
-            role: 'IND_SUPERVISOR'
-          },
-          select: { id: true }
-        });
-      }
-      resolvedSupervisorId = supervisor ? supervisor.id : null;
-    }
-
-    const resolvedState = state !== undefined && state !== null && String(state).trim() !== ''
-      ? String(state).trim()
-      : existing.state;
-
-    const resolvedCity = city !== undefined && city !== null && String(city).trim() !== ''
-      ? String(city).trim()
-      : existing.city;
-
-    const updated = await prisma.placement.update({
-      where: { id: existing.id },
-      data: {
-        company_name: company_name ? String(company_name).trim() : existing.company_name,
-        state: resolvedState,
-        city: resolvedCity,
-        company_address: company_address !== undefined ? (company_address ? String(company_address).trim() : null) : existing.company_address,
-        company_contact: company_contact !== undefined ? (company_contact ? String(company_contact).trim() : null) : existing.company_contact,
-        company_email: company_email !== undefined ? (company_email ? String(company_email).trim().toLowerCase() : null) : existing.company_email,
-        ind_supervisor_name: supervisorName,
-        ind_supervisor_email: targetSupervisorEmail,
-        ind_supervisor_id: resolvedSupervisorId,
-        inst_coordinator_id: inst_coordinator_id !== undefined ? inst_coordinator_id : existing.inst_coordinator_id,
-        start_date: startDate,
-        end_date: endDate
-      },
-      include: {
-        ind_supervisor: {
-          select: { id: true, name: true, email: true }
-        },
-        inst_coordinator: {
-          select: { id: true, name: true, email: true }
-        }
-      }
-    });
-
-    return res.status(200).json({
-      message: 'Placement updated successfully',
-      placement: updated,
-      ...updated
-    });
-  } catch (error) {
-    console.error('Error updating placement:', error);
-    next(error);
-  }
-};
-
 export const getCurrentPlacement = async (
   req: AuthenticatedRequest,
   res: Response,
@@ -338,39 +198,6 @@ export const getCurrentPlacement = async (
   }
 };
 
-export const getPlacementById = async (
-  req: AuthenticatedRequest,
-  res: Response,
-  next: NextFunction
-): Promise<Response | void> => {
-  try {
-    const { id } = req.params;
-
-    const placement = await prisma.placement.findUnique({
-      where: { id },
-      include: {
-        ind_supervisor: {
-          select: { id: true, name: true, email: true }
-        },
-        inst_coordinator: {
-          select: { id: true, name: true, email: true }
-        }
-      }
-    });
-
-    if (!placement) {
-      return res.status(404).json({ error: 'Placement not found' });
-    }
-
-    return res.status(200).json({
-      placement,
-      ...placement
-    });
-  } catch (error) {
-    console.error('Error retrieving placement by id:', error);
-    next(error);
-  }
-};
 
 export const updatePlacementById = async (
   req: AuthenticatedRequest,
@@ -518,3 +345,114 @@ export const updatePlacementById = async (
     next(error);
   }
 };
+export const updatePlacement = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+): Promise<Response | void> => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized: No user ID found in token' });
+    }
+
+    // Always find by the logged-in student's ID first
+    let existing = await prisma.placement.findFirst({
+      where: { student_id: userId }
+    });
+
+    // Fallback: if route was hit with an ID in req.params
+    if (!existing && req.params?.id) {
+      existing = await prisma.placement.findUnique({
+        where: { id: req.params.id }
+      });
+    }
+
+    if (!existing) {
+      return res.status(404).json({ error: 'No active placement found to update' });
+    }
+
+    // Explicitly pull fields from body
+    const body = req.body || {};
+    const company_name = body.company_name;
+    const state = body.state;
+    const city = body.city;
+    const company_address = body.company_address;
+    const company_contact = body.company_contact;
+    const company_email = body.company_email;
+    const ind_supervisor_name = body.ind_supervisor_name;
+    const ind_supervisor_email = body.ind_supervisor_email || body.supervisor_email;
+    const start_date = body.start_date;
+    const end_date = body.end_date;
+
+    console.log('[DEBUG UPDATE PLACEMENT] Incoming city & state:', { state, city });
+
+    const startDate = start_date ? new Date(start_date) : existing.start_date;
+    const endDate = end_date ? new Date(end_date) : existing.end_date;
+
+    // Handle supervisor resolution
+    let resolvedSupervisorId = existing.ind_supervisor_id;
+    const targetEmail = ind_supervisor_email ? String(ind_supervisor_email).trim().toLowerCase() : null;
+
+    if (targetEmail) {
+      let supervisor = await prisma.user.findFirst({
+        where: { email: targetEmail, role: 'IND_SUPERVISOR' },
+        select: { id: true }
+      });
+
+      if (!supervisor) {
+        const tempPassword = Math.random().toString(36).slice(-10);
+        const passwordHash = await bcrypt.hash(tempPassword, 10);
+        supervisor = await prisma.user.create({
+          data: {
+            name: ind_supervisor_name || 'Industrial Supervisor',
+            email: targetEmail,
+            password_hash: passwordHash,
+            role: 'IND_SUPERVISOR'
+          },
+          select: { id: true }
+        });
+      }
+      resolvedSupervisorId = supervisor.id;
+    }
+
+    // DIRECT ASSIGNMENT: DO NOT rely on ternary fallback if value is provided!
+    const dataToUpdate: any = {
+      start_date: startDate,
+      end_date: endDate
+    };
+
+    if (company_name) dataToUpdate.company_name = String(company_name).trim();
+    if (state) dataToUpdate.state = String(state).trim();
+    if (city) dataToUpdate.city = String(city).trim();
+    if (company_address !== undefined) dataToUpdate.company_address = company_address ? String(company_address).trim() : null;
+    if (company_contact !== undefined) dataToUpdate.company_contact = company_contact ? String(company_contact).trim() : null;
+    if (company_email !== undefined) dataToUpdate.company_email = company_email ? String(company_email).trim().toLowerCase() : null;
+    if (ind_supervisor_name) dataToUpdate.ind_supervisor_name = String(ind_supervisor_name).trim();
+    if (targetEmail) dataToUpdate.ind_supervisor_email = targetEmail;
+    if (resolvedSupervisorId) dataToUpdate.ind_supervisor_id = resolvedSupervisorId;
+
+    console.log('[DEBUG UPDATE PLACEMENT] Final DB Payload:', dataToUpdate);
+
+    const updated = await prisma.placement.update({
+      where: { id: existing.id },
+      data: dataToUpdate,
+      include: {
+        ind_supervisor: { select: { id: true, name: true, email: true } },
+        inst_coordinator: { select: { id: true, name: true, email: true } }
+      }
+    });
+
+    return res.status(200).json({
+      message: 'Placement updated successfully',
+      placement: updated,
+      ...updated
+    });
+  } catch (error) {
+    console.error('Error updating placement:', error);
+    next(error);
+  }
+};
+
+// Mirror updatePlacementById to the same robust logic
+// export const updatePlacementById = updatePlacement;
