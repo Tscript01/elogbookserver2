@@ -197,6 +197,36 @@ export const getCurrentPlacement = async (
     next(error);
   }
 };
+export const getPlacementById = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+): Promise<Response | void> => {
+  try {
+    const { id } = req.params;
+
+    const placement = await prisma.placement.findUnique({
+      where: { id },
+      include: {
+        ind_supervisor: {
+          select: { id: true, name: true, email: true }
+        },
+        inst_coordinator: {
+          select: { id: true, name: true, email: true }
+        }
+      }
+    });
+
+    if (!placement) {
+      return res.status(404).json({ error: 'Placement not found' });
+    }
+
+    return res.status(200).json(placement);
+  } catch (error) {
+    console.error('Error retrieving placement by id:', error);
+    next(error);
+  }
+};
 
 
 export const updatePlacementById = async (
