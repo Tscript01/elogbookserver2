@@ -20,10 +20,11 @@ const COLORS = {
   weekBg: '#eff6ff',
   white: '#ffffff',
   stampGreen: '#065f46',
-  stampRed: '#991b1b',
+  stampBlue: '#1e40af',
+  stampAmber: '#b45309',
 };
 
-function formatDate(date: Date | string) {
+function formatDate(date: Date | string | null | undefined): string {
   if (!date) return 'N/A';
   return new Date(date).toLocaleDateString('en-GB', {
     day: '2-digit',
@@ -32,7 +33,7 @@ function formatDate(date: Date | string) {
   });
 }
 
-function formatDay(date: Date | string) {
+function formatDay(date: Date | string | null | undefined): string {
   if (!date) return '';
   return new Date(date).toLocaleDateString('en-US', {
     weekday: 'long',
@@ -69,7 +70,7 @@ function addPageNumber(doc: PDFKit.PDFDocument, pageNumber: number) {
     });
 }
 
-function ensureSpace(doc: PDFKit.PDFDocument, requiredHeight: number) {
+function ensureSpace(doc: PDFKit.PDFDocument, requiredHeight: number): boolean {
   if (doc.y + requiredHeight > PAGE_HEIGHT - 55) {
     doc.addPage();
     addPageHeader(doc);
@@ -115,6 +116,44 @@ function drawTableRow(
   });
 }
 
+function drawInstitutionCoordinatorStamp(
+  doc: PDFKit.PDFDocument,
+  x: number,
+  y: number,
+  coordinatorName: string,
+  score: number | null,
+  clearanceDate: string
+) {
+  doc.save();
+  doc.rotate(2, { origin: [x, y] });
+
+  doc.circle(x, y, 40).lineWidth(1.8).strokeColor(COLORS.stampBlue).stroke();
+  doc.circle(x, y, 36).lineWidth(0.8).strokeColor(COLORS.stampBlue).stroke();
+  doc.circle(x, y, 31).lineWidth(0.5).strokeColor(COLORS.stampBlue).dash(2, { space: 2 }).stroke();
+  doc.undash();
+
+  doc.fillColor(COLORS.stampBlue);
+  doc.fontSize(4.5).font('Helvetica-Bold');
+  doc.text('SIWES COORDINATING UNIT', x - 30, y - 24, { width: 60, align: 'center' });
+  doc.text('INSTITUTIONAL CLEARANCE', x - 30, y - 18, { width: 60, align: 'center' });
+
+  doc.fontSize(7.5);
+  doc.text('PASSED & CLEARED', x - 30, y - 5, { width: 60, align: 'center' });
+
+  doc.fontSize(4.5).font('Helvetica');
+  doc.text(coordinatorName.slice(0, 18), x - 30, y + 6, { width: 60, align: 'center' });
+
+  if (score !== null && score !== undefined) {
+    doc.text(`SCORE: ${score}%`, x - 30, y + 13, { width: 60, align: 'center' });
+  } else {
+    doc.text('EVALUATED & APPROVED', x - 30, y + 13, { width: 60, align: 'center' });
+  }
+
+  doc.text(clearanceDate, x - 30, y + 20, { width: 60, align: 'center' });
+
+  doc.restore();
+}
+
 function drawItfDirectorateStamp(
   doc: PDFKit.PDFDocument,
   x: number,
@@ -124,39 +163,25 @@ function drawItfDirectorateStamp(
   clearanceDate: string
 ) {
   doc.save();
-  doc.rotate(-5, { origin: [x, y] });
+  doc.rotate(-3, { origin: [x, y] });
 
-  doc.circle(x, y, 46).lineWidth(2).strokeColor(COLORS.stampGreen).stroke();
-  doc.circle(x, y, 42).lineWidth(0.8).strokeColor(COLORS.stampGreen).stroke();
-  doc
-    .circle(x, y, 36)
-    .lineWidth(0.5)
-    .strokeColor(COLORS.stampGreen)
-    .dash(2, { space: 2 })
-    .stroke();
+  doc.circle(x, y, 40).lineWidth(1.8).strokeColor(COLORS.stampGreen).stroke();
+  doc.circle(x, y, 36).lineWidth(0.8).strokeColor(COLORS.stampGreen).stroke();
+  doc.circle(x, y, 31).lineWidth(0.5).strokeColor(COLORS.stampGreen).dash(2, { space: 2 }).stroke();
   doc.undash();
 
   doc.fillColor(COLORS.stampGreen);
-  doc.fontSize(5).font('Helvetica-Bold');
-  doc.text('FEDERAL REPUBLIC OF NIGERIA', x - 35, y - 28, {
-    width: 70,
-    align: 'center',
-  });
-  doc.text('INDUSTRIAL TRAINING FUND', x - 35, y - 20, {
-    width: 70,
-    align: 'center',
-  });
+  doc.fontSize(4.5).font('Helvetica-Bold');
+  doc.text('FEDERAL REPUBLIC OF NIGERIA', x - 30, y - 24, { width: 60, align: 'center' });
+  doc.text('INDUSTRIAL TRAINING FUND', x - 30, y - 18, { width: 60, align: 'center' });
 
-  doc.fontSize(8.5);
-  doc.text('LOGBOOK VERIFIED', x - 35, y - 6, { width: 70, align: 'center' });
+  doc.fontSize(7.5);
+  doc.text('LOGBOOK VERIFIED', x - 30, y - 5, { width: 60, align: 'center' });
 
-  doc.fontSize(5).font('Helvetica');
-  doc.text(officialName.slice(0, 18), x - 35, y + 8, {
-    width: 70,
-    align: 'center',
-  });
-  doc.text(`HASH: ${stampHash}`, x - 35, y + 16, { width: 70, align: 'center' });
-  doc.text(clearanceDate, x - 35, y + 24, { width: 70, align: 'center' });
+  doc.fontSize(4.5).font('Helvetica');
+  doc.text(officialName.slice(0, 18), x - 30, y + 6, { width: 60, align: 'center' });
+  doc.text(`HASH: ${stampHash}`, x - 30, y + 13, { width: 60, align: 'center' });
+  doc.text(clearanceDate, x - 30, y + 20, { width: 60, align: 'center' });
 
   doc.restore();
 }
@@ -190,63 +215,42 @@ export const downloadLogbookPDF = async (
       return;
     }
 
+    const placementInclude = {
+      student: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          matric_no: true,
+          department: true,
+        },
+      },
+      ind_supervisor: {
+        select: { name: true, email: true },
+      },
+      inst_coordinator: {
+        select: { name: true, email: true },
+      },
+      clearance: {
+        include: {
+          itf_official: {
+            select: { name: true, email: true },
+          },
+        },
+      },
+    };
+
     let placement = null;
 
     if (targetPlacementId) {
       placement = await prisma.placement.findUnique({
         where: { id: targetPlacementId },
-        include: {
-          student: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              matric_no: true,
-              department: true,
-            },
-          },
-          ind_supervisor: {
-            select: { name: true, email: true },
-          },
-          inst_coordinator: {
-            select: { name: true, email: true },
-          },
-          clearance: {
-            include: {
-              itf_official: {
-                select: { name: true, email: true },
-              },
-            },
-          },
-        },
+        include: placementInclude,
       });
     } else {
       placement = await prisma.placement.findFirst({
         where: { student_id: requestedStudentId },
-        include: {
-          student: {
-            select: {
-              id: true,
-              name: true,
-              email: true,
-              matric_no: true,
-              department: true,
-            },
-          },
-          ind_supervisor: {
-            select: { name: true, email: true },
-          },
-          inst_coordinator: {
-            select: { name: true, email: true },
-          },
-          clearance: {
-            include: {
-              itf_official: {
-                select: { name: true, email: true },
-              },
-            },
-          },
-        },
+        include: placementInclude,
       });
     }
 
@@ -258,22 +262,33 @@ export const downloadLogbookPDF = async (
     }
 
     const student = placement.student;
-    const isItfCleared = placement.clearance?.itf_status === 'CLEARED';
+
+    const coordinatorStatusRaw = String(
+      placement.clearance?.coordinator_status || ''
+    ).toUpperCase();
+
+    const isCoordinatorCleared =
+      coordinatorStatusRaw === 'CLEARED' ||
+      coordinatorStatusRaw === 'APPROVED' ||
+      Boolean(placement.clearance?.coordinator_cleared_at) ||
+      Boolean(placement.clearance?.coordinator_signature);
+
+    const itfStatusRaw = String(
+      placement.clearance?.itf_status || ''
+    ).toUpperCase();
+
+    const isItfCleared =
+      (itfStatusRaw === 'CLEARED' || itfStatusRaw === 'APPROVED') &&
+      Boolean(placement.clearance?.itf_cleared_at || placement.clearance?.itf_stamp_hash);
 
     const dailyLogs = await prisma.dailyLog.findMany({
-      where: {
-        placement_id: placement.id,
-      },
+      where: { placement_id: placement.id },
       orderBy: [{ week_no: 'asc' }, { log_date: 'asc' }],
     });
 
     const weeklySubmissions = await prisma.weeklySubmission.findMany({
-      where: {
-        placement_id: placement.id,
-      },
-      orderBy: {
-        week_no: 'asc',
-      },
+      where: { placement_id: placement.id },
+      orderBy: { week_no: 'asc' },
     });
 
     const doc = new PDFDocument({
@@ -362,10 +377,16 @@ export const downloadLogbookPDF = async (
       ['Commencement Date', formatDate(placement.start_date)],
       ['Completion Date', formatDate(placement.end_date)],
       [
-        'ITF Zonal Status',
+        'Institutional Clearance',
+        isCoordinatorCleared
+          ? `CLEARED (${placement.clearance?.coordinator_score ? placement.clearance.coordinator_score + '%' : 'APPROVED'})`
+          : 'PENDING COORDINATOR EVALUATION',
+      ],
+      [
+        'ITF Directorate Status',
         isItfCleared
-          ? 'OFFICIALLY VERIFIED & CLEARED'
-          : 'PENDING DIRECTORATE REVIEW',
+          ? 'OFFICIALLY VERIFIED & STAMPED'
+          : 'PENDING ZONAL REVIEW',
       ],
     ];
 
@@ -401,12 +422,15 @@ export const downloadLogbookPDF = async (
       weeks.get(log.week_no)!.push(log);
     }
 
-    const sortedWeeks = [...weeks.keys()].sort((a, b) => a - b);
+    const submissionWeekNumbers = weeklySubmissions.map((s: { week_no: any; }) => s.week_no);
+    const allWeekNumbers = Array.from(
+      new Set([...weeks.keys(), ...submissionWeekNumbers])
+    ).sort((a, b) => a - b);
 
-    for (const weekNo of sortedWeeks) {
+    for (const weekNo of allWeekNumbers) {
       const logs = weeks.get(weekNo) || [];
 
-      ensureSpace(doc, 100);
+      ensureSpace(doc, 140);
 
       doc
         .font('Helvetica-Bold')
@@ -441,90 +465,89 @@ export const downloadLogbookPDF = async (
 
       doc.y += headerHeight;
 
-      for (const log of logs) {
-        const description = log.description || '';
-
-        const activityHeight = Math.max(
-          45,
-          Math.min(
-            100,
-            20 + Math.ceil(description.length / 75) * 10
-          )
+      if (logs.length === 0) {
+        drawTableRow(
+          doc,
+          MARGIN,
+          doc.y,
+          tableWidths,
+          30,
+          ['--', '--', 'No daily technical entries logged for this week.'],
+          { fontSize: 8 }
         );
+        doc.y += 30;
+      } else {
+        for (const log of logs) {
+          const description = log.description || '';
 
-        if (doc.y + activityHeight > PAGE_HEIGHT - 70) {
-          doc.addPage();
-          addPageHeader(doc);
-          doc.y = 50;
+          const activityHeight = Math.max(
+            45,
+            Math.min(
+              100,
+              20 + Math.ceil(description.length / 75) * 10
+            )
+          );
+
+          if (doc.y + activityHeight > PAGE_HEIGHT - 70) {
+            doc.addPage();
+            addPageHeader(doc);
+            doc.y = 50;
+
+            drawTableRow(
+              doc,
+              MARGIN,
+              doc.y,
+              tableWidths,
+              headerHeight,
+              ['DATE', 'DAY', 'WORK DONE / ACTIVITIES'],
+              {
+                bold: true,
+                background: COLORS.weekBg,
+                fontSize: 8,
+              }
+            );
+
+            doc.y += headerHeight;
+          }
 
           drawTableRow(
             doc,
             MARGIN,
             doc.y,
             tableWidths,
-            headerHeight,
-            ['DATE', 'DAY', 'WORK DONE / ACTIVITIES'],
+            activityHeight,
+            [formatDate(log.log_date), formatDay(log.log_date), description],
             {
-              bold: true,
-              background: COLORS.weekBg,
               fontSize: 8,
             }
           );
 
-          doc.y += headerHeight;
+          doc.y += activityHeight;
         }
-
-        drawTableRow(
-          doc,
-          MARGIN,
-          doc.y,
-          tableWidths,
-          activityHeight,
-          [formatDate(log.log_date), formatDay(log.log_date), description],
-          {
-            fontSize: 8,
-          }
-        );
-
-        doc.y += activityHeight;
       }
 
       doc.moveDown(0.8);
 
-      // ==================================================
-      // SUPERVISOR REMARKS
-      // ==================================================
-
+      // Weekly Remarks
       const submission = weeklySubmissions.find(
         (item: { week_no: number }) => item.week_no === weekNo
       );
 
-      ensureSpace(doc, 140);
+      ensureSpace(doc, 130);
 
       doc
         .font('Helvetica-Bold')
         .fontSize(9)
         .fillColor(COLORS.dark)
-        .text("SUPERVISOR'S WEEKLY REMARKS");
+        .text(`SUPERVISOR'S REMARKS - WEEK ${weekNo}`);
 
       doc.moveDown(0.3);
 
       const remarksY = doc.y;
 
       doc
-        .rect(MARGIN, remarksY, CONTENT_WIDTH, 65)
-        .stroke(COLORS.border);
-
-      if (submission?.supervisor_comments) {
-        doc
-          .font('Helvetica')
-          .fontSize(8)
-          .fillColor(COLORS.text)
-          .text(submission.supervisor_comments, MARGIN + 8, remarksY + 8, {
-            width: CONTENT_WIDTH - 120,
-            height: 50,
-          });
-      }
+        .rect(MARGIN, remarksY, CONTENT_WIDTH, 60)
+        .fillAndStroke(COLORS.lightBg, COLORS.border);
 
       const isWeekApproved =
         submission?.status &&
@@ -532,30 +555,43 @@ export const downloadLogbookPDF = async (
           String(submission.status).toUpperCase()
         );
 
+      const commentsText =
+        submission?.supervisor_comments ||
+        'No remarks recorded by supervisor for this week.';
+
+      doc
+        .font('Helvetica')
+        .fontSize(8)
+        .fillColor(COLORS.text)
+        .text(commentsText, MARGIN + 8, remarksY + 8, {
+          width: CONTENT_WIDTH - (isWeekApproved ? 120 : 16),
+          height: 44,
+        });
+
       if (isWeekApproved) {
         doc.save();
         doc
-          .rect(MARGIN + CONTENT_WIDTH - 100, remarksY + 12, 90, 40)
+          .rect(MARGIN + CONTENT_WIDTH - 105, remarksY + 10, 95, 40)
           .fillAndStroke('#ecfdf5', COLORS.stampGreen);
         doc
           .font('Helvetica-Bold')
           .fontSize(8)
           .fillColor(COLORS.stampGreen)
-          .text('VERIFIED', MARGIN + CONTENT_WIDTH - 95, remarksY + 20, {
-            width: 80,
+          .text('VERIFIED', MARGIN + CONTENT_WIDTH - 100, remarksY + 18, {
+            width: 85,
             align: 'center',
           });
         doc
           .font('Helvetica')
           .fontSize(6)
-          .text('WEEK APPROVED', MARGIN + CONTENT_WIDTH - 95, remarksY + 32, {
-            width: 80,
+          .text('WEEK APPROVED', MARGIN + CONTENT_WIDTH - 100, remarksY + 30, {
+            width: 85,
             align: 'center',
           });
         doc.restore();
       }
 
-      doc.y = remarksY + 75;
+      doc.y = remarksY + 68;
 
       doc
         .font('Helvetica')
@@ -569,82 +605,126 @@ export const downloadLogbookPDF = async (
           }`
         );
 
-      doc.moveDown(0.5);
+      doc.moveDown(0.4);
 
       doc.text(
-        'Signature: ____________________________    Date: __________________'
+        `Signature: ____________________________    Date: ${
+          submission?.updated_at ? formatDate(submission.updated_at) : '__________________'
+        }`
       );
 
       doc.moveDown(1.5);
     }
 
     // ==================================================
-    // FINAL SIGN-OFF & ITF DIRECTORATE STAMP
+    // FINAL SIGN-OFF & HORIZONTAL DUAL STAMPS
     // ==================================================
 
-    ensureSpace(doc, 240);
+    ensureSpace(doc, 200);
 
     doc
       .font('Helvetica-Bold')
       .fontSize(12)
       .fillColor(COLORS.navy)
-      .text('FINAL SUPERVISORY & ITF CERTIFICATION', {
+      .text('FINAL SUPERVISORY & ACCREDITATION CERTIFICATION', {
         align: 'center',
       });
 
-    doc.moveDown(1);
+    doc.moveDown(0.8);
 
     doc
       .font('Helvetica')
-      .fontSize(9)
+      .fontSize(8.5)
       .fillColor(COLORS.text)
       .text(
-        'This is to certify that the above entries represent verified technical activities completed by the student during the approved period of industrial attachment.'
+        'This is to certify that the entries above represent verified technical activities completed by the student during the approved period of industrial attachment, evaluated by the designated institutional authority and certified by the Industrial Training Fund.'
       );
-
-    doc.moveDown(2);
-
-    const signoffStartY = doc.y;
-
-    doc.text(
-      `Industrial Supervisor: ${
-        placement.ind_supervisor_name ||
-        placement.ind_supervisor?.name ||
-        '________________________________'
-      }`
-    );
-
-    doc.moveDown(0.8);
-    doc.text('Signature: _________________________________');
-    doc.moveDown(0.8);
-    doc.text('Date: ______________________________________');
 
     doc.moveDown(1.5);
 
+    const signoffStartY = doc.y;
+
+    // LEFT COLUMN: Signatures & Information (Width: 290pt)
+    const textColWidth = 285;
+
+    doc.font('Helvetica-Bold').fontSize(8.5).fillColor(COLORS.dark);
+    doc.text('Industry Supervisor:', MARGIN, signoffStartY);
+    doc.font('Helvetica').fontSize(8.5).fillColor(COLORS.text);
     doc.text(
-      `Institution Coordinator: ${
+      placement.ind_supervisor_name || placement.ind_supervisor?.name || '________________________________',
+      MARGIN + 105,
+      signoffStartY,
+      { width: textColWidth - 105 }
+    );
+
+    doc.text('Signature: ______________________    Date: __________________', MARGIN, signoffStartY + 16);
+
+    doc.font('Helvetica-Bold').fontSize(8.5).fillColor(COLORS.dark);
+    doc.text('Institution Coordinator:', MARGIN, signoffStartY + 42);
+    doc.font('Helvetica').fontSize(8.5).fillColor(COLORS.text);
+    doc.text(
+      placement.inst_coordinator?.name || '________________________________',
+      MARGIN + 105,
+      signoffStartY + 42,
+      { width: textColWidth - 105 }
+    );
+
+    const coordSig = placement.clearance?.coordinator_signature ? 'DIGITALLY ENDORSED' : '______________________';
+    const coordDate = placement.clearance?.coordinator_cleared_at
+      ? formatDate(placement.clearance.coordinator_cleared_at)
+      : '__________________';
+
+    doc.text(`Signature: ${coordSig}    Date: ${coordDate}`, MARGIN, signoffStartY + 58);
+
+    // RIGHT SIDE: Side-by-Side Dual Stamps (Horizontal Placement)
+    // Centers: stamp1 (Coordinator) around X = 390, stamp2 (ITF) around X = 490
+    const stamp1X = MARGIN + CONTENT_WIDTH - 155;
+    const stamp2X = MARGIN + CONTENT_WIDTH - 55;
+    const stampCenterY = signoffStartY + 40;
+
+    // 1. Institution Coordinator Stamp
+    if (isCoordinatorCleared) {
+      const coordinatorName =
         placement.inst_coordinator?.name ||
-        '________________________________'
-      }`
-    );
-
-    doc.moveDown(0.8);
-    doc.text(
-      `Signature: ${
         placement.clearance?.coordinator_signature ||
-        '_________________________________'
-      }`
-    );
-    doc.moveDown(0.8);
-    doc.text(
-      `Date: ${
-        placement.clearance?.coordinator_cleared_at
-          ? formatDate(placement.clearance.coordinator_cleared_at)
-          : '______________________________________'
-      }`
-    );
+        'Institution Coordinator';
+      const coordinatorDate = placement.clearance?.coordinator_cleared_at
+        ? formatDate(placement.clearance.coordinator_cleared_at)
+        : formatDate(new Date());
+      const scoreVal = placement.clearance?.coordinator_score ?? null;
 
-    // Apply Official ITF Seal if Cleared
+      drawInstitutionCoordinatorStamp(
+        doc,
+        stamp1X,
+        stampCenterY,
+        coordinatorName,
+        scoreVal,
+        coordinatorDate
+      );
+    } else {
+      doc.save();
+      doc
+        .rect(stamp1X - 44, signoffStartY, 88, 76)
+        .fillAndStroke('#eff6ff', '#bfdbfe');
+      doc
+        .font('Helvetica-Bold')
+        .fontSize(6.5)
+        .fillColor(COLORS.stampBlue)
+        .text('PENDING COORDINATOR', stamp1X - 40, signoffStartY + 26, {
+          width: 80,
+          align: 'center',
+        });
+      doc
+        .font('Helvetica')
+        .fontSize(5)
+        .text('Awaiting academic clearance', stamp1X - 40, signoffStartY + 38, {
+          width: 80,
+          align: 'center',
+        });
+      doc.restore();
+    }
+
+    // 2. ITF Directorate Stamp
     if (isItfCleared) {
       const itfOfficialName =
         placement.clearance?.itf_official?.name || 'Zonal ITF Verifier';
@@ -656,8 +736,8 @@ export const downloadLogbookPDF = async (
 
       drawItfDirectorateStamp(
         doc,
-        MARGIN + CONTENT_WIDTH - 65,
-        signoffStartY + 60,
+        stamp2X,
+        stampCenterY,
         itfOfficialName,
         itfStampHash,
         clearanceDate
@@ -665,36 +745,28 @@ export const downloadLogbookPDF = async (
     } else {
       doc.save();
       doc
-        .rect(
-          MARGIN + CONTENT_WIDTH - 130,
-          signoffStartY + 20,
-          125,
-          65
-        )
-        .fillAndStroke('#fffbeb', '#f59e0b');
-
+        .rect(stamp2X - 44, signoffStartY, 88, 76)
+        .fillAndStroke('#fffbeb', '#fcd34d');
       doc
         .font('Helvetica-Bold')
-        .fontSize(8)
-        .fillColor('#b45309')
-        .text(
-          'PENDING ITF VERIFICATION',
-          MARGIN + CONTENT_WIDTH - 125,
-          signoffStartY + 35,
-          { width: 115, align: 'center' }
-        );
-
+        .fontSize(6.5)
+        .fillColor(COLORS.stampAmber)
+        .text('PENDING ITF SEAL', stamp2X - 40, signoffStartY + 26, {
+          width: 80,
+          align: 'center',
+        });
       doc
         .font('Helvetica')
-        .fontSize(6.5)
-        .text(
-          'Official seal applied upon Zonal Directorate review.',
-          MARGIN + CONTENT_WIDTH - 125,
-          signoffStartY + 50,
-          { width: 115, align: 'center' }
-        );
+        .fontSize(5)
+        .text('Awaiting Zonal review', stamp2X - 40, signoffStartY + 38, {
+          width: 80,
+          align: 'center',
+        });
       doc.restore();
     }
+
+    // Advance doc.y past the entire horizontal block
+    doc.y = signoffStartY + 95;
 
     // ==================================================
     // PAGE NUMBERS
@@ -702,11 +774,7 @@ export const downloadLogbookPDF = async (
 
     const range = doc.bufferedPageRange();
 
-    for (
-      let i = range.start;
-      i < range.start + range.count;
-      i++
-    ) {
+    for (let i = range.start; i < range.start + range.count; i++) {
       doc.switchToPage(i);
       addPageNumber(doc, i - range.start + 1);
     }
