@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/**/*.ts": {
+      "includeFiles": "node_modules/pdfkit/js/standard-fonts/**"
+    },
+    "src/**/*.ts": {
+      "includeFiles": "node_modules/pdfkit/js/standard-fonts/**"
+    }
+  }
+}
