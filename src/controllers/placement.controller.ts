@@ -475,29 +475,58 @@ export const updateCompanyGeofence = async (
 ): Promise<void> => {
   try {
     const { placementId } = req.params;
-    const { company_lat, company_lng, geofence_radius_m, company_rc_number, company_domain } = req.body;
+    const { company_lat, company_lng, geofence_radius_m } = req.body;
 
     if (company_lat === undefined || company_lng === undefined) {
       res.status(400).json({ error: "Latitude and Longitude are required" });
       return;
     }
 
-    const updated = await prisma.placement.update({
+    const targetPlacement = await prisma.placement.findUnique({
       where: { id: placementId },
+      select: {
+        id: true,
+        company_name: true,
+        ind_supervisor_id: true,
+        ind_supervisor_email: true,
+      },
+    });
+
+    if (!targetPlacement) {
+      res.status(404).json({ error: "Placement record not found" });
+      return;
+    }
+
+    const radius = geofence_radius_m ? Number(geofence_radius_m) : 200;
+
+    // Update the target placement AND all co-intern placements sharing this supervisor or company
+    const updateResult = await prisma.placement.updateMany({
+      where: {
+        OR: [
+          { id: targetPlacement.id },
+          ...(targetPlacement.ind_supervisor_id
+            ? [{ ind_supervisor_id: targetPlacement.ind_supervisor_id }]
+            : []),
+          ...(targetPlacement.ind_supervisor_email
+            ? [{ ind_supervisor_email: targetPlacement.ind_supervisor_email }]
+            : []),
+          ...(targetPlacement.company_name
+            ? [{ company_name: targetPlacement.company_name }]
+            : []),
+        ],
+      },
       data: {
         company_lat: Number(company_lat),
         company_lng: Number(company_lng),
-        geofence_radius_m: geofence_radius_m ? Number(geofence_radius_m) : 200,
-        ...(company_rc_number && { company_rc_number }),
-        ...(company_domain && { company_domain }),
+        geofence_radius_m: radius,
         is_company_verified: true,
       },
     });
 
     res.json({
       success: true,
-      message: "Company geofence updated successfully",
-      placement: updated,
+      message: `Geofence coordinates synchronized across ${updateResult.count} placement(s)`,
+      updatedCount: updateResult.count,
     });
   } catch (error) {
     next(error);
