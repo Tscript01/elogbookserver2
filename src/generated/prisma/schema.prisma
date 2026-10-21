@@ -7,6 +7,10 @@ datasource db {
   provider = "postgresql"
 }
 
+// ----------------------------------------------------
+// ENUMS
+// ----------------------------------------------------
+
 enum Role {
   STUDENT
   IND_SUPERVISOR
@@ -41,6 +45,23 @@ enum WaiverPaymentStatus {
   WAIVED
 }
 
+enum PresenceStatus {
+  PENDING
+  VERIFIED_ON_SITE
+  OUT_OF_BOUNDS
+  HIGH_RISK_SPOOFED
+}
+
+enum SpotCheckStatus {
+  SCHEDULED
+  COMPLETED
+  FLAGGED_ABSENT
+}
+
+// ----------------------------------------------------
+// AUTHENTICATION & USERS
+// ----------------------------------------------------
+
 model User {
   id            String   @id @default(uuid()) @db.Uuid
   email         String   @unique
@@ -50,8 +71,8 @@ model User {
   role          Role     @default(STUDENT)
   department    String?
   created_at    DateTime @default(now())
+  updated_at    DateTime @default(now()) @updatedAt
 
-  // Zonal supervision territory for coordinators
   assigned_state String?
   assigned_city  String?
 
@@ -59,7 +80,8 @@ model User {
   indSupervisorPlacements   Placement[]         @relation("IndSupervisorPlacements")
   instCoordinatorPlacements Placement[]         @relation("InstCoordinatorPlacements")
   approvals                 LogBookApproval[]
-  clearances                FinalClearance[]
+  clearances                FinalClearance[]    @relation("ITFClearances")
+  conducted_spot_checks     VirtualSpotCheck[]  @relation("CoordinatorSpotChecks")
   student_waivers           LateFillingWaiver[] @relation("StudentWaivers")
   granted_waivers           LateFillingWaiver[] @relation("AdminGrantedWaivers")
 
@@ -86,10 +108,10 @@ model PasswordResetToken {
   token      String   @unique
   expires_at DateTime
   created_at DateTime @default(now())
-  jon        String
 
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
+  @@index([user_id])
   @@map("password_reset_tokens")
 }
 
@@ -102,37 +124,89 @@ model RefreshToken {
 
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
+  @@index([user_id])
   @@map("refresh_tokens")
 }
 
+// ----------------------------------------------------
+// PLACEMENT MANAGEMENT
+// ----------------------------------------------------
+
 model Placement {
-  id                   String   @id @default(uuid()) @db.Uuid
-  student_id           String   @unique @db.Uuid
+  id                   String  @id @default(uuid()) @db.Uuid
+  student_id           String  @unique @db.Uuid
   company_name         String
-  ind_supervisor_id    String?  @db.Uuid
-  inst_coordinator_id  String?  @db.Uuid
+  ind_supervisor_id    String? @db.Uuid
+  inst_coordinator_id  String? @db.Uuid
   company_address      String?
   ind_supervisor_name  String?
   ind_supervisor_email String?
   company_contact      String?
   company_email        String?
-  // Geographical Clustering Fields
-  state                String? // e.g. "Lagos", "Ogun", "Edo"
-  city                 String? // e.g. "Ikeja", "Abeokuta", "Benin City"
-  start_date           DateTime
-  end_date             DateTime
+
+  state String?
+  city  String?
+
+  company_rc_number   String?
+  company_domain      String?
+  company_lat         Float?
+  company_lng         Float?
+  geofence_radius_m   Int     @default(200)
+  is_company_verified Boolean @default(false)
+
+  start_date DateTime
+  end_date   DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
 
   student            User                @relation("StudentPlacements", fields: [student_id], references: [id], onDelete: Cascade)
-  ind_supervisor     User?               @relation("IndSupervisorPlacements", fields: [ind_supervisor_id], references: [id], onDelete: Cascade)
-  inst_coordinator   User?               @relation("InstCoordinatorPlacements", fields: [inst_coordinator_id], references: [id], onDelete: Cascade)
+  ind_supervisor     User?               @relation("IndSupervisorPlacements", fields: [ind_supervisor_id], references: [id], onDelete: SetNull)
+  inst_coordinator   User?               @relation("InstCoordinatorPlacements", fields: [inst_coordinator_id], references: [id], onDelete: SetNull)
+  daily_attendance   DailyAttendance[]
   daily_logs         DailyLog[]
   weekly_submissions WeeklySubmission[]
   clearance          FinalClearance?
   waivers            LateFillingWaiver[]
+  magic_links        VerificationToken[]
+  spot_checks        VirtualSpotCheck[]
+  chat_messages      ChatMessage[]
 
+  @@index([student_id])
   @@index([ind_supervisor_email])
+  @@index([state, city])
   @@map("placements")
 }
+
+// ----------------------------------------------------
+// ATTENDANCE (PRESENCE & GEOFENCING ONLY)
+// ----------------------------------------------------
+
+model DailyAttendance {
+  id                 String         @id @default(uuid()) @db.Uuid
+  placement_id       String         @db.Uuid
+  attendance_date    DateTime       @db.Date
+  check_in_time      DateTime       @default(now())
+  submitted_lat      Float?
+  submitted_lng      Float?
+  accuracy_m         Float?
+  distance_m         Float?
+  presence_status    PresenceStatus @default(PENDING)
+  submitted_from_ip  String?
+  is_mocked          Boolean        @default(false)
+  risk_score         Int            @default(0)
+  verification_flags String[]       @default([])
+
+  placement Placement @relation(fields: [placement_id], references: [id], onDelete: Cascade)
+
+  @@unique([placement_id, attendance_date])
+  @@index([placement_id, attendance_date])
+  @@index([presence_status])
+  @@map("daily_attendance")
+}
+
+// ----------------------------------------------------
+// WORK LOGBOOK & SUBMISSIONS
+// ----------------------------------------------------
 
 model DailyLog {
   id                   String   @id @default(uuid()) @db.Uuid
@@ -140,7 +214,7 @@ model DailyLog {
   weekly_submission_id String   @db.Uuid
   week_no              Int
   log_date             DateTime @db.Date
-  description          String
+  description          String   @db.Text
   image_url            String?
   created_timestamp    DateTime @default(now())
 
@@ -148,6 +222,8 @@ model DailyLog {
   weekly_submission WeeklySubmission @relation(fields: [weekly_submission_id], references: [id], onDelete: Cascade)
 
   @@unique([placement_id, log_date])
+  @@index([placement_id, week_no])
+  @@index([weekly_submission_id])
   @@map("daily_logs")
 }
 
@@ -157,6 +233,7 @@ model WeeklySubmission {
   week_no            Int
   status             SubmissionStatus @default(PENDING)
   supervisor_remarks String?          @db.Text
+  is_locked          Boolean          @default(false)
   submitted_at       DateTime?
   reviewed_at        DateTime?
   created_at         DateTime         @default(now())
@@ -167,6 +244,7 @@ model WeeklySubmission {
   logbook_approvals LogBookApproval[]
 
   @@unique([placement_id, week_no])
+  @@index([placement_id, status])
   @@map("weekly_submissions")
 }
 
@@ -180,21 +258,25 @@ model LogBookApproval {
   weekly_submission WeeklySubmission @relation(fields: [weekly_submission_id], references: [id], onDelete: Cascade)
   supervisor        User             @relation(fields: [supervisor_id], references: [id], onDelete: Cascade)
 
+  @@index([weekly_submission_id])
+  @@index([supervisor_id])
   @@map("logbook_approvals")
 }
+
+// ----------------------------------------------------
+// CLEARANCE & WAIVERS
+// ----------------------------------------------------
 
 model FinalClearance {
   id           String @id @default(uuid()) @db.Uuid
   placement_id String @unique @db.Uuid
 
-  // Institutional Coordinator Evaluation Desk
   coordinator_status     ClearanceStatus @default(PENDING)
   coordinator_score      Int?
   coordinator_remarks    String?         @db.Text
   coordinator_signature  String?         @db.Text
   coordinator_cleared_at DateTime?
 
-  // ITF Zonal Office Clearance & Stamp Desk
   itf_official_id     String?         @db.Uuid
   itf_status          ClearanceStatus @default(PENDING)
   itf_cleared_at      DateTime?
@@ -203,8 +285,9 @@ model FinalClearance {
   clearance_timestamp DateTime?
 
   placement    Placement @relation(fields: [placement_id], references: [id], onDelete: Cascade)
-  itf_official User?     @relation(fields: [itf_official_id], references: [id])
+  itf_official User?     @relation("ITFClearances", fields: [itf_official_id], references: [id], onDelete: SetNull)
 
+  @@index([itf_official_id])
   @@map("final_clearances")
 }
 
@@ -226,9 +309,61 @@ model LateFillingWaiver {
 
   student    User      @relation("StudentWaivers", fields: [student_id], references: [id], onDelete: Cascade)
   placement  Placement @relation(fields: [placement_id], references: [id], onDelete: Cascade)
-  granted_by User?     @relation("AdminGrantedWaivers", fields: [granted_by_id], references: [id])
+  granted_by User?     @relation("AdminGrantedWaivers", fields: [granted_by_id], references: [id], onDelete: SetNull)
 
   @@unique([placement_id, week_no, status])
   @@index([student_id, week_no])
+  @@index([granted_by_id])
   @@map("late_filling_waivers")
+}
+
+// ----------------------------------------------------
+// TELE-SUPERVISION & COMMUNICATION
+// ----------------------------------------------------
+
+model VerificationToken {
+  id           String    @id @default(uuid()) @db.Uuid
+  placement_id String    @db.Uuid
+  placement    Placement @relation(fields: [placement_id], references: [id], onDelete: Cascade)
+  token        String    @unique
+  week_no      Int
+  email        String?
+  expires_at   DateTime
+  is_used      Boolean   @default(false)
+  created_at   DateTime  @default(now())
+
+  @@index([placement_id, week_no])
+  @@map("verification_tokens")
+}
+
+model VirtualSpotCheck {
+  id             String          @id @default(uuid()) @db.Uuid
+  placement_id   String          @db.Uuid
+  coordinator_id String?         @db.Uuid
+  placement      Placement       @relation(fields: [placement_id], references: [id], onDelete: Cascade)
+  coordinator    User?           @relation("CoordinatorSpotChecks", fields: [coordinator_id], references: [id], onDelete: SetNull)
+  scheduled_at   DateTime
+  status         SpotCheckStatus @default(SCHEDULED)
+  room_name      String          @unique
+  score          Int?
+  notes          String?         @db.Text
+  created_at     DateTime        @default(now())
+
+  @@index([placement_id])
+  @@index([coordinator_id])
+  @@map("virtual_spot_checks")
+}
+
+model ChatMessage {
+  id           String    @id @default(uuid()) @db.Uuid
+  placement_id String    @db.Uuid
+  placement    Placement @relation(fields: [placement_id], references: [id], onDelete: Cascade)
+  sender_id    String    @db.Uuid
+  sender_role  Role
+  sender_name  String
+  content      String    @db.Text
+  created_at   DateTime  @default(now())
+
+  @@index([placement_id, created_at])
+  @@map("chat_messages")
 }

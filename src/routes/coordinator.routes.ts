@@ -19,4 +19,5 @@ router.post('/placements/:placementId/assess', assessAndClearStudent);
 router.get('/profile', getCoordinatorProfile);
 router.put('/profile', updateCoordinatorProfile);
 
+
 export default router;

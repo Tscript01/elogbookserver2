@@ -3,6 +3,7 @@ import {
   createPlacement,
   getCurrentPlacement,
   getPlacementById,
+  updateCompanyGeofence,
   updatePlacementById,
 } from '../controllers/placement.controller';
 import {
@@ -51,5 +52,6 @@ router.get('/export/pdf',authenticate, downloadLogbookPDF);
 
 // Coordinators/Admins can download a specific student's logbook by ID
 router.get('/export/pdf/:studentId', authenticate, downloadLogbookPDF);
+router.patch('/:placementId/geofence', authenticate , updateCompanyGeofence);
 
 export default router;

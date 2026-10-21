@@ -39,6 +39,11 @@ export type RefreshToken = $Result.DefaultSelection<Prisma.$RefreshTokenPayload>
  */
 export type Placement = $Result.DefaultSelection<Prisma.$PlacementPayload>
 /**
+ * Model DailyAttendance
+ * 
+ */
+export type DailyAttendance = $Result.DefaultSelection<Prisma.$DailyAttendancePayload>
+/**
  * Model DailyLog
  * 
  */
@@ -63,6 +68,21 @@ export type FinalClearance = $Result.DefaultSelection<Prisma.$FinalClearancePayl
  * 
  */
 export type LateFillingWaiver = $Result.DefaultSelection<Prisma.$LateFillingWaiverPayload>
+/**
+ * Model VerificationToken
+ * 
+ */
+export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTokenPayload>
+/**
+ * Model VirtualSpotCheck
+ * 
+ */
+export type VirtualSpotCheck = $Result.DefaultSelection<Prisma.$VirtualSpotCheckPayload>
+/**
+ * Model ChatMessage
+ * 
+ */
+export type ChatMessage = $Result.DefaultSelection<Prisma.$ChatMessagePayload>
 
 /**
  * Enums
@@ -116,6 +136,25 @@ export const WaiverPaymentStatus: {
 
 export type WaiverPaymentStatus = (typeof WaiverPaymentStatus)[keyof typeof WaiverPaymentStatus]
 
+
+export const PresenceStatus: {
+  PENDING: 'PENDING',
+  VERIFIED_ON_SITE: 'VERIFIED_ON_SITE',
+  OUT_OF_BOUNDS: 'OUT_OF_BOUNDS',
+  HIGH_RISK_SPOOFED: 'HIGH_RISK_SPOOFED'
+};
+
+export type PresenceStatus = (typeof PresenceStatus)[keyof typeof PresenceStatus]
+
+
+export const SpotCheckStatus: {
+  SCHEDULED: 'SCHEDULED',
+  COMPLETED: 'COMPLETED',
+  FLAGGED_ABSENT: 'FLAGGED_ABSENT'
+};
+
+export type SpotCheckStatus = (typeof SpotCheckStatus)[keyof typeof SpotCheckStatus]
+
 }
 
 export type Role = $Enums.Role
@@ -137,6 +176,14 @@ export const WaiverStatus: typeof $Enums.WaiverStatus
 export type WaiverPaymentStatus = $Enums.WaiverPaymentStatus
 
 export const WaiverPaymentStatus: typeof $Enums.WaiverPaymentStatus
+
+export type PresenceStatus = $Enums.PresenceStatus
+
+export const PresenceStatus: typeof $Enums.PresenceStatus
+
+export type SpotCheckStatus = $Enums.SpotCheckStatus
+
+export const SpotCheckStatus: typeof $Enums.SpotCheckStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -310,6 +357,16 @@ export class PrismaClient<
   get placement(): Prisma.PlacementDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.dailyAttendance`: Exposes CRUD operations for the **DailyAttendance** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DailyAttendances
+    * const dailyAttendances = await prisma.dailyAttendance.findMany()
+    * ```
+    */
+  get dailyAttendance(): Prisma.DailyAttendanceDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.dailyLog`: Exposes CRUD operations for the **DailyLog** model.
     * Example usage:
     * ```ts
@@ -358,6 +415,36 @@ export class PrismaClient<
     * ```
     */
   get lateFillingWaiver(): Prisma.LateFillingWaiverDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.verificationToken`: Exposes CRUD operations for the **VerificationToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VerificationTokens
+    * const verificationTokens = await prisma.verificationToken.findMany()
+    * ```
+    */
+  get verificationToken(): Prisma.VerificationTokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.virtualSpotCheck`: Exposes CRUD operations for the **VirtualSpotCheck** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VirtualSpotChecks
+    * const virtualSpotChecks = await prisma.virtualSpotCheck.findMany()
+    * ```
+    */
+  get virtualSpotCheck(): Prisma.VirtualSpotCheckDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.chatMessage`: Exposes CRUD operations for the **ChatMessage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ChatMessages
+    * const chatMessages = await prisma.chatMessage.findMany()
+    * ```
+    */
+  get chatMessage(): Prisma.ChatMessageDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -797,11 +884,15 @@ export namespace Prisma {
     PasswordResetToken: 'PasswordResetToken',
     RefreshToken: 'RefreshToken',
     Placement: 'Placement',
+    DailyAttendance: 'DailyAttendance',
     DailyLog: 'DailyLog',
     WeeklySubmission: 'WeeklySubmission',
     LogBookApproval: 'LogBookApproval',
     FinalClearance: 'FinalClearance',
-    LateFillingWaiver: 'LateFillingWaiver'
+    LateFillingWaiver: 'LateFillingWaiver',
+    VerificationToken: 'VerificationToken',
+    VirtualSpotCheck: 'VirtualSpotCheck',
+    ChatMessage: 'ChatMessage'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -817,7 +908,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "eligibleStudent" | "passwordResetToken" | "refreshToken" | "placement" | "dailyLog" | "weeklySubmission" | "logBookApproval" | "finalClearance" | "lateFillingWaiver"
+      modelProps: "user" | "eligibleStudent" | "passwordResetToken" | "refreshToken" | "placement" | "dailyAttendance" | "dailyLog" | "weeklySubmission" | "logBookApproval" | "finalClearance" | "lateFillingWaiver" | "verificationToken" | "virtualSpotCheck" | "chatMessage"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1191,6 +1282,80 @@ export namespace Prisma {
           }
         }
       }
+      DailyAttendance: {
+        payload: Prisma.$DailyAttendancePayload<ExtArgs>
+        fields: Prisma.DailyAttendanceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DailyAttendanceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyAttendancePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DailyAttendanceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyAttendancePayload>
+          }
+          findFirst: {
+            args: Prisma.DailyAttendanceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyAttendancePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DailyAttendanceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyAttendancePayload>
+          }
+          findMany: {
+            args: Prisma.DailyAttendanceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyAttendancePayload>[]
+          }
+          create: {
+            args: Prisma.DailyAttendanceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyAttendancePayload>
+          }
+          createMany: {
+            args: Prisma.DailyAttendanceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DailyAttendanceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyAttendancePayload>[]
+          }
+          delete: {
+            args: Prisma.DailyAttendanceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyAttendancePayload>
+          }
+          update: {
+            args: Prisma.DailyAttendanceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyAttendancePayload>
+          }
+          deleteMany: {
+            args: Prisma.DailyAttendanceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DailyAttendanceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DailyAttendanceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyAttendancePayload>[]
+          }
+          upsert: {
+            args: Prisma.DailyAttendanceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DailyAttendancePayload>
+          }
+          aggregate: {
+            args: Prisma.DailyAttendanceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDailyAttendance>
+          }
+          groupBy: {
+            args: Prisma.DailyAttendanceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DailyAttendanceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DailyAttendanceCountArgs<ExtArgs>
+            result: $Utils.Optional<DailyAttendanceCountAggregateOutputType> | number
+          }
+        }
+      }
       DailyLog: {
         payload: Prisma.$DailyLogPayload<ExtArgs>
         fields: Prisma.DailyLogFieldRefs
@@ -1561,6 +1726,228 @@ export namespace Prisma {
           }
         }
       }
+      VerificationToken: {
+        payload: Prisma.$VerificationTokenPayload<ExtArgs>
+        fields: Prisma.VerificationTokenFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VerificationTokenFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VerificationTokenFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+          }
+          findFirst: {
+            args: Prisma.VerificationTokenFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VerificationTokenFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+          }
+          findMany: {
+            args: Prisma.VerificationTokenFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>[]
+          }
+          create: {
+            args: Prisma.VerificationTokenCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+          }
+          createMany: {
+            args: Prisma.VerificationTokenCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VerificationTokenCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>[]
+          }
+          delete: {
+            args: Prisma.VerificationTokenDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+          }
+          update: {
+            args: Prisma.VerificationTokenUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+          }
+          deleteMany: {
+            args: Prisma.VerificationTokenDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VerificationTokenUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VerificationTokenUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>[]
+          }
+          upsert: {
+            args: Prisma.VerificationTokenUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationTokenPayload>
+          }
+          aggregate: {
+            args: Prisma.VerificationTokenAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVerificationToken>
+          }
+          groupBy: {
+            args: Prisma.VerificationTokenGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VerificationTokenGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VerificationTokenCountArgs<ExtArgs>
+            result: $Utils.Optional<VerificationTokenCountAggregateOutputType> | number
+          }
+        }
+      }
+      VirtualSpotCheck: {
+        payload: Prisma.$VirtualSpotCheckPayload<ExtArgs>
+        fields: Prisma.VirtualSpotCheckFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VirtualSpotCheckFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VirtualSpotCheckPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VirtualSpotCheckFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VirtualSpotCheckPayload>
+          }
+          findFirst: {
+            args: Prisma.VirtualSpotCheckFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VirtualSpotCheckPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VirtualSpotCheckFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VirtualSpotCheckPayload>
+          }
+          findMany: {
+            args: Prisma.VirtualSpotCheckFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VirtualSpotCheckPayload>[]
+          }
+          create: {
+            args: Prisma.VirtualSpotCheckCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VirtualSpotCheckPayload>
+          }
+          createMany: {
+            args: Prisma.VirtualSpotCheckCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VirtualSpotCheckCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VirtualSpotCheckPayload>[]
+          }
+          delete: {
+            args: Prisma.VirtualSpotCheckDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VirtualSpotCheckPayload>
+          }
+          update: {
+            args: Prisma.VirtualSpotCheckUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VirtualSpotCheckPayload>
+          }
+          deleteMany: {
+            args: Prisma.VirtualSpotCheckDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VirtualSpotCheckUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VirtualSpotCheckUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VirtualSpotCheckPayload>[]
+          }
+          upsert: {
+            args: Prisma.VirtualSpotCheckUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VirtualSpotCheckPayload>
+          }
+          aggregate: {
+            args: Prisma.VirtualSpotCheckAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVirtualSpotCheck>
+          }
+          groupBy: {
+            args: Prisma.VirtualSpotCheckGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VirtualSpotCheckGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VirtualSpotCheckCountArgs<ExtArgs>
+            result: $Utils.Optional<VirtualSpotCheckCountAggregateOutputType> | number
+          }
+        }
+      }
+      ChatMessage: {
+        payload: Prisma.$ChatMessagePayload<ExtArgs>
+        fields: Prisma.ChatMessageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ChatMessageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatMessagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ChatMessageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatMessagePayload>
+          }
+          findFirst: {
+            args: Prisma.ChatMessageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatMessagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ChatMessageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatMessagePayload>
+          }
+          findMany: {
+            args: Prisma.ChatMessageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatMessagePayload>[]
+          }
+          create: {
+            args: Prisma.ChatMessageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatMessagePayload>
+          }
+          createMany: {
+            args: Prisma.ChatMessageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ChatMessageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatMessagePayload>[]
+          }
+          delete: {
+            args: Prisma.ChatMessageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatMessagePayload>
+          }
+          update: {
+            args: Prisma.ChatMessageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatMessagePayload>
+          }
+          deleteMany: {
+            args: Prisma.ChatMessageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ChatMessageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ChatMessageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatMessagePayload>[]
+          }
+          upsert: {
+            args: Prisma.ChatMessageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatMessagePayload>
+          }
+          aggregate: {
+            args: Prisma.ChatMessageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateChatMessage>
+          }
+          groupBy: {
+            args: Prisma.ChatMessageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ChatMessageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ChatMessageCountArgs<ExtArgs>
+            result: $Utils.Optional<ChatMessageCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1674,11 +2061,15 @@ export namespace Prisma {
     passwordResetToken?: PasswordResetTokenOmit
     refreshToken?: RefreshTokenOmit
     placement?: PlacementOmit
+    dailyAttendance?: DailyAttendanceOmit
     dailyLog?: DailyLogOmit
     weeklySubmission?: WeeklySubmissionOmit
     logBookApproval?: LogBookApprovalOmit
     finalClearance?: FinalClearanceOmit
     lateFillingWaiver?: LateFillingWaiverOmit
+    verificationToken?: VerificationTokenOmit
+    virtualSpotCheck?: VirtualSpotCheckOmit
+    chatMessage?: ChatMessageOmit
   }
 
   /* Types for Logging */
@@ -1764,6 +2155,7 @@ export namespace Prisma {
     instCoordinatorPlacements: number
     approvals: number
     clearances: number
+    conducted_spot_checks: number
     student_waivers: number
     granted_waivers: number
     refreshTokens: number
@@ -1776,6 +2168,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: boolean | UserCountOutputTypeCountInstCoordinatorPlacementsArgs
     approvals?: boolean | UserCountOutputTypeCountApprovalsArgs
     clearances?: boolean | UserCountOutputTypeCountClearancesArgs
+    conducted_spot_checks?: boolean | UserCountOutputTypeCountConducted_spot_checksArgs
     student_waivers?: boolean | UserCountOutputTypeCountStudent_waiversArgs
     granted_waivers?: boolean | UserCountOutputTypeCountGranted_waiversArgs
     refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
@@ -1831,6 +2224,13 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountConducted_spot_checksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VirtualSpotCheckWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountStudent_waiversArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LateFillingWaiverWhereInput
   }
@@ -1862,15 +2262,23 @@ export namespace Prisma {
    */
 
   export type PlacementCountOutputType = {
+    daily_attendance: number
     daily_logs: number
     weekly_submissions: number
     waivers: number
+    magic_links: number
+    spot_checks: number
+    chat_messages: number
   }
 
   export type PlacementCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    daily_attendance?: boolean | PlacementCountOutputTypeCountDaily_attendanceArgs
     daily_logs?: boolean | PlacementCountOutputTypeCountDaily_logsArgs
     weekly_submissions?: boolean | PlacementCountOutputTypeCountWeekly_submissionsArgs
     waivers?: boolean | PlacementCountOutputTypeCountWaiversArgs
+    magic_links?: boolean | PlacementCountOutputTypeCountMagic_linksArgs
+    spot_checks?: boolean | PlacementCountOutputTypeCountSpot_checksArgs
+    chat_messages?: boolean | PlacementCountOutputTypeCountChat_messagesArgs
   }
 
   // Custom InputTypes
@@ -1882,6 +2290,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the PlacementCountOutputType
      */
     select?: PlacementCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PlacementCountOutputType without action
+   */
+  export type PlacementCountOutputTypeCountDaily_attendanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DailyAttendanceWhereInput
   }
 
   /**
@@ -1903,6 +2318,27 @@ export namespace Prisma {
    */
   export type PlacementCountOutputTypeCountWaiversArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LateFillingWaiverWhereInput
+  }
+
+  /**
+   * PlacementCountOutputType without action
+   */
+  export type PlacementCountOutputTypeCountMagic_linksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VerificationTokenWhereInput
+  }
+
+  /**
+   * PlacementCountOutputType without action
+   */
+  export type PlacementCountOutputTypeCountSpot_checksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VirtualSpotCheckWhereInput
+  }
+
+  /**
+   * PlacementCountOutputType without action
+   */
+  export type PlacementCountOutputTypeCountChat_messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChatMessageWhereInput
   }
 
 
@@ -1969,6 +2405,7 @@ export namespace Prisma {
     role: $Enums.Role | null
     department: string | null
     created_at: Date | null
+    updated_at: Date | null
     assigned_state: string | null
     assigned_city: string | null
   }
@@ -1982,6 +2419,7 @@ export namespace Prisma {
     role: $Enums.Role | null
     department: string | null
     created_at: Date | null
+    updated_at: Date | null
     assigned_state: string | null
     assigned_city: string | null
   }
@@ -1995,6 +2433,7 @@ export namespace Prisma {
     role: number
     department: number
     created_at: number
+    updated_at: number
     assigned_state: number
     assigned_city: number
     _all: number
@@ -2010,6 +2449,7 @@ export namespace Prisma {
     role?: true
     department?: true
     created_at?: true
+    updated_at?: true
     assigned_state?: true
     assigned_city?: true
   }
@@ -2023,6 +2463,7 @@ export namespace Prisma {
     role?: true
     department?: true
     created_at?: true
+    updated_at?: true
     assigned_state?: true
     assigned_city?: true
   }
@@ -2036,6 +2477,7 @@ export namespace Prisma {
     role?: true
     department?: true
     created_at?: true
+    updated_at?: true
     assigned_state?: true
     assigned_city?: true
     _all?: true
@@ -2122,6 +2564,7 @@ export namespace Prisma {
     role: $Enums.Role
     department: string | null
     created_at: Date
+    updated_at: Date
     assigned_state: string | null
     assigned_city: string | null
     _count: UserCountAggregateOutputType | null
@@ -2152,6 +2595,7 @@ export namespace Prisma {
     role?: boolean
     department?: boolean
     created_at?: boolean
+    updated_at?: boolean
     assigned_state?: boolean
     assigned_city?: boolean
     studentPlacements?: boolean | User$studentPlacementsArgs<ExtArgs>
@@ -2159,6 +2603,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: boolean | User$instCoordinatorPlacementsArgs<ExtArgs>
     approvals?: boolean | User$approvalsArgs<ExtArgs>
     clearances?: boolean | User$clearancesArgs<ExtArgs>
+    conducted_spot_checks?: boolean | User$conducted_spot_checksArgs<ExtArgs>
     student_waivers?: boolean | User$student_waiversArgs<ExtArgs>
     granted_waivers?: boolean | User$granted_waiversArgs<ExtArgs>
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
@@ -2175,6 +2620,7 @@ export namespace Prisma {
     role?: boolean
     department?: boolean
     created_at?: boolean
+    updated_at?: boolean
     assigned_state?: boolean
     assigned_city?: boolean
   }, ExtArgs["result"]["user"]>
@@ -2188,6 +2634,7 @@ export namespace Prisma {
     role?: boolean
     department?: boolean
     created_at?: boolean
+    updated_at?: boolean
     assigned_state?: boolean
     assigned_city?: boolean
   }, ExtArgs["result"]["user"]>
@@ -2201,17 +2648,19 @@ export namespace Prisma {
     role?: boolean
     department?: boolean
     created_at?: boolean
+    updated_at?: boolean
     assigned_state?: boolean
     assigned_city?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "matric_no" | "password_hash" | "name" | "role" | "department" | "created_at" | "assigned_state" | "assigned_city", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "matric_no" | "password_hash" | "name" | "role" | "department" | "created_at" | "updated_at" | "assigned_state" | "assigned_city", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     studentPlacements?: boolean | User$studentPlacementsArgs<ExtArgs>
     indSupervisorPlacements?: boolean | User$indSupervisorPlacementsArgs<ExtArgs>
     instCoordinatorPlacements?: boolean | User$instCoordinatorPlacementsArgs<ExtArgs>
     approvals?: boolean | User$approvalsArgs<ExtArgs>
     clearances?: boolean | User$clearancesArgs<ExtArgs>
+    conducted_spot_checks?: boolean | User$conducted_spot_checksArgs<ExtArgs>
     student_waivers?: boolean | User$student_waiversArgs<ExtArgs>
     granted_waivers?: boolean | User$granted_waiversArgs<ExtArgs>
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
@@ -2229,6 +2678,7 @@ export namespace Prisma {
       instCoordinatorPlacements: Prisma.$PlacementPayload<ExtArgs>[]
       approvals: Prisma.$LogBookApprovalPayload<ExtArgs>[]
       clearances: Prisma.$FinalClearancePayload<ExtArgs>[]
+      conducted_spot_checks: Prisma.$VirtualSpotCheckPayload<ExtArgs>[]
       student_waivers: Prisma.$LateFillingWaiverPayload<ExtArgs>[]
       granted_waivers: Prisma.$LateFillingWaiverPayload<ExtArgs>[]
       refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
@@ -2243,6 +2693,7 @@ export namespace Prisma {
       role: $Enums.Role
       department: string | null
       created_at: Date
+      updated_at: Date
       assigned_state: string | null
       assigned_city: string | null
     }, ExtArgs["result"]["user"]>
@@ -2644,6 +3095,7 @@ export namespace Prisma {
     instCoordinatorPlacements<T extends User$instCoordinatorPlacementsArgs<ExtArgs> = {}>(args?: Subset<T, User$instCoordinatorPlacementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlacementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     approvals<T extends User$approvalsArgs<ExtArgs> = {}>(args?: Subset<T, User$approvalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LogBookApprovalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     clearances<T extends User$clearancesArgs<ExtArgs> = {}>(args?: Subset<T, User$clearancesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FinalClearancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    conducted_spot_checks<T extends User$conducted_spot_checksArgs<ExtArgs> = {}>(args?: Subset<T, User$conducted_spot_checksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VirtualSpotCheckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     student_waivers<T extends User$student_waiversArgs<ExtArgs> = {}>(args?: Subset<T, User$student_waiversArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     granted_waivers<T extends User$granted_waiversArgs<ExtArgs> = {}>(args?: Subset<T, User$granted_waiversArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     refreshTokens<T extends User$refreshTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2685,6 +3137,7 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'Role'>
     readonly department: FieldRef<"User", 'String'>
     readonly created_at: FieldRef<"User", 'DateTime'>
+    readonly updated_at: FieldRef<"User", 'DateTime'>
     readonly assigned_state: FieldRef<"User", 'String'>
     readonly assigned_city: FieldRef<"User", 'String'>
   }
@@ -3197,6 +3650,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FinalClearanceScalarFieldEnum | FinalClearanceScalarFieldEnum[]
+  }
+
+  /**
+   * User.conducted_spot_checks
+   */
+  export type User$conducted_spot_checksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VirtualSpotCheck
+     */
+    select?: VirtualSpotCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VirtualSpotCheck
+     */
+    omit?: VirtualSpotCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VirtualSpotCheckInclude<ExtArgs> | null
+    where?: VirtualSpotCheckWhereInput
+    orderBy?: VirtualSpotCheckOrderByWithRelationInput | VirtualSpotCheckOrderByWithRelationInput[]
+    cursor?: VirtualSpotCheckWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VirtualSpotCheckScalarFieldEnum | VirtualSpotCheckScalarFieldEnum[]
   }
 
   /**
@@ -4343,7 +4820,6 @@ export namespace Prisma {
     token: string | null
     expires_at: Date | null
     created_at: Date | null
-    jon: string | null
   }
 
   export type PasswordResetTokenMaxAggregateOutputType = {
@@ -4352,7 +4828,6 @@ export namespace Prisma {
     token: string | null
     expires_at: Date | null
     created_at: Date | null
-    jon: string | null
   }
 
   export type PasswordResetTokenCountAggregateOutputType = {
@@ -4361,7 +4836,6 @@ export namespace Prisma {
     token: number
     expires_at: number
     created_at: number
-    jon: number
     _all: number
   }
 
@@ -4372,7 +4846,6 @@ export namespace Prisma {
     token?: true
     expires_at?: true
     created_at?: true
-    jon?: true
   }
 
   export type PasswordResetTokenMaxAggregateInputType = {
@@ -4381,7 +4854,6 @@ export namespace Prisma {
     token?: true
     expires_at?: true
     created_at?: true
-    jon?: true
   }
 
   export type PasswordResetTokenCountAggregateInputType = {
@@ -4390,7 +4862,6 @@ export namespace Prisma {
     token?: true
     expires_at?: true
     created_at?: true
-    jon?: true
     _all?: true
   }
 
@@ -4472,7 +4943,6 @@ export namespace Prisma {
     token: string
     expires_at: Date
     created_at: Date
-    jon: string
     _count: PasswordResetTokenCountAggregateOutputType | null
     _min: PasswordResetTokenMinAggregateOutputType | null
     _max: PasswordResetTokenMaxAggregateOutputType | null
@@ -4498,7 +4968,6 @@ export namespace Prisma {
     token?: boolean
     expires_at?: boolean
     created_at?: boolean
-    jon?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["passwordResetToken"]>
 
@@ -4508,7 +4977,6 @@ export namespace Prisma {
     token?: boolean
     expires_at?: boolean
     created_at?: boolean
-    jon?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["passwordResetToken"]>
 
@@ -4518,7 +4986,6 @@ export namespace Prisma {
     token?: boolean
     expires_at?: boolean
     created_at?: boolean
-    jon?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["passwordResetToken"]>
 
@@ -4528,10 +4995,9 @@ export namespace Prisma {
     token?: boolean
     expires_at?: boolean
     created_at?: boolean
-    jon?: boolean
   }
 
-  export type PasswordResetTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "token" | "expires_at" | "created_at" | "jon", ExtArgs["result"]["passwordResetToken"]>
+  export type PasswordResetTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "token" | "expires_at" | "created_at", ExtArgs["result"]["passwordResetToken"]>
   export type PasswordResetTokenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -4553,7 +5019,6 @@ export namespace Prisma {
       token: string
       expires_at: Date
       created_at: Date
-      jon: string
     }, ExtArgs["result"]["passwordResetToken"]>
     composites: {}
   }
@@ -4983,7 +5448,6 @@ export namespace Prisma {
     readonly token: FieldRef<"PasswordResetToken", 'String'>
     readonly expires_at: FieldRef<"PasswordResetToken", 'DateTime'>
     readonly created_at: FieldRef<"PasswordResetToken", 'DateTime'>
-    readonly jon: FieldRef<"PasswordResetToken", 'String'>
   }
     
 
@@ -6472,8 +6936,22 @@ export namespace Prisma {
 
   export type AggregatePlacement = {
     _count: PlacementCountAggregateOutputType | null
+    _avg: PlacementAvgAggregateOutputType | null
+    _sum: PlacementSumAggregateOutputType | null
     _min: PlacementMinAggregateOutputType | null
     _max: PlacementMaxAggregateOutputType | null
+  }
+
+  export type PlacementAvgAggregateOutputType = {
+    company_lat: number | null
+    company_lng: number | null
+    geofence_radius_m: number | null
+  }
+
+  export type PlacementSumAggregateOutputType = {
+    company_lat: number | null
+    company_lng: number | null
+    geofence_radius_m: number | null
   }
 
   export type PlacementMinAggregateOutputType = {
@@ -6489,8 +6967,16 @@ export namespace Prisma {
     company_email: string | null
     state: string | null
     city: string | null
+    company_rc_number: string | null
+    company_domain: string | null
+    company_lat: number | null
+    company_lng: number | null
+    geofence_radius_m: number | null
+    is_company_verified: boolean | null
     start_date: Date | null
     end_date: Date | null
+    created_at: Date | null
+    updated_at: Date | null
   }
 
   export type PlacementMaxAggregateOutputType = {
@@ -6506,8 +6992,16 @@ export namespace Prisma {
     company_email: string | null
     state: string | null
     city: string | null
+    company_rc_number: string | null
+    company_domain: string | null
+    company_lat: number | null
+    company_lng: number | null
+    geofence_radius_m: number | null
+    is_company_verified: boolean | null
     start_date: Date | null
     end_date: Date | null
+    created_at: Date | null
+    updated_at: Date | null
   }
 
   export type PlacementCountAggregateOutputType = {
@@ -6523,11 +7017,31 @@ export namespace Prisma {
     company_email: number
     state: number
     city: number
+    company_rc_number: number
+    company_domain: number
+    company_lat: number
+    company_lng: number
+    geofence_radius_m: number
+    is_company_verified: number
     start_date: number
     end_date: number
+    created_at: number
+    updated_at: number
     _all: number
   }
 
+
+  export type PlacementAvgAggregateInputType = {
+    company_lat?: true
+    company_lng?: true
+    geofence_radius_m?: true
+  }
+
+  export type PlacementSumAggregateInputType = {
+    company_lat?: true
+    company_lng?: true
+    geofence_radius_m?: true
+  }
 
   export type PlacementMinAggregateInputType = {
     id?: true
@@ -6542,8 +7056,16 @@ export namespace Prisma {
     company_email?: true
     state?: true
     city?: true
+    company_rc_number?: true
+    company_domain?: true
+    company_lat?: true
+    company_lng?: true
+    geofence_radius_m?: true
+    is_company_verified?: true
     start_date?: true
     end_date?: true
+    created_at?: true
+    updated_at?: true
   }
 
   export type PlacementMaxAggregateInputType = {
@@ -6559,8 +7081,16 @@ export namespace Prisma {
     company_email?: true
     state?: true
     city?: true
+    company_rc_number?: true
+    company_domain?: true
+    company_lat?: true
+    company_lng?: true
+    geofence_radius_m?: true
+    is_company_verified?: true
     start_date?: true
     end_date?: true
+    created_at?: true
+    updated_at?: true
   }
 
   export type PlacementCountAggregateInputType = {
@@ -6576,8 +7106,16 @@ export namespace Prisma {
     company_email?: true
     state?: true
     city?: true
+    company_rc_number?: true
+    company_domain?: true
+    company_lat?: true
+    company_lng?: true
+    geofence_radius_m?: true
+    is_company_verified?: true
     start_date?: true
     end_date?: true
+    created_at?: true
+    updated_at?: true
     _all?: true
   }
 
@@ -6619,6 +7157,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: PlacementAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PlacementSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: PlacementMinAggregateInputType
@@ -6649,6 +7199,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: PlacementCountAggregateInputType | true
+    _avg?: PlacementAvgAggregateInputType
+    _sum?: PlacementSumAggregateInputType
     _min?: PlacementMinAggregateInputType
     _max?: PlacementMaxAggregateInputType
   }
@@ -6666,9 +7218,19 @@ export namespace Prisma {
     company_email: string | null
     state: string | null
     city: string | null
+    company_rc_number: string | null
+    company_domain: string | null
+    company_lat: number | null
+    company_lng: number | null
+    geofence_radius_m: number
+    is_company_verified: boolean
     start_date: Date
     end_date: Date
+    created_at: Date
+    updated_at: Date
     _count: PlacementCountAggregateOutputType | null
+    _avg: PlacementAvgAggregateOutputType | null
+    _sum: PlacementSumAggregateOutputType | null
     _min: PlacementMinAggregateOutputType | null
     _max: PlacementMaxAggregateOutputType | null
   }
@@ -6700,15 +7262,27 @@ export namespace Prisma {
     company_email?: boolean
     state?: boolean
     city?: boolean
+    company_rc_number?: boolean
+    company_domain?: boolean
+    company_lat?: boolean
+    company_lng?: boolean
+    geofence_radius_m?: boolean
+    is_company_verified?: boolean
     start_date?: boolean
     end_date?: boolean
+    created_at?: boolean
+    updated_at?: boolean
     student?: boolean | UserDefaultArgs<ExtArgs>
     ind_supervisor?: boolean | Placement$ind_supervisorArgs<ExtArgs>
     inst_coordinator?: boolean | Placement$inst_coordinatorArgs<ExtArgs>
+    daily_attendance?: boolean | Placement$daily_attendanceArgs<ExtArgs>
     daily_logs?: boolean | Placement$daily_logsArgs<ExtArgs>
     weekly_submissions?: boolean | Placement$weekly_submissionsArgs<ExtArgs>
     clearance?: boolean | Placement$clearanceArgs<ExtArgs>
     waivers?: boolean | Placement$waiversArgs<ExtArgs>
+    magic_links?: boolean | Placement$magic_linksArgs<ExtArgs>
+    spot_checks?: boolean | Placement$spot_checksArgs<ExtArgs>
+    chat_messages?: boolean | Placement$chat_messagesArgs<ExtArgs>
     _count?: boolean | PlacementCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["placement"]>
 
@@ -6725,8 +7299,16 @@ export namespace Prisma {
     company_email?: boolean
     state?: boolean
     city?: boolean
+    company_rc_number?: boolean
+    company_domain?: boolean
+    company_lat?: boolean
+    company_lng?: boolean
+    geofence_radius_m?: boolean
+    is_company_verified?: boolean
     start_date?: boolean
     end_date?: boolean
+    created_at?: boolean
+    updated_at?: boolean
     student?: boolean | UserDefaultArgs<ExtArgs>
     ind_supervisor?: boolean | Placement$ind_supervisorArgs<ExtArgs>
     inst_coordinator?: boolean | Placement$inst_coordinatorArgs<ExtArgs>
@@ -6745,8 +7327,16 @@ export namespace Prisma {
     company_email?: boolean
     state?: boolean
     city?: boolean
+    company_rc_number?: boolean
+    company_domain?: boolean
+    company_lat?: boolean
+    company_lng?: boolean
+    geofence_radius_m?: boolean
+    is_company_verified?: boolean
     start_date?: boolean
     end_date?: boolean
+    created_at?: boolean
+    updated_at?: boolean
     student?: boolean | UserDefaultArgs<ExtArgs>
     ind_supervisor?: boolean | Placement$ind_supervisorArgs<ExtArgs>
     inst_coordinator?: boolean | Placement$inst_coordinatorArgs<ExtArgs>
@@ -6765,19 +7355,31 @@ export namespace Prisma {
     company_email?: boolean
     state?: boolean
     city?: boolean
+    company_rc_number?: boolean
+    company_domain?: boolean
+    company_lat?: boolean
+    company_lng?: boolean
+    geofence_radius_m?: boolean
+    is_company_verified?: boolean
     start_date?: boolean
     end_date?: boolean
+    created_at?: boolean
+    updated_at?: boolean
   }
 
-  export type PlacementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "student_id" | "company_name" | "ind_supervisor_id" | "inst_coordinator_id" | "company_address" | "ind_supervisor_name" | "ind_supervisor_email" | "company_contact" | "company_email" | "state" | "city" | "start_date" | "end_date", ExtArgs["result"]["placement"]>
+  export type PlacementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "student_id" | "company_name" | "ind_supervisor_id" | "inst_coordinator_id" | "company_address" | "ind_supervisor_name" | "ind_supervisor_email" | "company_contact" | "company_email" | "state" | "city" | "company_rc_number" | "company_domain" | "company_lat" | "company_lng" | "geofence_radius_m" | "is_company_verified" | "start_date" | "end_date" | "created_at" | "updated_at", ExtArgs["result"]["placement"]>
   export type PlacementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | UserDefaultArgs<ExtArgs>
     ind_supervisor?: boolean | Placement$ind_supervisorArgs<ExtArgs>
     inst_coordinator?: boolean | Placement$inst_coordinatorArgs<ExtArgs>
+    daily_attendance?: boolean | Placement$daily_attendanceArgs<ExtArgs>
     daily_logs?: boolean | Placement$daily_logsArgs<ExtArgs>
     weekly_submissions?: boolean | Placement$weekly_submissionsArgs<ExtArgs>
     clearance?: boolean | Placement$clearanceArgs<ExtArgs>
     waivers?: boolean | Placement$waiversArgs<ExtArgs>
+    magic_links?: boolean | Placement$magic_linksArgs<ExtArgs>
+    spot_checks?: boolean | Placement$spot_checksArgs<ExtArgs>
+    chat_messages?: boolean | Placement$chat_messagesArgs<ExtArgs>
     _count?: boolean | PlacementCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PlacementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6797,10 +7399,14 @@ export namespace Prisma {
       student: Prisma.$UserPayload<ExtArgs>
       ind_supervisor: Prisma.$UserPayload<ExtArgs> | null
       inst_coordinator: Prisma.$UserPayload<ExtArgs> | null
+      daily_attendance: Prisma.$DailyAttendancePayload<ExtArgs>[]
       daily_logs: Prisma.$DailyLogPayload<ExtArgs>[]
       weekly_submissions: Prisma.$WeeklySubmissionPayload<ExtArgs>[]
       clearance: Prisma.$FinalClearancePayload<ExtArgs> | null
       waivers: Prisma.$LateFillingWaiverPayload<ExtArgs>[]
+      magic_links: Prisma.$VerificationTokenPayload<ExtArgs>[]
+      spot_checks: Prisma.$VirtualSpotCheckPayload<ExtArgs>[]
+      chat_messages: Prisma.$ChatMessagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6815,8 +7421,16 @@ export namespace Prisma {
       company_email: string | null
       state: string | null
       city: string | null
+      company_rc_number: string | null
+      company_domain: string | null
+      company_lat: number | null
+      company_lng: number | null
+      geofence_radius_m: number
+      is_company_verified: boolean
       start_date: Date
       end_date: Date
+      created_at: Date
+      updated_at: Date
     }, ExtArgs["result"]["placement"]>
     composites: {}
   }
@@ -7214,10 +7828,14 @@ export namespace Prisma {
     student<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     ind_supervisor<T extends Placement$ind_supervisorArgs<ExtArgs> = {}>(args?: Subset<T, Placement$ind_supervisorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     inst_coordinator<T extends Placement$inst_coordinatorArgs<ExtArgs> = {}>(args?: Subset<T, Placement$inst_coordinatorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    daily_attendance<T extends Placement$daily_attendanceArgs<ExtArgs> = {}>(args?: Subset<T, Placement$daily_attendanceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyAttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     daily_logs<T extends Placement$daily_logsArgs<ExtArgs> = {}>(args?: Subset<T, Placement$daily_logsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     weekly_submissions<T extends Placement$weekly_submissionsArgs<ExtArgs> = {}>(args?: Subset<T, Placement$weekly_submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WeeklySubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     clearance<T extends Placement$clearanceArgs<ExtArgs> = {}>(args?: Subset<T, Placement$clearanceArgs<ExtArgs>>): Prisma__FinalClearanceClient<$Result.GetResult<Prisma.$FinalClearancePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     waivers<T extends Placement$waiversArgs<ExtArgs> = {}>(args?: Subset<T, Placement$waiversArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LateFillingWaiverPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    magic_links<T extends Placement$magic_linksArgs<ExtArgs> = {}>(args?: Subset<T, Placement$magic_linksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    spot_checks<T extends Placement$spot_checksArgs<ExtArgs> = {}>(args?: Subset<T, Placement$spot_checksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VirtualSpotCheckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    chat_messages<T extends Placement$chat_messagesArgs<ExtArgs> = {}>(args?: Subset<T, Placement$chat_messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7259,8 +7877,16 @@ export namespace Prisma {
     readonly company_email: FieldRef<"Placement", 'String'>
     readonly state: FieldRef<"Placement", 'String'>
     readonly city: FieldRef<"Placement", 'String'>
+    readonly company_rc_number: FieldRef<"Placement", 'String'>
+    readonly company_domain: FieldRef<"Placement", 'String'>
+    readonly company_lat: FieldRef<"Placement", 'Float'>
+    readonly company_lng: FieldRef<"Placement", 'Float'>
+    readonly geofence_radius_m: FieldRef<"Placement", 'Int'>
+    readonly is_company_verified: FieldRef<"Placement", 'Boolean'>
     readonly start_date: FieldRef<"Placement", 'DateTime'>
     readonly end_date: FieldRef<"Placement", 'DateTime'>
+    readonly created_at: FieldRef<"Placement", 'DateTime'>
+    readonly updated_at: FieldRef<"Placement", 'DateTime'>
   }
     
 
@@ -7700,6 +8326,30 @@ export namespace Prisma {
   }
 
   /**
+   * Placement.daily_attendance
+   */
+  export type Placement$daily_attendanceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyAttendance
+     */
+    select?: DailyAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyAttendance
+     */
+    omit?: DailyAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyAttendanceInclude<ExtArgs> | null
+    where?: DailyAttendanceWhereInput
+    orderBy?: DailyAttendanceOrderByWithRelationInput | DailyAttendanceOrderByWithRelationInput[]
+    cursor?: DailyAttendanceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DailyAttendanceScalarFieldEnum | DailyAttendanceScalarFieldEnum[]
+  }
+
+  /**
    * Placement.daily_logs
    */
   export type Placement$daily_logsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7791,6 +8441,78 @@ export namespace Prisma {
   }
 
   /**
+   * Placement.magic_links
+   */
+  export type Placement$magic_linksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationTokenInclude<ExtArgs> | null
+    where?: VerificationTokenWhereInput
+    orderBy?: VerificationTokenOrderByWithRelationInput | VerificationTokenOrderByWithRelationInput[]
+    cursor?: VerificationTokenWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VerificationTokenScalarFieldEnum | VerificationTokenScalarFieldEnum[]
+  }
+
+  /**
+   * Placement.spot_checks
+   */
+  export type Placement$spot_checksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VirtualSpotCheck
+     */
+    select?: VirtualSpotCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VirtualSpotCheck
+     */
+    omit?: VirtualSpotCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VirtualSpotCheckInclude<ExtArgs> | null
+    where?: VirtualSpotCheckWhereInput
+    orderBy?: VirtualSpotCheckOrderByWithRelationInput | VirtualSpotCheckOrderByWithRelationInput[]
+    cursor?: VirtualSpotCheckWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VirtualSpotCheckScalarFieldEnum | VirtualSpotCheckScalarFieldEnum[]
+  }
+
+  /**
+   * Placement.chat_messages
+   */
+  export type Placement$chat_messagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatMessage
+     */
+    select?: ChatMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatMessage
+     */
+    omit?: ChatMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatMessageInclude<ExtArgs> | null
+    where?: ChatMessageWhereInput
+    orderBy?: ChatMessageOrderByWithRelationInput | ChatMessageOrderByWithRelationInput[]
+    cursor?: ChatMessageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChatMessageScalarFieldEnum | ChatMessageScalarFieldEnum[]
+  }
+
+  /**
    * Placement without action
    */
   export type PlacementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7806,6 +8528,1219 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PlacementInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DailyAttendance
+   */
+
+  export type AggregateDailyAttendance = {
+    _count: DailyAttendanceCountAggregateOutputType | null
+    _avg: DailyAttendanceAvgAggregateOutputType | null
+    _sum: DailyAttendanceSumAggregateOutputType | null
+    _min: DailyAttendanceMinAggregateOutputType | null
+    _max: DailyAttendanceMaxAggregateOutputType | null
+  }
+
+  export type DailyAttendanceAvgAggregateOutputType = {
+    submitted_lat: number | null
+    submitted_lng: number | null
+    accuracy_m: number | null
+    distance_m: number | null
+    risk_score: number | null
+  }
+
+  export type DailyAttendanceSumAggregateOutputType = {
+    submitted_lat: number | null
+    submitted_lng: number | null
+    accuracy_m: number | null
+    distance_m: number | null
+    risk_score: number | null
+  }
+
+  export type DailyAttendanceMinAggregateOutputType = {
+    id: string | null
+    placement_id: string | null
+    attendance_date: Date | null
+    check_in_time: Date | null
+    submitted_lat: number | null
+    submitted_lng: number | null
+    accuracy_m: number | null
+    distance_m: number | null
+    presence_status: $Enums.PresenceStatus | null
+    submitted_from_ip: string | null
+    is_mocked: boolean | null
+    risk_score: number | null
+  }
+
+  export type DailyAttendanceMaxAggregateOutputType = {
+    id: string | null
+    placement_id: string | null
+    attendance_date: Date | null
+    check_in_time: Date | null
+    submitted_lat: number | null
+    submitted_lng: number | null
+    accuracy_m: number | null
+    distance_m: number | null
+    presence_status: $Enums.PresenceStatus | null
+    submitted_from_ip: string | null
+    is_mocked: boolean | null
+    risk_score: number | null
+  }
+
+  export type DailyAttendanceCountAggregateOutputType = {
+    id: number
+    placement_id: number
+    attendance_date: number
+    check_in_time: number
+    submitted_lat: number
+    submitted_lng: number
+    accuracy_m: number
+    distance_m: number
+    presence_status: number
+    submitted_from_ip: number
+    is_mocked: number
+    risk_score: number
+    verification_flags: number
+    _all: number
+  }
+
+
+  export type DailyAttendanceAvgAggregateInputType = {
+    submitted_lat?: true
+    submitted_lng?: true
+    accuracy_m?: true
+    distance_m?: true
+    risk_score?: true
+  }
+
+  export type DailyAttendanceSumAggregateInputType = {
+    submitted_lat?: true
+    submitted_lng?: true
+    accuracy_m?: true
+    distance_m?: true
+    risk_score?: true
+  }
+
+  export type DailyAttendanceMinAggregateInputType = {
+    id?: true
+    placement_id?: true
+    attendance_date?: true
+    check_in_time?: true
+    submitted_lat?: true
+    submitted_lng?: true
+    accuracy_m?: true
+    distance_m?: true
+    presence_status?: true
+    submitted_from_ip?: true
+    is_mocked?: true
+    risk_score?: true
+  }
+
+  export type DailyAttendanceMaxAggregateInputType = {
+    id?: true
+    placement_id?: true
+    attendance_date?: true
+    check_in_time?: true
+    submitted_lat?: true
+    submitted_lng?: true
+    accuracy_m?: true
+    distance_m?: true
+    presence_status?: true
+    submitted_from_ip?: true
+    is_mocked?: true
+    risk_score?: true
+  }
+
+  export type DailyAttendanceCountAggregateInputType = {
+    id?: true
+    placement_id?: true
+    attendance_date?: true
+    check_in_time?: true
+    submitted_lat?: true
+    submitted_lng?: true
+    accuracy_m?: true
+    distance_m?: true
+    presence_status?: true
+    submitted_from_ip?: true
+    is_mocked?: true
+    risk_score?: true
+    verification_flags?: true
+    _all?: true
+  }
+
+  export type DailyAttendanceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DailyAttendance to aggregate.
+     */
+    where?: DailyAttendanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DailyAttendances to fetch.
+     */
+    orderBy?: DailyAttendanceOrderByWithRelationInput | DailyAttendanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DailyAttendanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DailyAttendances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DailyAttendances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DailyAttendances
+    **/
+    _count?: true | DailyAttendanceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: DailyAttendanceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DailyAttendanceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DailyAttendanceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DailyAttendanceMaxAggregateInputType
+  }
+
+  export type GetDailyAttendanceAggregateType<T extends DailyAttendanceAggregateArgs> = {
+        [P in keyof T & keyof AggregateDailyAttendance]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDailyAttendance[P]>
+      : GetScalarType<T[P], AggregateDailyAttendance[P]>
+  }
+
+
+
+
+  export type DailyAttendanceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DailyAttendanceWhereInput
+    orderBy?: DailyAttendanceOrderByWithAggregationInput | DailyAttendanceOrderByWithAggregationInput[]
+    by: DailyAttendanceScalarFieldEnum[] | DailyAttendanceScalarFieldEnum
+    having?: DailyAttendanceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DailyAttendanceCountAggregateInputType | true
+    _avg?: DailyAttendanceAvgAggregateInputType
+    _sum?: DailyAttendanceSumAggregateInputType
+    _min?: DailyAttendanceMinAggregateInputType
+    _max?: DailyAttendanceMaxAggregateInputType
+  }
+
+  export type DailyAttendanceGroupByOutputType = {
+    id: string
+    placement_id: string
+    attendance_date: Date
+    check_in_time: Date
+    submitted_lat: number | null
+    submitted_lng: number | null
+    accuracy_m: number | null
+    distance_m: number | null
+    presence_status: $Enums.PresenceStatus
+    submitted_from_ip: string | null
+    is_mocked: boolean
+    risk_score: number
+    verification_flags: string[]
+    _count: DailyAttendanceCountAggregateOutputType | null
+    _avg: DailyAttendanceAvgAggregateOutputType | null
+    _sum: DailyAttendanceSumAggregateOutputType | null
+    _min: DailyAttendanceMinAggregateOutputType | null
+    _max: DailyAttendanceMaxAggregateOutputType | null
+  }
+
+  type GetDailyAttendanceGroupByPayload<T extends DailyAttendanceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DailyAttendanceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DailyAttendanceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DailyAttendanceGroupByOutputType[P]>
+            : GetScalarType<T[P], DailyAttendanceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DailyAttendanceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    placement_id?: boolean
+    attendance_date?: boolean
+    check_in_time?: boolean
+    submitted_lat?: boolean
+    submitted_lng?: boolean
+    accuracy_m?: boolean
+    distance_m?: boolean
+    presence_status?: boolean
+    submitted_from_ip?: boolean
+    is_mocked?: boolean
+    risk_score?: boolean
+    verification_flags?: boolean
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dailyAttendance"]>
+
+  export type DailyAttendanceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    placement_id?: boolean
+    attendance_date?: boolean
+    check_in_time?: boolean
+    submitted_lat?: boolean
+    submitted_lng?: boolean
+    accuracy_m?: boolean
+    distance_m?: boolean
+    presence_status?: boolean
+    submitted_from_ip?: boolean
+    is_mocked?: boolean
+    risk_score?: boolean
+    verification_flags?: boolean
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dailyAttendance"]>
+
+  export type DailyAttendanceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    placement_id?: boolean
+    attendance_date?: boolean
+    check_in_time?: boolean
+    submitted_lat?: boolean
+    submitted_lng?: boolean
+    accuracy_m?: boolean
+    distance_m?: boolean
+    presence_status?: boolean
+    submitted_from_ip?: boolean
+    is_mocked?: boolean
+    risk_score?: boolean
+    verification_flags?: boolean
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dailyAttendance"]>
+
+  export type DailyAttendanceSelectScalar = {
+    id?: boolean
+    placement_id?: boolean
+    attendance_date?: boolean
+    check_in_time?: boolean
+    submitted_lat?: boolean
+    submitted_lng?: boolean
+    accuracy_m?: boolean
+    distance_m?: boolean
+    presence_status?: boolean
+    submitted_from_ip?: boolean
+    is_mocked?: boolean
+    risk_score?: boolean
+    verification_flags?: boolean
+  }
+
+  export type DailyAttendanceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "placement_id" | "attendance_date" | "check_in_time" | "submitted_lat" | "submitted_lng" | "accuracy_m" | "distance_m" | "presence_status" | "submitted_from_ip" | "is_mocked" | "risk_score" | "verification_flags", ExtArgs["result"]["dailyAttendance"]>
+  export type DailyAttendanceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }
+  export type DailyAttendanceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }
+  export type DailyAttendanceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }
+
+  export type $DailyAttendancePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DailyAttendance"
+    objects: {
+      placement: Prisma.$PlacementPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      placement_id: string
+      attendance_date: Date
+      check_in_time: Date
+      submitted_lat: number | null
+      submitted_lng: number | null
+      accuracy_m: number | null
+      distance_m: number | null
+      presence_status: $Enums.PresenceStatus
+      submitted_from_ip: string | null
+      is_mocked: boolean
+      risk_score: number
+      verification_flags: string[]
+    }, ExtArgs["result"]["dailyAttendance"]>
+    composites: {}
+  }
+
+  type DailyAttendanceGetPayload<S extends boolean | null | undefined | DailyAttendanceDefaultArgs> = $Result.GetResult<Prisma.$DailyAttendancePayload, S>
+
+  type DailyAttendanceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DailyAttendanceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DailyAttendanceCountAggregateInputType | true
+    }
+
+  export interface DailyAttendanceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DailyAttendance'], meta: { name: 'DailyAttendance' } }
+    /**
+     * Find zero or one DailyAttendance that matches the filter.
+     * @param {DailyAttendanceFindUniqueArgs} args - Arguments to find a DailyAttendance
+     * @example
+     * // Get one DailyAttendance
+     * const dailyAttendance = await prisma.dailyAttendance.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DailyAttendanceFindUniqueArgs>(args: SelectSubset<T, DailyAttendanceFindUniqueArgs<ExtArgs>>): Prisma__DailyAttendanceClient<$Result.GetResult<Prisma.$DailyAttendancePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DailyAttendance that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DailyAttendanceFindUniqueOrThrowArgs} args - Arguments to find a DailyAttendance
+     * @example
+     * // Get one DailyAttendance
+     * const dailyAttendance = await prisma.dailyAttendance.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DailyAttendanceFindUniqueOrThrowArgs>(args: SelectSubset<T, DailyAttendanceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DailyAttendanceClient<$Result.GetResult<Prisma.$DailyAttendancePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DailyAttendance that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyAttendanceFindFirstArgs} args - Arguments to find a DailyAttendance
+     * @example
+     * // Get one DailyAttendance
+     * const dailyAttendance = await prisma.dailyAttendance.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DailyAttendanceFindFirstArgs>(args?: SelectSubset<T, DailyAttendanceFindFirstArgs<ExtArgs>>): Prisma__DailyAttendanceClient<$Result.GetResult<Prisma.$DailyAttendancePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DailyAttendance that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyAttendanceFindFirstOrThrowArgs} args - Arguments to find a DailyAttendance
+     * @example
+     * // Get one DailyAttendance
+     * const dailyAttendance = await prisma.dailyAttendance.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DailyAttendanceFindFirstOrThrowArgs>(args?: SelectSubset<T, DailyAttendanceFindFirstOrThrowArgs<ExtArgs>>): Prisma__DailyAttendanceClient<$Result.GetResult<Prisma.$DailyAttendancePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DailyAttendances that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyAttendanceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DailyAttendances
+     * const dailyAttendances = await prisma.dailyAttendance.findMany()
+     * 
+     * // Get first 10 DailyAttendances
+     * const dailyAttendances = await prisma.dailyAttendance.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dailyAttendanceWithIdOnly = await prisma.dailyAttendance.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DailyAttendanceFindManyArgs>(args?: SelectSubset<T, DailyAttendanceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyAttendancePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DailyAttendance.
+     * @param {DailyAttendanceCreateArgs} args - Arguments to create a DailyAttendance.
+     * @example
+     * // Create one DailyAttendance
+     * const DailyAttendance = await prisma.dailyAttendance.create({
+     *   data: {
+     *     // ... data to create a DailyAttendance
+     *   }
+     * })
+     * 
+     */
+    create<T extends DailyAttendanceCreateArgs>(args: SelectSubset<T, DailyAttendanceCreateArgs<ExtArgs>>): Prisma__DailyAttendanceClient<$Result.GetResult<Prisma.$DailyAttendancePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DailyAttendances.
+     * @param {DailyAttendanceCreateManyArgs} args - Arguments to create many DailyAttendances.
+     * @example
+     * // Create many DailyAttendances
+     * const dailyAttendance = await prisma.dailyAttendance.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DailyAttendanceCreateManyArgs>(args?: SelectSubset<T, DailyAttendanceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DailyAttendances and returns the data saved in the database.
+     * @param {DailyAttendanceCreateManyAndReturnArgs} args - Arguments to create many DailyAttendances.
+     * @example
+     * // Create many DailyAttendances
+     * const dailyAttendance = await prisma.dailyAttendance.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DailyAttendances and only return the `id`
+     * const dailyAttendanceWithIdOnly = await prisma.dailyAttendance.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DailyAttendanceCreateManyAndReturnArgs>(args?: SelectSubset<T, DailyAttendanceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyAttendancePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DailyAttendance.
+     * @param {DailyAttendanceDeleteArgs} args - Arguments to delete one DailyAttendance.
+     * @example
+     * // Delete one DailyAttendance
+     * const DailyAttendance = await prisma.dailyAttendance.delete({
+     *   where: {
+     *     // ... filter to delete one DailyAttendance
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DailyAttendanceDeleteArgs>(args: SelectSubset<T, DailyAttendanceDeleteArgs<ExtArgs>>): Prisma__DailyAttendanceClient<$Result.GetResult<Prisma.$DailyAttendancePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DailyAttendance.
+     * @param {DailyAttendanceUpdateArgs} args - Arguments to update one DailyAttendance.
+     * @example
+     * // Update one DailyAttendance
+     * const dailyAttendance = await prisma.dailyAttendance.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DailyAttendanceUpdateArgs>(args: SelectSubset<T, DailyAttendanceUpdateArgs<ExtArgs>>): Prisma__DailyAttendanceClient<$Result.GetResult<Prisma.$DailyAttendancePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DailyAttendances.
+     * @param {DailyAttendanceDeleteManyArgs} args - Arguments to filter DailyAttendances to delete.
+     * @example
+     * // Delete a few DailyAttendances
+     * const { count } = await prisma.dailyAttendance.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DailyAttendanceDeleteManyArgs>(args?: SelectSubset<T, DailyAttendanceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DailyAttendances.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyAttendanceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DailyAttendances
+     * const dailyAttendance = await prisma.dailyAttendance.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DailyAttendanceUpdateManyArgs>(args: SelectSubset<T, DailyAttendanceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DailyAttendances and returns the data updated in the database.
+     * @param {DailyAttendanceUpdateManyAndReturnArgs} args - Arguments to update many DailyAttendances.
+     * @example
+     * // Update many DailyAttendances
+     * const dailyAttendance = await prisma.dailyAttendance.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DailyAttendances and only return the `id`
+     * const dailyAttendanceWithIdOnly = await prisma.dailyAttendance.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DailyAttendanceUpdateManyAndReturnArgs>(args: SelectSubset<T, DailyAttendanceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyAttendancePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DailyAttendance.
+     * @param {DailyAttendanceUpsertArgs} args - Arguments to update or create a DailyAttendance.
+     * @example
+     * // Update or create a DailyAttendance
+     * const dailyAttendance = await prisma.dailyAttendance.upsert({
+     *   create: {
+     *     // ... data to create a DailyAttendance
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DailyAttendance we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DailyAttendanceUpsertArgs>(args: SelectSubset<T, DailyAttendanceUpsertArgs<ExtArgs>>): Prisma__DailyAttendanceClient<$Result.GetResult<Prisma.$DailyAttendancePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DailyAttendances.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyAttendanceCountArgs} args - Arguments to filter DailyAttendances to count.
+     * @example
+     * // Count the number of DailyAttendances
+     * const count = await prisma.dailyAttendance.count({
+     *   where: {
+     *     // ... the filter for the DailyAttendances we want to count
+     *   }
+     * })
+    **/
+    count<T extends DailyAttendanceCountArgs>(
+      args?: Subset<T, DailyAttendanceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DailyAttendanceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DailyAttendance.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyAttendanceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DailyAttendanceAggregateArgs>(args: Subset<T, DailyAttendanceAggregateArgs>): Prisma.PrismaPromise<GetDailyAttendanceAggregateType<T>>
+
+    /**
+     * Group by DailyAttendance.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DailyAttendanceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DailyAttendanceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DailyAttendanceGroupByArgs['orderBy'] }
+        : { orderBy?: DailyAttendanceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DailyAttendanceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDailyAttendanceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DailyAttendance model
+   */
+  readonly fields: DailyAttendanceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DailyAttendance.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DailyAttendanceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    placement<T extends PlacementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlacementDefaultArgs<ExtArgs>>): Prisma__PlacementClient<$Result.GetResult<Prisma.$PlacementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DailyAttendance model
+   */
+  interface DailyAttendanceFieldRefs {
+    readonly id: FieldRef<"DailyAttendance", 'String'>
+    readonly placement_id: FieldRef<"DailyAttendance", 'String'>
+    readonly attendance_date: FieldRef<"DailyAttendance", 'DateTime'>
+    readonly check_in_time: FieldRef<"DailyAttendance", 'DateTime'>
+    readonly submitted_lat: FieldRef<"DailyAttendance", 'Float'>
+    readonly submitted_lng: FieldRef<"DailyAttendance", 'Float'>
+    readonly accuracy_m: FieldRef<"DailyAttendance", 'Float'>
+    readonly distance_m: FieldRef<"DailyAttendance", 'Float'>
+    readonly presence_status: FieldRef<"DailyAttendance", 'PresenceStatus'>
+    readonly submitted_from_ip: FieldRef<"DailyAttendance", 'String'>
+    readonly is_mocked: FieldRef<"DailyAttendance", 'Boolean'>
+    readonly risk_score: FieldRef<"DailyAttendance", 'Int'>
+    readonly verification_flags: FieldRef<"DailyAttendance", 'String[]'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DailyAttendance findUnique
+   */
+  export type DailyAttendanceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyAttendance
+     */
+    select?: DailyAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyAttendance
+     */
+    omit?: DailyAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyAttendanceInclude<ExtArgs> | null
+    /**
+     * Filter, which DailyAttendance to fetch.
+     */
+    where: DailyAttendanceWhereUniqueInput
+  }
+
+  /**
+   * DailyAttendance findUniqueOrThrow
+   */
+  export type DailyAttendanceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyAttendance
+     */
+    select?: DailyAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyAttendance
+     */
+    omit?: DailyAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyAttendanceInclude<ExtArgs> | null
+    /**
+     * Filter, which DailyAttendance to fetch.
+     */
+    where: DailyAttendanceWhereUniqueInput
+  }
+
+  /**
+   * DailyAttendance findFirst
+   */
+  export type DailyAttendanceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyAttendance
+     */
+    select?: DailyAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyAttendance
+     */
+    omit?: DailyAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyAttendanceInclude<ExtArgs> | null
+    /**
+     * Filter, which DailyAttendance to fetch.
+     */
+    where?: DailyAttendanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DailyAttendances to fetch.
+     */
+    orderBy?: DailyAttendanceOrderByWithRelationInput | DailyAttendanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DailyAttendances.
+     */
+    cursor?: DailyAttendanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DailyAttendances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DailyAttendances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DailyAttendances.
+     */
+    distinct?: DailyAttendanceScalarFieldEnum | DailyAttendanceScalarFieldEnum[]
+  }
+
+  /**
+   * DailyAttendance findFirstOrThrow
+   */
+  export type DailyAttendanceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyAttendance
+     */
+    select?: DailyAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyAttendance
+     */
+    omit?: DailyAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyAttendanceInclude<ExtArgs> | null
+    /**
+     * Filter, which DailyAttendance to fetch.
+     */
+    where?: DailyAttendanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DailyAttendances to fetch.
+     */
+    orderBy?: DailyAttendanceOrderByWithRelationInput | DailyAttendanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DailyAttendances.
+     */
+    cursor?: DailyAttendanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DailyAttendances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DailyAttendances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DailyAttendances.
+     */
+    distinct?: DailyAttendanceScalarFieldEnum | DailyAttendanceScalarFieldEnum[]
+  }
+
+  /**
+   * DailyAttendance findMany
+   */
+  export type DailyAttendanceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyAttendance
+     */
+    select?: DailyAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyAttendance
+     */
+    omit?: DailyAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyAttendanceInclude<ExtArgs> | null
+    /**
+     * Filter, which DailyAttendances to fetch.
+     */
+    where?: DailyAttendanceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DailyAttendances to fetch.
+     */
+    orderBy?: DailyAttendanceOrderByWithRelationInput | DailyAttendanceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DailyAttendances.
+     */
+    cursor?: DailyAttendanceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DailyAttendances from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DailyAttendances.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DailyAttendances.
+     */
+    distinct?: DailyAttendanceScalarFieldEnum | DailyAttendanceScalarFieldEnum[]
+  }
+
+  /**
+   * DailyAttendance create
+   */
+  export type DailyAttendanceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyAttendance
+     */
+    select?: DailyAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyAttendance
+     */
+    omit?: DailyAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyAttendanceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DailyAttendance.
+     */
+    data: XOR<DailyAttendanceCreateInput, DailyAttendanceUncheckedCreateInput>
+  }
+
+  /**
+   * DailyAttendance createMany
+   */
+  export type DailyAttendanceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DailyAttendances.
+     */
+    data: DailyAttendanceCreateManyInput | DailyAttendanceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DailyAttendance createManyAndReturn
+   */
+  export type DailyAttendanceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyAttendance
+     */
+    select?: DailyAttendanceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyAttendance
+     */
+    omit?: DailyAttendanceOmit<ExtArgs> | null
+    /**
+     * The data used to create many DailyAttendances.
+     */
+    data: DailyAttendanceCreateManyInput | DailyAttendanceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyAttendanceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DailyAttendance update
+   */
+  export type DailyAttendanceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyAttendance
+     */
+    select?: DailyAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyAttendance
+     */
+    omit?: DailyAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyAttendanceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DailyAttendance.
+     */
+    data: XOR<DailyAttendanceUpdateInput, DailyAttendanceUncheckedUpdateInput>
+    /**
+     * Choose, which DailyAttendance to update.
+     */
+    where: DailyAttendanceWhereUniqueInput
+  }
+
+  /**
+   * DailyAttendance updateMany
+   */
+  export type DailyAttendanceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DailyAttendances.
+     */
+    data: XOR<DailyAttendanceUpdateManyMutationInput, DailyAttendanceUncheckedUpdateManyInput>
+    /**
+     * Filter which DailyAttendances to update
+     */
+    where?: DailyAttendanceWhereInput
+    /**
+     * Limit how many DailyAttendances to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DailyAttendance updateManyAndReturn
+   */
+  export type DailyAttendanceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyAttendance
+     */
+    select?: DailyAttendanceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyAttendance
+     */
+    omit?: DailyAttendanceOmit<ExtArgs> | null
+    /**
+     * The data used to update DailyAttendances.
+     */
+    data: XOR<DailyAttendanceUpdateManyMutationInput, DailyAttendanceUncheckedUpdateManyInput>
+    /**
+     * Filter which DailyAttendances to update
+     */
+    where?: DailyAttendanceWhereInput
+    /**
+     * Limit how many DailyAttendances to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyAttendanceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DailyAttendance upsert
+   */
+  export type DailyAttendanceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyAttendance
+     */
+    select?: DailyAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyAttendance
+     */
+    omit?: DailyAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyAttendanceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DailyAttendance to update in case it exists.
+     */
+    where: DailyAttendanceWhereUniqueInput
+    /**
+     * In case the DailyAttendance found by the `where` argument doesn't exist, create a new DailyAttendance with this data.
+     */
+    create: XOR<DailyAttendanceCreateInput, DailyAttendanceUncheckedCreateInput>
+    /**
+     * In case the DailyAttendance was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DailyAttendanceUpdateInput, DailyAttendanceUncheckedUpdateInput>
+  }
+
+  /**
+   * DailyAttendance delete
+   */
+  export type DailyAttendanceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyAttendance
+     */
+    select?: DailyAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyAttendance
+     */
+    omit?: DailyAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyAttendanceInclude<ExtArgs> | null
+    /**
+     * Filter which DailyAttendance to delete.
+     */
+    where: DailyAttendanceWhereUniqueInput
+  }
+
+  /**
+   * DailyAttendance deleteMany
+   */
+  export type DailyAttendanceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DailyAttendances to delete
+     */
+    where?: DailyAttendanceWhereInput
+    /**
+     * Limit how many DailyAttendances to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DailyAttendance without action
+   */
+  export type DailyAttendanceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DailyAttendance
+     */
+    select?: DailyAttendanceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DailyAttendance
+     */
+    omit?: DailyAttendanceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DailyAttendanceInclude<ExtArgs> | null
   }
 
 
@@ -8979,6 +10914,7 @@ export namespace Prisma {
     week_no: number | null
     status: $Enums.SubmissionStatus | null
     supervisor_remarks: string | null
+    is_locked: boolean | null
     submitted_at: Date | null
     reviewed_at: Date | null
     created_at: Date | null
@@ -8991,6 +10927,7 @@ export namespace Prisma {
     week_no: number | null
     status: $Enums.SubmissionStatus | null
     supervisor_remarks: string | null
+    is_locked: boolean | null
     submitted_at: Date | null
     reviewed_at: Date | null
     created_at: Date | null
@@ -9003,6 +10940,7 @@ export namespace Prisma {
     week_no: number
     status: number
     supervisor_remarks: number
+    is_locked: number
     submitted_at: number
     reviewed_at: number
     created_at: number
@@ -9025,6 +10963,7 @@ export namespace Prisma {
     week_no?: true
     status?: true
     supervisor_remarks?: true
+    is_locked?: true
     submitted_at?: true
     reviewed_at?: true
     created_at?: true
@@ -9037,6 +10976,7 @@ export namespace Prisma {
     week_no?: true
     status?: true
     supervisor_remarks?: true
+    is_locked?: true
     submitted_at?: true
     reviewed_at?: true
     created_at?: true
@@ -9049,6 +10989,7 @@ export namespace Prisma {
     week_no?: true
     status?: true
     supervisor_remarks?: true
+    is_locked?: true
     submitted_at?: true
     reviewed_at?: true
     created_at?: true
@@ -9148,6 +11089,7 @@ export namespace Prisma {
     week_no: number
     status: $Enums.SubmissionStatus
     supervisor_remarks: string | null
+    is_locked: boolean
     submitted_at: Date | null
     reviewed_at: Date | null
     created_at: Date
@@ -9179,6 +11121,7 @@ export namespace Prisma {
     week_no?: boolean
     status?: boolean
     supervisor_remarks?: boolean
+    is_locked?: boolean
     submitted_at?: boolean
     reviewed_at?: boolean
     created_at?: boolean
@@ -9195,6 +11138,7 @@ export namespace Prisma {
     week_no?: boolean
     status?: boolean
     supervisor_remarks?: boolean
+    is_locked?: boolean
     submitted_at?: boolean
     reviewed_at?: boolean
     created_at?: boolean
@@ -9208,6 +11152,7 @@ export namespace Prisma {
     week_no?: boolean
     status?: boolean
     supervisor_remarks?: boolean
+    is_locked?: boolean
     submitted_at?: boolean
     reviewed_at?: boolean
     created_at?: boolean
@@ -9221,13 +11166,14 @@ export namespace Prisma {
     week_no?: boolean
     status?: boolean
     supervisor_remarks?: boolean
+    is_locked?: boolean
     submitted_at?: boolean
     reviewed_at?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type WeeklySubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "placement_id" | "week_no" | "status" | "supervisor_remarks" | "submitted_at" | "reviewed_at" | "created_at" | "updated_at", ExtArgs["result"]["weeklySubmission"]>
+  export type WeeklySubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "placement_id" | "week_no" | "status" | "supervisor_remarks" | "is_locked" | "submitted_at" | "reviewed_at" | "created_at" | "updated_at", ExtArgs["result"]["weeklySubmission"]>
   export type WeeklySubmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     placement?: boolean | PlacementDefaultArgs<ExtArgs>
     daily_logs?: boolean | WeeklySubmission$daily_logsArgs<ExtArgs>
@@ -9254,6 +11200,7 @@ export namespace Prisma {
       week_no: number
       status: $Enums.SubmissionStatus
       supervisor_remarks: string | null
+      is_locked: boolean
       submitted_at: Date | null
       reviewed_at: Date | null
       created_at: Date
@@ -9689,6 +11636,7 @@ export namespace Prisma {
     readonly week_no: FieldRef<"WeeklySubmission", 'Int'>
     readonly status: FieldRef<"WeeklySubmission", 'SubmissionStatus'>
     readonly supervisor_remarks: FieldRef<"WeeklySubmission", 'String'>
+    readonly is_locked: FieldRef<"WeeklySubmission", 'Boolean'>
     readonly submitted_at: FieldRef<"WeeklySubmission", 'DateTime'>
     readonly reviewed_at: FieldRef<"WeeklySubmission", 'DateTime'>
     readonly created_at: FieldRef<"WeeklySubmission", 'DateTime'>
@@ -13713,6 +15661,3407 @@ export namespace Prisma {
 
 
   /**
+   * Model VerificationToken
+   */
+
+  export type AggregateVerificationToken = {
+    _count: VerificationTokenCountAggregateOutputType | null
+    _avg: VerificationTokenAvgAggregateOutputType | null
+    _sum: VerificationTokenSumAggregateOutputType | null
+    _min: VerificationTokenMinAggregateOutputType | null
+    _max: VerificationTokenMaxAggregateOutputType | null
+  }
+
+  export type VerificationTokenAvgAggregateOutputType = {
+    week_no: number | null
+  }
+
+  export type VerificationTokenSumAggregateOutputType = {
+    week_no: number | null
+  }
+
+  export type VerificationTokenMinAggregateOutputType = {
+    id: string | null
+    placement_id: string | null
+    token: string | null
+    week_no: number | null
+    email: string | null
+    expires_at: Date | null
+    is_used: boolean | null
+    created_at: Date | null
+  }
+
+  export type VerificationTokenMaxAggregateOutputType = {
+    id: string | null
+    placement_id: string | null
+    token: string | null
+    week_no: number | null
+    email: string | null
+    expires_at: Date | null
+    is_used: boolean | null
+    created_at: Date | null
+  }
+
+  export type VerificationTokenCountAggregateOutputType = {
+    id: number
+    placement_id: number
+    token: number
+    week_no: number
+    email: number
+    expires_at: number
+    is_used: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type VerificationTokenAvgAggregateInputType = {
+    week_no?: true
+  }
+
+  export type VerificationTokenSumAggregateInputType = {
+    week_no?: true
+  }
+
+  export type VerificationTokenMinAggregateInputType = {
+    id?: true
+    placement_id?: true
+    token?: true
+    week_no?: true
+    email?: true
+    expires_at?: true
+    is_used?: true
+    created_at?: true
+  }
+
+  export type VerificationTokenMaxAggregateInputType = {
+    id?: true
+    placement_id?: true
+    token?: true
+    week_no?: true
+    email?: true
+    expires_at?: true
+    is_used?: true
+    created_at?: true
+  }
+
+  export type VerificationTokenCountAggregateInputType = {
+    id?: true
+    placement_id?: true
+    token?: true
+    week_no?: true
+    email?: true
+    expires_at?: true
+    is_used?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type VerificationTokenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VerificationToken to aggregate.
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationTokens to fetch.
+     */
+    orderBy?: VerificationTokenOrderByWithRelationInput | VerificationTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VerificationTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VerificationTokens
+    **/
+    _count?: true | VerificationTokenCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VerificationTokenAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VerificationTokenSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VerificationTokenMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VerificationTokenMaxAggregateInputType
+  }
+
+  export type GetVerificationTokenAggregateType<T extends VerificationTokenAggregateArgs> = {
+        [P in keyof T & keyof AggregateVerificationToken]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVerificationToken[P]>
+      : GetScalarType<T[P], AggregateVerificationToken[P]>
+  }
+
+
+
+
+  export type VerificationTokenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VerificationTokenWhereInput
+    orderBy?: VerificationTokenOrderByWithAggregationInput | VerificationTokenOrderByWithAggregationInput[]
+    by: VerificationTokenScalarFieldEnum[] | VerificationTokenScalarFieldEnum
+    having?: VerificationTokenScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VerificationTokenCountAggregateInputType | true
+    _avg?: VerificationTokenAvgAggregateInputType
+    _sum?: VerificationTokenSumAggregateInputType
+    _min?: VerificationTokenMinAggregateInputType
+    _max?: VerificationTokenMaxAggregateInputType
+  }
+
+  export type VerificationTokenGroupByOutputType = {
+    id: string
+    placement_id: string
+    token: string
+    week_no: number
+    email: string | null
+    expires_at: Date
+    is_used: boolean
+    created_at: Date
+    _count: VerificationTokenCountAggregateOutputType | null
+    _avg: VerificationTokenAvgAggregateOutputType | null
+    _sum: VerificationTokenSumAggregateOutputType | null
+    _min: VerificationTokenMinAggregateOutputType | null
+    _max: VerificationTokenMaxAggregateOutputType | null
+  }
+
+  type GetVerificationTokenGroupByPayload<T extends VerificationTokenGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VerificationTokenGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VerificationTokenGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VerificationTokenGroupByOutputType[P]>
+            : GetScalarType<T[P], VerificationTokenGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VerificationTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    placement_id?: boolean
+    token?: boolean
+    week_no?: boolean
+    email?: boolean
+    expires_at?: boolean
+    is_used?: boolean
+    created_at?: boolean
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["verificationToken"]>
+
+  export type VerificationTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    placement_id?: boolean
+    token?: boolean
+    week_no?: boolean
+    email?: boolean
+    expires_at?: boolean
+    is_used?: boolean
+    created_at?: boolean
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["verificationToken"]>
+
+  export type VerificationTokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    placement_id?: boolean
+    token?: boolean
+    week_no?: boolean
+    email?: boolean
+    expires_at?: boolean
+    is_used?: boolean
+    created_at?: boolean
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["verificationToken"]>
+
+  export type VerificationTokenSelectScalar = {
+    id?: boolean
+    placement_id?: boolean
+    token?: boolean
+    week_no?: boolean
+    email?: boolean
+    expires_at?: boolean
+    is_used?: boolean
+    created_at?: boolean
+  }
+
+  export type VerificationTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "placement_id" | "token" | "week_no" | "email" | "expires_at" | "is_used" | "created_at", ExtArgs["result"]["verificationToken"]>
+  export type VerificationTokenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }
+  export type VerificationTokenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }
+  export type VerificationTokenIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }
+
+  export type $VerificationTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VerificationToken"
+    objects: {
+      placement: Prisma.$PlacementPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      placement_id: string
+      token: string
+      week_no: number
+      email: string | null
+      expires_at: Date
+      is_used: boolean
+      created_at: Date
+    }, ExtArgs["result"]["verificationToken"]>
+    composites: {}
+  }
+
+  type VerificationTokenGetPayload<S extends boolean | null | undefined | VerificationTokenDefaultArgs> = $Result.GetResult<Prisma.$VerificationTokenPayload, S>
+
+  type VerificationTokenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VerificationTokenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VerificationTokenCountAggregateInputType | true
+    }
+
+  export interface VerificationTokenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VerificationToken'], meta: { name: 'VerificationToken' } }
+    /**
+     * Find zero or one VerificationToken that matches the filter.
+     * @param {VerificationTokenFindUniqueArgs} args - Arguments to find a VerificationToken
+     * @example
+     * // Get one VerificationToken
+     * const verificationToken = await prisma.verificationToken.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VerificationTokenFindUniqueArgs>(args: SelectSubset<T, VerificationTokenFindUniqueArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one VerificationToken that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VerificationTokenFindUniqueOrThrowArgs} args - Arguments to find a VerificationToken
+     * @example
+     * // Get one VerificationToken
+     * const verificationToken = await prisma.verificationToken.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VerificationTokenFindUniqueOrThrowArgs>(args: SelectSubset<T, VerificationTokenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VerificationToken that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenFindFirstArgs} args - Arguments to find a VerificationToken
+     * @example
+     * // Get one VerificationToken
+     * const verificationToken = await prisma.verificationToken.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VerificationTokenFindFirstArgs>(args?: SelectSubset<T, VerificationTokenFindFirstArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VerificationToken that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenFindFirstOrThrowArgs} args - Arguments to find a VerificationToken
+     * @example
+     * // Get one VerificationToken
+     * const verificationToken = await prisma.verificationToken.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VerificationTokenFindFirstOrThrowArgs>(args?: SelectSubset<T, VerificationTokenFindFirstOrThrowArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VerificationTokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VerificationTokens
+     * const verificationTokens = await prisma.verificationToken.findMany()
+     * 
+     * // Get first 10 VerificationTokens
+     * const verificationTokens = await prisma.verificationToken.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const verificationTokenWithIdOnly = await prisma.verificationToken.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VerificationTokenFindManyArgs>(args?: SelectSubset<T, VerificationTokenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a VerificationToken.
+     * @param {VerificationTokenCreateArgs} args - Arguments to create a VerificationToken.
+     * @example
+     * // Create one VerificationToken
+     * const VerificationToken = await prisma.verificationToken.create({
+     *   data: {
+     *     // ... data to create a VerificationToken
+     *   }
+     * })
+     * 
+     */
+    create<T extends VerificationTokenCreateArgs>(args: SelectSubset<T, VerificationTokenCreateArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many VerificationTokens.
+     * @param {VerificationTokenCreateManyArgs} args - Arguments to create many VerificationTokens.
+     * @example
+     * // Create many VerificationTokens
+     * const verificationToken = await prisma.verificationToken.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VerificationTokenCreateManyArgs>(args?: SelectSubset<T, VerificationTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VerificationTokens and returns the data saved in the database.
+     * @param {VerificationTokenCreateManyAndReturnArgs} args - Arguments to create many VerificationTokens.
+     * @example
+     * // Create many VerificationTokens
+     * const verificationToken = await prisma.verificationToken.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VerificationTokens and only return the `id`
+     * const verificationTokenWithIdOnly = await prisma.verificationToken.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VerificationTokenCreateManyAndReturnArgs>(args?: SelectSubset<T, VerificationTokenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a VerificationToken.
+     * @param {VerificationTokenDeleteArgs} args - Arguments to delete one VerificationToken.
+     * @example
+     * // Delete one VerificationToken
+     * const VerificationToken = await prisma.verificationToken.delete({
+     *   where: {
+     *     // ... filter to delete one VerificationToken
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VerificationTokenDeleteArgs>(args: SelectSubset<T, VerificationTokenDeleteArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one VerificationToken.
+     * @param {VerificationTokenUpdateArgs} args - Arguments to update one VerificationToken.
+     * @example
+     * // Update one VerificationToken
+     * const verificationToken = await prisma.verificationToken.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VerificationTokenUpdateArgs>(args: SelectSubset<T, VerificationTokenUpdateArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more VerificationTokens.
+     * @param {VerificationTokenDeleteManyArgs} args - Arguments to filter VerificationTokens to delete.
+     * @example
+     * // Delete a few VerificationTokens
+     * const { count } = await prisma.verificationToken.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VerificationTokenDeleteManyArgs>(args?: SelectSubset<T, VerificationTokenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VerificationTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VerificationTokens
+     * const verificationToken = await prisma.verificationToken.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VerificationTokenUpdateManyArgs>(args: SelectSubset<T, VerificationTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VerificationTokens and returns the data updated in the database.
+     * @param {VerificationTokenUpdateManyAndReturnArgs} args - Arguments to update many VerificationTokens.
+     * @example
+     * // Update many VerificationTokens
+     * const verificationToken = await prisma.verificationToken.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VerificationTokens and only return the `id`
+     * const verificationTokenWithIdOnly = await prisma.verificationToken.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VerificationTokenUpdateManyAndReturnArgs>(args: SelectSubset<T, VerificationTokenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one VerificationToken.
+     * @param {VerificationTokenUpsertArgs} args - Arguments to update or create a VerificationToken.
+     * @example
+     * // Update or create a VerificationToken
+     * const verificationToken = await prisma.verificationToken.upsert({
+     *   create: {
+     *     // ... data to create a VerificationToken
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VerificationToken we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VerificationTokenUpsertArgs>(args: SelectSubset<T, VerificationTokenUpsertArgs<ExtArgs>>): Prisma__VerificationTokenClient<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of VerificationTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenCountArgs} args - Arguments to filter VerificationTokens to count.
+     * @example
+     * // Count the number of VerificationTokens
+     * const count = await prisma.verificationToken.count({
+     *   where: {
+     *     // ... the filter for the VerificationTokens we want to count
+     *   }
+     * })
+    **/
+    count<T extends VerificationTokenCountArgs>(
+      args?: Subset<T, VerificationTokenCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VerificationTokenCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VerificationToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VerificationTokenAggregateArgs>(args: Subset<T, VerificationTokenAggregateArgs>): Prisma.PrismaPromise<GetVerificationTokenAggregateType<T>>
+
+    /**
+     * Group by VerificationToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationTokenGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VerificationTokenGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VerificationTokenGroupByArgs['orderBy'] }
+        : { orderBy?: VerificationTokenGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VerificationTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVerificationTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VerificationToken model
+   */
+  readonly fields: VerificationTokenFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VerificationToken.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VerificationTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    placement<T extends PlacementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlacementDefaultArgs<ExtArgs>>): Prisma__PlacementClient<$Result.GetResult<Prisma.$PlacementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VerificationToken model
+   */
+  interface VerificationTokenFieldRefs {
+    readonly id: FieldRef<"VerificationToken", 'String'>
+    readonly placement_id: FieldRef<"VerificationToken", 'String'>
+    readonly token: FieldRef<"VerificationToken", 'String'>
+    readonly week_no: FieldRef<"VerificationToken", 'Int'>
+    readonly email: FieldRef<"VerificationToken", 'String'>
+    readonly expires_at: FieldRef<"VerificationToken", 'DateTime'>
+    readonly is_used: FieldRef<"VerificationToken", 'Boolean'>
+    readonly created_at: FieldRef<"VerificationToken", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VerificationToken findUnique
+   */
+  export type VerificationTokenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which VerificationToken to fetch.
+     */
+    where: VerificationTokenWhereUniqueInput
+  }
+
+  /**
+   * VerificationToken findUniqueOrThrow
+   */
+  export type VerificationTokenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which VerificationToken to fetch.
+     */
+    where: VerificationTokenWhereUniqueInput
+  }
+
+  /**
+   * VerificationToken findFirst
+   */
+  export type VerificationTokenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which VerificationToken to fetch.
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationTokens to fetch.
+     */
+    orderBy?: VerificationTokenOrderByWithRelationInput | VerificationTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VerificationTokens.
+     */
+    cursor?: VerificationTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VerificationTokens.
+     */
+    distinct?: VerificationTokenScalarFieldEnum | VerificationTokenScalarFieldEnum[]
+  }
+
+  /**
+   * VerificationToken findFirstOrThrow
+   */
+  export type VerificationTokenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which VerificationToken to fetch.
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationTokens to fetch.
+     */
+    orderBy?: VerificationTokenOrderByWithRelationInput | VerificationTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VerificationTokens.
+     */
+    cursor?: VerificationTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VerificationTokens.
+     */
+    distinct?: VerificationTokenScalarFieldEnum | VerificationTokenScalarFieldEnum[]
+  }
+
+  /**
+   * VerificationToken findMany
+   */
+  export type VerificationTokenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which VerificationTokens to fetch.
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationTokens to fetch.
+     */
+    orderBy?: VerificationTokenOrderByWithRelationInput | VerificationTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VerificationTokens.
+     */
+    cursor?: VerificationTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VerificationTokens.
+     */
+    distinct?: VerificationTokenScalarFieldEnum | VerificationTokenScalarFieldEnum[]
+  }
+
+  /**
+   * VerificationToken create
+   */
+  export type VerificationTokenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to create a VerificationToken.
+     */
+    data: XOR<VerificationTokenCreateInput, VerificationTokenUncheckedCreateInput>
+  }
+
+  /**
+   * VerificationToken createMany
+   */
+  export type VerificationTokenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VerificationTokens.
+     */
+    data: VerificationTokenCreateManyInput | VerificationTokenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VerificationToken createManyAndReturn
+   */
+  export type VerificationTokenCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * The data used to create many VerificationTokens.
+     */
+    data: VerificationTokenCreateManyInput | VerificationTokenCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationTokenIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VerificationToken update
+   */
+  export type VerificationTokenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to update a VerificationToken.
+     */
+    data: XOR<VerificationTokenUpdateInput, VerificationTokenUncheckedUpdateInput>
+    /**
+     * Choose, which VerificationToken to update.
+     */
+    where: VerificationTokenWhereUniqueInput
+  }
+
+  /**
+   * VerificationToken updateMany
+   */
+  export type VerificationTokenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VerificationTokens.
+     */
+    data: XOR<VerificationTokenUpdateManyMutationInput, VerificationTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which VerificationTokens to update
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * Limit how many VerificationTokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VerificationToken updateManyAndReturn
+   */
+  export type VerificationTokenUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * The data used to update VerificationTokens.
+     */
+    data: XOR<VerificationTokenUpdateManyMutationInput, VerificationTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which VerificationTokens to update
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * Limit how many VerificationTokens to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationTokenIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VerificationToken upsert
+   */
+  export type VerificationTokenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationTokenInclude<ExtArgs> | null
+    /**
+     * The filter to search for the VerificationToken to update in case it exists.
+     */
+    where: VerificationTokenWhereUniqueInput
+    /**
+     * In case the VerificationToken found by the `where` argument doesn't exist, create a new VerificationToken with this data.
+     */
+    create: XOR<VerificationTokenCreateInput, VerificationTokenUncheckedCreateInput>
+    /**
+     * In case the VerificationToken was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VerificationTokenUpdateInput, VerificationTokenUncheckedUpdateInput>
+  }
+
+  /**
+   * VerificationToken delete
+   */
+  export type VerificationTokenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationTokenInclude<ExtArgs> | null
+    /**
+     * Filter which VerificationToken to delete.
+     */
+    where: VerificationTokenWhereUniqueInput
+  }
+
+  /**
+   * VerificationToken deleteMany
+   */
+  export type VerificationTokenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VerificationTokens to delete
+     */
+    where?: VerificationTokenWhereInput
+    /**
+     * Limit how many VerificationTokens to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * VerificationToken without action
+   */
+  export type VerificationTokenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationToken
+     */
+    select?: VerificationTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationToken
+     */
+    omit?: VerificationTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationTokenInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model VirtualSpotCheck
+   */
+
+  export type AggregateVirtualSpotCheck = {
+    _count: VirtualSpotCheckCountAggregateOutputType | null
+    _avg: VirtualSpotCheckAvgAggregateOutputType | null
+    _sum: VirtualSpotCheckSumAggregateOutputType | null
+    _min: VirtualSpotCheckMinAggregateOutputType | null
+    _max: VirtualSpotCheckMaxAggregateOutputType | null
+  }
+
+  export type VirtualSpotCheckAvgAggregateOutputType = {
+    score: number | null
+  }
+
+  export type VirtualSpotCheckSumAggregateOutputType = {
+    score: number | null
+  }
+
+  export type VirtualSpotCheckMinAggregateOutputType = {
+    id: string | null
+    placement_id: string | null
+    coordinator_id: string | null
+    scheduled_at: Date | null
+    status: $Enums.SpotCheckStatus | null
+    room_name: string | null
+    score: number | null
+    notes: string | null
+    created_at: Date | null
+  }
+
+  export type VirtualSpotCheckMaxAggregateOutputType = {
+    id: string | null
+    placement_id: string | null
+    coordinator_id: string | null
+    scheduled_at: Date | null
+    status: $Enums.SpotCheckStatus | null
+    room_name: string | null
+    score: number | null
+    notes: string | null
+    created_at: Date | null
+  }
+
+  export type VirtualSpotCheckCountAggregateOutputType = {
+    id: number
+    placement_id: number
+    coordinator_id: number
+    scheduled_at: number
+    status: number
+    room_name: number
+    score: number
+    notes: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type VirtualSpotCheckAvgAggregateInputType = {
+    score?: true
+  }
+
+  export type VirtualSpotCheckSumAggregateInputType = {
+    score?: true
+  }
+
+  export type VirtualSpotCheckMinAggregateInputType = {
+    id?: true
+    placement_id?: true
+    coordinator_id?: true
+    scheduled_at?: true
+    status?: true
+    room_name?: true
+    score?: true
+    notes?: true
+    created_at?: true
+  }
+
+  export type VirtualSpotCheckMaxAggregateInputType = {
+    id?: true
+    placement_id?: true
+    coordinator_id?: true
+    scheduled_at?: true
+    status?: true
+    room_name?: true
+    score?: true
+    notes?: true
+    created_at?: true
+  }
+
+  export type VirtualSpotCheckCountAggregateInputType = {
+    id?: true
+    placement_id?: true
+    coordinator_id?: true
+    scheduled_at?: true
+    status?: true
+    room_name?: true
+    score?: true
+    notes?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type VirtualSpotCheckAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VirtualSpotCheck to aggregate.
+     */
+    where?: VirtualSpotCheckWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VirtualSpotChecks to fetch.
+     */
+    orderBy?: VirtualSpotCheckOrderByWithRelationInput | VirtualSpotCheckOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VirtualSpotCheckWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VirtualSpotChecks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VirtualSpotChecks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VirtualSpotChecks
+    **/
+    _count?: true | VirtualSpotCheckCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VirtualSpotCheckAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VirtualSpotCheckSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VirtualSpotCheckMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VirtualSpotCheckMaxAggregateInputType
+  }
+
+  export type GetVirtualSpotCheckAggregateType<T extends VirtualSpotCheckAggregateArgs> = {
+        [P in keyof T & keyof AggregateVirtualSpotCheck]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVirtualSpotCheck[P]>
+      : GetScalarType<T[P], AggregateVirtualSpotCheck[P]>
+  }
+
+
+
+
+  export type VirtualSpotCheckGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VirtualSpotCheckWhereInput
+    orderBy?: VirtualSpotCheckOrderByWithAggregationInput | VirtualSpotCheckOrderByWithAggregationInput[]
+    by: VirtualSpotCheckScalarFieldEnum[] | VirtualSpotCheckScalarFieldEnum
+    having?: VirtualSpotCheckScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VirtualSpotCheckCountAggregateInputType | true
+    _avg?: VirtualSpotCheckAvgAggregateInputType
+    _sum?: VirtualSpotCheckSumAggregateInputType
+    _min?: VirtualSpotCheckMinAggregateInputType
+    _max?: VirtualSpotCheckMaxAggregateInputType
+  }
+
+  export type VirtualSpotCheckGroupByOutputType = {
+    id: string
+    placement_id: string
+    coordinator_id: string | null
+    scheduled_at: Date
+    status: $Enums.SpotCheckStatus
+    room_name: string
+    score: number | null
+    notes: string | null
+    created_at: Date
+    _count: VirtualSpotCheckCountAggregateOutputType | null
+    _avg: VirtualSpotCheckAvgAggregateOutputType | null
+    _sum: VirtualSpotCheckSumAggregateOutputType | null
+    _min: VirtualSpotCheckMinAggregateOutputType | null
+    _max: VirtualSpotCheckMaxAggregateOutputType | null
+  }
+
+  type GetVirtualSpotCheckGroupByPayload<T extends VirtualSpotCheckGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VirtualSpotCheckGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VirtualSpotCheckGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VirtualSpotCheckGroupByOutputType[P]>
+            : GetScalarType<T[P], VirtualSpotCheckGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VirtualSpotCheckSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    placement_id?: boolean
+    coordinator_id?: boolean
+    scheduled_at?: boolean
+    status?: boolean
+    room_name?: boolean
+    score?: boolean
+    notes?: boolean
+    created_at?: boolean
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+    coordinator?: boolean | VirtualSpotCheck$coordinatorArgs<ExtArgs>
+  }, ExtArgs["result"]["virtualSpotCheck"]>
+
+  export type VirtualSpotCheckSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    placement_id?: boolean
+    coordinator_id?: boolean
+    scheduled_at?: boolean
+    status?: boolean
+    room_name?: boolean
+    score?: boolean
+    notes?: boolean
+    created_at?: boolean
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+    coordinator?: boolean | VirtualSpotCheck$coordinatorArgs<ExtArgs>
+  }, ExtArgs["result"]["virtualSpotCheck"]>
+
+  export type VirtualSpotCheckSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    placement_id?: boolean
+    coordinator_id?: boolean
+    scheduled_at?: boolean
+    status?: boolean
+    room_name?: boolean
+    score?: boolean
+    notes?: boolean
+    created_at?: boolean
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+    coordinator?: boolean | VirtualSpotCheck$coordinatorArgs<ExtArgs>
+  }, ExtArgs["result"]["virtualSpotCheck"]>
+
+  export type VirtualSpotCheckSelectScalar = {
+    id?: boolean
+    placement_id?: boolean
+    coordinator_id?: boolean
+    scheduled_at?: boolean
+    status?: boolean
+    room_name?: boolean
+    score?: boolean
+    notes?: boolean
+    created_at?: boolean
+  }
+
+  export type VirtualSpotCheckOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "placement_id" | "coordinator_id" | "scheduled_at" | "status" | "room_name" | "score" | "notes" | "created_at", ExtArgs["result"]["virtualSpotCheck"]>
+  export type VirtualSpotCheckInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+    coordinator?: boolean | VirtualSpotCheck$coordinatorArgs<ExtArgs>
+  }
+  export type VirtualSpotCheckIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+    coordinator?: boolean | VirtualSpotCheck$coordinatorArgs<ExtArgs>
+  }
+  export type VirtualSpotCheckIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+    coordinator?: boolean | VirtualSpotCheck$coordinatorArgs<ExtArgs>
+  }
+
+  export type $VirtualSpotCheckPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VirtualSpotCheck"
+    objects: {
+      placement: Prisma.$PlacementPayload<ExtArgs>
+      coordinator: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      placement_id: string
+      coordinator_id: string | null
+      scheduled_at: Date
+      status: $Enums.SpotCheckStatus
+      room_name: string
+      score: number | null
+      notes: string | null
+      created_at: Date
+    }, ExtArgs["result"]["virtualSpotCheck"]>
+    composites: {}
+  }
+
+  type VirtualSpotCheckGetPayload<S extends boolean | null | undefined | VirtualSpotCheckDefaultArgs> = $Result.GetResult<Prisma.$VirtualSpotCheckPayload, S>
+
+  type VirtualSpotCheckCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VirtualSpotCheckFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VirtualSpotCheckCountAggregateInputType | true
+    }
+
+  export interface VirtualSpotCheckDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VirtualSpotCheck'], meta: { name: 'VirtualSpotCheck' } }
+    /**
+     * Find zero or one VirtualSpotCheck that matches the filter.
+     * @param {VirtualSpotCheckFindUniqueArgs} args - Arguments to find a VirtualSpotCheck
+     * @example
+     * // Get one VirtualSpotCheck
+     * const virtualSpotCheck = await prisma.virtualSpotCheck.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VirtualSpotCheckFindUniqueArgs>(args: SelectSubset<T, VirtualSpotCheckFindUniqueArgs<ExtArgs>>): Prisma__VirtualSpotCheckClient<$Result.GetResult<Prisma.$VirtualSpotCheckPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one VirtualSpotCheck that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VirtualSpotCheckFindUniqueOrThrowArgs} args - Arguments to find a VirtualSpotCheck
+     * @example
+     * // Get one VirtualSpotCheck
+     * const virtualSpotCheck = await prisma.virtualSpotCheck.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VirtualSpotCheckFindUniqueOrThrowArgs>(args: SelectSubset<T, VirtualSpotCheckFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VirtualSpotCheckClient<$Result.GetResult<Prisma.$VirtualSpotCheckPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VirtualSpotCheck that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VirtualSpotCheckFindFirstArgs} args - Arguments to find a VirtualSpotCheck
+     * @example
+     * // Get one VirtualSpotCheck
+     * const virtualSpotCheck = await prisma.virtualSpotCheck.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VirtualSpotCheckFindFirstArgs>(args?: SelectSubset<T, VirtualSpotCheckFindFirstArgs<ExtArgs>>): Prisma__VirtualSpotCheckClient<$Result.GetResult<Prisma.$VirtualSpotCheckPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VirtualSpotCheck that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VirtualSpotCheckFindFirstOrThrowArgs} args - Arguments to find a VirtualSpotCheck
+     * @example
+     * // Get one VirtualSpotCheck
+     * const virtualSpotCheck = await prisma.virtualSpotCheck.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VirtualSpotCheckFindFirstOrThrowArgs>(args?: SelectSubset<T, VirtualSpotCheckFindFirstOrThrowArgs<ExtArgs>>): Prisma__VirtualSpotCheckClient<$Result.GetResult<Prisma.$VirtualSpotCheckPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VirtualSpotChecks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VirtualSpotCheckFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VirtualSpotChecks
+     * const virtualSpotChecks = await prisma.virtualSpotCheck.findMany()
+     * 
+     * // Get first 10 VirtualSpotChecks
+     * const virtualSpotChecks = await prisma.virtualSpotCheck.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const virtualSpotCheckWithIdOnly = await prisma.virtualSpotCheck.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VirtualSpotCheckFindManyArgs>(args?: SelectSubset<T, VirtualSpotCheckFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VirtualSpotCheckPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a VirtualSpotCheck.
+     * @param {VirtualSpotCheckCreateArgs} args - Arguments to create a VirtualSpotCheck.
+     * @example
+     * // Create one VirtualSpotCheck
+     * const VirtualSpotCheck = await prisma.virtualSpotCheck.create({
+     *   data: {
+     *     // ... data to create a VirtualSpotCheck
+     *   }
+     * })
+     * 
+     */
+    create<T extends VirtualSpotCheckCreateArgs>(args: SelectSubset<T, VirtualSpotCheckCreateArgs<ExtArgs>>): Prisma__VirtualSpotCheckClient<$Result.GetResult<Prisma.$VirtualSpotCheckPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many VirtualSpotChecks.
+     * @param {VirtualSpotCheckCreateManyArgs} args - Arguments to create many VirtualSpotChecks.
+     * @example
+     * // Create many VirtualSpotChecks
+     * const virtualSpotCheck = await prisma.virtualSpotCheck.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VirtualSpotCheckCreateManyArgs>(args?: SelectSubset<T, VirtualSpotCheckCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VirtualSpotChecks and returns the data saved in the database.
+     * @param {VirtualSpotCheckCreateManyAndReturnArgs} args - Arguments to create many VirtualSpotChecks.
+     * @example
+     * // Create many VirtualSpotChecks
+     * const virtualSpotCheck = await prisma.virtualSpotCheck.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VirtualSpotChecks and only return the `id`
+     * const virtualSpotCheckWithIdOnly = await prisma.virtualSpotCheck.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VirtualSpotCheckCreateManyAndReturnArgs>(args?: SelectSubset<T, VirtualSpotCheckCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VirtualSpotCheckPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a VirtualSpotCheck.
+     * @param {VirtualSpotCheckDeleteArgs} args - Arguments to delete one VirtualSpotCheck.
+     * @example
+     * // Delete one VirtualSpotCheck
+     * const VirtualSpotCheck = await prisma.virtualSpotCheck.delete({
+     *   where: {
+     *     // ... filter to delete one VirtualSpotCheck
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VirtualSpotCheckDeleteArgs>(args: SelectSubset<T, VirtualSpotCheckDeleteArgs<ExtArgs>>): Prisma__VirtualSpotCheckClient<$Result.GetResult<Prisma.$VirtualSpotCheckPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one VirtualSpotCheck.
+     * @param {VirtualSpotCheckUpdateArgs} args - Arguments to update one VirtualSpotCheck.
+     * @example
+     * // Update one VirtualSpotCheck
+     * const virtualSpotCheck = await prisma.virtualSpotCheck.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VirtualSpotCheckUpdateArgs>(args: SelectSubset<T, VirtualSpotCheckUpdateArgs<ExtArgs>>): Prisma__VirtualSpotCheckClient<$Result.GetResult<Prisma.$VirtualSpotCheckPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more VirtualSpotChecks.
+     * @param {VirtualSpotCheckDeleteManyArgs} args - Arguments to filter VirtualSpotChecks to delete.
+     * @example
+     * // Delete a few VirtualSpotChecks
+     * const { count } = await prisma.virtualSpotCheck.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VirtualSpotCheckDeleteManyArgs>(args?: SelectSubset<T, VirtualSpotCheckDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VirtualSpotChecks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VirtualSpotCheckUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VirtualSpotChecks
+     * const virtualSpotCheck = await prisma.virtualSpotCheck.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VirtualSpotCheckUpdateManyArgs>(args: SelectSubset<T, VirtualSpotCheckUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VirtualSpotChecks and returns the data updated in the database.
+     * @param {VirtualSpotCheckUpdateManyAndReturnArgs} args - Arguments to update many VirtualSpotChecks.
+     * @example
+     * // Update many VirtualSpotChecks
+     * const virtualSpotCheck = await prisma.virtualSpotCheck.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VirtualSpotChecks and only return the `id`
+     * const virtualSpotCheckWithIdOnly = await prisma.virtualSpotCheck.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VirtualSpotCheckUpdateManyAndReturnArgs>(args: SelectSubset<T, VirtualSpotCheckUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VirtualSpotCheckPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one VirtualSpotCheck.
+     * @param {VirtualSpotCheckUpsertArgs} args - Arguments to update or create a VirtualSpotCheck.
+     * @example
+     * // Update or create a VirtualSpotCheck
+     * const virtualSpotCheck = await prisma.virtualSpotCheck.upsert({
+     *   create: {
+     *     // ... data to create a VirtualSpotCheck
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VirtualSpotCheck we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VirtualSpotCheckUpsertArgs>(args: SelectSubset<T, VirtualSpotCheckUpsertArgs<ExtArgs>>): Prisma__VirtualSpotCheckClient<$Result.GetResult<Prisma.$VirtualSpotCheckPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of VirtualSpotChecks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VirtualSpotCheckCountArgs} args - Arguments to filter VirtualSpotChecks to count.
+     * @example
+     * // Count the number of VirtualSpotChecks
+     * const count = await prisma.virtualSpotCheck.count({
+     *   where: {
+     *     // ... the filter for the VirtualSpotChecks we want to count
+     *   }
+     * })
+    **/
+    count<T extends VirtualSpotCheckCountArgs>(
+      args?: Subset<T, VirtualSpotCheckCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VirtualSpotCheckCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VirtualSpotCheck.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VirtualSpotCheckAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VirtualSpotCheckAggregateArgs>(args: Subset<T, VirtualSpotCheckAggregateArgs>): Prisma.PrismaPromise<GetVirtualSpotCheckAggregateType<T>>
+
+    /**
+     * Group by VirtualSpotCheck.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VirtualSpotCheckGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VirtualSpotCheckGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VirtualSpotCheckGroupByArgs['orderBy'] }
+        : { orderBy?: VirtualSpotCheckGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VirtualSpotCheckGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVirtualSpotCheckGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VirtualSpotCheck model
+   */
+  readonly fields: VirtualSpotCheckFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VirtualSpotCheck.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VirtualSpotCheckClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    placement<T extends PlacementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlacementDefaultArgs<ExtArgs>>): Prisma__PlacementClient<$Result.GetResult<Prisma.$PlacementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    coordinator<T extends VirtualSpotCheck$coordinatorArgs<ExtArgs> = {}>(args?: Subset<T, VirtualSpotCheck$coordinatorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VirtualSpotCheck model
+   */
+  interface VirtualSpotCheckFieldRefs {
+    readonly id: FieldRef<"VirtualSpotCheck", 'String'>
+    readonly placement_id: FieldRef<"VirtualSpotCheck", 'String'>
+    readonly coordinator_id: FieldRef<"VirtualSpotCheck", 'String'>
+    readonly scheduled_at: FieldRef<"VirtualSpotCheck", 'DateTime'>
+    readonly status: FieldRef<"VirtualSpotCheck", 'SpotCheckStatus'>
+    readonly room_name: FieldRef<"VirtualSpotCheck", 'String'>
+    readonly score: FieldRef<"VirtualSpotCheck", 'Int'>
+    readonly notes: FieldRef<"VirtualSpotCheck", 'String'>
+    readonly created_at: FieldRef<"VirtualSpotCheck", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VirtualSpotCheck findUnique
+   */
+  export type VirtualSpotCheckFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VirtualSpotCheck
+     */
+    select?: VirtualSpotCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VirtualSpotCheck
+     */
+    omit?: VirtualSpotCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VirtualSpotCheckInclude<ExtArgs> | null
+    /**
+     * Filter, which VirtualSpotCheck to fetch.
+     */
+    where: VirtualSpotCheckWhereUniqueInput
+  }
+
+  /**
+   * VirtualSpotCheck findUniqueOrThrow
+   */
+  export type VirtualSpotCheckFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VirtualSpotCheck
+     */
+    select?: VirtualSpotCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VirtualSpotCheck
+     */
+    omit?: VirtualSpotCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VirtualSpotCheckInclude<ExtArgs> | null
+    /**
+     * Filter, which VirtualSpotCheck to fetch.
+     */
+    where: VirtualSpotCheckWhereUniqueInput
+  }
+
+  /**
+   * VirtualSpotCheck findFirst
+   */
+  export type VirtualSpotCheckFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VirtualSpotCheck
+     */
+    select?: VirtualSpotCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VirtualSpotCheck
+     */
+    omit?: VirtualSpotCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VirtualSpotCheckInclude<ExtArgs> | null
+    /**
+     * Filter, which VirtualSpotCheck to fetch.
+     */
+    where?: VirtualSpotCheckWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VirtualSpotChecks to fetch.
+     */
+    orderBy?: VirtualSpotCheckOrderByWithRelationInput | VirtualSpotCheckOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VirtualSpotChecks.
+     */
+    cursor?: VirtualSpotCheckWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VirtualSpotChecks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VirtualSpotChecks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VirtualSpotChecks.
+     */
+    distinct?: VirtualSpotCheckScalarFieldEnum | VirtualSpotCheckScalarFieldEnum[]
+  }
+
+  /**
+   * VirtualSpotCheck findFirstOrThrow
+   */
+  export type VirtualSpotCheckFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VirtualSpotCheck
+     */
+    select?: VirtualSpotCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VirtualSpotCheck
+     */
+    omit?: VirtualSpotCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VirtualSpotCheckInclude<ExtArgs> | null
+    /**
+     * Filter, which VirtualSpotCheck to fetch.
+     */
+    where?: VirtualSpotCheckWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VirtualSpotChecks to fetch.
+     */
+    orderBy?: VirtualSpotCheckOrderByWithRelationInput | VirtualSpotCheckOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VirtualSpotChecks.
+     */
+    cursor?: VirtualSpotCheckWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VirtualSpotChecks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VirtualSpotChecks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VirtualSpotChecks.
+     */
+    distinct?: VirtualSpotCheckScalarFieldEnum | VirtualSpotCheckScalarFieldEnum[]
+  }
+
+  /**
+   * VirtualSpotCheck findMany
+   */
+  export type VirtualSpotCheckFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VirtualSpotCheck
+     */
+    select?: VirtualSpotCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VirtualSpotCheck
+     */
+    omit?: VirtualSpotCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VirtualSpotCheckInclude<ExtArgs> | null
+    /**
+     * Filter, which VirtualSpotChecks to fetch.
+     */
+    where?: VirtualSpotCheckWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VirtualSpotChecks to fetch.
+     */
+    orderBy?: VirtualSpotCheckOrderByWithRelationInput | VirtualSpotCheckOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VirtualSpotChecks.
+     */
+    cursor?: VirtualSpotCheckWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VirtualSpotChecks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VirtualSpotChecks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VirtualSpotChecks.
+     */
+    distinct?: VirtualSpotCheckScalarFieldEnum | VirtualSpotCheckScalarFieldEnum[]
+  }
+
+  /**
+   * VirtualSpotCheck create
+   */
+  export type VirtualSpotCheckCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VirtualSpotCheck
+     */
+    select?: VirtualSpotCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VirtualSpotCheck
+     */
+    omit?: VirtualSpotCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VirtualSpotCheckInclude<ExtArgs> | null
+    /**
+     * The data needed to create a VirtualSpotCheck.
+     */
+    data: XOR<VirtualSpotCheckCreateInput, VirtualSpotCheckUncheckedCreateInput>
+  }
+
+  /**
+   * VirtualSpotCheck createMany
+   */
+  export type VirtualSpotCheckCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VirtualSpotChecks.
+     */
+    data: VirtualSpotCheckCreateManyInput | VirtualSpotCheckCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VirtualSpotCheck createManyAndReturn
+   */
+  export type VirtualSpotCheckCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VirtualSpotCheck
+     */
+    select?: VirtualSpotCheckSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VirtualSpotCheck
+     */
+    omit?: VirtualSpotCheckOmit<ExtArgs> | null
+    /**
+     * The data used to create many VirtualSpotChecks.
+     */
+    data: VirtualSpotCheckCreateManyInput | VirtualSpotCheckCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VirtualSpotCheckIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VirtualSpotCheck update
+   */
+  export type VirtualSpotCheckUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VirtualSpotCheck
+     */
+    select?: VirtualSpotCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VirtualSpotCheck
+     */
+    omit?: VirtualSpotCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VirtualSpotCheckInclude<ExtArgs> | null
+    /**
+     * The data needed to update a VirtualSpotCheck.
+     */
+    data: XOR<VirtualSpotCheckUpdateInput, VirtualSpotCheckUncheckedUpdateInput>
+    /**
+     * Choose, which VirtualSpotCheck to update.
+     */
+    where: VirtualSpotCheckWhereUniqueInput
+  }
+
+  /**
+   * VirtualSpotCheck updateMany
+   */
+  export type VirtualSpotCheckUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VirtualSpotChecks.
+     */
+    data: XOR<VirtualSpotCheckUpdateManyMutationInput, VirtualSpotCheckUncheckedUpdateManyInput>
+    /**
+     * Filter which VirtualSpotChecks to update
+     */
+    where?: VirtualSpotCheckWhereInput
+    /**
+     * Limit how many VirtualSpotChecks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VirtualSpotCheck updateManyAndReturn
+   */
+  export type VirtualSpotCheckUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VirtualSpotCheck
+     */
+    select?: VirtualSpotCheckSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VirtualSpotCheck
+     */
+    omit?: VirtualSpotCheckOmit<ExtArgs> | null
+    /**
+     * The data used to update VirtualSpotChecks.
+     */
+    data: XOR<VirtualSpotCheckUpdateManyMutationInput, VirtualSpotCheckUncheckedUpdateManyInput>
+    /**
+     * Filter which VirtualSpotChecks to update
+     */
+    where?: VirtualSpotCheckWhereInput
+    /**
+     * Limit how many VirtualSpotChecks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VirtualSpotCheckIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VirtualSpotCheck upsert
+   */
+  export type VirtualSpotCheckUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VirtualSpotCheck
+     */
+    select?: VirtualSpotCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VirtualSpotCheck
+     */
+    omit?: VirtualSpotCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VirtualSpotCheckInclude<ExtArgs> | null
+    /**
+     * The filter to search for the VirtualSpotCheck to update in case it exists.
+     */
+    where: VirtualSpotCheckWhereUniqueInput
+    /**
+     * In case the VirtualSpotCheck found by the `where` argument doesn't exist, create a new VirtualSpotCheck with this data.
+     */
+    create: XOR<VirtualSpotCheckCreateInput, VirtualSpotCheckUncheckedCreateInput>
+    /**
+     * In case the VirtualSpotCheck was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VirtualSpotCheckUpdateInput, VirtualSpotCheckUncheckedUpdateInput>
+  }
+
+  /**
+   * VirtualSpotCheck delete
+   */
+  export type VirtualSpotCheckDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VirtualSpotCheck
+     */
+    select?: VirtualSpotCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VirtualSpotCheck
+     */
+    omit?: VirtualSpotCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VirtualSpotCheckInclude<ExtArgs> | null
+    /**
+     * Filter which VirtualSpotCheck to delete.
+     */
+    where: VirtualSpotCheckWhereUniqueInput
+  }
+
+  /**
+   * VirtualSpotCheck deleteMany
+   */
+  export type VirtualSpotCheckDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VirtualSpotChecks to delete
+     */
+    where?: VirtualSpotCheckWhereInput
+    /**
+     * Limit how many VirtualSpotChecks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * VirtualSpotCheck.coordinator
+   */
+  export type VirtualSpotCheck$coordinatorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * VirtualSpotCheck without action
+   */
+  export type VirtualSpotCheckDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VirtualSpotCheck
+     */
+    select?: VirtualSpotCheckSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VirtualSpotCheck
+     */
+    omit?: VirtualSpotCheckOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VirtualSpotCheckInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ChatMessage
+   */
+
+  export type AggregateChatMessage = {
+    _count: ChatMessageCountAggregateOutputType | null
+    _min: ChatMessageMinAggregateOutputType | null
+    _max: ChatMessageMaxAggregateOutputType | null
+  }
+
+  export type ChatMessageMinAggregateOutputType = {
+    id: string | null
+    placement_id: string | null
+    sender_id: string | null
+    sender_role: $Enums.Role | null
+    sender_name: string | null
+    content: string | null
+    created_at: Date | null
+  }
+
+  export type ChatMessageMaxAggregateOutputType = {
+    id: string | null
+    placement_id: string | null
+    sender_id: string | null
+    sender_role: $Enums.Role | null
+    sender_name: string | null
+    content: string | null
+    created_at: Date | null
+  }
+
+  export type ChatMessageCountAggregateOutputType = {
+    id: number
+    placement_id: number
+    sender_id: number
+    sender_role: number
+    sender_name: number
+    content: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type ChatMessageMinAggregateInputType = {
+    id?: true
+    placement_id?: true
+    sender_id?: true
+    sender_role?: true
+    sender_name?: true
+    content?: true
+    created_at?: true
+  }
+
+  export type ChatMessageMaxAggregateInputType = {
+    id?: true
+    placement_id?: true
+    sender_id?: true
+    sender_role?: true
+    sender_name?: true
+    content?: true
+    created_at?: true
+  }
+
+  export type ChatMessageCountAggregateInputType = {
+    id?: true
+    placement_id?: true
+    sender_id?: true
+    sender_role?: true
+    sender_name?: true
+    content?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type ChatMessageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ChatMessage to aggregate.
+     */
+    where?: ChatMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChatMessages to fetch.
+     */
+    orderBy?: ChatMessageOrderByWithRelationInput | ChatMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ChatMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChatMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChatMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ChatMessages
+    **/
+    _count?: true | ChatMessageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ChatMessageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ChatMessageMaxAggregateInputType
+  }
+
+  export type GetChatMessageAggregateType<T extends ChatMessageAggregateArgs> = {
+        [P in keyof T & keyof AggregateChatMessage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateChatMessage[P]>
+      : GetScalarType<T[P], AggregateChatMessage[P]>
+  }
+
+
+
+
+  export type ChatMessageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChatMessageWhereInput
+    orderBy?: ChatMessageOrderByWithAggregationInput | ChatMessageOrderByWithAggregationInput[]
+    by: ChatMessageScalarFieldEnum[] | ChatMessageScalarFieldEnum
+    having?: ChatMessageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ChatMessageCountAggregateInputType | true
+    _min?: ChatMessageMinAggregateInputType
+    _max?: ChatMessageMaxAggregateInputType
+  }
+
+  export type ChatMessageGroupByOutputType = {
+    id: string
+    placement_id: string
+    sender_id: string
+    sender_role: $Enums.Role
+    sender_name: string
+    content: string
+    created_at: Date
+    _count: ChatMessageCountAggregateOutputType | null
+    _min: ChatMessageMinAggregateOutputType | null
+    _max: ChatMessageMaxAggregateOutputType | null
+  }
+
+  type GetChatMessageGroupByPayload<T extends ChatMessageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ChatMessageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ChatMessageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ChatMessageGroupByOutputType[P]>
+            : GetScalarType<T[P], ChatMessageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ChatMessageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    placement_id?: boolean
+    sender_id?: boolean
+    sender_role?: boolean
+    sender_name?: boolean
+    content?: boolean
+    created_at?: boolean
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chatMessage"]>
+
+  export type ChatMessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    placement_id?: boolean
+    sender_id?: boolean
+    sender_role?: boolean
+    sender_name?: boolean
+    content?: boolean
+    created_at?: boolean
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chatMessage"]>
+
+  export type ChatMessageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    placement_id?: boolean
+    sender_id?: boolean
+    sender_role?: boolean
+    sender_name?: boolean
+    content?: boolean
+    created_at?: boolean
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chatMessage"]>
+
+  export type ChatMessageSelectScalar = {
+    id?: boolean
+    placement_id?: boolean
+    sender_id?: boolean
+    sender_role?: boolean
+    sender_name?: boolean
+    content?: boolean
+    created_at?: boolean
+  }
+
+  export type ChatMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "placement_id" | "sender_id" | "sender_role" | "sender_name" | "content" | "created_at", ExtArgs["result"]["chatMessage"]>
+  export type ChatMessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }
+  export type ChatMessageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }
+  export type ChatMessageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    placement?: boolean | PlacementDefaultArgs<ExtArgs>
+  }
+
+  export type $ChatMessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ChatMessage"
+    objects: {
+      placement: Prisma.$PlacementPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      placement_id: string
+      sender_id: string
+      sender_role: $Enums.Role
+      sender_name: string
+      content: string
+      created_at: Date
+    }, ExtArgs["result"]["chatMessage"]>
+    composites: {}
+  }
+
+  type ChatMessageGetPayload<S extends boolean | null | undefined | ChatMessageDefaultArgs> = $Result.GetResult<Prisma.$ChatMessagePayload, S>
+
+  type ChatMessageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ChatMessageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ChatMessageCountAggregateInputType | true
+    }
+
+  export interface ChatMessageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ChatMessage'], meta: { name: 'ChatMessage' } }
+    /**
+     * Find zero or one ChatMessage that matches the filter.
+     * @param {ChatMessageFindUniqueArgs} args - Arguments to find a ChatMessage
+     * @example
+     * // Get one ChatMessage
+     * const chatMessage = await prisma.chatMessage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ChatMessageFindUniqueArgs>(args: SelectSubset<T, ChatMessageFindUniqueArgs<ExtArgs>>): Prisma__ChatMessageClient<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ChatMessage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ChatMessageFindUniqueOrThrowArgs} args - Arguments to find a ChatMessage
+     * @example
+     * // Get one ChatMessage
+     * const chatMessage = await prisma.chatMessage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ChatMessageFindUniqueOrThrowArgs>(args: SelectSubset<T, ChatMessageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ChatMessageClient<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ChatMessage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatMessageFindFirstArgs} args - Arguments to find a ChatMessage
+     * @example
+     * // Get one ChatMessage
+     * const chatMessage = await prisma.chatMessage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ChatMessageFindFirstArgs>(args?: SelectSubset<T, ChatMessageFindFirstArgs<ExtArgs>>): Prisma__ChatMessageClient<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ChatMessage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatMessageFindFirstOrThrowArgs} args - Arguments to find a ChatMessage
+     * @example
+     * // Get one ChatMessage
+     * const chatMessage = await prisma.chatMessage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ChatMessageFindFirstOrThrowArgs>(args?: SelectSubset<T, ChatMessageFindFirstOrThrowArgs<ExtArgs>>): Prisma__ChatMessageClient<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ChatMessages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatMessageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ChatMessages
+     * const chatMessages = await prisma.chatMessage.findMany()
+     * 
+     * // Get first 10 ChatMessages
+     * const chatMessages = await prisma.chatMessage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const chatMessageWithIdOnly = await prisma.chatMessage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ChatMessageFindManyArgs>(args?: SelectSubset<T, ChatMessageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ChatMessage.
+     * @param {ChatMessageCreateArgs} args - Arguments to create a ChatMessage.
+     * @example
+     * // Create one ChatMessage
+     * const ChatMessage = await prisma.chatMessage.create({
+     *   data: {
+     *     // ... data to create a ChatMessage
+     *   }
+     * })
+     * 
+     */
+    create<T extends ChatMessageCreateArgs>(args: SelectSubset<T, ChatMessageCreateArgs<ExtArgs>>): Prisma__ChatMessageClient<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ChatMessages.
+     * @param {ChatMessageCreateManyArgs} args - Arguments to create many ChatMessages.
+     * @example
+     * // Create many ChatMessages
+     * const chatMessage = await prisma.chatMessage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ChatMessageCreateManyArgs>(args?: SelectSubset<T, ChatMessageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ChatMessages and returns the data saved in the database.
+     * @param {ChatMessageCreateManyAndReturnArgs} args - Arguments to create many ChatMessages.
+     * @example
+     * // Create many ChatMessages
+     * const chatMessage = await prisma.chatMessage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ChatMessages and only return the `id`
+     * const chatMessageWithIdOnly = await prisma.chatMessage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ChatMessageCreateManyAndReturnArgs>(args?: SelectSubset<T, ChatMessageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ChatMessage.
+     * @param {ChatMessageDeleteArgs} args - Arguments to delete one ChatMessage.
+     * @example
+     * // Delete one ChatMessage
+     * const ChatMessage = await prisma.chatMessage.delete({
+     *   where: {
+     *     // ... filter to delete one ChatMessage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ChatMessageDeleteArgs>(args: SelectSubset<T, ChatMessageDeleteArgs<ExtArgs>>): Prisma__ChatMessageClient<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ChatMessage.
+     * @param {ChatMessageUpdateArgs} args - Arguments to update one ChatMessage.
+     * @example
+     * // Update one ChatMessage
+     * const chatMessage = await prisma.chatMessage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ChatMessageUpdateArgs>(args: SelectSubset<T, ChatMessageUpdateArgs<ExtArgs>>): Prisma__ChatMessageClient<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ChatMessages.
+     * @param {ChatMessageDeleteManyArgs} args - Arguments to filter ChatMessages to delete.
+     * @example
+     * // Delete a few ChatMessages
+     * const { count } = await prisma.chatMessage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ChatMessageDeleteManyArgs>(args?: SelectSubset<T, ChatMessageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ChatMessages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatMessageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ChatMessages
+     * const chatMessage = await prisma.chatMessage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ChatMessageUpdateManyArgs>(args: SelectSubset<T, ChatMessageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ChatMessages and returns the data updated in the database.
+     * @param {ChatMessageUpdateManyAndReturnArgs} args - Arguments to update many ChatMessages.
+     * @example
+     * // Update many ChatMessages
+     * const chatMessage = await prisma.chatMessage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ChatMessages and only return the `id`
+     * const chatMessageWithIdOnly = await prisma.chatMessage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ChatMessageUpdateManyAndReturnArgs>(args: SelectSubset<T, ChatMessageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ChatMessage.
+     * @param {ChatMessageUpsertArgs} args - Arguments to update or create a ChatMessage.
+     * @example
+     * // Update or create a ChatMessage
+     * const chatMessage = await prisma.chatMessage.upsert({
+     *   create: {
+     *     // ... data to create a ChatMessage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ChatMessage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ChatMessageUpsertArgs>(args: SelectSubset<T, ChatMessageUpsertArgs<ExtArgs>>): Prisma__ChatMessageClient<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ChatMessages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatMessageCountArgs} args - Arguments to filter ChatMessages to count.
+     * @example
+     * // Count the number of ChatMessages
+     * const count = await prisma.chatMessage.count({
+     *   where: {
+     *     // ... the filter for the ChatMessages we want to count
+     *   }
+     * })
+    **/
+    count<T extends ChatMessageCountArgs>(
+      args?: Subset<T, ChatMessageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ChatMessageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ChatMessage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatMessageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ChatMessageAggregateArgs>(args: Subset<T, ChatMessageAggregateArgs>): Prisma.PrismaPromise<GetChatMessageAggregateType<T>>
+
+    /**
+     * Group by ChatMessage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatMessageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ChatMessageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ChatMessageGroupByArgs['orderBy'] }
+        : { orderBy?: ChatMessageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ChatMessageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChatMessageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ChatMessage model
+   */
+  readonly fields: ChatMessageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ChatMessage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ChatMessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    placement<T extends PlacementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PlacementDefaultArgs<ExtArgs>>): Prisma__PlacementClient<$Result.GetResult<Prisma.$PlacementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ChatMessage model
+   */
+  interface ChatMessageFieldRefs {
+    readonly id: FieldRef<"ChatMessage", 'String'>
+    readonly placement_id: FieldRef<"ChatMessage", 'String'>
+    readonly sender_id: FieldRef<"ChatMessage", 'String'>
+    readonly sender_role: FieldRef<"ChatMessage", 'Role'>
+    readonly sender_name: FieldRef<"ChatMessage", 'String'>
+    readonly content: FieldRef<"ChatMessage", 'String'>
+    readonly created_at: FieldRef<"ChatMessage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ChatMessage findUnique
+   */
+  export type ChatMessageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatMessage
+     */
+    select?: ChatMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatMessage
+     */
+    omit?: ChatMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which ChatMessage to fetch.
+     */
+    where: ChatMessageWhereUniqueInput
+  }
+
+  /**
+   * ChatMessage findUniqueOrThrow
+   */
+  export type ChatMessageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatMessage
+     */
+    select?: ChatMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatMessage
+     */
+    omit?: ChatMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which ChatMessage to fetch.
+     */
+    where: ChatMessageWhereUniqueInput
+  }
+
+  /**
+   * ChatMessage findFirst
+   */
+  export type ChatMessageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatMessage
+     */
+    select?: ChatMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatMessage
+     */
+    omit?: ChatMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which ChatMessage to fetch.
+     */
+    where?: ChatMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChatMessages to fetch.
+     */
+    orderBy?: ChatMessageOrderByWithRelationInput | ChatMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ChatMessages.
+     */
+    cursor?: ChatMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChatMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChatMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ChatMessages.
+     */
+    distinct?: ChatMessageScalarFieldEnum | ChatMessageScalarFieldEnum[]
+  }
+
+  /**
+   * ChatMessage findFirstOrThrow
+   */
+  export type ChatMessageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatMessage
+     */
+    select?: ChatMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatMessage
+     */
+    omit?: ChatMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which ChatMessage to fetch.
+     */
+    where?: ChatMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChatMessages to fetch.
+     */
+    orderBy?: ChatMessageOrderByWithRelationInput | ChatMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ChatMessages.
+     */
+    cursor?: ChatMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChatMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChatMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ChatMessages.
+     */
+    distinct?: ChatMessageScalarFieldEnum | ChatMessageScalarFieldEnum[]
+  }
+
+  /**
+   * ChatMessage findMany
+   */
+  export type ChatMessageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatMessage
+     */
+    select?: ChatMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatMessage
+     */
+    omit?: ChatMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatMessageInclude<ExtArgs> | null
+    /**
+     * Filter, which ChatMessages to fetch.
+     */
+    where?: ChatMessageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChatMessages to fetch.
+     */
+    orderBy?: ChatMessageOrderByWithRelationInput | ChatMessageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ChatMessages.
+     */
+    cursor?: ChatMessageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChatMessages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChatMessages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ChatMessages.
+     */
+    distinct?: ChatMessageScalarFieldEnum | ChatMessageScalarFieldEnum[]
+  }
+
+  /**
+   * ChatMessage create
+   */
+  export type ChatMessageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatMessage
+     */
+    select?: ChatMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatMessage
+     */
+    omit?: ChatMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatMessageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ChatMessage.
+     */
+    data: XOR<ChatMessageCreateInput, ChatMessageUncheckedCreateInput>
+  }
+
+  /**
+   * ChatMessage createMany
+   */
+  export type ChatMessageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ChatMessages.
+     */
+    data: ChatMessageCreateManyInput | ChatMessageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ChatMessage createManyAndReturn
+   */
+  export type ChatMessageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatMessage
+     */
+    select?: ChatMessageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatMessage
+     */
+    omit?: ChatMessageOmit<ExtArgs> | null
+    /**
+     * The data used to create many ChatMessages.
+     */
+    data: ChatMessageCreateManyInput | ChatMessageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatMessageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ChatMessage update
+   */
+  export type ChatMessageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatMessage
+     */
+    select?: ChatMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatMessage
+     */
+    omit?: ChatMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatMessageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ChatMessage.
+     */
+    data: XOR<ChatMessageUpdateInput, ChatMessageUncheckedUpdateInput>
+    /**
+     * Choose, which ChatMessage to update.
+     */
+    where: ChatMessageWhereUniqueInput
+  }
+
+  /**
+   * ChatMessage updateMany
+   */
+  export type ChatMessageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ChatMessages.
+     */
+    data: XOR<ChatMessageUpdateManyMutationInput, ChatMessageUncheckedUpdateManyInput>
+    /**
+     * Filter which ChatMessages to update
+     */
+    where?: ChatMessageWhereInput
+    /**
+     * Limit how many ChatMessages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ChatMessage updateManyAndReturn
+   */
+  export type ChatMessageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatMessage
+     */
+    select?: ChatMessageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatMessage
+     */
+    omit?: ChatMessageOmit<ExtArgs> | null
+    /**
+     * The data used to update ChatMessages.
+     */
+    data: XOR<ChatMessageUpdateManyMutationInput, ChatMessageUncheckedUpdateManyInput>
+    /**
+     * Filter which ChatMessages to update
+     */
+    where?: ChatMessageWhereInput
+    /**
+     * Limit how many ChatMessages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatMessageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ChatMessage upsert
+   */
+  export type ChatMessageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatMessage
+     */
+    select?: ChatMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatMessage
+     */
+    omit?: ChatMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatMessageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ChatMessage to update in case it exists.
+     */
+    where: ChatMessageWhereUniqueInput
+    /**
+     * In case the ChatMessage found by the `where` argument doesn't exist, create a new ChatMessage with this data.
+     */
+    create: XOR<ChatMessageCreateInput, ChatMessageUncheckedCreateInput>
+    /**
+     * In case the ChatMessage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ChatMessageUpdateInput, ChatMessageUncheckedUpdateInput>
+  }
+
+  /**
+   * ChatMessage delete
+   */
+  export type ChatMessageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatMessage
+     */
+    select?: ChatMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatMessage
+     */
+    omit?: ChatMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatMessageInclude<ExtArgs> | null
+    /**
+     * Filter which ChatMessage to delete.
+     */
+    where: ChatMessageWhereUniqueInput
+  }
+
+  /**
+   * ChatMessage deleteMany
+   */
+  export type ChatMessageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ChatMessages to delete
+     */
+    where?: ChatMessageWhereInput
+    /**
+     * Limit how many ChatMessages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ChatMessage without action
+   */
+  export type ChatMessageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatMessage
+     */
+    select?: ChatMessageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatMessage
+     */
+    omit?: ChatMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatMessageInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -13735,6 +19084,7 @@ export namespace Prisma {
     role: 'role',
     department: 'department',
     created_at: 'created_at',
+    updated_at: 'updated_at',
     assigned_state: 'assigned_state',
     assigned_city: 'assigned_city'
   };
@@ -13759,8 +19109,7 @@ export namespace Prisma {
     user_id: 'user_id',
     token: 'token',
     expires_at: 'expires_at',
-    created_at: 'created_at',
-    jon: 'jon'
+    created_at: 'created_at'
   };
 
   export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
@@ -13790,11 +19139,38 @@ export namespace Prisma {
     company_email: 'company_email',
     state: 'state',
     city: 'city',
+    company_rc_number: 'company_rc_number',
+    company_domain: 'company_domain',
+    company_lat: 'company_lat',
+    company_lng: 'company_lng',
+    geofence_radius_m: 'geofence_radius_m',
+    is_company_verified: 'is_company_verified',
     start_date: 'start_date',
-    end_date: 'end_date'
+    end_date: 'end_date',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
   };
 
   export type PlacementScalarFieldEnum = (typeof PlacementScalarFieldEnum)[keyof typeof PlacementScalarFieldEnum]
+
+
+  export const DailyAttendanceScalarFieldEnum: {
+    id: 'id',
+    placement_id: 'placement_id',
+    attendance_date: 'attendance_date',
+    check_in_time: 'check_in_time',
+    submitted_lat: 'submitted_lat',
+    submitted_lng: 'submitted_lng',
+    accuracy_m: 'accuracy_m',
+    distance_m: 'distance_m',
+    presence_status: 'presence_status',
+    submitted_from_ip: 'submitted_from_ip',
+    is_mocked: 'is_mocked',
+    risk_score: 'risk_score',
+    verification_flags: 'verification_flags'
+  };
+
+  export type DailyAttendanceScalarFieldEnum = (typeof DailyAttendanceScalarFieldEnum)[keyof typeof DailyAttendanceScalarFieldEnum]
 
 
   export const DailyLogScalarFieldEnum: {
@@ -13817,6 +19193,7 @@ export namespace Prisma {
     week_no: 'week_no',
     status: 'status',
     supervisor_remarks: 'supervisor_remarks',
+    is_locked: 'is_locked',
     submitted_at: 'submitted_at',
     reviewed_at: 'reviewed_at',
     created_at: 'created_at',
@@ -13874,6 +19251,48 @@ export namespace Prisma {
   };
 
   export type LateFillingWaiverScalarFieldEnum = (typeof LateFillingWaiverScalarFieldEnum)[keyof typeof LateFillingWaiverScalarFieldEnum]
+
+
+  export const VerificationTokenScalarFieldEnum: {
+    id: 'id',
+    placement_id: 'placement_id',
+    token: 'token',
+    week_no: 'week_no',
+    email: 'email',
+    expires_at: 'expires_at',
+    is_used: 'is_used',
+    created_at: 'created_at'
+  };
+
+  export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
+
+
+  export const VirtualSpotCheckScalarFieldEnum: {
+    id: 'id',
+    placement_id: 'placement_id',
+    coordinator_id: 'coordinator_id',
+    scheduled_at: 'scheduled_at',
+    status: 'status',
+    room_name: 'room_name',
+    score: 'score',
+    notes: 'notes',
+    created_at: 'created_at'
+  };
+
+  export type VirtualSpotCheckScalarFieldEnum = (typeof VirtualSpotCheckScalarFieldEnum)[keyof typeof VirtualSpotCheckScalarFieldEnum]
+
+
+  export const ChatMessageScalarFieldEnum: {
+    id: 'id',
+    placement_id: 'placement_id',
+    sender_id: 'sender_id',
+    sender_role: 'sender_role',
+    sender_name: 'sender_name',
+    content: 'content',
+    created_at: 'created_at'
+  };
+
+  export type ChatMessageScalarFieldEnum = (typeof ChatMessageScalarFieldEnum)[keyof typeof ChatMessageScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -13955,6 +19374,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -13965,6 +19398,20 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'PresenceStatus'
+   */
+  export type EnumPresenceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PresenceStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'PresenceStatus[]'
+   */
+  export type ListEnumPresenceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PresenceStatus[]'>
     
 
 
@@ -14039,16 +19486,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Float'
+   * Reference to a field of type 'SpotCheckStatus'
    */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+  export type EnumSpotCheckStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SpotCheckStatus'>
     
 
 
   /**
-   * Reference to a field of type 'Float[]'
+   * Reference to a field of type 'SpotCheckStatus[]'
    */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+  export type ListEnumSpotCheckStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SpotCheckStatus[]'>
     
   /**
    * Deep Input Types
@@ -14067,6 +19514,7 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     department?: StringNullableFilter<"User"> | string | null
     created_at?: DateTimeFilter<"User"> | Date | string
+    updated_at?: DateTimeFilter<"User"> | Date | string
     assigned_state?: StringNullableFilter<"User"> | string | null
     assigned_city?: StringNullableFilter<"User"> | string | null
     studentPlacements?: PlacementListRelationFilter
@@ -14074,6 +19522,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementListRelationFilter
     approvals?: LogBookApprovalListRelationFilter
     clearances?: FinalClearanceListRelationFilter
+    conducted_spot_checks?: VirtualSpotCheckListRelationFilter
     student_waivers?: LateFillingWaiverListRelationFilter
     granted_waivers?: LateFillingWaiverListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
@@ -14089,6 +19538,7 @@ export namespace Prisma {
     role?: SortOrder
     department?: SortOrderInput | SortOrder
     created_at?: SortOrder
+    updated_at?: SortOrder
     assigned_state?: SortOrderInput | SortOrder
     assigned_city?: SortOrderInput | SortOrder
     studentPlacements?: PlacementOrderByRelationAggregateInput
@@ -14096,6 +19546,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementOrderByRelationAggregateInput
     approvals?: LogBookApprovalOrderByRelationAggregateInput
     clearances?: FinalClearanceOrderByRelationAggregateInput
+    conducted_spot_checks?: VirtualSpotCheckOrderByRelationAggregateInput
     student_waivers?: LateFillingWaiverOrderByRelationAggregateInput
     granted_waivers?: LateFillingWaiverOrderByRelationAggregateInput
     refreshTokens?: RefreshTokenOrderByRelationAggregateInput
@@ -14114,6 +19565,7 @@ export namespace Prisma {
     role?: EnumRoleFilter<"User"> | $Enums.Role
     department?: StringNullableFilter<"User"> | string | null
     created_at?: DateTimeFilter<"User"> | Date | string
+    updated_at?: DateTimeFilter<"User"> | Date | string
     assigned_state?: StringNullableFilter<"User"> | string | null
     assigned_city?: StringNullableFilter<"User"> | string | null
     studentPlacements?: PlacementListRelationFilter
@@ -14121,6 +19573,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementListRelationFilter
     approvals?: LogBookApprovalListRelationFilter
     clearances?: FinalClearanceListRelationFilter
+    conducted_spot_checks?: VirtualSpotCheckListRelationFilter
     student_waivers?: LateFillingWaiverListRelationFilter
     granted_waivers?: LateFillingWaiverListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
@@ -14136,6 +19589,7 @@ export namespace Prisma {
     role?: SortOrder
     department?: SortOrderInput | SortOrder
     created_at?: SortOrder
+    updated_at?: SortOrder
     assigned_state?: SortOrderInput | SortOrder
     assigned_city?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -14155,6 +19609,7 @@ export namespace Prisma {
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     department?: StringNullableWithAggregatesFilter<"User"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"User"> | Date | string
     assigned_state?: StringNullableWithAggregatesFilter<"User"> | string | null
     assigned_city?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
@@ -14225,7 +19680,6 @@ export namespace Prisma {
     token?: StringFilter<"PasswordResetToken"> | string
     expires_at?: DateTimeFilter<"PasswordResetToken"> | Date | string
     created_at?: DateTimeFilter<"PasswordResetToken"> | Date | string
-    jon?: StringFilter<"PasswordResetToken"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
@@ -14235,7 +19689,6 @@ export namespace Prisma {
     token?: SortOrder
     expires_at?: SortOrder
     created_at?: SortOrder
-    jon?: SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -14248,7 +19701,6 @@ export namespace Prisma {
     user_id?: UuidFilter<"PasswordResetToken"> | string
     expires_at?: DateTimeFilter<"PasswordResetToken"> | Date | string
     created_at?: DateTimeFilter<"PasswordResetToken"> | Date | string
-    jon?: StringFilter<"PasswordResetToken"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "token">
 
@@ -14258,7 +19710,6 @@ export namespace Prisma {
     token?: SortOrder
     expires_at?: SortOrder
     created_at?: SortOrder
-    jon?: SortOrder
     _count?: PasswordResetTokenCountOrderByAggregateInput
     _max?: PasswordResetTokenMaxOrderByAggregateInput
     _min?: PasswordResetTokenMinOrderByAggregateInput
@@ -14273,7 +19724,6 @@ export namespace Prisma {
     token?: StringWithAggregatesFilter<"PasswordResetToken"> | string
     expires_at?: DateTimeWithAggregatesFilter<"PasswordResetToken"> | Date | string
     created_at?: DateTimeWithAggregatesFilter<"PasswordResetToken"> | Date | string
-    jon?: StringWithAggregatesFilter<"PasswordResetToken"> | string
   }
 
   export type RefreshTokenWhereInput = {
@@ -14347,15 +19797,27 @@ export namespace Prisma {
     company_email?: StringNullableFilter<"Placement"> | string | null
     state?: StringNullableFilter<"Placement"> | string | null
     city?: StringNullableFilter<"Placement"> | string | null
+    company_rc_number?: StringNullableFilter<"Placement"> | string | null
+    company_domain?: StringNullableFilter<"Placement"> | string | null
+    company_lat?: FloatNullableFilter<"Placement"> | number | null
+    company_lng?: FloatNullableFilter<"Placement"> | number | null
+    geofence_radius_m?: IntFilter<"Placement"> | number
+    is_company_verified?: BoolFilter<"Placement"> | boolean
     start_date?: DateTimeFilter<"Placement"> | Date | string
     end_date?: DateTimeFilter<"Placement"> | Date | string
+    created_at?: DateTimeFilter<"Placement"> | Date | string
+    updated_at?: DateTimeFilter<"Placement"> | Date | string
     student?: XOR<UserScalarRelationFilter, UserWhereInput>
     ind_supervisor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     inst_coordinator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    daily_attendance?: DailyAttendanceListRelationFilter
     daily_logs?: DailyLogListRelationFilter
     weekly_submissions?: WeeklySubmissionListRelationFilter
     clearance?: XOR<FinalClearanceNullableScalarRelationFilter, FinalClearanceWhereInput> | null
     waivers?: LateFillingWaiverListRelationFilter
+    magic_links?: VerificationTokenListRelationFilter
+    spot_checks?: VirtualSpotCheckListRelationFilter
+    chat_messages?: ChatMessageListRelationFilter
   }
 
   export type PlacementOrderByWithRelationInput = {
@@ -14371,15 +19833,27 @@ export namespace Prisma {
     company_email?: SortOrderInput | SortOrder
     state?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
+    company_rc_number?: SortOrderInput | SortOrder
+    company_domain?: SortOrderInput | SortOrder
+    company_lat?: SortOrderInput | SortOrder
+    company_lng?: SortOrderInput | SortOrder
+    geofence_radius_m?: SortOrder
+    is_company_verified?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     student?: UserOrderByWithRelationInput
     ind_supervisor?: UserOrderByWithRelationInput
     inst_coordinator?: UserOrderByWithRelationInput
+    daily_attendance?: DailyAttendanceOrderByRelationAggregateInput
     daily_logs?: DailyLogOrderByRelationAggregateInput
     weekly_submissions?: WeeklySubmissionOrderByRelationAggregateInput
     clearance?: FinalClearanceOrderByWithRelationInput
     waivers?: LateFillingWaiverOrderByRelationAggregateInput
+    magic_links?: VerificationTokenOrderByRelationAggregateInput
+    spot_checks?: VirtualSpotCheckOrderByRelationAggregateInput
+    chat_messages?: ChatMessageOrderByRelationAggregateInput
   }
 
   export type PlacementWhereUniqueInput = Prisma.AtLeast<{
@@ -14398,15 +19872,27 @@ export namespace Prisma {
     company_email?: StringNullableFilter<"Placement"> | string | null
     state?: StringNullableFilter<"Placement"> | string | null
     city?: StringNullableFilter<"Placement"> | string | null
+    company_rc_number?: StringNullableFilter<"Placement"> | string | null
+    company_domain?: StringNullableFilter<"Placement"> | string | null
+    company_lat?: FloatNullableFilter<"Placement"> | number | null
+    company_lng?: FloatNullableFilter<"Placement"> | number | null
+    geofence_radius_m?: IntFilter<"Placement"> | number
+    is_company_verified?: BoolFilter<"Placement"> | boolean
     start_date?: DateTimeFilter<"Placement"> | Date | string
     end_date?: DateTimeFilter<"Placement"> | Date | string
+    created_at?: DateTimeFilter<"Placement"> | Date | string
+    updated_at?: DateTimeFilter<"Placement"> | Date | string
     student?: XOR<UserScalarRelationFilter, UserWhereInput>
     ind_supervisor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     inst_coordinator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    daily_attendance?: DailyAttendanceListRelationFilter
     daily_logs?: DailyLogListRelationFilter
     weekly_submissions?: WeeklySubmissionListRelationFilter
     clearance?: XOR<FinalClearanceNullableScalarRelationFilter, FinalClearanceWhereInput> | null
     waivers?: LateFillingWaiverListRelationFilter
+    magic_links?: VerificationTokenListRelationFilter
+    spot_checks?: VirtualSpotCheckListRelationFilter
+    chat_messages?: ChatMessageListRelationFilter
   }, "id" | "student_id">
 
   export type PlacementOrderByWithAggregationInput = {
@@ -14422,11 +19908,21 @@ export namespace Prisma {
     company_email?: SortOrderInput | SortOrder
     state?: SortOrderInput | SortOrder
     city?: SortOrderInput | SortOrder
+    company_rc_number?: SortOrderInput | SortOrder
+    company_domain?: SortOrderInput | SortOrder
+    company_lat?: SortOrderInput | SortOrder
+    company_lng?: SortOrderInput | SortOrder
+    geofence_radius_m?: SortOrder
+    is_company_verified?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
     _count?: PlacementCountOrderByAggregateInput
+    _avg?: PlacementAvgOrderByAggregateInput
     _max?: PlacementMaxOrderByAggregateInput
     _min?: PlacementMinOrderByAggregateInput
+    _sum?: PlacementSumOrderByAggregateInput
   }
 
   export type PlacementScalarWhereWithAggregatesInput = {
@@ -14445,8 +19941,114 @@ export namespace Prisma {
     company_email?: StringNullableWithAggregatesFilter<"Placement"> | string | null
     state?: StringNullableWithAggregatesFilter<"Placement"> | string | null
     city?: StringNullableWithAggregatesFilter<"Placement"> | string | null
+    company_rc_number?: StringNullableWithAggregatesFilter<"Placement"> | string | null
+    company_domain?: StringNullableWithAggregatesFilter<"Placement"> | string | null
+    company_lat?: FloatNullableWithAggregatesFilter<"Placement"> | number | null
+    company_lng?: FloatNullableWithAggregatesFilter<"Placement"> | number | null
+    geofence_radius_m?: IntWithAggregatesFilter<"Placement"> | number
+    is_company_verified?: BoolWithAggregatesFilter<"Placement"> | boolean
     start_date?: DateTimeWithAggregatesFilter<"Placement"> | Date | string
     end_date?: DateTimeWithAggregatesFilter<"Placement"> | Date | string
+    created_at?: DateTimeWithAggregatesFilter<"Placement"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Placement"> | Date | string
+  }
+
+  export type DailyAttendanceWhereInput = {
+    AND?: DailyAttendanceWhereInput | DailyAttendanceWhereInput[]
+    OR?: DailyAttendanceWhereInput[]
+    NOT?: DailyAttendanceWhereInput | DailyAttendanceWhereInput[]
+    id?: UuidFilter<"DailyAttendance"> | string
+    placement_id?: UuidFilter<"DailyAttendance"> | string
+    attendance_date?: DateTimeFilter<"DailyAttendance"> | Date | string
+    check_in_time?: DateTimeFilter<"DailyAttendance"> | Date | string
+    submitted_lat?: FloatNullableFilter<"DailyAttendance"> | number | null
+    submitted_lng?: FloatNullableFilter<"DailyAttendance"> | number | null
+    accuracy_m?: FloatNullableFilter<"DailyAttendance"> | number | null
+    distance_m?: FloatNullableFilter<"DailyAttendance"> | number | null
+    presence_status?: EnumPresenceStatusFilter<"DailyAttendance"> | $Enums.PresenceStatus
+    submitted_from_ip?: StringNullableFilter<"DailyAttendance"> | string | null
+    is_mocked?: BoolFilter<"DailyAttendance"> | boolean
+    risk_score?: IntFilter<"DailyAttendance"> | number
+    verification_flags?: StringNullableListFilter<"DailyAttendance">
+    placement?: XOR<PlacementScalarRelationFilter, PlacementWhereInput>
+  }
+
+  export type DailyAttendanceOrderByWithRelationInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    attendance_date?: SortOrder
+    check_in_time?: SortOrder
+    submitted_lat?: SortOrderInput | SortOrder
+    submitted_lng?: SortOrderInput | SortOrder
+    accuracy_m?: SortOrderInput | SortOrder
+    distance_m?: SortOrderInput | SortOrder
+    presence_status?: SortOrder
+    submitted_from_ip?: SortOrderInput | SortOrder
+    is_mocked?: SortOrder
+    risk_score?: SortOrder
+    verification_flags?: SortOrder
+    placement?: PlacementOrderByWithRelationInput
+  }
+
+  export type DailyAttendanceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    placement_id_attendance_date?: DailyAttendancePlacement_idAttendance_dateCompoundUniqueInput
+    AND?: DailyAttendanceWhereInput | DailyAttendanceWhereInput[]
+    OR?: DailyAttendanceWhereInput[]
+    NOT?: DailyAttendanceWhereInput | DailyAttendanceWhereInput[]
+    placement_id?: UuidFilter<"DailyAttendance"> | string
+    attendance_date?: DateTimeFilter<"DailyAttendance"> | Date | string
+    check_in_time?: DateTimeFilter<"DailyAttendance"> | Date | string
+    submitted_lat?: FloatNullableFilter<"DailyAttendance"> | number | null
+    submitted_lng?: FloatNullableFilter<"DailyAttendance"> | number | null
+    accuracy_m?: FloatNullableFilter<"DailyAttendance"> | number | null
+    distance_m?: FloatNullableFilter<"DailyAttendance"> | number | null
+    presence_status?: EnumPresenceStatusFilter<"DailyAttendance"> | $Enums.PresenceStatus
+    submitted_from_ip?: StringNullableFilter<"DailyAttendance"> | string | null
+    is_mocked?: BoolFilter<"DailyAttendance"> | boolean
+    risk_score?: IntFilter<"DailyAttendance"> | number
+    verification_flags?: StringNullableListFilter<"DailyAttendance">
+    placement?: XOR<PlacementScalarRelationFilter, PlacementWhereInput>
+  }, "id" | "placement_id_attendance_date">
+
+  export type DailyAttendanceOrderByWithAggregationInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    attendance_date?: SortOrder
+    check_in_time?: SortOrder
+    submitted_lat?: SortOrderInput | SortOrder
+    submitted_lng?: SortOrderInput | SortOrder
+    accuracy_m?: SortOrderInput | SortOrder
+    distance_m?: SortOrderInput | SortOrder
+    presence_status?: SortOrder
+    submitted_from_ip?: SortOrderInput | SortOrder
+    is_mocked?: SortOrder
+    risk_score?: SortOrder
+    verification_flags?: SortOrder
+    _count?: DailyAttendanceCountOrderByAggregateInput
+    _avg?: DailyAttendanceAvgOrderByAggregateInput
+    _max?: DailyAttendanceMaxOrderByAggregateInput
+    _min?: DailyAttendanceMinOrderByAggregateInput
+    _sum?: DailyAttendanceSumOrderByAggregateInput
+  }
+
+  export type DailyAttendanceScalarWhereWithAggregatesInput = {
+    AND?: DailyAttendanceScalarWhereWithAggregatesInput | DailyAttendanceScalarWhereWithAggregatesInput[]
+    OR?: DailyAttendanceScalarWhereWithAggregatesInput[]
+    NOT?: DailyAttendanceScalarWhereWithAggregatesInput | DailyAttendanceScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"DailyAttendance"> | string
+    placement_id?: UuidWithAggregatesFilter<"DailyAttendance"> | string
+    attendance_date?: DateTimeWithAggregatesFilter<"DailyAttendance"> | Date | string
+    check_in_time?: DateTimeWithAggregatesFilter<"DailyAttendance"> | Date | string
+    submitted_lat?: FloatNullableWithAggregatesFilter<"DailyAttendance"> | number | null
+    submitted_lng?: FloatNullableWithAggregatesFilter<"DailyAttendance"> | number | null
+    accuracy_m?: FloatNullableWithAggregatesFilter<"DailyAttendance"> | number | null
+    distance_m?: FloatNullableWithAggregatesFilter<"DailyAttendance"> | number | null
+    presence_status?: EnumPresenceStatusWithAggregatesFilter<"DailyAttendance"> | $Enums.PresenceStatus
+    submitted_from_ip?: StringNullableWithAggregatesFilter<"DailyAttendance"> | string | null
+    is_mocked?: BoolWithAggregatesFilter<"DailyAttendance"> | boolean
+    risk_score?: IntWithAggregatesFilter<"DailyAttendance"> | number
+    verification_flags?: StringNullableListFilter<"DailyAttendance">
   }
 
   export type DailyLogWhereInput = {
@@ -14534,6 +20136,7 @@ export namespace Prisma {
     week_no?: IntFilter<"WeeklySubmission"> | number
     status?: EnumSubmissionStatusFilter<"WeeklySubmission"> | $Enums.SubmissionStatus
     supervisor_remarks?: StringNullableFilter<"WeeklySubmission"> | string | null
+    is_locked?: BoolFilter<"WeeklySubmission"> | boolean
     submitted_at?: DateTimeNullableFilter<"WeeklySubmission"> | Date | string | null
     reviewed_at?: DateTimeNullableFilter<"WeeklySubmission"> | Date | string | null
     created_at?: DateTimeFilter<"WeeklySubmission"> | Date | string
@@ -14549,6 +20152,7 @@ export namespace Prisma {
     week_no?: SortOrder
     status?: SortOrder
     supervisor_remarks?: SortOrderInput | SortOrder
+    is_locked?: SortOrder
     submitted_at?: SortOrderInput | SortOrder
     reviewed_at?: SortOrderInput | SortOrder
     created_at?: SortOrder
@@ -14568,6 +20172,7 @@ export namespace Prisma {
     week_no?: IntFilter<"WeeklySubmission"> | number
     status?: EnumSubmissionStatusFilter<"WeeklySubmission"> | $Enums.SubmissionStatus
     supervisor_remarks?: StringNullableFilter<"WeeklySubmission"> | string | null
+    is_locked?: BoolFilter<"WeeklySubmission"> | boolean
     submitted_at?: DateTimeNullableFilter<"WeeklySubmission"> | Date | string | null
     reviewed_at?: DateTimeNullableFilter<"WeeklySubmission"> | Date | string | null
     created_at?: DateTimeFilter<"WeeklySubmission"> | Date | string
@@ -14583,6 +20188,7 @@ export namespace Prisma {
     week_no?: SortOrder
     status?: SortOrder
     supervisor_remarks?: SortOrderInput | SortOrder
+    is_locked?: SortOrder
     submitted_at?: SortOrderInput | SortOrder
     reviewed_at?: SortOrderInput | SortOrder
     created_at?: SortOrder
@@ -14603,6 +20209,7 @@ export namespace Prisma {
     week_no?: IntWithAggregatesFilter<"WeeklySubmission"> | number
     status?: EnumSubmissionStatusWithAggregatesFilter<"WeeklySubmission"> | $Enums.SubmissionStatus
     supervisor_remarks?: StringNullableWithAggregatesFilter<"WeeklySubmission"> | string | null
+    is_locked?: BoolWithAggregatesFilter<"WeeklySubmission"> | boolean
     submitted_at?: DateTimeNullableWithAggregatesFilter<"WeeklySubmission"> | Date | string | null
     reviewed_at?: DateTimeNullableWithAggregatesFilter<"WeeklySubmission"> | Date | string | null
     created_at?: DateTimeWithAggregatesFilter<"WeeklySubmission"> | Date | string
@@ -14876,6 +20483,223 @@ export namespace Prisma {
     updated_at?: DateTimeWithAggregatesFilter<"LateFillingWaiver"> | Date | string
   }
 
+  export type VerificationTokenWhereInput = {
+    AND?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
+    OR?: VerificationTokenWhereInput[]
+    NOT?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
+    id?: UuidFilter<"VerificationToken"> | string
+    placement_id?: UuidFilter<"VerificationToken"> | string
+    token?: StringFilter<"VerificationToken"> | string
+    week_no?: IntFilter<"VerificationToken"> | number
+    email?: StringNullableFilter<"VerificationToken"> | string | null
+    expires_at?: DateTimeFilter<"VerificationToken"> | Date | string
+    is_used?: BoolFilter<"VerificationToken"> | boolean
+    created_at?: DateTimeFilter<"VerificationToken"> | Date | string
+    placement?: XOR<PlacementScalarRelationFilter, PlacementWhereInput>
+  }
+
+  export type VerificationTokenOrderByWithRelationInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    token?: SortOrder
+    week_no?: SortOrder
+    email?: SortOrderInput | SortOrder
+    expires_at?: SortOrder
+    is_used?: SortOrder
+    created_at?: SortOrder
+    placement?: PlacementOrderByWithRelationInput
+  }
+
+  export type VerificationTokenWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    token?: string
+    AND?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
+    OR?: VerificationTokenWhereInput[]
+    NOT?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
+    placement_id?: UuidFilter<"VerificationToken"> | string
+    week_no?: IntFilter<"VerificationToken"> | number
+    email?: StringNullableFilter<"VerificationToken"> | string | null
+    expires_at?: DateTimeFilter<"VerificationToken"> | Date | string
+    is_used?: BoolFilter<"VerificationToken"> | boolean
+    created_at?: DateTimeFilter<"VerificationToken"> | Date | string
+    placement?: XOR<PlacementScalarRelationFilter, PlacementWhereInput>
+  }, "id" | "token">
+
+  export type VerificationTokenOrderByWithAggregationInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    token?: SortOrder
+    week_no?: SortOrder
+    email?: SortOrderInput | SortOrder
+    expires_at?: SortOrder
+    is_used?: SortOrder
+    created_at?: SortOrder
+    _count?: VerificationTokenCountOrderByAggregateInput
+    _avg?: VerificationTokenAvgOrderByAggregateInput
+    _max?: VerificationTokenMaxOrderByAggregateInput
+    _min?: VerificationTokenMinOrderByAggregateInput
+    _sum?: VerificationTokenSumOrderByAggregateInput
+  }
+
+  export type VerificationTokenScalarWhereWithAggregatesInput = {
+    AND?: VerificationTokenScalarWhereWithAggregatesInput | VerificationTokenScalarWhereWithAggregatesInput[]
+    OR?: VerificationTokenScalarWhereWithAggregatesInput[]
+    NOT?: VerificationTokenScalarWhereWithAggregatesInput | VerificationTokenScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"VerificationToken"> | string
+    placement_id?: UuidWithAggregatesFilter<"VerificationToken"> | string
+    token?: StringWithAggregatesFilter<"VerificationToken"> | string
+    week_no?: IntWithAggregatesFilter<"VerificationToken"> | number
+    email?: StringNullableWithAggregatesFilter<"VerificationToken"> | string | null
+    expires_at?: DateTimeWithAggregatesFilter<"VerificationToken"> | Date | string
+    is_used?: BoolWithAggregatesFilter<"VerificationToken"> | boolean
+    created_at?: DateTimeWithAggregatesFilter<"VerificationToken"> | Date | string
+  }
+
+  export type VirtualSpotCheckWhereInput = {
+    AND?: VirtualSpotCheckWhereInput | VirtualSpotCheckWhereInput[]
+    OR?: VirtualSpotCheckWhereInput[]
+    NOT?: VirtualSpotCheckWhereInput | VirtualSpotCheckWhereInput[]
+    id?: UuidFilter<"VirtualSpotCheck"> | string
+    placement_id?: UuidFilter<"VirtualSpotCheck"> | string
+    coordinator_id?: UuidNullableFilter<"VirtualSpotCheck"> | string | null
+    scheduled_at?: DateTimeFilter<"VirtualSpotCheck"> | Date | string
+    status?: EnumSpotCheckStatusFilter<"VirtualSpotCheck"> | $Enums.SpotCheckStatus
+    room_name?: StringFilter<"VirtualSpotCheck"> | string
+    score?: IntNullableFilter<"VirtualSpotCheck"> | number | null
+    notes?: StringNullableFilter<"VirtualSpotCheck"> | string | null
+    created_at?: DateTimeFilter<"VirtualSpotCheck"> | Date | string
+    placement?: XOR<PlacementScalarRelationFilter, PlacementWhereInput>
+    coordinator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type VirtualSpotCheckOrderByWithRelationInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    coordinator_id?: SortOrderInput | SortOrder
+    scheduled_at?: SortOrder
+    status?: SortOrder
+    room_name?: SortOrder
+    score?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    placement?: PlacementOrderByWithRelationInput
+    coordinator?: UserOrderByWithRelationInput
+  }
+
+  export type VirtualSpotCheckWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    room_name?: string
+    AND?: VirtualSpotCheckWhereInput | VirtualSpotCheckWhereInput[]
+    OR?: VirtualSpotCheckWhereInput[]
+    NOT?: VirtualSpotCheckWhereInput | VirtualSpotCheckWhereInput[]
+    placement_id?: UuidFilter<"VirtualSpotCheck"> | string
+    coordinator_id?: UuidNullableFilter<"VirtualSpotCheck"> | string | null
+    scheduled_at?: DateTimeFilter<"VirtualSpotCheck"> | Date | string
+    status?: EnumSpotCheckStatusFilter<"VirtualSpotCheck"> | $Enums.SpotCheckStatus
+    score?: IntNullableFilter<"VirtualSpotCheck"> | number | null
+    notes?: StringNullableFilter<"VirtualSpotCheck"> | string | null
+    created_at?: DateTimeFilter<"VirtualSpotCheck"> | Date | string
+    placement?: XOR<PlacementScalarRelationFilter, PlacementWhereInput>
+    coordinator?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id" | "room_name">
+
+  export type VirtualSpotCheckOrderByWithAggregationInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    coordinator_id?: SortOrderInput | SortOrder
+    scheduled_at?: SortOrder
+    status?: SortOrder
+    room_name?: SortOrder
+    score?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    _count?: VirtualSpotCheckCountOrderByAggregateInput
+    _avg?: VirtualSpotCheckAvgOrderByAggregateInput
+    _max?: VirtualSpotCheckMaxOrderByAggregateInput
+    _min?: VirtualSpotCheckMinOrderByAggregateInput
+    _sum?: VirtualSpotCheckSumOrderByAggregateInput
+  }
+
+  export type VirtualSpotCheckScalarWhereWithAggregatesInput = {
+    AND?: VirtualSpotCheckScalarWhereWithAggregatesInput | VirtualSpotCheckScalarWhereWithAggregatesInput[]
+    OR?: VirtualSpotCheckScalarWhereWithAggregatesInput[]
+    NOT?: VirtualSpotCheckScalarWhereWithAggregatesInput | VirtualSpotCheckScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"VirtualSpotCheck"> | string
+    placement_id?: UuidWithAggregatesFilter<"VirtualSpotCheck"> | string
+    coordinator_id?: UuidNullableWithAggregatesFilter<"VirtualSpotCheck"> | string | null
+    scheduled_at?: DateTimeWithAggregatesFilter<"VirtualSpotCheck"> | Date | string
+    status?: EnumSpotCheckStatusWithAggregatesFilter<"VirtualSpotCheck"> | $Enums.SpotCheckStatus
+    room_name?: StringWithAggregatesFilter<"VirtualSpotCheck"> | string
+    score?: IntNullableWithAggregatesFilter<"VirtualSpotCheck"> | number | null
+    notes?: StringNullableWithAggregatesFilter<"VirtualSpotCheck"> | string | null
+    created_at?: DateTimeWithAggregatesFilter<"VirtualSpotCheck"> | Date | string
+  }
+
+  export type ChatMessageWhereInput = {
+    AND?: ChatMessageWhereInput | ChatMessageWhereInput[]
+    OR?: ChatMessageWhereInput[]
+    NOT?: ChatMessageWhereInput | ChatMessageWhereInput[]
+    id?: UuidFilter<"ChatMessage"> | string
+    placement_id?: UuidFilter<"ChatMessage"> | string
+    sender_id?: UuidFilter<"ChatMessage"> | string
+    sender_role?: EnumRoleFilter<"ChatMessage"> | $Enums.Role
+    sender_name?: StringFilter<"ChatMessage"> | string
+    content?: StringFilter<"ChatMessage"> | string
+    created_at?: DateTimeFilter<"ChatMessage"> | Date | string
+    placement?: XOR<PlacementScalarRelationFilter, PlacementWhereInput>
+  }
+
+  export type ChatMessageOrderByWithRelationInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    sender_id?: SortOrder
+    sender_role?: SortOrder
+    sender_name?: SortOrder
+    content?: SortOrder
+    created_at?: SortOrder
+    placement?: PlacementOrderByWithRelationInput
+  }
+
+  export type ChatMessageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ChatMessageWhereInput | ChatMessageWhereInput[]
+    OR?: ChatMessageWhereInput[]
+    NOT?: ChatMessageWhereInput | ChatMessageWhereInput[]
+    placement_id?: UuidFilter<"ChatMessage"> | string
+    sender_id?: UuidFilter<"ChatMessage"> | string
+    sender_role?: EnumRoleFilter<"ChatMessage"> | $Enums.Role
+    sender_name?: StringFilter<"ChatMessage"> | string
+    content?: StringFilter<"ChatMessage"> | string
+    created_at?: DateTimeFilter<"ChatMessage"> | Date | string
+    placement?: XOR<PlacementScalarRelationFilter, PlacementWhereInput>
+  }, "id">
+
+  export type ChatMessageOrderByWithAggregationInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    sender_id?: SortOrder
+    sender_role?: SortOrder
+    sender_name?: SortOrder
+    content?: SortOrder
+    created_at?: SortOrder
+    _count?: ChatMessageCountOrderByAggregateInput
+    _max?: ChatMessageMaxOrderByAggregateInput
+    _min?: ChatMessageMinOrderByAggregateInput
+  }
+
+  export type ChatMessageScalarWhereWithAggregatesInput = {
+    AND?: ChatMessageScalarWhereWithAggregatesInput | ChatMessageScalarWhereWithAggregatesInput[]
+    OR?: ChatMessageScalarWhereWithAggregatesInput[]
+    NOT?: ChatMessageScalarWhereWithAggregatesInput | ChatMessageScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"ChatMessage"> | string
+    placement_id?: UuidWithAggregatesFilter<"ChatMessage"> | string
+    sender_id?: UuidWithAggregatesFilter<"ChatMessage"> | string
+    sender_role?: EnumRoleWithAggregatesFilter<"ChatMessage"> | $Enums.Role
+    sender_name?: StringWithAggregatesFilter<"ChatMessage"> | string
+    content?: StringWithAggregatesFilter<"ChatMessage"> | string
+    created_at?: DateTimeWithAggregatesFilter<"ChatMessage"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -14885,6 +20709,7 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
@@ -14892,6 +20717,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
@@ -14907,6 +20733,7 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
@@ -14914,6 +20741,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -14929,6 +20757,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
@@ -14936,6 +20765,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
@@ -14951,6 +20781,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
@@ -14958,6 +20789,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -14973,6 +20805,7 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
   }
@@ -14986,6 +20819,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -14999,6 +20833,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -15071,7 +20906,6 @@ export namespace Prisma {
     token: string
     expires_at: Date | string
     created_at?: Date | string
-    jon: string
     user: UserCreateNestedOneWithoutPassword_reset_tokensInput
   }
 
@@ -15081,7 +20915,6 @@ export namespace Prisma {
     token: string
     expires_at: Date | string
     created_at?: Date | string
-    jon: string
   }
 
   export type PasswordResetTokenUpdateInput = {
@@ -15089,7 +20922,6 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    jon?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutPassword_reset_tokensNestedInput
   }
 
@@ -15099,7 +20931,6 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    jon?: StringFieldUpdateOperationsInput | string
   }
 
   export type PasswordResetTokenCreateManyInput = {
@@ -15108,7 +20939,6 @@ export namespace Prisma {
     token: string
     expires_at: Date | string
     created_at?: Date | string
-    jon: string
   }
 
   export type PasswordResetTokenUpdateManyMutationInput = {
@@ -15116,7 +20946,6 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    jon?: StringFieldUpdateOperationsInput | string
   }
 
   export type PasswordResetTokenUncheckedUpdateManyInput = {
@@ -15125,7 +20954,6 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    jon?: StringFieldUpdateOperationsInput | string
   }
 
   export type RefreshTokenCreateInput = {
@@ -15193,15 +21021,27 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
     ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
     inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
+    daily_attendance?: DailyAttendanceCreateNestedManyWithoutPlacementInput
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
     waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUncheckedCreateInput = {
@@ -15217,12 +21057,24 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    daily_attendance?: DailyAttendanceUncheckedCreateNestedManyWithoutPlacementInput
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
     waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenUncheckedCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageUncheckedCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUpdateInput = {
@@ -15235,15 +21087,27 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
     ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
     inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
+    daily_attendance?: DailyAttendanceUpdateManyWithoutPlacementNestedInput
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
     waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateInput = {
@@ -15259,12 +21123,24 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    daily_attendance?: DailyAttendanceUncheckedUpdateManyWithoutPlacementNestedInput
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
     waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUncheckedUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementCreateManyInput = {
@@ -15280,8 +21156,16 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type PlacementUpdateManyMutationInput = {
@@ -15294,8 +21178,16 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlacementUncheckedUpdateManyInput = {
@@ -15311,8 +21203,127 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DailyAttendanceCreateInput = {
+    id?: string
+    attendance_date: Date | string
+    check_in_time?: Date | string
+    submitted_lat?: number | null
+    submitted_lng?: number | null
+    accuracy_m?: number | null
+    distance_m?: number | null
+    presence_status?: $Enums.PresenceStatus
+    submitted_from_ip?: string | null
+    is_mocked?: boolean
+    risk_score?: number
+    verification_flags?: DailyAttendanceCreateverification_flagsInput | string[]
+    placement: PlacementCreateNestedOneWithoutDaily_attendanceInput
+  }
+
+  export type DailyAttendanceUncheckedCreateInput = {
+    id?: string
+    placement_id: string
+    attendance_date: Date | string
+    check_in_time?: Date | string
+    submitted_lat?: number | null
+    submitted_lng?: number | null
+    accuracy_m?: number | null
+    distance_m?: number | null
+    presence_status?: $Enums.PresenceStatus
+    submitted_from_ip?: string | null
+    is_mocked?: boolean
+    risk_score?: number
+    verification_flags?: DailyAttendanceCreateverification_flagsInput | string[]
+  }
+
+  export type DailyAttendanceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    attendance_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    check_in_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    submitted_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    submitted_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    accuracy_m?: NullableFloatFieldUpdateOperationsInput | number | null
+    distance_m?: NullableFloatFieldUpdateOperationsInput | number | null
+    presence_status?: EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+    submitted_from_ip?: NullableStringFieldUpdateOperationsInput | string | null
+    is_mocked?: BoolFieldUpdateOperationsInput | boolean
+    risk_score?: IntFieldUpdateOperationsInput | number
+    verification_flags?: DailyAttendanceUpdateverification_flagsInput | string[]
+    placement?: PlacementUpdateOneRequiredWithoutDaily_attendanceNestedInput
+  }
+
+  export type DailyAttendanceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    attendance_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    check_in_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    submitted_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    submitted_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    accuracy_m?: NullableFloatFieldUpdateOperationsInput | number | null
+    distance_m?: NullableFloatFieldUpdateOperationsInput | number | null
+    presence_status?: EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+    submitted_from_ip?: NullableStringFieldUpdateOperationsInput | string | null
+    is_mocked?: BoolFieldUpdateOperationsInput | boolean
+    risk_score?: IntFieldUpdateOperationsInput | number
+    verification_flags?: DailyAttendanceUpdateverification_flagsInput | string[]
+  }
+
+  export type DailyAttendanceCreateManyInput = {
+    id?: string
+    placement_id: string
+    attendance_date: Date | string
+    check_in_time?: Date | string
+    submitted_lat?: number | null
+    submitted_lng?: number | null
+    accuracy_m?: number | null
+    distance_m?: number | null
+    presence_status?: $Enums.PresenceStatus
+    submitted_from_ip?: string | null
+    is_mocked?: boolean
+    risk_score?: number
+    verification_flags?: DailyAttendanceCreateverification_flagsInput | string[]
+  }
+
+  export type DailyAttendanceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    attendance_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    check_in_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    submitted_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    submitted_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    accuracy_m?: NullableFloatFieldUpdateOperationsInput | number | null
+    distance_m?: NullableFloatFieldUpdateOperationsInput | number | null
+    presence_status?: EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+    submitted_from_ip?: NullableStringFieldUpdateOperationsInput | string | null
+    is_mocked?: BoolFieldUpdateOperationsInput | boolean
+    risk_score?: IntFieldUpdateOperationsInput | number
+    verification_flags?: DailyAttendanceUpdateverification_flagsInput | string[]
+  }
+
+  export type DailyAttendanceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    attendance_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    check_in_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    submitted_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    submitted_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    accuracy_m?: NullableFloatFieldUpdateOperationsInput | number | null
+    distance_m?: NullableFloatFieldUpdateOperationsInput | number | null
+    presence_status?: EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+    submitted_from_ip?: NullableStringFieldUpdateOperationsInput | string | null
+    is_mocked?: BoolFieldUpdateOperationsInput | boolean
+    risk_score?: IntFieldUpdateOperationsInput | number
+    verification_flags?: DailyAttendanceUpdateverification_flagsInput | string[]
   }
 
   export type DailyLogCreateInput = {
@@ -15395,6 +21406,7 @@ export namespace Prisma {
     week_no: number
     status?: $Enums.SubmissionStatus
     supervisor_remarks?: string | null
+    is_locked?: boolean
     submitted_at?: Date | string | null
     reviewed_at?: Date | string | null
     created_at?: Date | string
@@ -15410,6 +21422,7 @@ export namespace Prisma {
     week_no: number
     status?: $Enums.SubmissionStatus
     supervisor_remarks?: string | null
+    is_locked?: boolean
     submitted_at?: Date | string | null
     reviewed_at?: Date | string | null
     created_at?: Date | string
@@ -15423,6 +21436,7 @@ export namespace Prisma {
     week_no?: IntFieldUpdateOperationsInput | number
     status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
     supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    is_locked?: BoolFieldUpdateOperationsInput | boolean
     submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15438,6 +21452,7 @@ export namespace Prisma {
     week_no?: IntFieldUpdateOperationsInput | number
     status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
     supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    is_locked?: BoolFieldUpdateOperationsInput | boolean
     submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15452,6 +21467,7 @@ export namespace Prisma {
     week_no: number
     status?: $Enums.SubmissionStatus
     supervisor_remarks?: string | null
+    is_locked?: boolean
     submitted_at?: Date | string | null
     reviewed_at?: Date | string | null
     created_at?: Date | string
@@ -15463,6 +21479,7 @@ export namespace Prisma {
     week_no?: IntFieldUpdateOperationsInput | number
     status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
     supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    is_locked?: BoolFieldUpdateOperationsInput | boolean
     submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15475,6 +21492,7 @@ export namespace Prisma {
     week_no?: IntFieldUpdateOperationsInput | number
     status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
     supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    is_locked?: BoolFieldUpdateOperationsInput | boolean
     submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15761,6 +21779,233 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type VerificationTokenCreateInput = {
+    id?: string
+    token: string
+    week_no: number
+    email?: string | null
+    expires_at: Date | string
+    is_used?: boolean
+    created_at?: Date | string
+    placement: PlacementCreateNestedOneWithoutMagic_linksInput
+  }
+
+  export type VerificationTokenUncheckedCreateInput = {
+    id?: string
+    placement_id: string
+    token: string
+    week_no: number
+    email?: string | null
+    expires_at: Date | string
+    is_used?: boolean
+    created_at?: Date | string
+  }
+
+  export type VerificationTokenUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_used?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    placement?: PlacementUpdateOneRequiredWithoutMagic_linksNestedInput
+  }
+
+  export type VerificationTokenUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_used?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationTokenCreateManyInput = {
+    id?: string
+    placement_id: string
+    token: string
+    week_no: number
+    email?: string | null
+    expires_at: Date | string
+    is_used?: boolean
+    created_at?: Date | string
+  }
+
+  export type VerificationTokenUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_used?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationTokenUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_used?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VirtualSpotCheckCreateInput = {
+    id?: string
+    scheduled_at: Date | string
+    status?: $Enums.SpotCheckStatus
+    room_name: string
+    score?: number | null
+    notes?: string | null
+    created_at?: Date | string
+    placement: PlacementCreateNestedOneWithoutSpot_checksInput
+    coordinator?: UserCreateNestedOneWithoutConducted_spot_checksInput
+  }
+
+  export type VirtualSpotCheckUncheckedCreateInput = {
+    id?: string
+    placement_id: string
+    coordinator_id?: string | null
+    scheduled_at: Date | string
+    status?: $Enums.SpotCheckStatus
+    room_name: string
+    score?: number | null
+    notes?: string | null
+    created_at?: Date | string
+  }
+
+  export type VirtualSpotCheckUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduled_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSpotCheckStatusFieldUpdateOperationsInput | $Enums.SpotCheckStatus
+    room_name?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    placement?: PlacementUpdateOneRequiredWithoutSpot_checksNestedInput
+    coordinator?: UserUpdateOneWithoutConducted_spot_checksNestedInput
+  }
+
+  export type VirtualSpotCheckUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduled_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSpotCheckStatusFieldUpdateOperationsInput | $Enums.SpotCheckStatus
+    room_name?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VirtualSpotCheckCreateManyInput = {
+    id?: string
+    placement_id: string
+    coordinator_id?: string | null
+    scheduled_at: Date | string
+    status?: $Enums.SpotCheckStatus
+    room_name: string
+    score?: number | null
+    notes?: string | null
+    created_at?: Date | string
+  }
+
+  export type VirtualSpotCheckUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduled_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSpotCheckStatusFieldUpdateOperationsInput | $Enums.SpotCheckStatus
+    room_name?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VirtualSpotCheckUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduled_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSpotCheckStatusFieldUpdateOperationsInput | $Enums.SpotCheckStatus
+    room_name?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatMessageCreateInput = {
+    id?: string
+    sender_id: string
+    sender_role: $Enums.Role
+    sender_name: string
+    content: string
+    created_at?: Date | string
+    placement: PlacementCreateNestedOneWithoutChat_messagesInput
+  }
+
+  export type ChatMessageUncheckedCreateInput = {
+    id?: string
+    placement_id: string
+    sender_id: string
+    sender_role: $Enums.Role
+    sender_name: string
+    content: string
+    created_at?: Date | string
+  }
+
+  export type ChatMessageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sender_id?: StringFieldUpdateOperationsInput | string
+    sender_role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    sender_name?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    placement?: PlacementUpdateOneRequiredWithoutChat_messagesNestedInput
+  }
+
+  export type ChatMessageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    sender_id?: StringFieldUpdateOperationsInput | string
+    sender_role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    sender_name?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatMessageCreateManyInput = {
+    id?: string
+    placement_id: string
+    sender_id: string
+    sender_role: $Enums.Role
+    sender_name: string
+    content: string
+    created_at?: Date | string
+  }
+
+  export type ChatMessageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sender_id?: StringFieldUpdateOperationsInput | string
+    sender_role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    sender_name?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatMessageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    sender_id?: StringFieldUpdateOperationsInput | string
+    sender_role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    sender_name?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -15839,6 +22084,12 @@ export namespace Prisma {
     none?: FinalClearanceWhereInput
   }
 
+  export type VirtualSpotCheckListRelationFilter = {
+    every?: VirtualSpotCheckWhereInput
+    some?: VirtualSpotCheckWhereInput
+    none?: VirtualSpotCheckWhereInput
+  }
+
   export type LateFillingWaiverListRelationFilter = {
     every?: LateFillingWaiverWhereInput
     some?: LateFillingWaiverWhereInput
@@ -15874,6 +22125,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type VirtualSpotCheckOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type LateFillingWaiverOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -15895,6 +22150,7 @@ export namespace Prisma {
     role?: SortOrder
     department?: SortOrder
     created_at?: SortOrder
+    updated_at?: SortOrder
     assigned_state?: SortOrder
     assigned_city?: SortOrder
   }
@@ -15908,6 +22164,7 @@ export namespace Prisma {
     role?: SortOrder
     department?: SortOrder
     created_at?: SortOrder
+    updated_at?: SortOrder
     assigned_state?: SortOrder
     assigned_city?: SortOrder
   }
@@ -15921,6 +22178,7 @@ export namespace Prisma {
     role?: SortOrder
     department?: SortOrder
     created_at?: SortOrder
+    updated_at?: SortOrder
     assigned_state?: SortOrder
     assigned_city?: SortOrder
   }
@@ -16076,7 +22334,6 @@ export namespace Prisma {
     token?: SortOrder
     expires_at?: SortOrder
     created_at?: SortOrder
-    jon?: SortOrder
   }
 
   export type PasswordResetTokenMaxOrderByAggregateInput = {
@@ -16085,7 +22342,6 @@ export namespace Prisma {
     token?: SortOrder
     expires_at?: SortOrder
     created_at?: SortOrder
-    jon?: SortOrder
   }
 
   export type PasswordResetTokenMinOrderByAggregateInput = {
@@ -16094,7 +22350,6 @@ export namespace Prisma {
     token?: SortOrder
     expires_at?: SortOrder
     created_at?: SortOrder
-    jon?: SortOrder
   }
 
   export type RefreshTokenCountOrderByAggregateInput = {
@@ -16133,9 +22388,37 @@ export namespace Prisma {
     not?: NestedUuidNullableFilter<$PrismaModel> | string | null
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
+  }
+
+  export type DailyAttendanceListRelationFilter = {
+    every?: DailyAttendanceWhereInput
+    some?: DailyAttendanceWhereInput
+    none?: DailyAttendanceWhereInput
   }
 
   export type DailyLogListRelationFilter = {
@@ -16155,11 +22438,35 @@ export namespace Prisma {
     isNot?: FinalClearanceWhereInput | null
   }
 
+  export type VerificationTokenListRelationFilter = {
+    every?: VerificationTokenWhereInput
+    some?: VerificationTokenWhereInput
+    none?: VerificationTokenWhereInput
+  }
+
+  export type ChatMessageListRelationFilter = {
+    every?: ChatMessageWhereInput
+    some?: ChatMessageWhereInput
+    none?: ChatMessageWhereInput
+  }
+
+  export type DailyAttendanceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type DailyLogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type WeeklySubmissionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type VerificationTokenOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ChatMessageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16176,8 +22483,22 @@ export namespace Prisma {
     company_email?: SortOrder
     state?: SortOrder
     city?: SortOrder
+    company_rc_number?: SortOrder
+    company_domain?: SortOrder
+    company_lat?: SortOrder
+    company_lng?: SortOrder
+    geofence_radius_m?: SortOrder
+    is_company_verified?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type PlacementAvgOrderByAggregateInput = {
+    company_lat?: SortOrder
+    company_lng?: SortOrder
+    geofence_radius_m?: SortOrder
   }
 
   export type PlacementMaxOrderByAggregateInput = {
@@ -16193,8 +22514,16 @@ export namespace Prisma {
     company_email?: SortOrder
     state?: SortOrder
     city?: SortOrder
+    company_rc_number?: SortOrder
+    company_domain?: SortOrder
+    company_lat?: SortOrder
+    company_lng?: SortOrder
+    geofence_radius_m?: SortOrder
+    is_company_verified?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
   }
 
   export type PlacementMinOrderByAggregateInput = {
@@ -16210,8 +22539,22 @@ export namespace Prisma {
     company_email?: SortOrder
     state?: SortOrder
     city?: SortOrder
+    company_rc_number?: SortOrder
+    company_domain?: SortOrder
+    company_lat?: SortOrder
+    company_lng?: SortOrder
+    geofence_radius_m?: SortOrder
+    is_company_verified?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type PlacementSumOrderByAggregateInput = {
+    company_lat?: SortOrder
+    company_lng?: SortOrder
+    geofence_radius_m?: SortOrder
   }
 
   export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -16229,7 +22572,23 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type IntFilter<$PrismaModel = never> = {
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
     notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -16237,12 +22596,109 @@ export namespace Prisma {
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type EnumPresenceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PresenceStatus | EnumPresenceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PresenceStatus[] | ListEnumPresenceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PresenceStatus[] | ListEnumPresenceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPresenceStatusFilter<$PrismaModel> | $Enums.PresenceStatus
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
   }
 
   export type PlacementScalarRelationFilter = {
     is?: PlacementWhereInput
     isNot?: PlacementWhereInput
+  }
+
+  export type DailyAttendancePlacement_idAttendance_dateCompoundUniqueInput = {
+    placement_id: string
+    attendance_date: Date | string
+  }
+
+  export type DailyAttendanceCountOrderByAggregateInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    attendance_date?: SortOrder
+    check_in_time?: SortOrder
+    submitted_lat?: SortOrder
+    submitted_lng?: SortOrder
+    accuracy_m?: SortOrder
+    distance_m?: SortOrder
+    presence_status?: SortOrder
+    submitted_from_ip?: SortOrder
+    is_mocked?: SortOrder
+    risk_score?: SortOrder
+    verification_flags?: SortOrder
+  }
+
+  export type DailyAttendanceAvgOrderByAggregateInput = {
+    submitted_lat?: SortOrder
+    submitted_lng?: SortOrder
+    accuracy_m?: SortOrder
+    distance_m?: SortOrder
+    risk_score?: SortOrder
+  }
+
+  export type DailyAttendanceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    attendance_date?: SortOrder
+    check_in_time?: SortOrder
+    submitted_lat?: SortOrder
+    submitted_lng?: SortOrder
+    accuracy_m?: SortOrder
+    distance_m?: SortOrder
+    presence_status?: SortOrder
+    submitted_from_ip?: SortOrder
+    is_mocked?: SortOrder
+    risk_score?: SortOrder
+  }
+
+  export type DailyAttendanceMinOrderByAggregateInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    attendance_date?: SortOrder
+    check_in_time?: SortOrder
+    submitted_lat?: SortOrder
+    submitted_lng?: SortOrder
+    accuracy_m?: SortOrder
+    distance_m?: SortOrder
+    presence_status?: SortOrder
+    submitted_from_ip?: SortOrder
+    is_mocked?: SortOrder
+    risk_score?: SortOrder
+  }
+
+  export type DailyAttendanceSumOrderByAggregateInput = {
+    submitted_lat?: SortOrder
+    submitted_lng?: SortOrder
+    accuracy_m?: SortOrder
+    distance_m?: SortOrder
+    risk_score?: SortOrder
+  }
+
+  export type EnumPresenceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PresenceStatus | EnumPresenceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PresenceStatus[] | ListEnumPresenceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PresenceStatus[] | ListEnumPresenceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPresenceStatusWithAggregatesFilter<$PrismaModel> | $Enums.PresenceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPresenceStatusFilter<$PrismaModel>
+    _max?: NestedEnumPresenceStatusFilter<$PrismaModel>
   }
 
   export type WeeklySubmissionScalarRelationFilter = {
@@ -16296,22 +22752,6 @@ export namespace Prisma {
     week_no?: SortOrder
   }
 
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
   export type EnumSubmissionStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.SubmissionStatus | EnumSubmissionStatusFieldRefInput<$PrismaModel>
     in?: $Enums.SubmissionStatus[] | ListEnumSubmissionStatusFieldRefInput<$PrismaModel>
@@ -16330,6 +22770,7 @@ export namespace Prisma {
     week_no?: SortOrder
     status?: SortOrder
     supervisor_remarks?: SortOrder
+    is_locked?: SortOrder
     submitted_at?: SortOrder
     reviewed_at?: SortOrder
     created_at?: SortOrder
@@ -16346,6 +22787,7 @@ export namespace Prisma {
     week_no?: SortOrder
     status?: SortOrder
     supervisor_remarks?: SortOrder
+    is_locked?: SortOrder
     submitted_at?: SortOrder
     reviewed_at?: SortOrder
     created_at?: SortOrder
@@ -16358,6 +22800,7 @@ export namespace Prisma {
     week_no?: SortOrder
     status?: SortOrder
     supervisor_remarks?: SortOrder
+    is_locked?: SortOrder
     submitted_at?: SortOrder
     reviewed_at?: SortOrder
     created_at?: SortOrder
@@ -16630,6 +23073,138 @@ export namespace Prisma {
     _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
+  export type VerificationTokenCountOrderByAggregateInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    token?: SortOrder
+    week_no?: SortOrder
+    email?: SortOrder
+    expires_at?: SortOrder
+    is_used?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type VerificationTokenAvgOrderByAggregateInput = {
+    week_no?: SortOrder
+  }
+
+  export type VerificationTokenMaxOrderByAggregateInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    token?: SortOrder
+    week_no?: SortOrder
+    email?: SortOrder
+    expires_at?: SortOrder
+    is_used?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type VerificationTokenMinOrderByAggregateInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    token?: SortOrder
+    week_no?: SortOrder
+    email?: SortOrder
+    expires_at?: SortOrder
+    is_used?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type VerificationTokenSumOrderByAggregateInput = {
+    week_no?: SortOrder
+  }
+
+  export type EnumSpotCheckStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SpotCheckStatus | EnumSpotCheckStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SpotCheckStatus[] | ListEnumSpotCheckStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SpotCheckStatus[] | ListEnumSpotCheckStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSpotCheckStatusFilter<$PrismaModel> | $Enums.SpotCheckStatus
+  }
+
+  export type VirtualSpotCheckCountOrderByAggregateInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    coordinator_id?: SortOrder
+    scheduled_at?: SortOrder
+    status?: SortOrder
+    room_name?: SortOrder
+    score?: SortOrder
+    notes?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type VirtualSpotCheckAvgOrderByAggregateInput = {
+    score?: SortOrder
+  }
+
+  export type VirtualSpotCheckMaxOrderByAggregateInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    coordinator_id?: SortOrder
+    scheduled_at?: SortOrder
+    status?: SortOrder
+    room_name?: SortOrder
+    score?: SortOrder
+    notes?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type VirtualSpotCheckMinOrderByAggregateInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    coordinator_id?: SortOrder
+    scheduled_at?: SortOrder
+    status?: SortOrder
+    room_name?: SortOrder
+    score?: SortOrder
+    notes?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type VirtualSpotCheckSumOrderByAggregateInput = {
+    score?: SortOrder
+  }
+
+  export type EnumSpotCheckStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SpotCheckStatus | EnumSpotCheckStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SpotCheckStatus[] | ListEnumSpotCheckStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SpotCheckStatus[] | ListEnumSpotCheckStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSpotCheckStatusWithAggregatesFilter<$PrismaModel> | $Enums.SpotCheckStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSpotCheckStatusFilter<$PrismaModel>
+    _max?: NestedEnumSpotCheckStatusFilter<$PrismaModel>
+  }
+
+  export type ChatMessageCountOrderByAggregateInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    sender_id?: SortOrder
+    sender_role?: SortOrder
+    sender_name?: SortOrder
+    content?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type ChatMessageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    sender_id?: SortOrder
+    sender_role?: SortOrder
+    sender_name?: SortOrder
+    content?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type ChatMessageMinOrderByAggregateInput = {
+    id?: SortOrder
+    placement_id?: SortOrder
+    sender_id?: SortOrder
+    sender_role?: SortOrder
+    sender_name?: SortOrder
+    content?: SortOrder
+    created_at?: SortOrder
+  }
+
   export type PlacementCreateNestedManyWithoutStudentInput = {
     create?: XOR<PlacementCreateWithoutStudentInput, PlacementUncheckedCreateWithoutStudentInput> | PlacementCreateWithoutStudentInput[] | PlacementUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: PlacementCreateOrConnectWithoutStudentInput | PlacementCreateOrConnectWithoutStudentInput[]
@@ -16663,6 +23238,13 @@ export namespace Prisma {
     connectOrCreate?: FinalClearanceCreateOrConnectWithoutItf_officialInput | FinalClearanceCreateOrConnectWithoutItf_officialInput[]
     createMany?: FinalClearanceCreateManyItf_officialInputEnvelope
     connect?: FinalClearanceWhereUniqueInput | FinalClearanceWhereUniqueInput[]
+  }
+
+  export type VirtualSpotCheckCreateNestedManyWithoutCoordinatorInput = {
+    create?: XOR<VirtualSpotCheckCreateWithoutCoordinatorInput, VirtualSpotCheckUncheckedCreateWithoutCoordinatorInput> | VirtualSpotCheckCreateWithoutCoordinatorInput[] | VirtualSpotCheckUncheckedCreateWithoutCoordinatorInput[]
+    connectOrCreate?: VirtualSpotCheckCreateOrConnectWithoutCoordinatorInput | VirtualSpotCheckCreateOrConnectWithoutCoordinatorInput[]
+    createMany?: VirtualSpotCheckCreateManyCoordinatorInputEnvelope
+    connect?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
   }
 
   export type LateFillingWaiverCreateNestedManyWithoutStudentInput = {
@@ -16726,6 +23308,13 @@ export namespace Prisma {
     connectOrCreate?: FinalClearanceCreateOrConnectWithoutItf_officialInput | FinalClearanceCreateOrConnectWithoutItf_officialInput[]
     createMany?: FinalClearanceCreateManyItf_officialInputEnvelope
     connect?: FinalClearanceWhereUniqueInput | FinalClearanceWhereUniqueInput[]
+  }
+
+  export type VirtualSpotCheckUncheckedCreateNestedManyWithoutCoordinatorInput = {
+    create?: XOR<VirtualSpotCheckCreateWithoutCoordinatorInput, VirtualSpotCheckUncheckedCreateWithoutCoordinatorInput> | VirtualSpotCheckCreateWithoutCoordinatorInput[] | VirtualSpotCheckUncheckedCreateWithoutCoordinatorInput[]
+    connectOrCreate?: VirtualSpotCheckCreateOrConnectWithoutCoordinatorInput | VirtualSpotCheckCreateOrConnectWithoutCoordinatorInput[]
+    createMany?: VirtualSpotCheckCreateManyCoordinatorInputEnvelope
+    connect?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
   }
 
   export type LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput = {
@@ -16840,6 +23429,20 @@ export namespace Prisma {
     update?: FinalClearanceUpdateWithWhereUniqueWithoutItf_officialInput | FinalClearanceUpdateWithWhereUniqueWithoutItf_officialInput[]
     updateMany?: FinalClearanceUpdateManyWithWhereWithoutItf_officialInput | FinalClearanceUpdateManyWithWhereWithoutItf_officialInput[]
     deleteMany?: FinalClearanceScalarWhereInput | FinalClearanceScalarWhereInput[]
+  }
+
+  export type VirtualSpotCheckUpdateManyWithoutCoordinatorNestedInput = {
+    create?: XOR<VirtualSpotCheckCreateWithoutCoordinatorInput, VirtualSpotCheckUncheckedCreateWithoutCoordinatorInput> | VirtualSpotCheckCreateWithoutCoordinatorInput[] | VirtualSpotCheckUncheckedCreateWithoutCoordinatorInput[]
+    connectOrCreate?: VirtualSpotCheckCreateOrConnectWithoutCoordinatorInput | VirtualSpotCheckCreateOrConnectWithoutCoordinatorInput[]
+    upsert?: VirtualSpotCheckUpsertWithWhereUniqueWithoutCoordinatorInput | VirtualSpotCheckUpsertWithWhereUniqueWithoutCoordinatorInput[]
+    createMany?: VirtualSpotCheckCreateManyCoordinatorInputEnvelope
+    set?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    disconnect?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    delete?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    connect?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    update?: VirtualSpotCheckUpdateWithWhereUniqueWithoutCoordinatorInput | VirtualSpotCheckUpdateWithWhereUniqueWithoutCoordinatorInput[]
+    updateMany?: VirtualSpotCheckUpdateManyWithWhereWithoutCoordinatorInput | VirtualSpotCheckUpdateManyWithWhereWithoutCoordinatorInput[]
+    deleteMany?: VirtualSpotCheckScalarWhereInput | VirtualSpotCheckScalarWhereInput[]
   }
 
   export type LateFillingWaiverUpdateManyWithoutStudentNestedInput = {
@@ -16968,6 +23571,20 @@ export namespace Prisma {
     deleteMany?: FinalClearanceScalarWhereInput | FinalClearanceScalarWhereInput[]
   }
 
+  export type VirtualSpotCheckUncheckedUpdateManyWithoutCoordinatorNestedInput = {
+    create?: XOR<VirtualSpotCheckCreateWithoutCoordinatorInput, VirtualSpotCheckUncheckedCreateWithoutCoordinatorInput> | VirtualSpotCheckCreateWithoutCoordinatorInput[] | VirtualSpotCheckUncheckedCreateWithoutCoordinatorInput[]
+    connectOrCreate?: VirtualSpotCheckCreateOrConnectWithoutCoordinatorInput | VirtualSpotCheckCreateOrConnectWithoutCoordinatorInput[]
+    upsert?: VirtualSpotCheckUpsertWithWhereUniqueWithoutCoordinatorInput | VirtualSpotCheckUpsertWithWhereUniqueWithoutCoordinatorInput[]
+    createMany?: VirtualSpotCheckCreateManyCoordinatorInputEnvelope
+    set?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    disconnect?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    delete?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    connect?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    update?: VirtualSpotCheckUpdateWithWhereUniqueWithoutCoordinatorInput | VirtualSpotCheckUpdateWithWhereUniqueWithoutCoordinatorInput[]
+    updateMany?: VirtualSpotCheckUpdateManyWithWhereWithoutCoordinatorInput | VirtualSpotCheckUpdateManyWithWhereWithoutCoordinatorInput[]
+    deleteMany?: VirtualSpotCheckScalarWhereInput | VirtualSpotCheckScalarWhereInput[]
+  }
+
   export type LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput = {
     create?: XOR<LateFillingWaiverCreateWithoutStudentInput, LateFillingWaiverUncheckedCreateWithoutStudentInput> | LateFillingWaiverCreateWithoutStudentInput[] | LateFillingWaiverUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: LateFillingWaiverCreateOrConnectWithoutStudentInput | LateFillingWaiverCreateOrConnectWithoutStudentInput[]
@@ -17078,6 +23695,13 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type DailyAttendanceCreateNestedManyWithoutPlacementInput = {
+    create?: XOR<DailyAttendanceCreateWithoutPlacementInput, DailyAttendanceUncheckedCreateWithoutPlacementInput> | DailyAttendanceCreateWithoutPlacementInput[] | DailyAttendanceUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: DailyAttendanceCreateOrConnectWithoutPlacementInput | DailyAttendanceCreateOrConnectWithoutPlacementInput[]
+    createMany?: DailyAttendanceCreateManyPlacementInputEnvelope
+    connect?: DailyAttendanceWhereUniqueInput | DailyAttendanceWhereUniqueInput[]
+  }
+
   export type DailyLogCreateNestedManyWithoutPlacementInput = {
     create?: XOR<DailyLogCreateWithoutPlacementInput, DailyLogUncheckedCreateWithoutPlacementInput> | DailyLogCreateWithoutPlacementInput[] | DailyLogUncheckedCreateWithoutPlacementInput[]
     connectOrCreate?: DailyLogCreateOrConnectWithoutPlacementInput | DailyLogCreateOrConnectWithoutPlacementInput[]
@@ -17103,6 +23727,34 @@ export namespace Prisma {
     connectOrCreate?: LateFillingWaiverCreateOrConnectWithoutPlacementInput | LateFillingWaiverCreateOrConnectWithoutPlacementInput[]
     createMany?: LateFillingWaiverCreateManyPlacementInputEnvelope
     connect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
+  }
+
+  export type VerificationTokenCreateNestedManyWithoutPlacementInput = {
+    create?: XOR<VerificationTokenCreateWithoutPlacementInput, VerificationTokenUncheckedCreateWithoutPlacementInput> | VerificationTokenCreateWithoutPlacementInput[] | VerificationTokenUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: VerificationTokenCreateOrConnectWithoutPlacementInput | VerificationTokenCreateOrConnectWithoutPlacementInput[]
+    createMany?: VerificationTokenCreateManyPlacementInputEnvelope
+    connect?: VerificationTokenWhereUniqueInput | VerificationTokenWhereUniqueInput[]
+  }
+
+  export type VirtualSpotCheckCreateNestedManyWithoutPlacementInput = {
+    create?: XOR<VirtualSpotCheckCreateWithoutPlacementInput, VirtualSpotCheckUncheckedCreateWithoutPlacementInput> | VirtualSpotCheckCreateWithoutPlacementInput[] | VirtualSpotCheckUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: VirtualSpotCheckCreateOrConnectWithoutPlacementInput | VirtualSpotCheckCreateOrConnectWithoutPlacementInput[]
+    createMany?: VirtualSpotCheckCreateManyPlacementInputEnvelope
+    connect?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+  }
+
+  export type ChatMessageCreateNestedManyWithoutPlacementInput = {
+    create?: XOR<ChatMessageCreateWithoutPlacementInput, ChatMessageUncheckedCreateWithoutPlacementInput> | ChatMessageCreateWithoutPlacementInput[] | ChatMessageUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: ChatMessageCreateOrConnectWithoutPlacementInput | ChatMessageCreateOrConnectWithoutPlacementInput[]
+    createMany?: ChatMessageCreateManyPlacementInputEnvelope
+    connect?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
+  }
+
+  export type DailyAttendanceUncheckedCreateNestedManyWithoutPlacementInput = {
+    create?: XOR<DailyAttendanceCreateWithoutPlacementInput, DailyAttendanceUncheckedCreateWithoutPlacementInput> | DailyAttendanceCreateWithoutPlacementInput[] | DailyAttendanceUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: DailyAttendanceCreateOrConnectWithoutPlacementInput | DailyAttendanceCreateOrConnectWithoutPlacementInput[]
+    createMany?: DailyAttendanceCreateManyPlacementInputEnvelope
+    connect?: DailyAttendanceWhereUniqueInput | DailyAttendanceWhereUniqueInput[]
   }
 
   export type DailyLogUncheckedCreateNestedManyWithoutPlacementInput = {
@@ -17132,6 +23784,43 @@ export namespace Prisma {
     connect?: LateFillingWaiverWhereUniqueInput | LateFillingWaiverWhereUniqueInput[]
   }
 
+  export type VerificationTokenUncheckedCreateNestedManyWithoutPlacementInput = {
+    create?: XOR<VerificationTokenCreateWithoutPlacementInput, VerificationTokenUncheckedCreateWithoutPlacementInput> | VerificationTokenCreateWithoutPlacementInput[] | VerificationTokenUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: VerificationTokenCreateOrConnectWithoutPlacementInput | VerificationTokenCreateOrConnectWithoutPlacementInput[]
+    createMany?: VerificationTokenCreateManyPlacementInputEnvelope
+    connect?: VerificationTokenWhereUniqueInput | VerificationTokenWhereUniqueInput[]
+  }
+
+  export type VirtualSpotCheckUncheckedCreateNestedManyWithoutPlacementInput = {
+    create?: XOR<VirtualSpotCheckCreateWithoutPlacementInput, VirtualSpotCheckUncheckedCreateWithoutPlacementInput> | VirtualSpotCheckCreateWithoutPlacementInput[] | VirtualSpotCheckUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: VirtualSpotCheckCreateOrConnectWithoutPlacementInput | VirtualSpotCheckCreateOrConnectWithoutPlacementInput[]
+    createMany?: VirtualSpotCheckCreateManyPlacementInputEnvelope
+    connect?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+  }
+
+  export type ChatMessageUncheckedCreateNestedManyWithoutPlacementInput = {
+    create?: XOR<ChatMessageCreateWithoutPlacementInput, ChatMessageUncheckedCreateWithoutPlacementInput> | ChatMessageCreateWithoutPlacementInput[] | ChatMessageUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: ChatMessageCreateOrConnectWithoutPlacementInput | ChatMessageCreateOrConnectWithoutPlacementInput[]
+    createMany?: ChatMessageCreateManyPlacementInputEnvelope
+    connect?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type UserUpdateOneRequiredWithoutStudentPlacementsNestedInput = {
     create?: XOR<UserCreateWithoutStudentPlacementsInput, UserUncheckedCreateWithoutStudentPlacementsInput>
     connectOrCreate?: UserCreateOrConnectWithoutStudentPlacementsInput
@@ -17158,6 +23847,20 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInstCoordinatorPlacementsInput, UserUpdateWithoutInstCoordinatorPlacementsInput>, UserUncheckedUpdateWithoutInstCoordinatorPlacementsInput>
+  }
+
+  export type DailyAttendanceUpdateManyWithoutPlacementNestedInput = {
+    create?: XOR<DailyAttendanceCreateWithoutPlacementInput, DailyAttendanceUncheckedCreateWithoutPlacementInput> | DailyAttendanceCreateWithoutPlacementInput[] | DailyAttendanceUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: DailyAttendanceCreateOrConnectWithoutPlacementInput | DailyAttendanceCreateOrConnectWithoutPlacementInput[]
+    upsert?: DailyAttendanceUpsertWithWhereUniqueWithoutPlacementInput | DailyAttendanceUpsertWithWhereUniqueWithoutPlacementInput[]
+    createMany?: DailyAttendanceCreateManyPlacementInputEnvelope
+    set?: DailyAttendanceWhereUniqueInput | DailyAttendanceWhereUniqueInput[]
+    disconnect?: DailyAttendanceWhereUniqueInput | DailyAttendanceWhereUniqueInput[]
+    delete?: DailyAttendanceWhereUniqueInput | DailyAttendanceWhereUniqueInput[]
+    connect?: DailyAttendanceWhereUniqueInput | DailyAttendanceWhereUniqueInput[]
+    update?: DailyAttendanceUpdateWithWhereUniqueWithoutPlacementInput | DailyAttendanceUpdateWithWhereUniqueWithoutPlacementInput[]
+    updateMany?: DailyAttendanceUpdateManyWithWhereWithoutPlacementInput | DailyAttendanceUpdateManyWithWhereWithoutPlacementInput[]
+    deleteMany?: DailyAttendanceScalarWhereInput | DailyAttendanceScalarWhereInput[]
   }
 
   export type DailyLogUpdateManyWithoutPlacementNestedInput = {
@@ -17212,6 +23915,62 @@ export namespace Prisma {
     deleteMany?: LateFillingWaiverScalarWhereInput | LateFillingWaiverScalarWhereInput[]
   }
 
+  export type VerificationTokenUpdateManyWithoutPlacementNestedInput = {
+    create?: XOR<VerificationTokenCreateWithoutPlacementInput, VerificationTokenUncheckedCreateWithoutPlacementInput> | VerificationTokenCreateWithoutPlacementInput[] | VerificationTokenUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: VerificationTokenCreateOrConnectWithoutPlacementInput | VerificationTokenCreateOrConnectWithoutPlacementInput[]
+    upsert?: VerificationTokenUpsertWithWhereUniqueWithoutPlacementInput | VerificationTokenUpsertWithWhereUniqueWithoutPlacementInput[]
+    createMany?: VerificationTokenCreateManyPlacementInputEnvelope
+    set?: VerificationTokenWhereUniqueInput | VerificationTokenWhereUniqueInput[]
+    disconnect?: VerificationTokenWhereUniqueInput | VerificationTokenWhereUniqueInput[]
+    delete?: VerificationTokenWhereUniqueInput | VerificationTokenWhereUniqueInput[]
+    connect?: VerificationTokenWhereUniqueInput | VerificationTokenWhereUniqueInput[]
+    update?: VerificationTokenUpdateWithWhereUniqueWithoutPlacementInput | VerificationTokenUpdateWithWhereUniqueWithoutPlacementInput[]
+    updateMany?: VerificationTokenUpdateManyWithWhereWithoutPlacementInput | VerificationTokenUpdateManyWithWhereWithoutPlacementInput[]
+    deleteMany?: VerificationTokenScalarWhereInput | VerificationTokenScalarWhereInput[]
+  }
+
+  export type VirtualSpotCheckUpdateManyWithoutPlacementNestedInput = {
+    create?: XOR<VirtualSpotCheckCreateWithoutPlacementInput, VirtualSpotCheckUncheckedCreateWithoutPlacementInput> | VirtualSpotCheckCreateWithoutPlacementInput[] | VirtualSpotCheckUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: VirtualSpotCheckCreateOrConnectWithoutPlacementInput | VirtualSpotCheckCreateOrConnectWithoutPlacementInput[]
+    upsert?: VirtualSpotCheckUpsertWithWhereUniqueWithoutPlacementInput | VirtualSpotCheckUpsertWithWhereUniqueWithoutPlacementInput[]
+    createMany?: VirtualSpotCheckCreateManyPlacementInputEnvelope
+    set?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    disconnect?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    delete?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    connect?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    update?: VirtualSpotCheckUpdateWithWhereUniqueWithoutPlacementInput | VirtualSpotCheckUpdateWithWhereUniqueWithoutPlacementInput[]
+    updateMany?: VirtualSpotCheckUpdateManyWithWhereWithoutPlacementInput | VirtualSpotCheckUpdateManyWithWhereWithoutPlacementInput[]
+    deleteMany?: VirtualSpotCheckScalarWhereInput | VirtualSpotCheckScalarWhereInput[]
+  }
+
+  export type ChatMessageUpdateManyWithoutPlacementNestedInput = {
+    create?: XOR<ChatMessageCreateWithoutPlacementInput, ChatMessageUncheckedCreateWithoutPlacementInput> | ChatMessageCreateWithoutPlacementInput[] | ChatMessageUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: ChatMessageCreateOrConnectWithoutPlacementInput | ChatMessageCreateOrConnectWithoutPlacementInput[]
+    upsert?: ChatMessageUpsertWithWhereUniqueWithoutPlacementInput | ChatMessageUpsertWithWhereUniqueWithoutPlacementInput[]
+    createMany?: ChatMessageCreateManyPlacementInputEnvelope
+    set?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
+    disconnect?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
+    delete?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
+    connect?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
+    update?: ChatMessageUpdateWithWhereUniqueWithoutPlacementInput | ChatMessageUpdateWithWhereUniqueWithoutPlacementInput[]
+    updateMany?: ChatMessageUpdateManyWithWhereWithoutPlacementInput | ChatMessageUpdateManyWithWhereWithoutPlacementInput[]
+    deleteMany?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
+  }
+
+  export type DailyAttendanceUncheckedUpdateManyWithoutPlacementNestedInput = {
+    create?: XOR<DailyAttendanceCreateWithoutPlacementInput, DailyAttendanceUncheckedCreateWithoutPlacementInput> | DailyAttendanceCreateWithoutPlacementInput[] | DailyAttendanceUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: DailyAttendanceCreateOrConnectWithoutPlacementInput | DailyAttendanceCreateOrConnectWithoutPlacementInput[]
+    upsert?: DailyAttendanceUpsertWithWhereUniqueWithoutPlacementInput | DailyAttendanceUpsertWithWhereUniqueWithoutPlacementInput[]
+    createMany?: DailyAttendanceCreateManyPlacementInputEnvelope
+    set?: DailyAttendanceWhereUniqueInput | DailyAttendanceWhereUniqueInput[]
+    disconnect?: DailyAttendanceWhereUniqueInput | DailyAttendanceWhereUniqueInput[]
+    delete?: DailyAttendanceWhereUniqueInput | DailyAttendanceWhereUniqueInput[]
+    connect?: DailyAttendanceWhereUniqueInput | DailyAttendanceWhereUniqueInput[]
+    update?: DailyAttendanceUpdateWithWhereUniqueWithoutPlacementInput | DailyAttendanceUpdateWithWhereUniqueWithoutPlacementInput[]
+    updateMany?: DailyAttendanceUpdateManyWithWhereWithoutPlacementInput | DailyAttendanceUpdateManyWithWhereWithoutPlacementInput[]
+    deleteMany?: DailyAttendanceScalarWhereInput | DailyAttendanceScalarWhereInput[]
+  }
+
   export type DailyLogUncheckedUpdateManyWithoutPlacementNestedInput = {
     create?: XOR<DailyLogCreateWithoutPlacementInput, DailyLogUncheckedCreateWithoutPlacementInput> | DailyLogCreateWithoutPlacementInput[] | DailyLogUncheckedCreateWithoutPlacementInput[]
     connectOrCreate?: DailyLogCreateOrConnectWithoutPlacementInput | DailyLogCreateOrConnectWithoutPlacementInput[]
@@ -17264,6 +24023,75 @@ export namespace Prisma {
     deleteMany?: LateFillingWaiverScalarWhereInput | LateFillingWaiverScalarWhereInput[]
   }
 
+  export type VerificationTokenUncheckedUpdateManyWithoutPlacementNestedInput = {
+    create?: XOR<VerificationTokenCreateWithoutPlacementInput, VerificationTokenUncheckedCreateWithoutPlacementInput> | VerificationTokenCreateWithoutPlacementInput[] | VerificationTokenUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: VerificationTokenCreateOrConnectWithoutPlacementInput | VerificationTokenCreateOrConnectWithoutPlacementInput[]
+    upsert?: VerificationTokenUpsertWithWhereUniqueWithoutPlacementInput | VerificationTokenUpsertWithWhereUniqueWithoutPlacementInput[]
+    createMany?: VerificationTokenCreateManyPlacementInputEnvelope
+    set?: VerificationTokenWhereUniqueInput | VerificationTokenWhereUniqueInput[]
+    disconnect?: VerificationTokenWhereUniqueInput | VerificationTokenWhereUniqueInput[]
+    delete?: VerificationTokenWhereUniqueInput | VerificationTokenWhereUniqueInput[]
+    connect?: VerificationTokenWhereUniqueInput | VerificationTokenWhereUniqueInput[]
+    update?: VerificationTokenUpdateWithWhereUniqueWithoutPlacementInput | VerificationTokenUpdateWithWhereUniqueWithoutPlacementInput[]
+    updateMany?: VerificationTokenUpdateManyWithWhereWithoutPlacementInput | VerificationTokenUpdateManyWithWhereWithoutPlacementInput[]
+    deleteMany?: VerificationTokenScalarWhereInput | VerificationTokenScalarWhereInput[]
+  }
+
+  export type VirtualSpotCheckUncheckedUpdateManyWithoutPlacementNestedInput = {
+    create?: XOR<VirtualSpotCheckCreateWithoutPlacementInput, VirtualSpotCheckUncheckedCreateWithoutPlacementInput> | VirtualSpotCheckCreateWithoutPlacementInput[] | VirtualSpotCheckUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: VirtualSpotCheckCreateOrConnectWithoutPlacementInput | VirtualSpotCheckCreateOrConnectWithoutPlacementInput[]
+    upsert?: VirtualSpotCheckUpsertWithWhereUniqueWithoutPlacementInput | VirtualSpotCheckUpsertWithWhereUniqueWithoutPlacementInput[]
+    createMany?: VirtualSpotCheckCreateManyPlacementInputEnvelope
+    set?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    disconnect?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    delete?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    connect?: VirtualSpotCheckWhereUniqueInput | VirtualSpotCheckWhereUniqueInput[]
+    update?: VirtualSpotCheckUpdateWithWhereUniqueWithoutPlacementInput | VirtualSpotCheckUpdateWithWhereUniqueWithoutPlacementInput[]
+    updateMany?: VirtualSpotCheckUpdateManyWithWhereWithoutPlacementInput | VirtualSpotCheckUpdateManyWithWhereWithoutPlacementInput[]
+    deleteMany?: VirtualSpotCheckScalarWhereInput | VirtualSpotCheckScalarWhereInput[]
+  }
+
+  export type ChatMessageUncheckedUpdateManyWithoutPlacementNestedInput = {
+    create?: XOR<ChatMessageCreateWithoutPlacementInput, ChatMessageUncheckedCreateWithoutPlacementInput> | ChatMessageCreateWithoutPlacementInput[] | ChatMessageUncheckedCreateWithoutPlacementInput[]
+    connectOrCreate?: ChatMessageCreateOrConnectWithoutPlacementInput | ChatMessageCreateOrConnectWithoutPlacementInput[]
+    upsert?: ChatMessageUpsertWithWhereUniqueWithoutPlacementInput | ChatMessageUpsertWithWhereUniqueWithoutPlacementInput[]
+    createMany?: ChatMessageCreateManyPlacementInputEnvelope
+    set?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
+    disconnect?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
+    delete?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
+    connect?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
+    update?: ChatMessageUpdateWithWhereUniqueWithoutPlacementInput | ChatMessageUpdateWithWhereUniqueWithoutPlacementInput[]
+    updateMany?: ChatMessageUpdateManyWithWhereWithoutPlacementInput | ChatMessageUpdateManyWithWhereWithoutPlacementInput[]
+    deleteMany?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
+  }
+
+  export type DailyAttendanceCreateverification_flagsInput = {
+    set: string[]
+  }
+
+  export type PlacementCreateNestedOneWithoutDaily_attendanceInput = {
+    create?: XOR<PlacementCreateWithoutDaily_attendanceInput, PlacementUncheckedCreateWithoutDaily_attendanceInput>
+    connectOrCreate?: PlacementCreateOrConnectWithoutDaily_attendanceInput
+    connect?: PlacementWhereUniqueInput
+  }
+
+  export type EnumPresenceStatusFieldUpdateOperationsInput = {
+    set?: $Enums.PresenceStatus
+  }
+
+  export type DailyAttendanceUpdateverification_flagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type PlacementUpdateOneRequiredWithoutDaily_attendanceNestedInput = {
+    create?: XOR<PlacementCreateWithoutDaily_attendanceInput, PlacementUncheckedCreateWithoutDaily_attendanceInput>
+    connectOrCreate?: PlacementCreateOrConnectWithoutDaily_attendanceInput
+    upsert?: PlacementUpsertWithoutDaily_attendanceInput
+    connect?: PlacementWhereUniqueInput
+    update?: XOR<XOR<PlacementUpdateToOneWithWhereWithoutDaily_attendanceInput, PlacementUpdateWithoutDaily_attendanceInput>, PlacementUncheckedUpdateWithoutDaily_attendanceInput>
+  }
+
   export type PlacementCreateNestedOneWithoutDaily_logsInput = {
     create?: XOR<PlacementCreateWithoutDaily_logsInput, PlacementUncheckedCreateWithoutDaily_logsInput>
     connectOrCreate?: PlacementCreateOrConnectWithoutDaily_logsInput
@@ -17274,14 +24102,6 @@ export namespace Prisma {
     create?: XOR<WeeklySubmissionCreateWithoutDaily_logsInput, WeeklySubmissionUncheckedCreateWithoutDaily_logsInput>
     connectOrCreate?: WeeklySubmissionCreateOrConnectWithoutDaily_logsInput
     connect?: WeeklySubmissionWhereUniqueInput
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type PlacementUpdateOneRequiredWithoutDaily_logsNestedInput = {
@@ -17532,6 +24352,68 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGranted_waiversInput, UserUpdateWithoutGranted_waiversInput>, UserUncheckedUpdateWithoutGranted_waiversInput>
   }
 
+  export type PlacementCreateNestedOneWithoutMagic_linksInput = {
+    create?: XOR<PlacementCreateWithoutMagic_linksInput, PlacementUncheckedCreateWithoutMagic_linksInput>
+    connectOrCreate?: PlacementCreateOrConnectWithoutMagic_linksInput
+    connect?: PlacementWhereUniqueInput
+  }
+
+  export type PlacementUpdateOneRequiredWithoutMagic_linksNestedInput = {
+    create?: XOR<PlacementCreateWithoutMagic_linksInput, PlacementUncheckedCreateWithoutMagic_linksInput>
+    connectOrCreate?: PlacementCreateOrConnectWithoutMagic_linksInput
+    upsert?: PlacementUpsertWithoutMagic_linksInput
+    connect?: PlacementWhereUniqueInput
+    update?: XOR<XOR<PlacementUpdateToOneWithWhereWithoutMagic_linksInput, PlacementUpdateWithoutMagic_linksInput>, PlacementUncheckedUpdateWithoutMagic_linksInput>
+  }
+
+  export type PlacementCreateNestedOneWithoutSpot_checksInput = {
+    create?: XOR<PlacementCreateWithoutSpot_checksInput, PlacementUncheckedCreateWithoutSpot_checksInput>
+    connectOrCreate?: PlacementCreateOrConnectWithoutSpot_checksInput
+    connect?: PlacementWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutConducted_spot_checksInput = {
+    create?: XOR<UserCreateWithoutConducted_spot_checksInput, UserUncheckedCreateWithoutConducted_spot_checksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutConducted_spot_checksInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumSpotCheckStatusFieldUpdateOperationsInput = {
+    set?: $Enums.SpotCheckStatus
+  }
+
+  export type PlacementUpdateOneRequiredWithoutSpot_checksNestedInput = {
+    create?: XOR<PlacementCreateWithoutSpot_checksInput, PlacementUncheckedCreateWithoutSpot_checksInput>
+    connectOrCreate?: PlacementCreateOrConnectWithoutSpot_checksInput
+    upsert?: PlacementUpsertWithoutSpot_checksInput
+    connect?: PlacementWhereUniqueInput
+    update?: XOR<XOR<PlacementUpdateToOneWithWhereWithoutSpot_checksInput, PlacementUpdateWithoutSpot_checksInput>, PlacementUncheckedUpdateWithoutSpot_checksInput>
+  }
+
+  export type UserUpdateOneWithoutConducted_spot_checksNestedInput = {
+    create?: XOR<UserCreateWithoutConducted_spot_checksInput, UserUncheckedCreateWithoutConducted_spot_checksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutConducted_spot_checksInput
+    upsert?: UserUpsertWithoutConducted_spot_checksInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutConducted_spot_checksInput, UserUpdateWithoutConducted_spot_checksInput>, UserUncheckedUpdateWithoutConducted_spot_checksInput>
+  }
+
+  export type PlacementCreateNestedOneWithoutChat_messagesInput = {
+    create?: XOR<PlacementCreateWithoutChat_messagesInput, PlacementUncheckedCreateWithoutChat_messagesInput>
+    connectOrCreate?: PlacementCreateOrConnectWithoutChat_messagesInput
+    connect?: PlacementWhereUniqueInput
+  }
+
+  export type PlacementUpdateOneRequiredWithoutChat_messagesNestedInput = {
+    create?: XOR<PlacementCreateWithoutChat_messagesInput, PlacementUncheckedCreateWithoutChat_messagesInput>
+    connectOrCreate?: PlacementCreateOrConnectWithoutChat_messagesInput
+    upsert?: PlacementUpsertWithoutChat_messagesInput
+    connect?: PlacementWhereUniqueInput
+    update?: XOR<XOR<PlacementUpdateToOneWithWhereWithoutChat_messagesInput, PlacementUpdateWithoutChat_messagesInput>, PlacementUncheckedUpdateWithoutChat_messagesInput>
+  }
+
   export type NestedUuidFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -17732,6 +24614,17 @@ export namespace Prisma {
     not?: NestedUuidNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -17744,6 +24637,22 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -17771,6 +24680,23 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumPresenceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PresenceStatus | EnumPresenceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PresenceStatus[] | ListEnumPresenceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PresenceStatus[] | ListEnumPresenceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPresenceStatusFilter<$PrismaModel> | $Enums.PresenceStatus
+  }
+
+  export type NestedEnumPresenceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PresenceStatus | EnumPresenceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PresenceStatus[] | ListEnumPresenceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PresenceStatus[] | ListEnumPresenceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPresenceStatusWithAggregatesFilter<$PrismaModel> | $Enums.PresenceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPresenceStatusFilter<$PrismaModel>
+    _max?: NestedEnumPresenceStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumSubmissionStatusFilter<$PrismaModel = never> = {
@@ -17821,17 +24747,6 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumWaiverStatusFilter<$PrismaModel = never> = {
@@ -17895,6 +24810,23 @@ export namespace Prisma {
     _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumSpotCheckStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SpotCheckStatus | EnumSpotCheckStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SpotCheckStatus[] | ListEnumSpotCheckStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SpotCheckStatus[] | ListEnumSpotCheckStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSpotCheckStatusFilter<$PrismaModel> | $Enums.SpotCheckStatus
+  }
+
+  export type NestedEnumSpotCheckStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SpotCheckStatus | EnumSpotCheckStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SpotCheckStatus[] | ListEnumSpotCheckStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SpotCheckStatus[] | ListEnumSpotCheckStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSpotCheckStatusWithAggregatesFilter<$PrismaModel> | $Enums.SpotCheckStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSpotCheckStatusFilter<$PrismaModel>
+    _max?: NestedEnumSpotCheckStatusFilter<$PrismaModel>
+  }
+
   export type PlacementCreateWithoutStudentInput = {
     id?: string
     company_name: string
@@ -17905,14 +24837,26 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
     ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
     inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
+    daily_attendance?: DailyAttendanceCreateNestedManyWithoutPlacementInput
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
     waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUncheckedCreateWithoutStudentInput = {
@@ -17927,12 +24871,24 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    daily_attendance?: DailyAttendanceUncheckedCreateNestedManyWithoutPlacementInput
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
     waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenUncheckedCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageUncheckedCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementCreateOrConnectWithoutStudentInput = {
@@ -17955,14 +24911,26 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
     inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
+    daily_attendance?: DailyAttendanceCreateNestedManyWithoutPlacementInput
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
     waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUncheckedCreateWithoutInd_supervisorInput = {
@@ -17977,12 +24945,24 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    daily_attendance?: DailyAttendanceUncheckedCreateNestedManyWithoutPlacementInput
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
     waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenUncheckedCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageUncheckedCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementCreateOrConnectWithoutInd_supervisorInput = {
@@ -18005,14 +24985,26 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
     ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
+    daily_attendance?: DailyAttendanceCreateNestedManyWithoutPlacementInput
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
     waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUncheckedCreateWithoutInst_coordinatorInput = {
@@ -18027,12 +25019,24 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    daily_attendance?: DailyAttendanceUncheckedCreateNestedManyWithoutPlacementInput
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
     waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenUncheckedCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageUncheckedCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementCreateOrConnectWithoutInst_coordinatorInput = {
@@ -18106,6 +25110,38 @@ export namespace Prisma {
 
   export type FinalClearanceCreateManyItf_officialInputEnvelope = {
     data: FinalClearanceCreateManyItf_officialInput | FinalClearanceCreateManyItf_officialInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type VirtualSpotCheckCreateWithoutCoordinatorInput = {
+    id?: string
+    scheduled_at: Date | string
+    status?: $Enums.SpotCheckStatus
+    room_name: string
+    score?: number | null
+    notes?: string | null
+    created_at?: Date | string
+    placement: PlacementCreateNestedOneWithoutSpot_checksInput
+  }
+
+  export type VirtualSpotCheckUncheckedCreateWithoutCoordinatorInput = {
+    id?: string
+    placement_id: string
+    scheduled_at: Date | string
+    status?: $Enums.SpotCheckStatus
+    room_name: string
+    score?: number | null
+    notes?: string | null
+    created_at?: Date | string
+  }
+
+  export type VirtualSpotCheckCreateOrConnectWithoutCoordinatorInput = {
+    where: VirtualSpotCheckWhereUniqueInput
+    create: XOR<VirtualSpotCheckCreateWithoutCoordinatorInput, VirtualSpotCheckUncheckedCreateWithoutCoordinatorInput>
+  }
+
+  export type VirtualSpotCheckCreateManyCoordinatorInputEnvelope = {
+    data: VirtualSpotCheckCreateManyCoordinatorInput | VirtualSpotCheckCreateManyCoordinatorInput[]
     skipDuplicates?: boolean
   }
 
@@ -18222,7 +25258,6 @@ export namespace Prisma {
     token: string
     expires_at: Date | string
     created_at?: Date | string
-    jon: string
   }
 
   export type PasswordResetTokenUncheckedCreateWithoutUserInput = {
@@ -18230,7 +25265,6 @@ export namespace Prisma {
     token: string
     expires_at: Date | string
     created_at?: Date | string
-    jon: string
   }
 
   export type PasswordResetTokenCreateOrConnectWithoutUserInput = {
@@ -18275,8 +25309,16 @@ export namespace Prisma {
     company_email?: StringNullableFilter<"Placement"> | string | null
     state?: StringNullableFilter<"Placement"> | string | null
     city?: StringNullableFilter<"Placement"> | string | null
+    company_rc_number?: StringNullableFilter<"Placement"> | string | null
+    company_domain?: StringNullableFilter<"Placement"> | string | null
+    company_lat?: FloatNullableFilter<"Placement"> | number | null
+    company_lng?: FloatNullableFilter<"Placement"> | number | null
+    geofence_radius_m?: IntFilter<"Placement"> | number
+    is_company_verified?: BoolFilter<"Placement"> | boolean
     start_date?: DateTimeFilter<"Placement"> | Date | string
     end_date?: DateTimeFilter<"Placement"> | Date | string
+    created_at?: DateTimeFilter<"Placement"> | Date | string
+    updated_at?: DateTimeFilter<"Placement"> | Date | string
   }
 
   export type PlacementUpsertWithWhereUniqueWithoutInd_supervisorInput = {
@@ -18371,6 +25413,37 @@ export namespace Prisma {
     final_pdf_hash?: StringNullableFilter<"FinalClearance"> | string | null
     itf_stamp_hash?: StringNullableFilter<"FinalClearance"> | string | null
     clearance_timestamp?: DateTimeNullableFilter<"FinalClearance"> | Date | string | null
+  }
+
+  export type VirtualSpotCheckUpsertWithWhereUniqueWithoutCoordinatorInput = {
+    where: VirtualSpotCheckWhereUniqueInput
+    update: XOR<VirtualSpotCheckUpdateWithoutCoordinatorInput, VirtualSpotCheckUncheckedUpdateWithoutCoordinatorInput>
+    create: XOR<VirtualSpotCheckCreateWithoutCoordinatorInput, VirtualSpotCheckUncheckedCreateWithoutCoordinatorInput>
+  }
+
+  export type VirtualSpotCheckUpdateWithWhereUniqueWithoutCoordinatorInput = {
+    where: VirtualSpotCheckWhereUniqueInput
+    data: XOR<VirtualSpotCheckUpdateWithoutCoordinatorInput, VirtualSpotCheckUncheckedUpdateWithoutCoordinatorInput>
+  }
+
+  export type VirtualSpotCheckUpdateManyWithWhereWithoutCoordinatorInput = {
+    where: VirtualSpotCheckScalarWhereInput
+    data: XOR<VirtualSpotCheckUpdateManyMutationInput, VirtualSpotCheckUncheckedUpdateManyWithoutCoordinatorInput>
+  }
+
+  export type VirtualSpotCheckScalarWhereInput = {
+    AND?: VirtualSpotCheckScalarWhereInput | VirtualSpotCheckScalarWhereInput[]
+    OR?: VirtualSpotCheckScalarWhereInput[]
+    NOT?: VirtualSpotCheckScalarWhereInput | VirtualSpotCheckScalarWhereInput[]
+    id?: UuidFilter<"VirtualSpotCheck"> | string
+    placement_id?: UuidFilter<"VirtualSpotCheck"> | string
+    coordinator_id?: UuidNullableFilter<"VirtualSpotCheck"> | string | null
+    scheduled_at?: DateTimeFilter<"VirtualSpotCheck"> | Date | string
+    status?: EnumSpotCheckStatusFilter<"VirtualSpotCheck"> | $Enums.SpotCheckStatus
+    room_name?: StringFilter<"VirtualSpotCheck"> | string
+    score?: IntNullableFilter<"VirtualSpotCheck"> | number | null
+    notes?: StringNullableFilter<"VirtualSpotCheck"> | string | null
+    created_at?: DateTimeFilter<"VirtualSpotCheck"> | Date | string
   }
 
   export type LateFillingWaiverUpsertWithWhereUniqueWithoutStudentInput = {
@@ -18477,7 +25550,6 @@ export namespace Prisma {
     token?: StringFilter<"PasswordResetToken"> | string
     expires_at?: DateTimeFilter<"PasswordResetToken"> | Date | string
     created_at?: DateTimeFilter<"PasswordResetToken"> | Date | string
-    jon?: StringFilter<"PasswordResetToken"> | string
   }
 
   export type UserCreateWithoutPassword_reset_tokensInput = {
@@ -18489,6 +25561,7 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
@@ -18496,6 +25569,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
@@ -18510,6 +25584,7 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
@@ -18517,6 +25592,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -18547,6 +25623,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
@@ -18554,6 +25631,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
@@ -18568,6 +25646,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
@@ -18575,6 +25654,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -18589,6 +25669,7 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
@@ -18596,6 +25677,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     password_reset_tokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -18610,6 +25692,7 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
@@ -18617,6 +25700,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     password_reset_tokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -18647,6 +25731,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
@@ -18654,6 +25739,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     password_reset_tokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -18668,6 +25754,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
@@ -18675,6 +25762,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     password_reset_tokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -18689,12 +25777,14 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
@@ -18710,12 +25800,14 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -18736,12 +25828,14 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
@@ -18757,12 +25851,14 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -18783,12 +25879,14 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
@@ -18804,12 +25902,14 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -18819,6 +25919,46 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutInstCoordinatorPlacementsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutInstCoordinatorPlacementsInput, UserUncheckedCreateWithoutInstCoordinatorPlacementsInput>
+  }
+
+  export type DailyAttendanceCreateWithoutPlacementInput = {
+    id?: string
+    attendance_date: Date | string
+    check_in_time?: Date | string
+    submitted_lat?: number | null
+    submitted_lng?: number | null
+    accuracy_m?: number | null
+    distance_m?: number | null
+    presence_status?: $Enums.PresenceStatus
+    submitted_from_ip?: string | null
+    is_mocked?: boolean
+    risk_score?: number
+    verification_flags?: DailyAttendanceCreateverification_flagsInput | string[]
+  }
+
+  export type DailyAttendanceUncheckedCreateWithoutPlacementInput = {
+    id?: string
+    attendance_date: Date | string
+    check_in_time?: Date | string
+    submitted_lat?: number | null
+    submitted_lng?: number | null
+    accuracy_m?: number | null
+    distance_m?: number | null
+    presence_status?: $Enums.PresenceStatus
+    submitted_from_ip?: string | null
+    is_mocked?: boolean
+    risk_score?: number
+    verification_flags?: DailyAttendanceCreateverification_flagsInput | string[]
+  }
+
+  export type DailyAttendanceCreateOrConnectWithoutPlacementInput = {
+    where: DailyAttendanceWhereUniqueInput
+    create: XOR<DailyAttendanceCreateWithoutPlacementInput, DailyAttendanceUncheckedCreateWithoutPlacementInput>
+  }
+
+  export type DailyAttendanceCreateManyPlacementInputEnvelope = {
+    data: DailyAttendanceCreateManyPlacementInput | DailyAttendanceCreateManyPlacementInput[]
+    skipDuplicates?: boolean
   }
 
   export type DailyLogCreateWithoutPlacementInput = {
@@ -18856,6 +25996,7 @@ export namespace Prisma {
     week_no: number
     status?: $Enums.SubmissionStatus
     supervisor_remarks?: string | null
+    is_locked?: boolean
     submitted_at?: Date | string | null
     reviewed_at?: Date | string | null
     created_at?: Date | string
@@ -18869,6 +26010,7 @@ export namespace Prisma {
     week_no: number
     status?: $Enums.SubmissionStatus
     supervisor_remarks?: string | null
+    is_locked?: boolean
     submitted_at?: Date | string | null
     reviewed_at?: Date | string | null
     created_at?: Date | string
@@ -18964,6 +26106,96 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type VerificationTokenCreateWithoutPlacementInput = {
+    id?: string
+    token: string
+    week_no: number
+    email?: string | null
+    expires_at: Date | string
+    is_used?: boolean
+    created_at?: Date | string
+  }
+
+  export type VerificationTokenUncheckedCreateWithoutPlacementInput = {
+    id?: string
+    token: string
+    week_no: number
+    email?: string | null
+    expires_at: Date | string
+    is_used?: boolean
+    created_at?: Date | string
+  }
+
+  export type VerificationTokenCreateOrConnectWithoutPlacementInput = {
+    where: VerificationTokenWhereUniqueInput
+    create: XOR<VerificationTokenCreateWithoutPlacementInput, VerificationTokenUncheckedCreateWithoutPlacementInput>
+  }
+
+  export type VerificationTokenCreateManyPlacementInputEnvelope = {
+    data: VerificationTokenCreateManyPlacementInput | VerificationTokenCreateManyPlacementInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type VirtualSpotCheckCreateWithoutPlacementInput = {
+    id?: string
+    scheduled_at: Date | string
+    status?: $Enums.SpotCheckStatus
+    room_name: string
+    score?: number | null
+    notes?: string | null
+    created_at?: Date | string
+    coordinator?: UserCreateNestedOneWithoutConducted_spot_checksInput
+  }
+
+  export type VirtualSpotCheckUncheckedCreateWithoutPlacementInput = {
+    id?: string
+    coordinator_id?: string | null
+    scheduled_at: Date | string
+    status?: $Enums.SpotCheckStatus
+    room_name: string
+    score?: number | null
+    notes?: string | null
+    created_at?: Date | string
+  }
+
+  export type VirtualSpotCheckCreateOrConnectWithoutPlacementInput = {
+    where: VirtualSpotCheckWhereUniqueInput
+    create: XOR<VirtualSpotCheckCreateWithoutPlacementInput, VirtualSpotCheckUncheckedCreateWithoutPlacementInput>
+  }
+
+  export type VirtualSpotCheckCreateManyPlacementInputEnvelope = {
+    data: VirtualSpotCheckCreateManyPlacementInput | VirtualSpotCheckCreateManyPlacementInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ChatMessageCreateWithoutPlacementInput = {
+    id?: string
+    sender_id: string
+    sender_role: $Enums.Role
+    sender_name: string
+    content: string
+    created_at?: Date | string
+  }
+
+  export type ChatMessageUncheckedCreateWithoutPlacementInput = {
+    id?: string
+    sender_id: string
+    sender_role: $Enums.Role
+    sender_name: string
+    content: string
+    created_at?: Date | string
+  }
+
+  export type ChatMessageCreateOrConnectWithoutPlacementInput = {
+    where: ChatMessageWhereUniqueInput
+    create: XOR<ChatMessageCreateWithoutPlacementInput, ChatMessageUncheckedCreateWithoutPlacementInput>
+  }
+
+  export type ChatMessageCreateManyPlacementInputEnvelope = {
+    data: ChatMessageCreateManyPlacementInput | ChatMessageCreateManyPlacementInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutStudentPlacementsInput = {
     update: XOR<UserUpdateWithoutStudentPlacementsInput, UserUncheckedUpdateWithoutStudentPlacementsInput>
     create: XOR<UserCreateWithoutStudentPlacementsInput, UserUncheckedCreateWithoutStudentPlacementsInput>
@@ -18984,12 +26216,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
@@ -19005,12 +26239,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -19037,12 +26273,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
@@ -19058,12 +26296,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -19090,12 +26330,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
@@ -19111,16 +26353,53 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type DailyAttendanceUpsertWithWhereUniqueWithoutPlacementInput = {
+    where: DailyAttendanceWhereUniqueInput
+    update: XOR<DailyAttendanceUpdateWithoutPlacementInput, DailyAttendanceUncheckedUpdateWithoutPlacementInput>
+    create: XOR<DailyAttendanceCreateWithoutPlacementInput, DailyAttendanceUncheckedCreateWithoutPlacementInput>
+  }
+
+  export type DailyAttendanceUpdateWithWhereUniqueWithoutPlacementInput = {
+    where: DailyAttendanceWhereUniqueInput
+    data: XOR<DailyAttendanceUpdateWithoutPlacementInput, DailyAttendanceUncheckedUpdateWithoutPlacementInput>
+  }
+
+  export type DailyAttendanceUpdateManyWithWhereWithoutPlacementInput = {
+    where: DailyAttendanceScalarWhereInput
+    data: XOR<DailyAttendanceUpdateManyMutationInput, DailyAttendanceUncheckedUpdateManyWithoutPlacementInput>
+  }
+
+  export type DailyAttendanceScalarWhereInput = {
+    AND?: DailyAttendanceScalarWhereInput | DailyAttendanceScalarWhereInput[]
+    OR?: DailyAttendanceScalarWhereInput[]
+    NOT?: DailyAttendanceScalarWhereInput | DailyAttendanceScalarWhereInput[]
+    id?: UuidFilter<"DailyAttendance"> | string
+    placement_id?: UuidFilter<"DailyAttendance"> | string
+    attendance_date?: DateTimeFilter<"DailyAttendance"> | Date | string
+    check_in_time?: DateTimeFilter<"DailyAttendance"> | Date | string
+    submitted_lat?: FloatNullableFilter<"DailyAttendance"> | number | null
+    submitted_lng?: FloatNullableFilter<"DailyAttendance"> | number | null
+    accuracy_m?: FloatNullableFilter<"DailyAttendance"> | number | null
+    distance_m?: FloatNullableFilter<"DailyAttendance"> | number | null
+    presence_status?: EnumPresenceStatusFilter<"DailyAttendance"> | $Enums.PresenceStatus
+    submitted_from_ip?: StringNullableFilter<"DailyAttendance"> | string | null
+    is_mocked?: BoolFilter<"DailyAttendance"> | boolean
+    risk_score?: IntFilter<"DailyAttendance"> | number
+    verification_flags?: StringNullableListFilter<"DailyAttendance">
   }
 
   export type DailyLogUpsertWithWhereUniqueWithoutPlacementInput = {
@@ -19178,6 +26457,7 @@ export namespace Prisma {
     week_no?: IntFilter<"WeeklySubmission"> | number
     status?: EnumSubmissionStatusFilter<"WeeklySubmission"> | $Enums.SubmissionStatus
     supervisor_remarks?: StringNullableFilter<"WeeklySubmission"> | string | null
+    is_locked?: BoolFilter<"WeeklySubmission"> | boolean
     submitted_at?: DateTimeNullableFilter<"WeeklySubmission"> | Date | string | null
     reviewed_at?: DateTimeNullableFilter<"WeeklySubmission"> | Date | string | null
     created_at?: DateTimeFilter<"WeeklySubmission"> | Date | string
@@ -19241,6 +26521,225 @@ export namespace Prisma {
     data: XOR<LateFillingWaiverUpdateManyMutationInput, LateFillingWaiverUncheckedUpdateManyWithoutPlacementInput>
   }
 
+  export type VerificationTokenUpsertWithWhereUniqueWithoutPlacementInput = {
+    where: VerificationTokenWhereUniqueInput
+    update: XOR<VerificationTokenUpdateWithoutPlacementInput, VerificationTokenUncheckedUpdateWithoutPlacementInput>
+    create: XOR<VerificationTokenCreateWithoutPlacementInput, VerificationTokenUncheckedCreateWithoutPlacementInput>
+  }
+
+  export type VerificationTokenUpdateWithWhereUniqueWithoutPlacementInput = {
+    where: VerificationTokenWhereUniqueInput
+    data: XOR<VerificationTokenUpdateWithoutPlacementInput, VerificationTokenUncheckedUpdateWithoutPlacementInput>
+  }
+
+  export type VerificationTokenUpdateManyWithWhereWithoutPlacementInput = {
+    where: VerificationTokenScalarWhereInput
+    data: XOR<VerificationTokenUpdateManyMutationInput, VerificationTokenUncheckedUpdateManyWithoutPlacementInput>
+  }
+
+  export type VerificationTokenScalarWhereInput = {
+    AND?: VerificationTokenScalarWhereInput | VerificationTokenScalarWhereInput[]
+    OR?: VerificationTokenScalarWhereInput[]
+    NOT?: VerificationTokenScalarWhereInput | VerificationTokenScalarWhereInput[]
+    id?: UuidFilter<"VerificationToken"> | string
+    placement_id?: UuidFilter<"VerificationToken"> | string
+    token?: StringFilter<"VerificationToken"> | string
+    week_no?: IntFilter<"VerificationToken"> | number
+    email?: StringNullableFilter<"VerificationToken"> | string | null
+    expires_at?: DateTimeFilter<"VerificationToken"> | Date | string
+    is_used?: BoolFilter<"VerificationToken"> | boolean
+    created_at?: DateTimeFilter<"VerificationToken"> | Date | string
+  }
+
+  export type VirtualSpotCheckUpsertWithWhereUniqueWithoutPlacementInput = {
+    where: VirtualSpotCheckWhereUniqueInput
+    update: XOR<VirtualSpotCheckUpdateWithoutPlacementInput, VirtualSpotCheckUncheckedUpdateWithoutPlacementInput>
+    create: XOR<VirtualSpotCheckCreateWithoutPlacementInput, VirtualSpotCheckUncheckedCreateWithoutPlacementInput>
+  }
+
+  export type VirtualSpotCheckUpdateWithWhereUniqueWithoutPlacementInput = {
+    where: VirtualSpotCheckWhereUniqueInput
+    data: XOR<VirtualSpotCheckUpdateWithoutPlacementInput, VirtualSpotCheckUncheckedUpdateWithoutPlacementInput>
+  }
+
+  export type VirtualSpotCheckUpdateManyWithWhereWithoutPlacementInput = {
+    where: VirtualSpotCheckScalarWhereInput
+    data: XOR<VirtualSpotCheckUpdateManyMutationInput, VirtualSpotCheckUncheckedUpdateManyWithoutPlacementInput>
+  }
+
+  export type ChatMessageUpsertWithWhereUniqueWithoutPlacementInput = {
+    where: ChatMessageWhereUniqueInput
+    update: XOR<ChatMessageUpdateWithoutPlacementInput, ChatMessageUncheckedUpdateWithoutPlacementInput>
+    create: XOR<ChatMessageCreateWithoutPlacementInput, ChatMessageUncheckedCreateWithoutPlacementInput>
+  }
+
+  export type ChatMessageUpdateWithWhereUniqueWithoutPlacementInput = {
+    where: ChatMessageWhereUniqueInput
+    data: XOR<ChatMessageUpdateWithoutPlacementInput, ChatMessageUncheckedUpdateWithoutPlacementInput>
+  }
+
+  export type ChatMessageUpdateManyWithWhereWithoutPlacementInput = {
+    where: ChatMessageScalarWhereInput
+    data: XOR<ChatMessageUpdateManyMutationInput, ChatMessageUncheckedUpdateManyWithoutPlacementInput>
+  }
+
+  export type ChatMessageScalarWhereInput = {
+    AND?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
+    OR?: ChatMessageScalarWhereInput[]
+    NOT?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
+    id?: UuidFilter<"ChatMessage"> | string
+    placement_id?: UuidFilter<"ChatMessage"> | string
+    sender_id?: UuidFilter<"ChatMessage"> | string
+    sender_role?: EnumRoleFilter<"ChatMessage"> | $Enums.Role
+    sender_name?: StringFilter<"ChatMessage"> | string
+    content?: StringFilter<"ChatMessage"> | string
+    created_at?: DateTimeFilter<"ChatMessage"> | Date | string
+  }
+
+  export type PlacementCreateWithoutDaily_attendanceInput = {
+    id?: string
+    company_name: string
+    company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
+    company_contact?: string | null
+    company_email?: string | null
+    state?: string | null
+    city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
+    start_date: Date | string
+    end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    student: UserCreateNestedOneWithoutStudentPlacementsInput
+    ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
+    inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
+    daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
+    weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
+    clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageCreateNestedManyWithoutPlacementInput
+  }
+
+  export type PlacementUncheckedCreateWithoutDaily_attendanceInput = {
+    id?: string
+    student_id: string
+    company_name: string
+    ind_supervisor_id?: string | null
+    inst_coordinator_id?: string | null
+    company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
+    company_contact?: string | null
+    company_email?: string | null
+    state?: string | null
+    city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
+    start_date: Date | string
+    end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
+    weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
+    clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenUncheckedCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageUncheckedCreateNestedManyWithoutPlacementInput
+  }
+
+  export type PlacementCreateOrConnectWithoutDaily_attendanceInput = {
+    where: PlacementWhereUniqueInput
+    create: XOR<PlacementCreateWithoutDaily_attendanceInput, PlacementUncheckedCreateWithoutDaily_attendanceInput>
+  }
+
+  export type PlacementUpsertWithoutDaily_attendanceInput = {
+    update: XOR<PlacementUpdateWithoutDaily_attendanceInput, PlacementUncheckedUpdateWithoutDaily_attendanceInput>
+    create: XOR<PlacementCreateWithoutDaily_attendanceInput, PlacementUncheckedCreateWithoutDaily_attendanceInput>
+    where?: PlacementWhereInput
+  }
+
+  export type PlacementUpdateToOneWithWhereWithoutDaily_attendanceInput = {
+    where?: PlacementWhereInput
+    data: XOR<PlacementUpdateWithoutDaily_attendanceInput, PlacementUncheckedUpdateWithoutDaily_attendanceInput>
+  }
+
+  export type PlacementUpdateWithoutDaily_attendanceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    company_name?: StringFieldUpdateOperationsInput | string
+    company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
+    company_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
+    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
+    ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
+    inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
+    daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
+    weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
+    clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUpdateManyWithoutPlacementNestedInput
+  }
+
+  export type PlacementUncheckedUpdateWithoutDaily_attendanceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    student_id?: StringFieldUpdateOperationsInput | string
+    company_name?: StringFieldUpdateOperationsInput | string
+    ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
+    inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
+    company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
+    company_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
+    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
+    weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
+    clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUncheckedUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUncheckedUpdateManyWithoutPlacementNestedInput
+  }
+
   export type PlacementCreateWithoutDaily_logsInput = {
     id?: string
     company_name: string
@@ -19251,14 +26750,26 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
     ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
     inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
+    daily_attendance?: DailyAttendanceCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
     waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUncheckedCreateWithoutDaily_logsInput = {
@@ -19274,11 +26785,23 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    daily_attendance?: DailyAttendanceUncheckedCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
     waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenUncheckedCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageUncheckedCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementCreateOrConnectWithoutDaily_logsInput = {
@@ -19291,6 +26814,7 @@ export namespace Prisma {
     week_no: number
     status?: $Enums.SubmissionStatus
     supervisor_remarks?: string | null
+    is_locked?: boolean
     submitted_at?: Date | string | null
     reviewed_at?: Date | string | null
     created_at?: Date | string
@@ -19305,6 +26829,7 @@ export namespace Prisma {
     week_no: number
     status?: $Enums.SubmissionStatus
     supervisor_remarks?: string | null
+    is_locked?: boolean
     submitted_at?: Date | string | null
     reviewed_at?: Date | string | null
     created_at?: Date | string
@@ -19338,14 +26863,26 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
     ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
     inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
+    daily_attendance?: DailyAttendanceUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
     waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateWithoutDaily_logsInput = {
@@ -19361,11 +26898,23 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    daily_attendance?: DailyAttendanceUncheckedUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
     waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUncheckedUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type WeeklySubmissionUpsertWithoutDaily_logsInput = {
@@ -19384,6 +26933,7 @@ export namespace Prisma {
     week_no?: IntFieldUpdateOperationsInput | number
     status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
     supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    is_locked?: BoolFieldUpdateOperationsInput | boolean
     submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19398,6 +26948,7 @@ export namespace Prisma {
     week_no?: IntFieldUpdateOperationsInput | number
     status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
     supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    is_locked?: BoolFieldUpdateOperationsInput | boolean
     submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19415,14 +26966,26 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
     ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
     inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
+    daily_attendance?: DailyAttendanceCreateNestedManyWithoutPlacementInput
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
     waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUncheckedCreateWithoutWeekly_submissionsInput = {
@@ -19438,11 +27001,23 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    daily_attendance?: DailyAttendanceUncheckedCreateNestedManyWithoutPlacementInput
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
     waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenUncheckedCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageUncheckedCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementCreateOrConnectWithoutWeekly_submissionsInput = {
@@ -19525,14 +27100,26 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
     ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
     inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
+    daily_attendance?: DailyAttendanceUpdateManyWithoutPlacementNestedInput
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
     waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateWithoutWeekly_submissionsInput = {
@@ -19548,11 +27135,23 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    daily_attendance?: DailyAttendanceUncheckedUpdateManyWithoutPlacementNestedInput
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
     waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUncheckedUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type DailyLogUpsertWithWhereUniqueWithoutWeekly_submissionInput = {
@@ -19592,6 +27191,7 @@ export namespace Prisma {
     week_no: number
     status?: $Enums.SubmissionStatus
     supervisor_remarks?: string | null
+    is_locked?: boolean
     submitted_at?: Date | string | null
     reviewed_at?: Date | string | null
     created_at?: Date | string
@@ -19606,6 +27206,7 @@ export namespace Prisma {
     week_no: number
     status?: $Enums.SubmissionStatus
     supervisor_remarks?: string | null
+    is_locked?: boolean
     submitted_at?: Date | string | null
     reviewed_at?: Date | string | null
     created_at?: Date | string
@@ -19627,12 +27228,14 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
@@ -19648,12 +27251,14 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -19681,6 +27286,7 @@ export namespace Prisma {
     week_no?: IntFieldUpdateOperationsInput | number
     status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
     supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    is_locked?: BoolFieldUpdateOperationsInput | boolean
     submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19695,6 +27301,7 @@ export namespace Prisma {
     week_no?: IntFieldUpdateOperationsInput | number
     status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
     supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    is_locked?: BoolFieldUpdateOperationsInput | boolean
     submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19722,12 +27329,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
@@ -19743,12 +27352,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -19765,14 +27376,26 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
     ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
     inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
+    daily_attendance?: DailyAttendanceCreateNestedManyWithoutPlacementInput
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
     waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUncheckedCreateWithoutClearanceInput = {
@@ -19788,11 +27411,23 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    daily_attendance?: DailyAttendanceUncheckedCreateNestedManyWithoutPlacementInput
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
     waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenUncheckedCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageUncheckedCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementCreateOrConnectWithoutClearanceInput = {
@@ -19809,12 +27444,14 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
+    conducted_spot_checks?: VirtualSpotCheckCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
@@ -19830,12 +27467,14 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
     indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
     granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -19868,14 +27507,26 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
     ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
     inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
+    daily_attendance?: DailyAttendanceUpdateManyWithoutPlacementNestedInput
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
     waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateWithoutClearanceInput = {
@@ -19891,11 +27542,23 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    daily_attendance?: DailyAttendanceUncheckedUpdateManyWithoutPlacementNestedInput
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
     waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUncheckedUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type UserUpsertWithoutClearancesInput = {
@@ -19918,12 +27581,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
@@ -19939,12 +27604,14 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
     indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
     granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -19960,6 +27627,7 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
@@ -19967,6 +27635,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckCreateNestedManyWithoutCoordinatorInput
     granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -19981,6 +27650,7 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
@@ -19988,6 +27658,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutCoordinatorInput
     granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -20008,14 +27679,26 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
     student: UserCreateNestedOneWithoutStudentPlacementsInput
     ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
     inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
+    daily_attendance?: DailyAttendanceCreateNestedManyWithoutPlacementInput
     daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
+    magic_links?: VerificationTokenCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementUncheckedCreateWithoutWaiversInput = {
@@ -20031,11 +27714,23 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    daily_attendance?: DailyAttendanceUncheckedCreateNestedManyWithoutPlacementInput
     daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
     weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
     clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
+    magic_links?: VerificationTokenUncheckedCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageUncheckedCreateNestedManyWithoutPlacementInput
   }
 
   export type PlacementCreateOrConnectWithoutWaiversInput = {
@@ -20052,6 +27747,7 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
@@ -20059,6 +27755,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
@@ -20073,6 +27770,7 @@ export namespace Prisma {
     role?: $Enums.Role
     department?: string | null
     created_at?: Date | string
+    updated_at?: Date | string
     assigned_state?: string | null
     assigned_city?: string | null
     studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
@@ -20080,6 +27778,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
     approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
     clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutCoordinatorInput
     student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     password_reset_tokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
@@ -20110,6 +27809,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
@@ -20117,6 +27817,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUpdateManyWithoutCoordinatorNestedInput
     granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -20131,6 +27832,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
@@ -20138,6 +27840,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutCoordinatorNestedInput
     granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -20164,14 +27867,26 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
     ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
     inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
+    daily_attendance?: DailyAttendanceUpdateManyWithoutPlacementNestedInput
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateWithoutWaiversInput = {
@@ -20187,11 +27902,23 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    daily_attendance?: DailyAttendanceUncheckedUpdateManyWithoutPlacementNestedInput
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUncheckedUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type UserUpsertWithoutGranted_waiversInput = {
@@ -20214,6 +27941,7 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
@@ -20221,6 +27949,7 @@ export namespace Prisma {
     instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
     approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUpdateManyWithoutCoordinatorNestedInput
     student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
@@ -20235,6 +27964,403 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     department?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
+    studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
+    indSupervisorPlacements?: PlacementUncheckedUpdateManyWithoutInd_supervisorNestedInput
+    instCoordinatorPlacements?: PlacementUncheckedUpdateManyWithoutInst_coordinatorNestedInput
+    approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
+    clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
+    conducted_spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutCoordinatorNestedInput
+    student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    password_reset_tokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PlacementCreateWithoutMagic_linksInput = {
+    id?: string
+    company_name: string
+    company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
+    company_contact?: string | null
+    company_email?: string | null
+    state?: string | null
+    city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
+    start_date: Date | string
+    end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    student: UserCreateNestedOneWithoutStudentPlacementsInput
+    ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
+    inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
+    daily_attendance?: DailyAttendanceCreateNestedManyWithoutPlacementInput
+    daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
+    weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
+    clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageCreateNestedManyWithoutPlacementInput
+  }
+
+  export type PlacementUncheckedCreateWithoutMagic_linksInput = {
+    id?: string
+    student_id: string
+    company_name: string
+    ind_supervisor_id?: string | null
+    inst_coordinator_id?: string | null
+    company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
+    company_contact?: string | null
+    company_email?: string | null
+    state?: string | null
+    city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
+    start_date: Date | string
+    end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    daily_attendance?: DailyAttendanceUncheckedCreateNestedManyWithoutPlacementInput
+    daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
+    weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
+    clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageUncheckedCreateNestedManyWithoutPlacementInput
+  }
+
+  export type PlacementCreateOrConnectWithoutMagic_linksInput = {
+    where: PlacementWhereUniqueInput
+    create: XOR<PlacementCreateWithoutMagic_linksInput, PlacementUncheckedCreateWithoutMagic_linksInput>
+  }
+
+  export type PlacementUpsertWithoutMagic_linksInput = {
+    update: XOR<PlacementUpdateWithoutMagic_linksInput, PlacementUncheckedUpdateWithoutMagic_linksInput>
+    create: XOR<PlacementCreateWithoutMagic_linksInput, PlacementUncheckedCreateWithoutMagic_linksInput>
+    where?: PlacementWhereInput
+  }
+
+  export type PlacementUpdateToOneWithWhereWithoutMagic_linksInput = {
+    where?: PlacementWhereInput
+    data: XOR<PlacementUpdateWithoutMagic_linksInput, PlacementUncheckedUpdateWithoutMagic_linksInput>
+  }
+
+  export type PlacementUpdateWithoutMagic_linksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    company_name?: StringFieldUpdateOperationsInput | string
+    company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
+    company_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
+    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
+    ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
+    inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
+    daily_attendance?: DailyAttendanceUpdateManyWithoutPlacementNestedInput
+    daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
+    weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
+    clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUpdateManyWithoutPlacementNestedInput
+  }
+
+  export type PlacementUncheckedUpdateWithoutMagic_linksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    student_id?: StringFieldUpdateOperationsInput | string
+    company_name?: StringFieldUpdateOperationsInput | string
+    ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
+    inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
+    company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
+    company_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
+    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    daily_attendance?: DailyAttendanceUncheckedUpdateManyWithoutPlacementNestedInput
+    daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
+    weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
+    clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUncheckedUpdateManyWithoutPlacementNestedInput
+  }
+
+  export type PlacementCreateWithoutSpot_checksInput = {
+    id?: string
+    company_name: string
+    company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
+    company_contact?: string | null
+    company_email?: string | null
+    state?: string | null
+    city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
+    start_date: Date | string
+    end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    student: UserCreateNestedOneWithoutStudentPlacementsInput
+    ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
+    inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
+    daily_attendance?: DailyAttendanceCreateNestedManyWithoutPlacementInput
+    daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
+    weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
+    clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageCreateNestedManyWithoutPlacementInput
+  }
+
+  export type PlacementUncheckedCreateWithoutSpot_checksInput = {
+    id?: string
+    student_id: string
+    company_name: string
+    ind_supervisor_id?: string | null
+    inst_coordinator_id?: string | null
+    company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
+    company_contact?: string | null
+    company_email?: string | null
+    state?: string | null
+    city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
+    start_date: Date | string
+    end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    daily_attendance?: DailyAttendanceUncheckedCreateNestedManyWithoutPlacementInput
+    daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
+    weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
+    clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenUncheckedCreateNestedManyWithoutPlacementInput
+    chat_messages?: ChatMessageUncheckedCreateNestedManyWithoutPlacementInput
+  }
+
+  export type PlacementCreateOrConnectWithoutSpot_checksInput = {
+    where: PlacementWhereUniqueInput
+    create: XOR<PlacementCreateWithoutSpot_checksInput, PlacementUncheckedCreateWithoutSpot_checksInput>
+  }
+
+  export type UserCreateWithoutConducted_spot_checksInput = {
+    id?: string
+    email: string
+    matric_no?: string | null
+    password_hash: string
+    name: string
+    role?: $Enums.Role
+    department?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
+    studentPlacements?: PlacementCreateNestedManyWithoutStudentInput
+    indSupervisorPlacements?: PlacementCreateNestedManyWithoutInd_supervisorInput
+    instCoordinatorPlacements?: PlacementCreateNestedManyWithoutInst_coordinatorInput
+    approvals?: LogBookApprovalCreateNestedManyWithoutSupervisorInput
+    clearances?: FinalClearanceCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverCreateNestedManyWithoutGranted_byInput
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    password_reset_tokens?: PasswordResetTokenCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutConducted_spot_checksInput = {
+    id?: string
+    email: string
+    matric_no?: string | null
+    password_hash: string
+    name: string
+    role?: $Enums.Role
+    department?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    assigned_state?: string | null
+    assigned_city?: string | null
+    studentPlacements?: PlacementUncheckedCreateNestedManyWithoutStudentInput
+    indSupervisorPlacements?: PlacementUncheckedCreateNestedManyWithoutInd_supervisorInput
+    instCoordinatorPlacements?: PlacementUncheckedCreateNestedManyWithoutInst_coordinatorInput
+    approvals?: LogBookApprovalUncheckedCreateNestedManyWithoutSupervisorInput
+    clearances?: FinalClearanceUncheckedCreateNestedManyWithoutItf_officialInput
+    student_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutStudentInput
+    granted_waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutGranted_byInput
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    password_reset_tokens?: PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutConducted_spot_checksInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutConducted_spot_checksInput, UserUncheckedCreateWithoutConducted_spot_checksInput>
+  }
+
+  export type PlacementUpsertWithoutSpot_checksInput = {
+    update: XOR<PlacementUpdateWithoutSpot_checksInput, PlacementUncheckedUpdateWithoutSpot_checksInput>
+    create: XOR<PlacementCreateWithoutSpot_checksInput, PlacementUncheckedCreateWithoutSpot_checksInput>
+    where?: PlacementWhereInput
+  }
+
+  export type PlacementUpdateToOneWithWhereWithoutSpot_checksInput = {
+    where?: PlacementWhereInput
+    data: XOR<PlacementUpdateWithoutSpot_checksInput, PlacementUncheckedUpdateWithoutSpot_checksInput>
+  }
+
+  export type PlacementUpdateWithoutSpot_checksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    company_name?: StringFieldUpdateOperationsInput | string
+    company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
+    company_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
+    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
+    ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
+    inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
+    daily_attendance?: DailyAttendanceUpdateManyWithoutPlacementNestedInput
+    daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
+    weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
+    clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUpdateManyWithoutPlacementNestedInput
+  }
+
+  export type PlacementUncheckedUpdateWithoutSpot_checksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    student_id?: StringFieldUpdateOperationsInput | string
+    company_name?: StringFieldUpdateOperationsInput | string
+    ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
+    inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
+    company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
+    company_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
+    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    daily_attendance?: DailyAttendanceUncheckedUpdateManyWithoutPlacementNestedInput
+    daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
+    weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
+    clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUncheckedUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUncheckedUpdateManyWithoutPlacementNestedInput
+  }
+
+  export type UserUpsertWithoutConducted_spot_checksInput = {
+    update: XOR<UserUpdateWithoutConducted_spot_checksInput, UserUncheckedUpdateWithoutConducted_spot_checksInput>
+    create: XOR<UserCreateWithoutConducted_spot_checksInput, UserUncheckedCreateWithoutConducted_spot_checksInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutConducted_spot_checksInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutConducted_spot_checksInput, UserUncheckedUpdateWithoutConducted_spot_checksInput>
+  }
+
+  export type UserUpdateWithoutConducted_spot_checksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
+    password_hash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
+    assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
+    studentPlacements?: PlacementUpdateManyWithoutStudentNestedInput
+    indSupervisorPlacements?: PlacementUpdateManyWithoutInd_supervisorNestedInput
+    instCoordinatorPlacements?: PlacementUpdateManyWithoutInst_coordinatorNestedInput
+    approvals?: LogBookApprovalUpdateManyWithoutSupervisorNestedInput
+    clearances?: FinalClearanceUpdateManyWithoutItf_officialNestedInput
+    student_waivers?: LateFillingWaiverUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUpdateManyWithoutGranted_byNestedInput
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    password_reset_tokens?: PasswordResetTokenUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutConducted_spot_checksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    matric_no?: NullableStringFieldUpdateOperationsInput | string | null
+    password_hash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    department?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     assigned_state?: NullableStringFieldUpdateOperationsInput | string | null
     assigned_city?: NullableStringFieldUpdateOperationsInput | string | null
     studentPlacements?: PlacementUncheckedUpdateManyWithoutStudentNestedInput
@@ -20243,8 +28369,153 @@ export namespace Prisma {
     approvals?: LogBookApprovalUncheckedUpdateManyWithoutSupervisorNestedInput
     clearances?: FinalClearanceUncheckedUpdateManyWithoutItf_officialNestedInput
     student_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutStudentNestedInput
+    granted_waivers?: LateFillingWaiverUncheckedUpdateManyWithoutGranted_byNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     password_reset_tokens?: PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PlacementCreateWithoutChat_messagesInput = {
+    id?: string
+    company_name: string
+    company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
+    company_contact?: string | null
+    company_email?: string | null
+    state?: string | null
+    city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
+    start_date: Date | string
+    end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    student: UserCreateNestedOneWithoutStudentPlacementsInput
+    ind_supervisor?: UserCreateNestedOneWithoutIndSupervisorPlacementsInput
+    inst_coordinator?: UserCreateNestedOneWithoutInstCoordinatorPlacementsInput
+    daily_attendance?: DailyAttendanceCreateNestedManyWithoutPlacementInput
+    daily_logs?: DailyLogCreateNestedManyWithoutPlacementInput
+    weekly_submissions?: WeeklySubmissionCreateNestedManyWithoutPlacementInput
+    clearance?: FinalClearanceCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckCreateNestedManyWithoutPlacementInput
+  }
+
+  export type PlacementUncheckedCreateWithoutChat_messagesInput = {
+    id?: string
+    student_id: string
+    company_name: string
+    ind_supervisor_id?: string | null
+    inst_coordinator_id?: string | null
+    company_address?: string | null
+    ind_supervisor_name?: string | null
+    ind_supervisor_email?: string | null
+    company_contact?: string | null
+    company_email?: string | null
+    state?: string | null
+    city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
+    start_date: Date | string
+    end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
+    daily_attendance?: DailyAttendanceUncheckedCreateNestedManyWithoutPlacementInput
+    daily_logs?: DailyLogUncheckedCreateNestedManyWithoutPlacementInput
+    weekly_submissions?: WeeklySubmissionUncheckedCreateNestedManyWithoutPlacementInput
+    clearance?: FinalClearanceUncheckedCreateNestedOneWithoutPlacementInput
+    waivers?: LateFillingWaiverUncheckedCreateNestedManyWithoutPlacementInput
+    magic_links?: VerificationTokenUncheckedCreateNestedManyWithoutPlacementInput
+    spot_checks?: VirtualSpotCheckUncheckedCreateNestedManyWithoutPlacementInput
+  }
+
+  export type PlacementCreateOrConnectWithoutChat_messagesInput = {
+    where: PlacementWhereUniqueInput
+    create: XOR<PlacementCreateWithoutChat_messagesInput, PlacementUncheckedCreateWithoutChat_messagesInput>
+  }
+
+  export type PlacementUpsertWithoutChat_messagesInput = {
+    update: XOR<PlacementUpdateWithoutChat_messagesInput, PlacementUncheckedUpdateWithoutChat_messagesInput>
+    create: XOR<PlacementCreateWithoutChat_messagesInput, PlacementUncheckedCreateWithoutChat_messagesInput>
+    where?: PlacementWhereInput
+  }
+
+  export type PlacementUpdateToOneWithWhereWithoutChat_messagesInput = {
+    where?: PlacementWhereInput
+    data: XOR<PlacementUpdateWithoutChat_messagesInput, PlacementUncheckedUpdateWithoutChat_messagesInput>
+  }
+
+  export type PlacementUpdateWithoutChat_messagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    company_name?: StringFieldUpdateOperationsInput | string
+    company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
+    company_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
+    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
+    ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
+    inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
+    daily_attendance?: DailyAttendanceUpdateManyWithoutPlacementNestedInput
+    daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
+    weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
+    clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUpdateManyWithoutPlacementNestedInput
+  }
+
+  export type PlacementUncheckedUpdateWithoutChat_messagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    student_id?: StringFieldUpdateOperationsInput | string
+    company_name?: StringFieldUpdateOperationsInput | string
+    ind_supervisor_id?: NullableStringFieldUpdateOperationsInput | string | null
+    inst_coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
+    company_address?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    ind_supervisor_email?: NullableStringFieldUpdateOperationsInput | string | null
+    company_contact?: NullableStringFieldUpdateOperationsInput | string | null
+    company_email?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
+    start_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    daily_attendance?: DailyAttendanceUncheckedUpdateManyWithoutPlacementNestedInput
+    daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
+    weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
+    clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
+    waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUncheckedUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementCreateManyStudentInput = {
@@ -20259,8 +28530,16 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type PlacementCreateManyInd_supervisorInput = {
@@ -20275,8 +28554,16 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type PlacementCreateManyInst_coordinatorInput = {
@@ -20291,8 +28578,16 @@ export namespace Prisma {
     company_email?: string | null
     state?: string | null
     city?: string | null
+    company_rc_number?: string | null
+    company_domain?: string | null
+    company_lat?: number | null
+    company_lng?: number | null
+    geofence_radius_m?: number
+    is_company_verified?: boolean
     start_date: Date | string
     end_date: Date | string
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type LogBookApprovalCreateManySupervisorInput = {
@@ -20315,6 +28610,17 @@ export namespace Prisma {
     final_pdf_hash?: string | null
     itf_stamp_hash?: string | null
     clearance_timestamp?: Date | string | null
+  }
+
+  export type VirtualSpotCheckCreateManyCoordinatorInput = {
+    id?: string
+    placement_id: string
+    scheduled_at: Date | string
+    status?: $Enums.SpotCheckStatus
+    room_name: string
+    score?: number | null
+    notes?: string | null
+    created_at?: Date | string
   }
 
   export type LateFillingWaiverCreateManyStudentInput = {
@@ -20361,7 +28667,6 @@ export namespace Prisma {
     token: string
     expires_at: Date | string
     created_at?: Date | string
-    jon: string
   }
 
   export type PlacementUpdateWithoutStudentInput = {
@@ -20374,14 +28679,26 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
     inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
+    daily_attendance?: DailyAttendanceUpdateManyWithoutPlacementNestedInput
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
     waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateWithoutStudentInput = {
@@ -20396,12 +28713,24 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    daily_attendance?: DailyAttendanceUncheckedUpdateManyWithoutPlacementNestedInput
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
     waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUncheckedUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateManyWithoutStudentInput = {
@@ -20416,8 +28745,16 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlacementUpdateWithoutInd_supervisorInput = {
@@ -20430,14 +28767,26 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
     inst_coordinator?: UserUpdateOneWithoutInstCoordinatorPlacementsNestedInput
+    daily_attendance?: DailyAttendanceUpdateManyWithoutPlacementNestedInput
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
     waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateWithoutInd_supervisorInput = {
@@ -20452,12 +28801,24 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    daily_attendance?: DailyAttendanceUncheckedUpdateManyWithoutPlacementNestedInput
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
     waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUncheckedUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateManyWithoutInd_supervisorInput = {
@@ -20472,8 +28833,16 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlacementUpdateWithoutInst_coordinatorInput = {
@@ -20486,14 +28855,26 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutStudentPlacementsNestedInput
     ind_supervisor?: UserUpdateOneWithoutIndSupervisorPlacementsNestedInput
+    daily_attendance?: DailyAttendanceUpdateManyWithoutPlacementNestedInput
     daily_logs?: DailyLogUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUpdateOneWithoutPlacementNestedInput
     waivers?: LateFillingWaiverUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateWithoutInst_coordinatorInput = {
@@ -20508,12 +28889,24 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    daily_attendance?: DailyAttendanceUncheckedUpdateManyWithoutPlacementNestedInput
     daily_logs?: DailyLogUncheckedUpdateManyWithoutPlacementNestedInput
     weekly_submissions?: WeeklySubmissionUncheckedUpdateManyWithoutPlacementNestedInput
     clearance?: FinalClearanceUncheckedUpdateOneWithoutPlacementNestedInput
     waivers?: LateFillingWaiverUncheckedUpdateManyWithoutPlacementNestedInput
+    magic_links?: VerificationTokenUncheckedUpdateManyWithoutPlacementNestedInput
+    spot_checks?: VirtualSpotCheckUncheckedUpdateManyWithoutPlacementNestedInput
+    chat_messages?: ChatMessageUncheckedUpdateManyWithoutPlacementNestedInput
   }
 
   export type PlacementUncheckedUpdateManyWithoutInst_coordinatorInput = {
@@ -20528,8 +28921,16 @@ export namespace Prisma {
     company_email?: NullableStringFieldUpdateOperationsInput | string | null
     state?: NullableStringFieldUpdateOperationsInput | string | null
     city?: NullableStringFieldUpdateOperationsInput | string | null
+    company_rc_number?: NullableStringFieldUpdateOperationsInput | string | null
+    company_domain?: NullableStringFieldUpdateOperationsInput | string | null
+    company_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    company_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    geofence_radius_m?: IntFieldUpdateOperationsInput | number
+    is_company_verified?: BoolFieldUpdateOperationsInput | boolean
     start_date?: DateTimeFieldUpdateOperationsInput | Date | string
     end_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LogBookApprovalUpdateWithoutSupervisorInput = {
@@ -20596,6 +28997,39 @@ export namespace Prisma {
     final_pdf_hash?: NullableStringFieldUpdateOperationsInput | string | null
     itf_stamp_hash?: NullableStringFieldUpdateOperationsInput | string | null
     clearance_timestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type VirtualSpotCheckUpdateWithoutCoordinatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduled_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSpotCheckStatusFieldUpdateOperationsInput | $Enums.SpotCheckStatus
+    room_name?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    placement?: PlacementUpdateOneRequiredWithoutSpot_checksNestedInput
+  }
+
+  export type VirtualSpotCheckUncheckedUpdateWithoutCoordinatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    scheduled_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSpotCheckStatusFieldUpdateOperationsInput | $Enums.SpotCheckStatus
+    room_name?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VirtualSpotCheckUncheckedUpdateManyWithoutCoordinatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    placement_id?: StringFieldUpdateOperationsInput | string
+    scheduled_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSpotCheckStatusFieldUpdateOperationsInput | $Enums.SpotCheckStatus
+    room_name?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LateFillingWaiverUpdateWithoutStudentInput = {
@@ -20720,7 +29154,6 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    jon?: StringFieldUpdateOperationsInput | string
   }
 
   export type PasswordResetTokenUncheckedUpdateWithoutUserInput = {
@@ -20728,7 +29161,6 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    jon?: StringFieldUpdateOperationsInput | string
   }
 
   export type PasswordResetTokenUncheckedUpdateManyWithoutUserInput = {
@@ -20736,7 +29168,21 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    jon?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type DailyAttendanceCreateManyPlacementInput = {
+    id?: string
+    attendance_date: Date | string
+    check_in_time?: Date | string
+    submitted_lat?: number | null
+    submitted_lng?: number | null
+    accuracy_m?: number | null
+    distance_m?: number | null
+    presence_status?: $Enums.PresenceStatus
+    submitted_from_ip?: string | null
+    is_mocked?: boolean
+    risk_score?: number
+    verification_flags?: DailyAttendanceCreateverification_flagsInput | string[]
   }
 
   export type DailyLogCreateManyPlacementInput = {
@@ -20754,6 +29200,7 @@ export namespace Prisma {
     week_no: number
     status?: $Enums.SubmissionStatus
     supervisor_remarks?: string | null
+    is_locked?: boolean
     submitted_at?: Date | string | null
     reviewed_at?: Date | string | null
     created_at?: Date | string
@@ -20774,6 +29221,81 @@ export namespace Prisma {
     expires_at: Date | string
     created_at?: Date | string
     updated_at?: Date | string
+  }
+
+  export type VerificationTokenCreateManyPlacementInput = {
+    id?: string
+    token: string
+    week_no: number
+    email?: string | null
+    expires_at: Date | string
+    is_used?: boolean
+    created_at?: Date | string
+  }
+
+  export type VirtualSpotCheckCreateManyPlacementInput = {
+    id?: string
+    coordinator_id?: string | null
+    scheduled_at: Date | string
+    status?: $Enums.SpotCheckStatus
+    room_name: string
+    score?: number | null
+    notes?: string | null
+    created_at?: Date | string
+  }
+
+  export type ChatMessageCreateManyPlacementInput = {
+    id?: string
+    sender_id: string
+    sender_role: $Enums.Role
+    sender_name: string
+    content: string
+    created_at?: Date | string
+  }
+
+  export type DailyAttendanceUpdateWithoutPlacementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    attendance_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    check_in_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    submitted_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    submitted_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    accuracy_m?: NullableFloatFieldUpdateOperationsInput | number | null
+    distance_m?: NullableFloatFieldUpdateOperationsInput | number | null
+    presence_status?: EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+    submitted_from_ip?: NullableStringFieldUpdateOperationsInput | string | null
+    is_mocked?: BoolFieldUpdateOperationsInput | boolean
+    risk_score?: IntFieldUpdateOperationsInput | number
+    verification_flags?: DailyAttendanceUpdateverification_flagsInput | string[]
+  }
+
+  export type DailyAttendanceUncheckedUpdateWithoutPlacementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    attendance_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    check_in_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    submitted_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    submitted_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    accuracy_m?: NullableFloatFieldUpdateOperationsInput | number | null
+    distance_m?: NullableFloatFieldUpdateOperationsInput | number | null
+    presence_status?: EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+    submitted_from_ip?: NullableStringFieldUpdateOperationsInput | string | null
+    is_mocked?: BoolFieldUpdateOperationsInput | boolean
+    risk_score?: IntFieldUpdateOperationsInput | number
+    verification_flags?: DailyAttendanceUpdateverification_flagsInput | string[]
+  }
+
+  export type DailyAttendanceUncheckedUpdateManyWithoutPlacementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    attendance_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    check_in_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    submitted_lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    submitted_lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    accuracy_m?: NullableFloatFieldUpdateOperationsInput | number | null
+    distance_m?: NullableFloatFieldUpdateOperationsInput | number | null
+    presence_status?: EnumPresenceStatusFieldUpdateOperationsInput | $Enums.PresenceStatus
+    submitted_from_ip?: NullableStringFieldUpdateOperationsInput | string | null
+    is_mocked?: BoolFieldUpdateOperationsInput | boolean
+    risk_score?: IntFieldUpdateOperationsInput | number
+    verification_flags?: DailyAttendanceUpdateverification_flagsInput | string[]
   }
 
   export type DailyLogUpdateWithoutPlacementInput = {
@@ -20811,6 +29333,7 @@ export namespace Prisma {
     week_no?: IntFieldUpdateOperationsInput | number
     status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
     supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    is_locked?: BoolFieldUpdateOperationsInput | boolean
     submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20824,6 +29347,7 @@ export namespace Prisma {
     week_no?: IntFieldUpdateOperationsInput | number
     status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
     supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    is_locked?: BoolFieldUpdateOperationsInput | boolean
     submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20837,6 +29361,7 @@ export namespace Prisma {
     week_no?: IntFieldUpdateOperationsInput | number
     status?: EnumSubmissionStatusFieldUpdateOperationsInput | $Enums.SubmissionStatus
     supervisor_remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    is_locked?: BoolFieldUpdateOperationsInput | boolean
     submitted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20889,6 +29414,96 @@ export namespace Prisma {
     expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationTokenUpdateWithoutPlacementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_used?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationTokenUncheckedUpdateWithoutPlacementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_used?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationTokenUncheckedUpdateManyWithoutPlacementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    week_no?: IntFieldUpdateOperationsInput | number
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    expires_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    is_used?: BoolFieldUpdateOperationsInput | boolean
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VirtualSpotCheckUpdateWithoutPlacementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    scheduled_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSpotCheckStatusFieldUpdateOperationsInput | $Enums.SpotCheckStatus
+    room_name?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    coordinator?: UserUpdateOneWithoutConducted_spot_checksNestedInput
+  }
+
+  export type VirtualSpotCheckUncheckedUpdateWithoutPlacementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduled_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSpotCheckStatusFieldUpdateOperationsInput | $Enums.SpotCheckStatus
+    room_name?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VirtualSpotCheckUncheckedUpdateManyWithoutPlacementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    coordinator_id?: NullableStringFieldUpdateOperationsInput | string | null
+    scheduled_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumSpotCheckStatusFieldUpdateOperationsInput | $Enums.SpotCheckStatus
+    room_name?: StringFieldUpdateOperationsInput | string
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatMessageUpdateWithoutPlacementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sender_id?: StringFieldUpdateOperationsInput | string
+    sender_role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    sender_name?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatMessageUncheckedUpdateWithoutPlacementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sender_id?: StringFieldUpdateOperationsInput | string
+    sender_role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    sender_name?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatMessageUncheckedUpdateManyWithoutPlacementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sender_id?: StringFieldUpdateOperationsInput | string
+    sender_role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    sender_name?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DailyLogCreateManyWeekly_submissionInput = {

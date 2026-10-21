@@ -223,3 +223,99 @@ export async function reviewWeeklySubmission(
     next(error);
   }
 }
+
+
+export async function setSupervisorCompanyLocation(
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const supervisorId = req.user?.id;
+    const supervisorEmail = req.user?.email;
+
+    if (!supervisorId && !supervisorEmail) {
+      throw new ForbiddenError('Supervisor authentication required');
+    }
+
+    const { latitude, longitude, radiusMeters, accuracy } = req.body;
+
+    if (latitude === undefined || longitude === undefined) {
+      throw new BadRequestError('Device GPS latitude and longitude are required');
+    }
+
+    const radius = radiusMeters ? Number(radiusMeters) : 200;
+
+    // Optional signal check: prevent saving if device accuracy is too poor (> 500m)
+    if (accuracy && Number(accuracy) > 500) {
+      throw new BadRequestError(
+        `GPS signal accuracy is too weak (±${Math.round(accuracy)}m). Step outdoors or near a window and try again.`
+      );
+    }
+
+    // Update all placements associated with this supervisor's ID or email
+    const updatedBatch = await prisma.placement.updateMany({
+      where: {
+        OR: [
+          ...(supervisorId ? [{ ind_supervisor_id: supervisorId }] : []),
+          ...(supervisorEmail ? [{ ind_supervisor_email: supervisorEmail }] : []),
+        ],
+      },
+      data: {
+        company_lat: Number(latitude),
+        company_lng: Number(longitude),
+        geofence_radius_m: radius,
+        is_company_verified: true,
+      },
+    });
+
+    res.status(200).json({
+      status: 'success',
+      message: `Official workplace location locked for ${updatedBatch.count} assigned placement(s).`,
+      data: {
+        company_lat: Number(latitude),
+        company_lng: Number(longitude),
+        geofence_radius_m: radius,
+        is_company_verified: true,
+        placements_updated: updatedBatch.count,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getSupervisorCompanyLocation(
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const supervisorId = req.user?.id;
+    const supervisorEmail = req.user?.email;
+
+    const placement = await prisma.placement.findFirst({
+      where: {
+        OR: [
+          ...(supervisorId ? [{ ind_supervisor_id: supervisorId }] : []),
+          ...(supervisorEmail ? [{ ind_supervisor_email: supervisorEmail }] : []),
+        ],
+      },
+      select: {
+        company_name: true,
+        company_address: true,
+        company_lat: true,
+        company_lng: true,
+        geofence_radius_m: true,
+        is_company_verified: true,
+      },
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: placement || null,
+    });
+  } catch (error) {
+    next(error);
+  }
+}

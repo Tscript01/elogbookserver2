@@ -2,9 +2,13 @@ import type { Response, NextFunction } from 'express';
 import { prisma } from '../config/prisma';
 import type { AuthenticatedRequest } from '../middlewares/auth';
 import { BadRequestError, ForbiddenError, NotFoundError } from '../utils/errors';
+import { verifyPresenceTelemetry } from '../utils/geofence';
+import { PresenceStatus } from '../generated/prisma';
 
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 const ONE_WEEK_MS = 7 * ONE_DAY_MS;
+
+
 
 export async function createDailyLog(
   req: AuthenticatedRequest,
@@ -44,14 +48,14 @@ export async function createDailyLog(
         const placementEnd = new Date(placement.end_date);
         placementEnd.setUTCHours(23, 59, 59, 999);
 
-        // Normalize placement commencement to its Monday 00:00:00.000 UTC
+        // Normalize placement start to Monday UTC
         const startDay = placementStart.getUTCDay();
         const startOffset = startDay === 0 ? -6 : 1 - startDay;
         const baseMonday = new Date(placementStart.getTime());
         baseMonday.setUTCDate(baseMonday.getUTCDate() + startOffset);
         baseMonday.setUTCHours(0, 0, 0, 0);
 
-        // Normalize current system time to current week's Monday 00:00:00.000 UTC
+        // Normalize current system time to active week's Monday UTC
         const nowDay = now.getUTCDay();
         const nowOffset = nowDay === 0 ? -6 : 1 - nowDay;
         const currentWeekMonday = new Date(now.getTime());
@@ -70,7 +74,7 @@ export async function createDailyLog(
           );
         }
 
-        // Active week number calculation based on current calendar week Monday
+        // Active week number check
         const elapsedWeeksMs = currentWeekMonday.getTime() - baseMonday.getTime();
         const currentActiveWeek = Math.floor(elapsedWeeksMs / ONE_WEEK_MS) + 1;
 
@@ -80,30 +84,24 @@ export async function createDailyLog(
           );
         }
 
-        // Active week boundaries: Monday 00:00:00.000 to Saturday 23:59:59.999 UTC
+        // Monday to Saturday window check
         const activeWeekStart = new Date(currentWeekMonday.getTime());
         const activeWeekSaturdayEnd = new Date(currentWeekMonday.getTime() + 6 * ONE_DAY_MS - 1);
 
-        // Restrict Sunday submissions (SIWES activities operate Mon - Sat)
         if (logDate.getUTCDay() === 0) {
           throw new BadRequestError('SIWES daily logs cannot be recorded for Sunday.');
         }
 
-        // Check that selected date falls between Monday and Saturday of current active week
         if (
           logDate.getTime() < activeWeekStart.getTime() ||
           logDate.getTime() > activeWeekSaturdayEnd.getTime()
         ) {
           throw new BadRequestError(
-            `The log date (${logDate.toISOString().slice(0, 10)}) does not fall within the current active week (Week ${currentActiveWeek}: ${activeWeekStart.toISOString().slice(0, 10)} to ${activeWeekSaturdayEnd.toISOString().slice(0, 10)}).`
+            `The log date (${logDate.toISOString().slice(0, 10)}) does not fall within the current active week.`
           );
         }
 
-        if (logDate.getTime() > placementEnd.getTime()) {
-          throw new BadRequestError('The selected log date exceeds your placement conclusion date.');
-        }
-
-        // Handle weekly submission container status
+        // Submission container management
         let currentSubmission = await tx.weeklySubmission.findUnique({
           where: {
             placement_id_week_no: {
@@ -119,7 +117,7 @@ export async function createDailyLog(
           );
         }
 
-        if (!currentSubmission || currentSubmission.status === null) {
+        if (!currentSubmission) {
           currentSubmission = await tx.weeklySubmission.create({
             data: {
               placement_id: placement.id,
@@ -127,14 +125,9 @@ export async function createDailyLog(
               status: 'PENDING',
             },
           });
-        } else if (currentSubmission.status === 'REJECTED') {
-          currentSubmission = await tx.weeklySubmission.update({
-            where: { id: currentSubmission.id },
-            data: { status: 'PENDING' },
-          });
         }
 
-        // Prevent duplicate entries for the exact calendar work day
+        // Prevent duplicate logs on the same work day
         const dayStart = new Date(logDate.getTime());
         dayStart.setUTCHours(0, 0, 0, 0);
         const dayEnd = new Date(logDate.getTime());

@@ -5,7 +5,9 @@ import authRoutes from "./routes/auth.routes";
 import placementRoutes from "./routes/placement.route";
 import submissionRoutes from './routes/submission.routes';
 import coordinatorRouter from './routes/coordinator.routes';
-import studentRoutes from './routes/student.routes';
+import studentRoutes from './routes/student.routes';import attendanceRoutes from './routes/attendance.routes';
+
+
 import itfRoutes from './routes/itf.routes';
 import { errorHandler } from "./middlewares/errorHandler";
 import logRoutes from "./routes/log.routes";
@@ -39,7 +41,7 @@ app.use('/api/coordinator', coordinatorRouter);
 app.use('/api/student', studentRoutes);
 app.use('/api/admin', adminRoutes);
 app.use("/api/itf", itfRoutes);
-
+app.use('/api/attendance', attendanceRoutes);
 
 app.get("/api/health", (_req: Request, res: Response) => {
   res.json({ status: "ok", port: PORT });

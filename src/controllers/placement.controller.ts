@@ -466,4 +466,41 @@ export const getPlacementById = async (
   }
 };
 
+
+
+export const updateCompanyGeofence = async (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { placementId } = req.params;
+    const { company_lat, company_lng, geofence_radius_m, company_rc_number, company_domain } = req.body;
+
+    if (company_lat === undefined || company_lng === undefined) {
+      res.status(400).json({ error: "Latitude and Longitude are required" });
+      return;
+    }
+
+    const updated = await prisma.placement.update({
+      where: { id: placementId },
+      data: {
+        company_lat: Number(company_lat),
+        company_lng: Number(company_lng),
+        geofence_radius_m: geofence_radius_m ? Number(geofence_radius_m) : 200,
+        ...(company_rc_number && { company_rc_number }),
+        ...(company_domain && { company_domain }),
+        is_company_verified: true,
+      },
+    });
+
+    res.json({
+      success: true,
+      message: "Company geofence updated successfully",
+      placement: updated,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 export const updatePlacementById = updatePlacement;

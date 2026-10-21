@@ -129,6 +129,7 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role',
   department: 'department',
   created_at: 'created_at',
+  updated_at: 'updated_at',
   assigned_state: 'assigned_state',
   assigned_city: 'assigned_city'
 };
@@ -147,8 +148,7 @@ exports.Prisma.PasswordResetTokenScalarFieldEnum = {
   user_id: 'user_id',
   token: 'token',
   expires_at: 'expires_at',
-  created_at: 'created_at',
-  jon: 'jon'
+  created_at: 'created_at'
 };
 
 exports.Prisma.RefreshTokenScalarFieldEnum = {
@@ -172,8 +172,32 @@ exports.Prisma.PlacementScalarFieldEnum = {
   company_email: 'company_email',
   state: 'state',
   city: 'city',
+  company_rc_number: 'company_rc_number',
+  company_domain: 'company_domain',
+  company_lat: 'company_lat',
+  company_lng: 'company_lng',
+  geofence_radius_m: 'geofence_radius_m',
+  is_company_verified: 'is_company_verified',
   start_date: 'start_date',
-  end_date: 'end_date'
+  end_date: 'end_date',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.DailyAttendanceScalarFieldEnum = {
+  id: 'id',
+  placement_id: 'placement_id',
+  attendance_date: 'attendance_date',
+  check_in_time: 'check_in_time',
+  submitted_lat: 'submitted_lat',
+  submitted_lng: 'submitted_lng',
+  accuracy_m: 'accuracy_m',
+  distance_m: 'distance_m',
+  presence_status: 'presence_status',
+  submitted_from_ip: 'submitted_from_ip',
+  is_mocked: 'is_mocked',
+  risk_score: 'risk_score',
+  verification_flags: 'verification_flags'
 };
 
 exports.Prisma.DailyLogScalarFieldEnum = {
@@ -193,6 +217,7 @@ exports.Prisma.WeeklySubmissionScalarFieldEnum = {
   week_no: 'week_no',
   status: 'status',
   supervisor_remarks: 'supervisor_remarks',
+  is_locked: 'is_locked',
   submitted_at: 'submitted_at',
   reviewed_at: 'reviewed_at',
   created_at: 'created_at',
@@ -240,6 +265,39 @@ exports.Prisma.LateFillingWaiverScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
+exports.Prisma.VerificationTokenScalarFieldEnum = {
+  id: 'id',
+  placement_id: 'placement_id',
+  token: 'token',
+  week_no: 'week_no',
+  email: 'email',
+  expires_at: 'expires_at',
+  is_used: 'is_used',
+  created_at: 'created_at'
+};
+
+exports.Prisma.VirtualSpotCheckScalarFieldEnum = {
+  id: 'id',
+  placement_id: 'placement_id',
+  coordinator_id: 'coordinator_id',
+  scheduled_at: 'scheduled_at',
+  status: 'status',
+  room_name: 'room_name',
+  score: 'score',
+  notes: 'notes',
+  created_at: 'created_at'
+};
+
+exports.Prisma.ChatMessageScalarFieldEnum = {
+  id: 'id',
+  placement_id: 'placement_id',
+  sender_id: 'sender_id',
+  sender_role: 'sender_role',
+  sender_name: 'sender_name',
+  content: 'content',
+  created_at: 'created_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -260,6 +318,13 @@ exports.Role = exports.$Enums.Role = {
   INST_COORDINATOR: 'INST_COORDINATOR',
   ITF_OFFICIAL: 'ITF_OFFICIAL',
   ADMIN: 'ADMIN'
+};
+
+exports.PresenceStatus = exports.$Enums.PresenceStatus = {
+  PENDING: 'PENDING',
+  VERIFIED_ON_SITE: 'VERIFIED_ON_SITE',
+  OUT_OF_BOUNDS: 'OUT_OF_BOUNDS',
+  HIGH_RISK_SPOOFED: 'HIGH_RISK_SPOOFED'
 };
 
 exports.SubmissionStatus = exports.$Enums.SubmissionStatus = {
@@ -288,17 +353,27 @@ exports.WaiverPaymentStatus = exports.$Enums.WaiverPaymentStatus = {
   WAIVED: 'WAIVED'
 };
 
+exports.SpotCheckStatus = exports.$Enums.SpotCheckStatus = {
+  SCHEDULED: 'SCHEDULED',
+  COMPLETED: 'COMPLETED',
+  FLAGGED_ABSENT: 'FLAGGED_ABSENT'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   EligibleStudent: 'EligibleStudent',
   PasswordResetToken: 'PasswordResetToken',
   RefreshToken: 'RefreshToken',
   Placement: 'Placement',
+  DailyAttendance: 'DailyAttendance',
   DailyLog: 'DailyLog',
   WeeklySubmission: 'WeeklySubmission',
   LogBookApproval: 'LogBookApproval',
   FinalClearance: 'FinalClearance',
-  LateFillingWaiver: 'LateFillingWaiver'
+  LateFillingWaiver: 'LateFillingWaiver',
+  VerificationToken: 'VerificationToken',
+  VirtualSpotCheck: 'VirtualSpotCheck',
+  ChatMessage: 'ChatMessage'
 };
 
 /**

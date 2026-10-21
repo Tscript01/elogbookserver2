@@ -2,6 +2,7 @@ import { Response, NextFunction } from 'express';
 import crypto from 'crypto';
 import { AuthenticatedRequest } from '../middlewares/auth';
 import {prisma} from '../config/prisma';
+import { ForbiddenError,BadRequestError } from '../utils/errors';
 
 export async function getCoordinatorDashboard(
   req: AuthenticatedRequest,
@@ -195,3 +196,82 @@ export async function updateCoordinatorProfile(
     next(error);
   }
 }
+export async function getAssignedStudentsAttendance(
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const supervisorId = req.user?.id;
+    const supervisorEmail = req.user?.email;
+
+    if (!supervisorId && !supervisorEmail) {
+      throw new ForbiddenError('Supervisor authentication required');
+    }
+
+    const placements = await prisma.placement.findMany({
+      where: {
+        OR: [
+          ...(supervisorId ? [{ ind_supervisor_id: supervisorId }] : []),
+          ...(supervisorEmail ? [{ ind_supervisor_email: supervisorEmail }] : []),
+        ],
+      },
+      include: {
+        student: {
+          select: {
+            id: true,
+            name: true,
+            matric_no: true,
+            department: true,
+            email: true,
+          },
+        },
+        daily_attendance: {
+          orderBy: { attendance_date: 'desc' },
+        },
+      },
+      orderBy: { created_at: 'desc' },
+    });
+
+    const studentRecords = placements.map((placement: { daily_attendance: any; id: any; company_name: any; company_lat: any; company_lng: any; geofence_radius_m: any; student: any; }) => {
+      const records = placement.daily_attendance;
+      const totalDays = records.length;
+      const verifiedOnSite = records.filter((r: { presence_status: string; }) => r.presence_status === 'VERIFIED_ON_SITE').length;
+      const outOfBounds = records.filter((r: { presence_status: string; }) => r.presence_status === 'OUT_OF_BOUNDS').length;
+      const spoofed = records.filter(
+        (r: { presence_status: string; is_mocked: any; risk_score: number; }) => r.presence_status === 'HIGH_RISK_SPOOFED' || r.is_mocked || r.risk_score >= 70
+      ).length;
+
+      const attendanceRate = totalDays > 0 ? Math.round((verifiedOnSite / totalDays) * 100) : 0;
+
+      return {
+        placementId: placement.id,
+        companyName: placement.company_name,
+        companyLat: placement.company_lat,
+        companyLng: placement.company_lng,
+        geofenceRadiusM: placement.geofence_radius_m,
+        student: placement.student,
+        stats: {
+          totalDays,
+          verifiedOnSite,
+          outOfBounds,
+          spoofed,
+          attendanceRate,
+          hasFlags: spoofed > 0 || (totalDays >= 5 && attendanceRate < 60),
+        },
+        attendances: records,
+      };
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        students: studentRecords,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+

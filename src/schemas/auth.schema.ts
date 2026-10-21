@@ -2,7 +2,7 @@ import { z } from "zod";
 
 
 const SELF_REGISTER_ROLES = [
-  "STUDENT",
+  "STUDENT", 
   "IND_SUPERVISOR",
   "INST_COORDINATOR",
   "ADMIN"

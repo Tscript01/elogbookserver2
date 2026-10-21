@@ -5,6 +5,7 @@ import {
   submitForItfStamp,
   downloadEndorsedLogbookPdf,
 } from '../controllers/clearance.controller';
+import { getSupervisorCompanyLocation, setSupervisorCompanyLocation } from '../controllers/supervisor.controller';
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use(requireRole('STUDENT'));
 router.get('/clearance-status', getStudentClearanceStatus);
 router.post('/clearance/submit-itf', submitForItfStamp);
 router.get('/logbook/download-pdf', downloadEndorsedLogbookPdf);
+
 
 export default router;
